@@ -1,0 +1,31 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; [[ \"$f\" == *.ts ]] && bunx @biomejs/biome check --write \"$f\" || true; } 2>/dev/null || true",
+            "timeout": 30,
+            "statusMessage": "Running Biome check..."
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "if": "Bash(git commit*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/jackmcpherson/Projects/tipper && bunx @biomejs/biome check . 2>&1 && bun run typecheck 2>&1 || { echo '{\"decision\":\"block\",\"reason\":\"Biome check or typecheck failed. Fix errors before committing.\"}'; exit 0; }",
+            "timeout": 60,
+            "statusMessage": "Running pre-commit checks (biome + typecheck)..."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+name = "tipper"
+main = "src/worker.ts"
+compatibility_date = "2024-12-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "afl-stats"
+database_id = "fe1c1a89-805f-481d-9ba0-b9f8dee04a36"

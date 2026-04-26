@@ -1,0 +1,32 @@
+{
+  "name": "@jackemcpherson/tipper",
+  "version": "0.1.0",
+  "description": "AFL match prediction CLI combining MOV-Elo with player-level PAV ratings",
+  "type": "module",
+  "bin": {
+    "tipper": "./dist/cli/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "tsc",
+    "test": "vitest",
+    "check": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "commander": "^13.0.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@cloudflare/workers-types": "^4.20250419.0",
+    "@types/node": "^25.6.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.1.0",
+    "wrangler": "^4.14.0"
+  }
+}
