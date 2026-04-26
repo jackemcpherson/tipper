@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
   "files": {
-    "ignore": [".wrangler/**", "dist/**", "node_modules/**"]
+    "ignore": [".wrangler/**", "dist/**", "node_modules/**", "configs/**/results-*.json"]
   },
   "linter": {
     "enabled": true,
