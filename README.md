@@ -7,8 +7,11 @@ database.
 ## Setup
 
 ```bash
-bun install
-bunx wrangler dev --remote   # Start worker (requires Cloudflare auth)
+npm install -g @jackemcpherson/tipper
+
+# Required: Cloudflare credentials for D1 access
+export CLOUDFLARE_API_TOKEN="..."   # Create at dash.cloudflare.com/profile/api-tokens
+export CLOUDFLARE_ACCOUNT_ID="..."  # From your Cloudflare dashboard URL
 ```
 
 ## Usage

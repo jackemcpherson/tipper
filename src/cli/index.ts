@@ -9,7 +9,7 @@ import { predictCommand } from "./commands/predict.js";
 program
   .name("tipper")
   .description("AFL match prediction CLI — MOV-Elo + PAV ratings")
-  .version("2.0.1");
+  .version("3.0.0");
 
 program.addCommand(configCommand);
 program.addCommand(backtestCommand);

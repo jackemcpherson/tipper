@@ -1,14 +1,9 @@
 import { Command } from "commander";
 import { computeConfigHash, shortHash } from "../../config/hash.js";
 import { loadConfig, loadCurrentPointer } from "../../config/store.js";
-import {
-  WORKER_URL,
-  configOption,
-  jsonOption,
-  roundNumberOption,
-  seasonOption,
-  teamOption,
-} from "../flags.js";
+import { runPrediction } from "../../orchestration.js";
+import { getDatabase } from "../db.js";
+import { configOption, jsonOption, roundNumberOption, seasonOption, teamOption } from "../flags.js";
 import { formatHeader, formatPrediction } from "../format/human.js";
 import { formatPredictionsJson } from "../format/json.js";
 
@@ -45,7 +40,6 @@ export const predictCommand = new Command("predict")
       const config = loadConfig(configId);
       const configHash = await computeConfigHash(config);
 
-      // Build a config that includes all seasons from train through target
       const targetYear = opts.season[0];
       if (targetYear === undefined) {
         console.error("Error: predict requires exactly one --season value.");
@@ -61,60 +55,27 @@ export const predictCommand = new Command("predict")
         },
       };
 
-      try {
-        const response = await fetch(`${WORKER_URL}/predict`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            config: predictConfig,
-            season: targetYear,
-            round_number: opts.roundNumber,
-            team: opts.team,
-          }),
-        });
+      const db = getDatabase();
+      const result = await runPrediction(db, predictConfig, targetYear, opts.roundNumber);
 
-        if (!response.ok) {
-          const error = await response.json();
-          console.error(`Error: ${(error as { error: string }).error}`);
-          process.exit(1);
-        }
-
-        const result = (await response.json()) as {
-          predictions: Array<{
-            home: string;
-            away: string;
-            venue: string;
-            predictedMargin: number;
-            predictedWinner: string;
-            winProbability: { home: number; away: number };
-          }>;
-          data_through: string;
-        };
-
-        let predictions = result.predictions;
-        if (opts.team) {
-          const team = opts.team.toLowerCase();
-          predictions = predictions.filter(
-            (p) => p.home.toLowerCase().includes(team) || p.away.toLowerCase().includes(team),
-          );
-        }
-
-        if (opts.json) {
-          console.log(
-            formatPredictionsJson(predictions as never, configId, configHash, result.data_through),
-          );
-        } else {
-          const scope = `Round ${opts.roundNumber}, ${targetYear} — predictions`;
-          console.log(formatHeader(configId, shortHash(configHash), result.data_through, scope));
-          for (const p of predictions) {
-            console.log(formatPrediction(p as never));
-          }
-        }
-      } catch {
-        console.error(
-          `Error: Could not connect to worker at ${WORKER_URL}.\nStart the worker first: bunx wrangler dev --remote`,
+      let predictions = result.predictions;
+      if (opts.team) {
+        const team = opts.team.toLowerCase();
+        predictions = predictions.filter(
+          (p) => p.home.toLowerCase().includes(team) || p.away.toLowerCase().includes(team),
         );
-        process.exit(1);
+      }
+
+      const dataThrough = result.data_through ?? "unknown";
+
+      if (opts.json) {
+        console.log(formatPredictionsJson(predictions as never, configId, configHash, dataThrough));
+      } else {
+        const scope = `Round ${opts.roundNumber}, ${targetYear} — predictions`;
+        console.log(formatHeader(configId, shortHash(configHash), dataThrough, scope));
+        for (const p of predictions) {
+          console.log(formatPrediction(p as never));
+        }
       }
     },
   );

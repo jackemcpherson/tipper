@@ -1,5 +1,37 @@
 # Changelog
 
+## [3.0.0] - 2026-04-30
+
+**Breaking**: The CLI no longer requires a running Cloudflare Worker.
+All commands (backtest, predict, compare) now call the D1 REST API
+directly and run the engine locally.
+
+### Setup change
+
+Set two environment variables instead of running `wrangler dev --remote`:
+
+```bash
+export CLOUDFLARE_API_TOKEN="..."   # Create at dash.cloudflare.com/profile/api-tokens
+export CLOUDFLARE_ACCOUNT_ID="..."  # From your Cloudflare dashboard URL
+```
+
+### Architecture changes
+
+- **D1 REST client** (`src/data/d1-rest.ts`): D1Database-compatible shim
+  that calls the Cloudflare D1 HTTP API. `queries.ts` is unchanged.
+- **Shared orchestration** (`src/orchestration.ts`): Extracted
+  `fetchHarnessData`, `runBacktest`, `runPrediction`, `runCalibration`,
+  `runCompare`, and `runDeriveVenueHA` from `worker.ts` into a shared
+  module used by both the CLI and the Worker.
+- **Worker** (`src/worker.ts`): Now a thin HTTP wrapper around the shared
+  orchestration layer (~80 lines, down from ~550).
+- **CLI commands**: Call orchestration functions directly instead of
+  POSTing to `http://localhost:8787`.
+
+### Removed
+
+- `WORKER_URL` constant — CLI no longer needs a local worker endpoint.
+
 ## [2.0.0] - 2026-04-30
 
 v2 restores the PAV player-quality signal after fixing a 100x defence
