@@ -8,12 +8,11 @@ directly and run the engine locally.
 
 ### Setup change
 
-Set two environment variables instead of running `wrangler dev --remote`:
+Just `wrangler login` — the CLI reads the OAuth token from
+`~/.wrangler/config/default.toml` automatically. No env vars needed.
 
-```bash
-export CLOUDFLARE_API_TOKEN="..."   # Create at dash.cloudflare.com/profile/api-tokens
-export CLOUDFLARE_ACCOUNT_ID="..."  # From your Cloudflare dashboard URL
-```
+Env var override (`CLOUDFLARE_API_TOKEN`) still works for CI or
+machines without wrangler.
 
 ### Architecture changes
 

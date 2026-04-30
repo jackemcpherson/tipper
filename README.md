@@ -9,10 +9,11 @@ database.
 ```bash
 npm install -g @jackemcpherson/tipper
 
-# Required: Cloudflare credentials for D1 access
-export CLOUDFLARE_API_TOKEN="..."   # Create at dash.cloudflare.com/profile/api-tokens
-export CLOUDFLARE_ACCOUNT_ID="..."  # From your Cloudflare dashboard URL
+# Auth: uses wrangler's OAuth token automatically
+wrangler login
 ```
+
+If `wrangler login` isn't available, set `CLOUDFLARE_API_TOKEN` instead.
 
 ## Usage
 
