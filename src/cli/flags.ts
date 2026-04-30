@@ -4,6 +4,8 @@
 
 import { Option } from "commander";
 
+export const WORKER_URL = "http://localhost:8787";
+
 export const seasonOption = new Option(
   "--season <seasons>",
   "Season year(s), e.g. 2024 or 2021,2022,2023",

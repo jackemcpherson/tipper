@@ -18,7 +18,7 @@ import type {
 } from "../data/types.js";
 import type { MatchPrediction } from "../types.js";
 import { computeTeamRating } from "./blend.js";
-import { type EloState, applyRegression, getRating, updateElo } from "./elo.js";
+import { type EloHistory, type EloState, applyRegression, getRating, updateElo } from "./elo.js";
 import {
   type LeagueAccumulator,
   type PavSeasonState,
@@ -65,6 +65,7 @@ export function runHarness(
   testSeasonIds: Set<number>,
 ): HarnessResult {
   const eloState: EloState = new Map();
+  const eloHistory: EloHistory = new Map();
   const predictions: MatchPrediction[] = [];
   const skippedMatches: number[] = [];
 
@@ -118,15 +119,7 @@ export function runHarness(
 
     // For test seasons, generate predictions before updating state
     if (isTest && isCompleted) {
-      const prediction = generatePrediction(
-        match,
-        eloState,
-        pavState,
-        priorPavMap,
-        config,
-        data,
-        isTrain,
-      );
+      const prediction = generatePrediction(match, eloState, pavState, priorPavMap, config, data);
       if (prediction) {
         predictions.push(prediction);
       } else {
@@ -136,8 +129,8 @@ export function runHarness(
 
     // Update state from completed matches
     if (isCompleted) {
-      // Elo always updates (train and test)
-      updateElo(eloState, match, config.elo);
+      // Elo always updates (train and test), history tracks for contextual K
+      updateElo(eloState, match, config.elo, eloHistory);
 
       // PAV only updates in test seasons (train is Elo-only)
       if (!isTrain) {
@@ -166,6 +159,7 @@ export function runPredict(
   targetSeasonId: number,
 ): HarnessResult {
   const eloState: EloState = new Map();
+  const eloHistory: EloHistory = new Map();
   const predictions: MatchPrediction[] = [];
   const skippedMatches: number[] = [];
 
@@ -208,15 +202,7 @@ export function runPredict(
 
     if (isTargetRound && !isCompleted) {
       // This is an unplayed match in the target round — predict it
-      const prediction = generatePrediction(
-        match,
-        eloState,
-        pavState,
-        priorPavMap,
-        config,
-        data,
-        false,
-      );
+      const prediction = generatePrediction(match, eloState, pavState, priorPavMap, config, data);
       if (prediction) {
         predictions.push(prediction);
       } else {
@@ -226,21 +212,13 @@ export function runPredict(
       // Completed match (could be earlier in the target round) — update state
       if (isTargetRound) {
         // Predict first, then update (matches already played in this round)
-        const prediction = generatePrediction(
-          match,
-          eloState,
-          pavState,
-          priorPavMap,
-          config,
-          data,
-          false,
-        );
+        const prediction = generatePrediction(match, eloState, pavState, priorPavMap, config, data);
         if (prediction) {
           predictions.push(prediction);
         }
       }
 
-      updateElo(eloState, match, config.elo);
+      updateElo(eloState, match, config.elo, eloHistory);
       const matchStats = data.statsByMatch.get(match.id) ?? [];
       updatePavState(pavState, match, matchStats);
     }
@@ -256,7 +234,6 @@ function generatePrediction(
   priorPavMap: PriorPavMap,
   config: Config,
   data: HarnessData,
-  _isTrain: boolean,
 ): MatchPrediction | null {
   const homeElo = getRating(eloState, match.home_team_id, config.elo.initial_rating);
   const awayElo = getRating(eloState, match.away_team_id, config.elo.initial_rating);
@@ -274,11 +251,9 @@ function generatePrediction(
   const homePavTotal = sumTeamPav(homeLineup, pavState, priorPavMap, homeGamesPlayed, config);
   const awayPavTotal = sumTeamPav(awayLineup, pavState, priorPavMap, awayGamesPlayed, config);
 
-  // Blend
   const homeTeamRating = computeTeamRating(homeElo, homePavTotal, config.blend);
   const awayTeamRating = computeTeamRating(awayElo, awayPavTotal, config.blend);
 
-  // Predict
   const margin = predictMargin(homeTeamRating, awayTeamRating, config.output);
   const winProb = computeWinProbability(margin, config.output.sigma);
 

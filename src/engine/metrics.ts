@@ -4,7 +4,14 @@
  * Computes aggregate metrics from an array of MatchPrediction results.
  */
 
-import type { CalibrationBucket, MatchPrediction, OverallMetrics } from "../types.js";
+import type {
+  BootstrapComparison,
+  BootstrapDelta,
+  CalibrationBucket,
+  MatchPrediction,
+  OverallMetrics,
+} from "../types.js";
+import { createPrng } from "./prng.js";
 
 /**
  * Compute aggregate metrics for a set of predictions.
@@ -102,4 +109,108 @@ export function computeCalibration(predictions: readonly MatchPrediction[]): Cal
       n: b.n,
     }))
     .filter((b) => b.n > 0);
+}
+
+/**
+ * Paired bootstrap comparison of two prediction sets.
+ *
+ * Both arrays must cover the same matches (paired by matchId).
+ * Resamples match indices with replacement and computes metric
+ * deltas (A minus B) for each bootstrap iteration. Returns point
+ * estimates and 95% CIs for each metric delta.
+ *
+ * @param predictionsA - Predictions from config A.
+ * @param predictionsB - Predictions from config B.
+ * @param nBootstrap - Number of bootstrap iterations (default 1000).
+ * @param seed - PRNG seed for reproducibility (default 42).
+ * @returns Bootstrap comparison with point estimates and CIs.
+ * @throws If prediction arrays don't cover the same matches.
+ */
+export function bootstrapCompare(
+  predictionsA: readonly MatchPrediction[],
+  predictionsB: readonly MatchPrediction[],
+  nBootstrap = 1000,
+  seed = 42,
+): BootstrapComparison {
+  // Build paired arrays indexed by matchId
+  const mapA = new Map(predictionsA.map((p) => [p.matchId, p]));
+  const mapB = new Map(predictionsB.map((p) => [p.matchId, p]));
+
+  if (mapA.size !== mapB.size) {
+    throw new Error(
+      `Prediction arrays have different match counts: A=${mapA.size}, B=${mapB.size}`,
+    );
+  }
+
+  const matchIds: number[] = [];
+  const pairedA: MatchPrediction[] = [];
+  const pairedB: MatchPrediction[] = [];
+
+  for (const [matchId, predA] of mapA) {
+    const predB = mapB.get(matchId);
+    if (predB === undefined) {
+      throw new Error(`Match ${matchId} present in A but not in B`);
+    }
+    matchIds.push(matchId);
+    pairedA.push(predA);
+    pairedB.push(predB);
+  }
+
+  // Check B doesn't have extra matches
+  for (const matchId of mapB.keys()) {
+    if (!mapA.has(matchId)) {
+      throw new Error(`Match ${matchId} present in B but not in A`);
+    }
+  }
+
+  const n = matchIds.length;
+  const metricsA = computeMetrics(predictionsA);
+  const metricsB = computeMetrics(predictionsB);
+
+  // Bootstrap: resample indices and compute deltas
+  const rand = createPrng(seed);
+  const logLossDeltas: number[] = [];
+  const brierDeltas: number[] = [];
+  const tipPctDeltas: number[] = [];
+
+  for (let b = 0; b < nBootstrap; b++) {
+    // Resample indices with replacement
+    const sampleA: MatchPrediction[] = [];
+    const sampleB: MatchPrediction[] = [];
+    for (let i = 0; i < n; i++) {
+      const idx = Math.floor(rand() * n);
+      const predA = pairedA[idx];
+      const predB = pairedB[idx];
+      if (predA === undefined || predB === undefined) continue;
+      sampleA.push(predA);
+      sampleB.push(predB);
+    }
+
+    const mA = computeMetrics(sampleA);
+    const mB = computeMetrics(sampleB);
+
+    logLossDeltas.push(mA.logLossBits - mB.logLossBits);
+    brierDeltas.push(mA.brier - mB.brier);
+    tipPctDeltas.push(mA.tipPct - mB.tipPct);
+  }
+
+  return {
+    configA: metricsA,
+    configB: metricsB,
+    deltas: {
+      logLossBits: buildDelta(metricsA.logLossBits - metricsB.logLossBits, logLossDeltas),
+      brier: buildDelta(metricsA.brier - metricsB.brier, brierDeltas),
+      tipPct: buildDelta(metricsA.tipPct - metricsB.tipPct, tipPctDeltas),
+    },
+    nBootstrap,
+    seed,
+  };
+}
+
+function buildDelta(point: number, samples: number[]): BootstrapDelta {
+  const sorted = [...samples].sort((a, b) => a - b);
+  const lo = sorted[Math.floor(sorted.length * 0.025)] ?? 0;
+  const hi = sorted[Math.floor(sorted.length * 0.975)] ?? 0;
+  const excludesZero = lo > 0 || hi < 0;
+  return { point, ci95: [lo, hi], excludesZero };
 }

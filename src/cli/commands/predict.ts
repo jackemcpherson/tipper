@@ -1,11 +1,16 @@
 import { Command } from "commander";
 import { computeConfigHash, shortHash } from "../../config/hash.js";
 import { loadConfig, loadCurrentPointer } from "../../config/store.js";
-import { configOption, jsonOption, roundNumberOption, seasonOption, teamOption } from "../flags.js";
+import {
+  WORKER_URL,
+  configOption,
+  jsonOption,
+  roundNumberOption,
+  seasonOption,
+  teamOption,
+} from "../flags.js";
 import { formatHeader, formatPrediction } from "../format/human.js";
 import { formatPredictionsJson } from "../format/json.js";
-
-const WORKER_URL = "http://localhost:8787";
 
 export const predictCommand = new Command("predict")
   .description("Predict match outcomes for a specific round")

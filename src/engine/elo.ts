@@ -12,6 +12,9 @@ import type { MatchRow } from "../data/types.js";
 /** Elo state: team_id → rating. */
 export type EloState = Map<number, number>;
 
+/** Per-team rolling window of recent rating changes for contextual K. */
+export type EloHistory = Map<number, number[]>;
+
 interface EloUpdate {
   homeRating: number;
   awayRating: number;
@@ -75,16 +78,58 @@ export function computeNoMovMultiplier(): number {
 }
 
 /**
+ * Compute contextual K-factor for a team.
+ *
+ * K increases when a team's rating is moving rapidly (active decline or
+ * ascent), allowing faster adaptation. Falls back to baseK when history
+ * is empty or sensitivity is 0.
+ */
+export function computeContextualK(
+  baseK: number,
+  history: EloHistory,
+  teamId: number,
+  sensitivity: number,
+  window: number,
+): number {
+  if (sensitivity === 0) return baseK;
+  const changes = history.get(teamId);
+  if (changes === undefined || changes.length === 0) return baseK;
+  const recent = changes.slice(-window);
+  const velocity = recent.reduce((sum, c) => sum + c, 0) / recent.length;
+  return baseK * (1 + sensitivity * Math.abs(velocity));
+}
+
+/**
+ * Resolve venue-specific home advantage.
+ *
+ * Returns per-venue HA when configured, falling back to the static value
+ * for unknown venues or when using static mode.
+ */
+export function resolveHomeAdvantage(eloConfig: Config["elo"], venueId: number): number {
+  if (eloConfig.home_advantage_source === "per_venue" && eloConfig.venue_ha !== undefined) {
+    return eloConfig.venue_ha[venueId.toString()] ?? eloConfig.home_advantage;
+  }
+  return eloConfig.home_advantage;
+}
+
+/**
  * Update Elo state after a completed match.
  *
- * Mutates the state map in place for efficiency during walk-forward.
+ * Mutates the state map (and optionally history) in place for efficiency
+ * during walk-forward.
  *
  * @param state - Current Elo state (mutated).
  * @param match - Completed match with scores.
  * @param eloConfig - Elo section of the config.
+ * @param history - Optional rating change history for contextual K (mutated).
  * @returns Update details for diagnostics.
  */
-export function updateElo(state: EloState, match: MatchRow, eloConfig: Config["elo"]): EloUpdate {
+export function updateElo(
+  state: EloState,
+  match: MatchRow,
+  eloConfig: Config["elo"],
+  history?: EloHistory,
+): EloUpdate {
   if (match.home_points === null || match.away_points === null) {
     throw new Error(`Cannot update Elo for match ${match.id}: missing scores`);
   }
@@ -92,7 +137,8 @@ export function updateElo(state: EloState, match: MatchRow, eloConfig: Config["e
   const homeRating = getRating(state, match.home_team_id, eloConfig.initial_rating);
   const awayRating = getRating(state, match.away_team_id, eloConfig.initial_rating);
 
-  const homeExpected = computeExpected(homeRating, awayRating, eloConfig.home_advantage);
+  const ha = resolveHomeAdvantage(eloConfig, match.venue_id);
+  const homeExpected = computeExpected(homeRating, awayRating, ha);
 
   const margin = match.home_points - match.away_points;
   const homeActual = margin > 0 ? 1 : margin < 0 ? 0 : 0.5;
@@ -107,12 +153,40 @@ export function updateElo(state: EloState, match: MatchRow, eloConfig: Config["e
       ? computeMovMultiplier(Math.abs(margin), ratingDiffForMov)
       : computeNoMovMultiplier();
 
-  const homeNewRating = homeRating + eloConfig.k * movMultiplier * (homeActual - homeExpected);
-  const awayNewRating =
-    awayRating + eloConfig.k * movMultiplier * (1 - homeActual - (1 - homeExpected));
+  // Contextual K: per-team K based on recent rating velocity
+  let homeK = eloConfig.k;
+  let awayK = eloConfig.k;
+  if (history !== undefined && eloConfig.k_context_sensitivity > 0) {
+    homeK = computeContextualK(
+      eloConfig.k,
+      history,
+      match.home_team_id,
+      eloConfig.k_context_sensitivity,
+      eloConfig.k_context_window,
+    );
+    awayK = computeContextualK(
+      eloConfig.k,
+      history,
+      match.away_team_id,
+      eloConfig.k_context_sensitivity,
+      eloConfig.k_context_window,
+    );
+  }
+
+  const homeChange = homeK * movMultiplier * (homeActual - homeExpected);
+  const awayChange = awayK * movMultiplier * (1 - homeActual - (1 - homeExpected));
+
+  const homeNewRating = homeRating + homeChange;
+  const awayNewRating = awayRating + awayChange;
 
   state.set(match.home_team_id, homeNewRating);
   state.set(match.away_team_id, awayNewRating);
+
+  // Update history with rating changes
+  if (history !== undefined) {
+    pushHistory(history, match.home_team_id, homeChange, eloConfig.k_context_window);
+    pushHistory(history, match.away_team_id, awayChange, eloConfig.k_context_window);
+  }
 
   return {
     homeRating,
@@ -122,6 +196,18 @@ export function updateElo(state: EloState, match: MatchRow, eloConfig: Config["e
     homeExpected,
     movMultiplier,
   };
+}
+
+function pushHistory(history: EloHistory, teamId: number, change: number, window: number): void {
+  const existing = history.get(teamId);
+  if (existing !== undefined) {
+    existing.push(change);
+    if (existing.length > window) {
+      existing.splice(0, existing.length - window);
+    }
+  } else {
+    history.set(teamId, [change]);
+  }
 }
 
 /**

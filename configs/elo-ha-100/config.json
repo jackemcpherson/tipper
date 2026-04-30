@@ -1,0 +1,38 @@
+{
+  "id": "elo-ha-100",
+  "schema_version": 1,
+  "notes": "Task 7: Extended HA sweep. HA=100.",
+
+  "elo": {
+    "k": 25,
+    "initial_rating": 1500,
+    "home_advantage": 100,
+    "regression_to_mean": 0.10,
+    "mov_multiplier": "538_log"
+  },
+
+  "pav": {
+    "computation": "round_by_round_cumulative",
+    "prior_weight_k": 15,
+    "prior_source": "previous_season_final",
+    "missing_player_default": 5,
+    "include": "named_lineup_excl_emerg"
+  },
+
+  "blend": {
+    "weight_elo": 1.0,
+    "pav_calibration_slope": 0.246,
+    "where": "team_rating"
+  },
+
+  "output": {
+    "margin_per_rating_point": 0.07,
+    "sigma": 36
+  },
+
+  "backtest": {
+    "train_seasons": [2020],
+    "test_seasons": [2021, 2022, 2023, 2024, 2025],
+    "walk_forward": true
+  }
+}

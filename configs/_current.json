@@ -1,0 +1,6 @@
+{
+  "config_id": "pavfix-blend-w06",
+  "promoted_at": "2026-04-30T10:30:00.000Z",
+  "promoted_from": "elo-only-tuned-v1b",
+  "promotion_reason": "v2: Corrected PAV blend (Task 15). LogLoss 0.8607 (-0.012 vs v1.5), bootstrap CI excludes zero. First statistically significant improvement."
+}

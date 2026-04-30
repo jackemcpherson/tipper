@@ -149,6 +149,7 @@ describe("computeTeamStrength", () => {
     const strength = computeTeamStrength(teamStats, 1.6);
     expect(strength.offence).toBeCloseTo(1, 3);
     expect(strength.midfield).toBeCloseTo(1, 3);
+    expect(strength.defence).toBeCloseTo(1, 3);
   });
 
   it("returns defaults for zero stats", () => {

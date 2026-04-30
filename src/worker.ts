@@ -17,10 +17,12 @@ import {
   fetchTeams,
   fetchVenues,
 } from "./data/queries.js";
-import type { MatchLineupRow, PlayerMatchStatsRow } from "./data/types.js";
+import type { PlayerSeasonPavRow } from "./data/types.js";
+import { type EloState, getRating, updateElo } from "./engine/elo.js";
 import type { HarnessData } from "./engine/harness.js";
 import { runHarness, runPredict } from "./engine/harness.js";
-import { computeCalibration, computeMetrics } from "./engine/metrics.js";
+import { bootstrapCompare, computeCalibration, computeMetrics } from "./engine/metrics.js";
+import { deriveVenueHA } from "./engine/venue.js";
 
 interface Env {
   DB: D1Database;
@@ -67,6 +69,33 @@ export default {
       }
     }
 
+    if (url.pathname === "/compare" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as {
+          configA: Config;
+          configB: Config;
+          nBootstrap?: number;
+          seed?: number;
+        };
+        const result = await runCompare(
+          env.DB,
+          body.configA,
+          body.configB,
+          body.nBootstrap,
+          body.seed,
+        );
+        return new Response(JSON.stringify(result, null, 2), {
+          headers: { "Content-Type": "application/json" },
+        });
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        return new Response(JSON.stringify({ error: message }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
+
     if (url.pathname === "/calibrate" && request.method === "POST") {
       try {
         const config = (await request.json()) as Config;
@@ -83,20 +112,120 @@ export default {
       }
     }
 
+    if (url.pathname === "/derive-venue-ha" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as {
+          seasons: number[];
+          elo: {
+            k: number;
+            initial_rating: number;
+            home_advantage: number;
+            regression_to_mean: number;
+            mov_multiplier: "538_log" | "none";
+          };
+          margin_per_rating_point: number;
+          min_matches?: number;
+        };
+        const result = await runDeriveVenueHA(env.DB, body);
+        return new Response(JSON.stringify(result, null, 2), {
+          headers: { "Content-Type": "application/json" },
+        });
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        return new Response(JSON.stringify({ error: message }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
+
     return new Response(
-      "tipper worker\n\nEndpoints:\n  POST /backtest (body: config JSON)\n  POST /calibrate (body: config JSON)\n",
+      "tipper worker\n\nEndpoints:\n  POST /backtest\n  POST /calibrate\n  POST /compare\n  POST /derive-venue-ha\n",
       { headers: { "Content-Type": "text/plain" } },
     );
   },
 };
 
-async function runBacktest(db: D1Database, config: Config) {
-  const allSeasonYears = [...config.backtest.train_seasons, ...config.backtest.test_seasons];
-  const seasons = await fetchSeasons(db, allSeasonYears);
+/** Group an array of rows into a Map keyed by match_id. */
+function groupByMatchId<T extends { match_id: number }>(rows: T[]): Map<number, T[]> {
+  const map = new Map<number, T[]>();
+  for (const row of rows) {
+    const existing = map.get(row.match_id);
+    if (existing) {
+      existing.push(row);
+    } else {
+      map.set(row.match_id, [row]);
+    }
+  }
+  return map;
+}
+
+interface FetchedData {
+  harnessData: HarnessData;
+  seasonIdToYear: Map<number, number>;
+  seasonYearToId: Map<number, number>;
+  matches: Awaited<ReturnType<typeof fetchMatchesForSeasons>>;
+  latestDate: string | null;
+}
+
+/**
+ * Fetch all data needed for a harness run.
+ *
+ * Shared by backtest, predict, and calibrate endpoints to avoid
+ * duplicating the data-fetching and HarnessData assembly logic.
+ */
+async function fetchHarnessData(
+  db: D1Database,
+  seasonYears: number[],
+  priorYears: number[],
+): Promise<FetchedData> {
+  const seasons = await fetchSeasons(db, seasonYears);
   const seasonIdToYear = new Map(seasons.map((s) => [s.id, s.year]));
   const seasonYearToId = new Map(seasons.map((s) => [s.year, s.id]));
 
   const allSeasonIds = seasons.map((s) => s.id);
+  const matches = await fetchMatchesForSeasons(db, allSeasonIds);
+  const matchIds = matches.map((m) => m.id);
+  const [lineups, stats] = await Promise.all([
+    fetchLineupsForMatches(db, matchIds),
+    fetchPlayerStatsForMatches(db, matchIds),
+  ]);
+
+  const priorPavBySeason = new Map<number, PlayerSeasonPavRow[]>();
+  for (const priorYear of priorYears) {
+    const priorSeasonId = seasonYearToId.get(priorYear);
+    if (priorSeasonId !== undefined) {
+      const priorPav = await fetchPriorSeasonPav(db, priorYear);
+      priorPavBySeason.set(priorSeasonId, priorPav);
+    }
+  }
+
+  const [teams, venues, latestDate] = await Promise.all([
+    fetchTeams(db),
+    fetchVenues(db),
+    fetchLatestMatchDate(db),
+  ]);
+
+  const harnessData: HarnessData = {
+    matches,
+    lineupsByMatch: groupByMatchId(lineups),
+    statsByMatch: groupByMatchId(stats),
+    priorPavBySeason,
+    teamNames: new Map(teams.map((t) => [t.id, t.name])),
+    venueNames: new Map(venues.map((v) => [v.id, v.name])),
+    seasonYearById: seasonIdToYear,
+  };
+
+  return { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate };
+}
+
+async function runBacktest(db: D1Database, config: Config) {
+  const allSeasonYears = [...config.backtest.train_seasons, ...config.backtest.test_seasons];
+  const priorYears = config.backtest.test_seasons.map((y) => y - 1);
+
+  const { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate } =
+    await fetchHarnessData(db, allSeasonYears, priorYears);
+
   const trainSeasonIds = new Set(
     config.backtest.train_seasons
       .map((y) => seasonYearToId.get(y))
@@ -108,62 +237,17 @@ async function runBacktest(db: D1Database, config: Config) {
       .filter((id): id is number => id !== undefined),
   );
 
-  const matches = await fetchMatchesForSeasons(db, allSeasonIds);
-  const matchIds = matches.map((m) => m.id);
-  const lineups = await fetchLineupsForMatches(db, matchIds);
-  const stats = await fetchPlayerStatsForMatches(db, matchIds);
-
-  const priorPavBySeason = new Map<number, Awaited<ReturnType<typeof fetchPriorSeasonPav>>>();
-  for (const testYear of config.backtest.test_seasons) {
-    const priorYear = testYear - 1;
-    const priorSeasonId = seasonYearToId.get(priorYear);
-    if (priorSeasonId !== undefined) {
-      const priorPav = await fetchPriorSeasonPav(db, priorYear);
-      priorPavBySeason.set(priorSeasonId, priorPav);
-    }
-  }
-
-  const teams = await fetchTeams(db);
-  const venues = await fetchVenues(db);
-  const latestDate = await fetchLatestMatchDate(db);
-
-  const lineupsByMatch = new Map<number, MatchLineupRow[]>();
-  for (const l of lineups) {
-    const existing = lineupsByMatch.get(l.match_id);
-    if (existing) {
-      existing.push(l);
-    } else {
-      lineupsByMatch.set(l.match_id, [l]);
-    }
-  }
-
-  const statsByMatch = new Map<number, PlayerMatchStatsRow[]>();
-  for (const s of stats) {
-    const existing = statsByMatch.get(s.match_id);
-    if (existing) {
-      existing.push(s);
-    } else {
-      statsByMatch.set(s.match_id, [s]);
-    }
-  }
-
-  const harnessData: HarnessData = {
-    matches,
-    lineupsByMatch,
-    statsByMatch,
-    priorPavBySeason,
-    teamNames: new Map(teams.map((t) => [t.id, t.name])),
-    venueNames: new Map(venues.map((v) => [v.id, v.name])),
-    seasonYearById: seasonIdToYear,
-  };
-
   const harnessResult = runHarness(harnessData, config, trainSeasonIds, testSeasonIds);
 
   const overall = computeMetrics(harnessResult.predictions);
+
+  // Map for O(1) matchId → seasonId lookup
+  const matchSeasonMap = new Map(matches.map((m) => [m.id, m.season_id]));
+
   const bySeason: Record<string, ReturnType<typeof computeMetrics>> = {};
   for (const testYear of config.backtest.test_seasons) {
     const seasonPredictions = harnessResult.predictions.filter((p) => {
-      const matchSeasonId = matches.find((m) => m.id === p.matchId)?.season_id;
+      const matchSeasonId = matchSeasonMap.get(p.matchId);
       return matchSeasonId !== undefined && seasonIdToYear.get(matchSeasonId) === testYear;
     });
     bySeason[testYear.toString()] = computeMetrics(seasonPredictions);
@@ -200,67 +284,24 @@ async function runBacktest(db: D1Database, config: Config) {
       ]),
     ),
     calibration,
+    matches: harnessResult.predictions,
   };
 }
 
-/**
- * Run predictions for a specific round.
- *
- * Builds state from all completed matches up to the target round,
- * then predicts unplayed matches in that round.
- */
 async function runPrediction(db: D1Database, config: Config, season: number, roundNumber: number) {
   const allYears = [...new Set([...config.backtest.train_seasons, season, season - 1])];
-  const seasons = await fetchSeasons(db, allYears);
-  const seasonIdToYear = new Map(seasons.map((s) => [s.id, s.year]));
-  const seasonYearToId = new Map(seasons.map((s) => [s.year, s.id]));
+  const priorYears = [season - 1];
+
+  const { harnessData, seasonYearToId, latestDate } = await fetchHarnessData(
+    db,
+    allYears,
+    priorYears,
+  );
 
   const targetSeasonId = seasonYearToId.get(season);
   if (targetSeasonId === undefined) {
     throw new Error(`Season ${season} not found in database.`);
   }
-
-  const allSeasonIds = seasons.map((s) => s.id);
-  const matches = await fetchMatchesForSeasons(db, allSeasonIds);
-  const matchIds = matches.map((m) => m.id);
-  const lineups = await fetchLineupsForMatches(db, matchIds);
-  const stats = await fetchPlayerStatsForMatches(db, matchIds);
-
-  const priorPavBySeason = new Map<number, Awaited<ReturnType<typeof fetchPriorSeasonPav>>>();
-  const priorYear = season - 1;
-  const priorSeasonId = seasonYearToId.get(priorYear);
-  if (priorSeasonId !== undefined) {
-    const priorPav = await fetchPriorSeasonPav(db, priorYear);
-    priorPavBySeason.set(priorSeasonId, priorPav);
-  }
-
-  const teams = await fetchTeams(db);
-  const venues = await fetchVenues(db);
-  const latestDate = await fetchLatestMatchDate(db);
-
-  const lineupsByMatch = new Map<number, MatchLineupRow[]>();
-  for (const l of lineups) {
-    const existing = lineupsByMatch.get(l.match_id);
-    if (existing) existing.push(l);
-    else lineupsByMatch.set(l.match_id, [l]);
-  }
-
-  const statsByMatch = new Map<number, PlayerMatchStatsRow[]>();
-  for (const s of stats) {
-    const existing = statsByMatch.get(s.match_id);
-    if (existing) existing.push(s);
-    else statsByMatch.set(s.match_id, [s]);
-  }
-
-  const harnessData: HarnessData = {
-    matches,
-    lineupsByMatch,
-    statsByMatch,
-    priorPavBySeason,
-    teamNames: new Map(teams.map((t) => [t.id, t.name])),
-    venueNames: new Map(venues.map((v) => [v.id, v.name])),
-    seasonYearById: seasonIdToYear,
-  };
 
   const result = runPredict(harnessData, config, roundNumber, targetSeasonId);
 
@@ -271,21 +312,12 @@ async function runPrediction(db: D1Database, config: Config, season: number, rou
   };
 }
 
-/**
- * Run a backtest and return per-match PAV differentials + actual margins
- * for slope calibration. Uses the same harness but extracts the raw data
- * needed for regression.
- *
- * Calibration window should be a subset of test_seasons (e.g. 2021-2023)
- * to avoid fitting on validation data.
- */
 async function runCalibration(db: D1Database, config: Config) {
   const allSeasonYears = [...config.backtest.train_seasons, ...config.backtest.test_seasons];
-  const seasons = await fetchSeasons(db, allSeasonYears);
-  const seasonIdToYear = new Map(seasons.map((s) => [s.id, s.year]));
-  const seasonYearToId = new Map(seasons.map((s) => [s.year, s.id]));
+  const priorYears = config.backtest.test_seasons.map((y) => y - 1);
 
-  const allSeasonIds = seasons.map((s) => s.id);
+  const { harnessData, seasonYearToId } = await fetchHarnessData(db, allSeasonYears, priorYears);
+
   const trainSeasonIds = new Set(
     config.backtest.train_seasons
       .map((y) => seasonYearToId.get(y))
@@ -296,48 +328,6 @@ async function runCalibration(db: D1Database, config: Config) {
       .map((y) => seasonYearToId.get(y))
       .filter((id): id is number => id !== undefined),
   );
-
-  const matches = await fetchMatchesForSeasons(db, allSeasonIds);
-  const matchIds = matches.map((m) => m.id);
-  const lineups = await fetchLineupsForMatches(db, matchIds);
-  const stats = await fetchPlayerStatsForMatches(db, matchIds);
-
-  const priorPavBySeason = new Map<number, Awaited<ReturnType<typeof fetchPriorSeasonPav>>>();
-  for (const testYear of config.backtest.test_seasons) {
-    const priorYear = testYear - 1;
-    const priorSeasonId = seasonYearToId.get(priorYear);
-    if (priorSeasonId !== undefined) {
-      const priorPav = await fetchPriorSeasonPav(db, priorYear);
-      priorPavBySeason.set(priorSeasonId, priorPav);
-    }
-  }
-
-  const teams = await fetchTeams(db);
-  const venues = await fetchVenues(db);
-
-  const lineupsByMatch = new Map<number, MatchLineupRow[]>();
-  for (const l of lineups) {
-    const existing = lineupsByMatch.get(l.match_id);
-    if (existing) existing.push(l);
-    else lineupsByMatch.set(l.match_id, [l]);
-  }
-
-  const statsByMatch = new Map<number, PlayerMatchStatsRow[]>();
-  for (const s of stats) {
-    const existing = statsByMatch.get(s.match_id);
-    if (existing) existing.push(s);
-    else statsByMatch.set(s.match_id, [s]);
-  }
-
-  const harnessData: HarnessData = {
-    matches,
-    lineupsByMatch,
-    statsByMatch,
-    priorPavBySeason,
-    teamNames: new Map(teams.map((t) => [t.id, t.name])),
-    venueNames: new Map(venues.map((v) => [v.id, v.name])),
-    seasonYearById: seasonIdToYear,
-  };
 
   const result = runHarness(harnessData, config, trainSeasonIds, testSeasonIds);
 
@@ -408,5 +398,153 @@ async function runCalibration(db: D1Database, config: Config) {
       pav_elo_diff_correlation: pavEloCor,
       note: "<0.7 = good complementarity, >0.85 = redundant signals",
     },
+  };
+}
+
+async function runCompare(
+  db: D1Database,
+  configA: Config,
+  configB: Config,
+  nBootstrap?: number,
+  seed?: number,
+) {
+  // Both configs must use the same test_seasons for paired comparison
+  const seasonsA = configA.backtest.test_seasons;
+  const seasonsB = configB.backtest.test_seasons;
+  if (seasonsA.length !== seasonsB.length || !seasonsA.every((s, i) => s === seasonsB[i])) {
+    throw new Error(
+      `Configs must have identical test_seasons for paired comparison. A=${seasonsA.join(",")}, B=${seasonsB.join(",")}`,
+    );
+  }
+
+  // Merge all season years needed by both configs
+  const allSeasonYears = [
+    ...new Set([
+      ...configA.backtest.train_seasons,
+      ...configA.backtest.test_seasons,
+      ...configB.backtest.train_seasons,
+      ...configB.backtest.test_seasons,
+    ]),
+  ].sort((a, b) => a - b);
+  const priorYears = [
+    ...new Set([
+      ...configA.backtest.test_seasons.map((y) => y - 1),
+      ...configB.backtest.test_seasons.map((y) => y - 1),
+    ]),
+  ];
+
+  const { harnessData, seasonYearToId } = await fetchHarnessData(db, allSeasonYears, priorYears);
+
+  // Run both harnesses
+  const buildSeasonIdSet = (config: Config, key: "train_seasons" | "test_seasons") =>
+    new Set(
+      config.backtest[key]
+        .map((y) => seasonYearToId.get(y))
+        .filter((id): id is number => id !== undefined),
+    );
+
+  const resultA = runHarness(
+    harnessData,
+    configA,
+    buildSeasonIdSet(configA, "train_seasons"),
+    buildSeasonIdSet(configA, "test_seasons"),
+  );
+
+  const resultB = runHarness(
+    harnessData,
+    configB,
+    buildSeasonIdSet(configB, "train_seasons"),
+    buildSeasonIdSet(configB, "test_seasons"),
+  );
+
+  const comparison = bootstrapCompare(resultA.predictions, resultB.predictions, nBootstrap, seed);
+
+  return {
+    config_a_id: configA.id,
+    config_b_id: configB.id,
+    ...comparison,
+  };
+}
+
+async function runDeriveVenueHA(
+  db: D1Database,
+  body: {
+    seasons: number[];
+    elo: {
+      k: number;
+      initial_rating: number;
+      home_advantage: number;
+      regression_to_mean: number;
+      mov_multiplier: "538_log" | "none";
+    };
+    margin_per_rating_point: number;
+    min_matches?: number;
+  },
+) {
+  const seasons = await fetchSeasons(db, body.seasons);
+  const seasonIds = seasons.map((s) => s.id);
+
+  const matches = await fetchMatchesForSeasons(db, seasonIds);
+  const venues = await fetchVenues(db);
+  const venueNames = new Map(venues.map((v) => [v.id, v.name]));
+
+  // Build Elo state and collect per-match ratings
+  const eloState: EloState = new Map();
+  const eloConfig = {
+    ...body.elo,
+    k_context_sensitivity: 0,
+    k_context_window: 8,
+    home_advantage_source: "static" as const,
+  };
+  let currentSeasonId: number | null = null;
+
+  const matchesWithElo: Array<{
+    match: (typeof matches)[number];
+    homeElo: number;
+    awayElo: number;
+  }> = [];
+
+  for (const match of matches) {
+    // Season boundary: apply regression
+    if (match.season_id !== currentSeasonId) {
+      if (currentSeasonId !== null) {
+        const mean = 1500;
+        for (const [teamId, rating] of eloState) {
+          eloState.set(teamId, rating + body.elo.regression_to_mean * (mean - rating));
+        }
+      }
+      currentSeasonId = match.season_id;
+    }
+
+    if (match.home_points === null || match.away_points === null) continue;
+
+    const homeElo = getRating(eloState, match.home_team_id, body.elo.initial_rating);
+    const awayElo = getRating(eloState, match.away_team_id, body.elo.initial_rating);
+
+    matchesWithElo.push({ match, homeElo, awayElo });
+
+    // Update Elo after recording pre-match ratings
+    updateElo(eloState, match, eloConfig);
+  }
+
+  const results = deriveVenueHA(
+    matchesWithElo,
+    venueNames,
+    body.margin_per_rating_point,
+    body.min_matches,
+  );
+
+  // Build venue_ha map for config embedding
+  const venueHaMap: Record<string, number> = {};
+  for (const r of results) {
+    venueHaMap[r.venueId.toString()] = Math.round(r.haElo);
+  }
+
+  return {
+    derivation_window: body.seasons,
+    matches_used: matchesWithElo.length,
+    venues: results,
+    venue_ha_map: venueHaMap,
+    default_ha: body.elo.home_advantage,
   };
 }

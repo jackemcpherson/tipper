@@ -2,10 +2,8 @@ import { Command } from "commander";
 import { computeConfigHash, shortHash } from "../../config/hash.js";
 import type { BacktestResultsFile } from "../../config/schema.js";
 import { loadConfig, loadCurrentPointer, saveResults } from "../../config/store.js";
-import { configOption, jsonOption, seasonOption } from "../flags.js";
+import { WORKER_URL, configOption, jsonOption, seasonOption } from "../flags.js";
 import { formatHeader, formatMetrics } from "../format/human.js";
-
-const WORKER_URL = "http://localhost:8787";
 
 export const backtestCommand = new Command("backtest")
   .description("Run walk-forward backtest across historical seasons")
@@ -58,6 +56,7 @@ export const backtestCommand = new Command("backtest")
         };
         by_season: Record<string, typeof result.overall>;
         calibration: Array<{ bucket: string; predicted: number; actual: number; n: number }>;
+        matches: unknown[];
         predictions_count: number;
         skipped_matches: number;
       };
@@ -72,7 +71,7 @@ export const backtestCommand = new Command("backtest")
         overall: result.overall,
         by_season: result.by_season,
         calibration: result.calibration,
-        matches: [],
+        matches: result.matches ?? [],
       };
       const filename = saveResults(configId, resultsFile);
 

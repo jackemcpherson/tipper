@@ -18,6 +18,10 @@ export const ConfigSchema = z.object({
     home_advantage: z.number(),
     regression_to_mean: z.number().min(0).max(1),
     mov_multiplier: z.enum(["538_log", "none"]),
+    k_context_sensitivity: z.number().nonnegative().default(0),
+    k_context_window: z.number().int().positive().default(8),
+    home_advantage_source: z.enum(["static", "per_venue"]).default("static"),
+    venue_ha: z.record(z.string(), z.number()).optional(),
   }),
 
   pav: z.object({

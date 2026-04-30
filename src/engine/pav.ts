@@ -228,7 +228,8 @@ export function computeTeamStrength(
       : 1;
 
   // Defence: DN = (points_conceded / i50_conceded) / league_avg
-  // defence = 100 * ((2*DN - DN²) / (2*DN)) * 2
+  // defence = ((2*DN - DN²) / (2*DN)) * 2  =  2 - DN
+  // For league-average team (dn=1): defence = 1 (same scale as offence/midfield)
   const pointsConcededPerI50 =
     teamStats.insideFiftiesConceded > 0
       ? teamStats.pointsConceded / teamStats.insideFiftiesConceded
@@ -239,9 +240,7 @@ export function computeTeamStrength(
   if (dn === 0) {
     defence = 2; // Perfect defence
   } else {
-    defence = 100 * ((2 * dn - dn * dn) / (2 * dn)) * 2;
-    // The formula simplifies to: 100 * (1 - dn/2) * 2 = 200 * (1 - dn/2) = 200 - 100*dn
-    // For league-average team (dn=1): defence = 100
+    defence = ((2 * dn - dn * dn) / (2 * dn)) * 2;
   }
 
   return { offence, midfield, defence };

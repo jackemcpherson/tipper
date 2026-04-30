@@ -104,8 +104,9 @@ export async function validatePromotion(configId: string, reason: string): Promi
     return "Promotion requires a --reason flag with a non-empty value.";
   }
 
+  let config: Config;
   try {
-    loadConfig(configId);
+    config = loadConfig(configId);
   } catch {
     return `Config '${configId}' does not exist in configs/.`;
   }
@@ -114,8 +115,6 @@ export async function validatePromotion(configId: string, reason: string): Promi
   if (resultFiles.length === 0) {
     return `Config '${configId}' has no backtest results. Run a backtest first.`;
   }
-
-  const config = loadConfig(configId);
   const latestFile = resultFiles[0];
   if (!latestFile) {
     return `Config '${configId}' has no backtest results. Run a backtest first.`;

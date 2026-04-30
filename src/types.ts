@@ -50,6 +50,26 @@ export interface CalibrationBucket {
   readonly n: number;
 }
 
+/** Bootstrap delta for a single metric. */
+export interface BootstrapDelta {
+  readonly point: number;
+  readonly ci95: readonly [number, number];
+  readonly excludesZero: boolean;
+}
+
+/** Result of paired bootstrap comparison between two configs. */
+export interface BootstrapComparison {
+  readonly configA: OverallMetrics;
+  readonly configB: OverallMetrics;
+  readonly deltas: {
+    readonly logLossBits: BootstrapDelta;
+    readonly brier: BootstrapDelta;
+    readonly tipPct: BootstrapDelta;
+  };
+  readonly nBootstrap: number;
+  readonly seed: number;
+}
+
 /** Full backtest results bundle. */
 export interface BacktestResults {
   readonly configId: string;
@@ -68,30 +88,4 @@ export interface BacktestResults {
 
   readonly calibration: readonly CalibrationBucket[];
   readonly matches: readonly MatchPrediction[];
-}
-
-/** Elo state for all teams. */
-export type EloState = Map<number, number>;
-
-/** Per-player cumulative PAV state within a season. */
-export interface PlayerPavState {
-  readonly offPav: number;
-  readonly midPav: number;
-  readonly defPav: number;
-  readonly totalPav: number;
-}
-
-/** Cumulative team-level stats used for PAV team-strength computation. */
-export interface TeamCumulativeStats {
-  points: number;
-  insideFifties: number;
-  pointsConceded: number;
-  insideFiftiesConceded: number;
-  gamesPlayed: number;
-}
-
-/** League-wide cumulative averages for PAV normalisation. */
-export interface LeagueAverages {
-  pointsPerInsideFifty: number;
-  matchesProcessed: number;
 }

@@ -1,0 +1,38 @@
+{
+  "id": "v2-forward-2026",
+  "schema_version": 1,
+  "notes": "Task 18: Forward validation on 2026. Full walk-forward through 2020-2025.",
+
+  "elo": {
+    "k": 25,
+    "initial_rating": 1500,
+    "home_advantage": 160,
+    "regression_to_mean": 0.1,
+    "mov_multiplier": "538_log"
+  },
+
+  "pav": {
+    "computation": "round_by_round_cumulative",
+    "prior_weight_k": 15,
+    "prior_source": "previous_season_final",
+    "missing_player_default": 5,
+    "include": "named_lineup_excl_emerg"
+  },
+
+  "blend": {
+    "weight_elo": 0.6,
+    "pav_calibration_slope": 6.986,
+    "where": "team_rating"
+  },
+
+  "output": {
+    "margin_per_rating_point": 0.07,
+    "sigma": 36
+  },
+
+  "backtest": {
+    "train_seasons": [2020, 2021, 2022, 2023, 2024, 2025],
+    "test_seasons": [2026],
+    "walk_forward": true
+  }
+}

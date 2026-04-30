@@ -1,0 +1,58 @@
+{
+  "config_id": "rtm-test-00",
+  "config_hash": "85afb8a8856bca389fdd9d8db219aae9182b24d1e0b5acc41ad5f085e8221057",
+  "ran_at": "2026-04-26T04:04:32.384Z",
+  "data_through": "2026-04-25",
+  "scope": {
+    "seasons": [
+      2026
+    ]
+  },
+  "overall": {
+    "matches": 60,
+    "tips": 30,
+    "tip_pct": 0.5,
+    "mae_margin": 35.901943325703506,
+    "rmse_margin": 46.119283926893345,
+    "log_loss_bits": 1.1040648841455682,
+    "brier": 0.2802020023035226
+  },
+  "by_season": {
+    "2026": {
+      "matches": 60,
+      "tips": 30,
+      "tip_pct": 0.5,
+      "mae_margin": 35.901943325703506,
+      "rmse_margin": 46.119283926893345,
+      "log_loss_bits": 1.1040648841455682,
+      "brier": 0.2802020023035226
+    }
+  },
+  "calibration": [
+    {
+      "bucket": "50-60%",
+      "predicted": 0.5590558597035854,
+      "actual": 0.5,
+      "n": 26
+    },
+    {
+      "bucket": "60-70%",
+      "predicted": 0.654248641845496,
+      "actual": 0.5652173913043478,
+      "n": 23
+    },
+    {
+      "bucket": "70-80%",
+      "predicted": 0.7325023906994149,
+      "actual": 0.42857142857142855,
+      "n": 7
+    },
+    {
+      "bucket": "80-90%",
+      "predicted": 0.8259474169390306,
+      "actual": 0.25,
+      "n": 4
+    }
+  ],
+  "matches": []
+}

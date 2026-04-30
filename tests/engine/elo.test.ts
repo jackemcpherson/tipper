@@ -2,11 +2,14 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { Config } from "../../src/config/schema.js";
 import type { MatchRow } from "../../src/data/types.js";
 import {
+  type EloHistory,
   type EloState,
   applyRegression,
+  computeContextualK,
   computeExpected,
   computeMovMultiplier,
   getRating,
+  resolveHomeAdvantage,
   updateElo,
 } from "../../src/engine/elo.js";
 
@@ -228,6 +231,126 @@ describe("updateElo", () => {
 
     const result = updateElo(state, match, config);
     expect(result.movMultiplier).toBe(1.0);
+  });
+});
+
+describe("computeContextualK", () => {
+  it("returns baseK when sensitivity is 0", () => {
+    const history: EloHistory = new Map([[100, [10, 20, -5]]]);
+    expect(computeContextualK(25, history, 100, 0, 8)).toBe(25);
+  });
+
+  it("returns baseK when team has no history", () => {
+    const history: EloHistory = new Map();
+    expect(computeContextualK(25, history, 100, 0.005, 8)).toBe(25);
+  });
+
+  it("increases K for team with positive velocity", () => {
+    // Average change = (10 + 10 + 10) / 3 = 10
+    // contextual_k = 25 * (1 + 0.005 * 10) = 25 * 1.05 = 26.25
+    const history: EloHistory = new Map([[100, [10, 10, 10]]]);
+    expect(computeContextualK(25, history, 100, 0.005, 8)).toBeCloseTo(26.25, 4);
+  });
+
+  it("increases K for team with negative velocity (uses absolute value)", () => {
+    // Average change = (-10 + -10 + -10) / 3 = -10, abs = 10
+    const history: EloHistory = new Map([[100, [-10, -10, -10]]]);
+    expect(computeContextualK(25, history, 100, 0.005, 8)).toBeCloseTo(26.25, 4);
+  });
+
+  it("only uses last N entries from history (window)", () => {
+    // Window = 2, so only last 2 entries: [20, 30]. Avg = 25.
+    // K = 25 * (1 + 0.001 * 25) = 25 * 1.025 = 25.625
+    const history: EloHistory = new Map([[100, [5, 10, 20, 30]]]);
+    expect(computeContextualK(25, history, 100, 0.001, 2)).toBeCloseTo(25.625, 4);
+  });
+});
+
+describe("resolveHomeAdvantage", () => {
+  it("returns static HA when source is static", () => {
+    const config = { ...DEFAULT_ELO_CONFIG, home_advantage_source: "static" as const };
+    expect(resolveHomeAdvantage(config, 5)).toBe(30);
+  });
+
+  it("returns venue-specific HA when available", () => {
+    const config = {
+      ...DEFAULT_ELO_CONFIG,
+      home_advantage_source: "per_venue" as const,
+      venue_ha: { "5": 200, "10": 150 },
+    };
+    expect(resolveHomeAdvantage(config, 5)).toBe(200);
+    expect(resolveHomeAdvantage(config, 10)).toBe(150);
+  });
+
+  it("falls back to static HA for unknown venues in per_venue mode", () => {
+    const config = {
+      ...DEFAULT_ELO_CONFIG,
+      home_advantage_source: "per_venue" as const,
+      venue_ha: { "5": 200 },
+    };
+    expect(resolveHomeAdvantage(config, 999)).toBe(30); // Falls back to home_advantage
+  });
+
+  it("returns static HA when per_venue but venue_ha undefined", () => {
+    const config = {
+      ...DEFAULT_ELO_CONFIG,
+      home_advantage_source: "per_venue" as const,
+    };
+    expect(resolveHomeAdvantage(config, 5)).toBe(30);
+  });
+});
+
+describe("updateElo with history", () => {
+  it("tracks rating changes in history", () => {
+    const state: EloState = new Map();
+    const history: EloHistory = new Map();
+    const match = makeMatch({ home_points: 80, away_points: 60 });
+
+    updateElo(state, match, DEFAULT_ELO_CONFIG, history);
+
+    const homeHistory = history.get(100);
+    const awayHistory = history.get(200);
+    expect(homeHistory).toBeDefined();
+    expect(awayHistory).toBeDefined();
+    expect(homeHistory?.length).toBe(1);
+    expect(awayHistory?.length).toBe(1);
+    // Home won, so home change should be positive
+    expect(homeHistory?.[0]).toBeGreaterThan(0);
+    // Away lost, so away change should be negative
+    expect(awayHistory?.[0]).toBeLessThan(0);
+  });
+
+  it("caps history at window size", () => {
+    const state: EloState = new Map();
+    const config = { ...DEFAULT_ELO_CONFIG, k_context_window: 3 };
+    const history: EloHistory = new Map();
+
+    // Run 5 matches for the same teams
+    for (let i = 0; i < 5; i++) {
+      const match = makeMatch({
+        id: i,
+        home_points: 80 + i,
+        away_points: 60,
+        margin: 20 + i,
+      });
+      updateElo(state, match, config, history);
+    }
+
+    // History should be capped at 3
+    expect(history.get(100)?.length).toBe(3);
+    expect(history.get(200)?.length).toBe(3);
+  });
+
+  it("produces identical results without history parameter", () => {
+    const state1: EloState = new Map();
+    const state2: EloState = new Map();
+    const match = makeMatch({ home_points: 80, away_points: 60 });
+
+    const r1 = updateElo(state1, match, DEFAULT_ELO_CONFIG);
+    const r2 = updateElo(state2, match, DEFAULT_ELO_CONFIG, undefined);
+
+    expect(r1.homeNewRating).toBe(r2.homeNewRating);
+    expect(r1.awayNewRating).toBe(r2.awayNewRating);
   });
 });
 
