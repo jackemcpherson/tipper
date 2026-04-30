@@ -1,6 +1,6 @@
 {
   "name": "@jackemcpherson/tipper",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "description": "AFL match prediction CLI combining MOV-Elo with player-level PAV ratings",
   "type": "module",
   "bin": {

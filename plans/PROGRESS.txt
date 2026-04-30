@@ -1,0 +1,32 @@
+[Review] 2026-04-30 10:15 UTC - release (blocking)
+
+### Verdict: NEEDS_WORK
+
+### Findings
+
+1. **RL-001**: Missing Changelog - No CHANGELOG.md exists
+   - File: CHANGELOG.md:0
+   - Issue: CHANGELOG.md does not exist. This is a significant release (v2 model with corrected PAV, new bootstrap infrastructure, contextual K and venue HA engine support). The changes need to be documented for the release.
+   - Suggestion: Create CHANGELOG.md with an entry for v2.0.0 documenting: PAV defence bug fix (Task 13), PAV recovery and re-calibration (Task 15), bootstrap comparison infrastructure, contextual K-factor engine (Task 16), venue HA engine (Task 17), and v2 validation results (Task 18).
+
+2. **RL-002**: Dirty Working Directory - 111 uncommitted changes
+   - File: .:0
+   - Issue: Working directory has 111 uncommitted changes including 14 modified source files and ~97 new files (configs, docs, analysis, tests). These must be committed before tagging a release.
+   - Suggestion: Stage and commit all changes in a logical commit (or series of commits). Recommended: one commit for engine changes + tests, one for configs + docs.
+
+3. **RL-003**: Version Mismatch - package.json version does not reflect v2 release
+   - File: package.json:2
+   - Issue: package.json has version "0.1.0" but this is a v2 model release with significant architectural changes (PAV restoration, new engine features, new CLI commands). The version should be bumped.
+   - Suggestion: Update package.json version to "2.0.0" to reflect the v2 model baseline. Also update the matching version in src/cli/index.ts:12.
+
+4. **RL-004**: Missing Documentation - No README.md exists
+   - File: README.md:0
+   - Issue: No README.md file exists in the repository. A release should have basic project documentation.
+   - Suggestion: Create a README.md with: project description, setup instructions (bun install, wrangler dev), CLI usage (backtest, predict, compare, config commands), model card for v2 (from Task 18 report), and link to CLAUDE.md for developer guidance.
+
+5. **RL-005**: Version Mismatch - CLI version string differs from release version
+   - File: src/cli/index.ts:12
+   - Issue: CLI reports version "0.1.0" via `.version("0.1.0")` which will not match the release version.
+   - Suggestion: Update to `.version("2.0.0")` to match package.json after the version bump.
+
+---
