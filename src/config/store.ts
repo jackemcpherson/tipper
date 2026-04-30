@@ -7,7 +7,8 @@
  */
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { computeConfigHash } from "./hash.js";
 import {
   type BacktestResultsFile,
@@ -18,7 +19,8 @@ import {
   CurrentPointerSchema,
 } from "./schema.js";
 
-const CONFIGS_DIR = resolve("configs");
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const CONFIGS_DIR = resolve(__dirname, "..", "..", "configs");
 const CURRENT_FILE = "_current.json";
 
 /** List all config IDs (directory names under configs/). */
