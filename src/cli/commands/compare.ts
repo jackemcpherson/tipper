@@ -68,7 +68,7 @@ export const compareCommand = new Command("compare")
 
       console.log("");
       console.log(
-        "  Delta = A - B. Negative LogLoss/Brier = A is better. " + "Positive Tip% = A is better.",
+        "  Delta = A - B. Negative LogLoss/Brier = A is better. Positive Tip% = A is better.",
       );
       console.log("  Sig? = 95% CI excludes zero.");
     }

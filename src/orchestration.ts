@@ -24,6 +24,11 @@ import { runHarness, runPredict } from "./engine/harness.js";
 import { bootstrapCompare, computeCalibration, computeMetrics } from "./engine/metrics.js";
 import { deriveVenueHA } from "./engine/venue.js";
 
+/** Resolve season years to a Set of season IDs via a year→id map. */
+function resolveSeasonIds(years: number[], yearToId: Map<number, number>): Set<number> {
+  return new Set(years.map((y) => yearToId.get(y)).filter((id): id is number => id !== undefined));
+}
+
 /** Group an array of rows into a Map keyed by match_id. */
 function groupByMatchId<T extends { match_id: number }>(rows: T[]): Map<number, T[]> {
   const map = new Map<number, T[]>();
@@ -70,13 +75,15 @@ export async function fetchHarnessData(
   ]);
 
   const priorPavBySeason = new Map<number, PlayerSeasonPavRow[]>();
-  for (const priorYear of priorYears) {
-    const priorSeasonId = seasonYearToId.get(priorYear);
-    if (priorSeasonId !== undefined) {
-      const priorPav = await fetchPriorSeasonPav(db, priorYear);
-      priorPavBySeason.set(priorSeasonId, priorPav);
-    }
-  }
+  const priorEntries = priorYears
+    .map((y) => ({ year: y, seasonId: seasonYearToId.get(y) }))
+    .filter((e): e is { year: number; seasonId: number } => e.seasonId !== undefined);
+  await Promise.all(
+    priorEntries.map(async ({ year, seasonId }) => {
+      const priorPav = await fetchPriorSeasonPav(db, year);
+      priorPavBySeason.set(seasonId, priorPav);
+    }),
+  );
 
   const [teams, venues, latestDate] = await Promise.all([
     fetchTeams(db),
@@ -104,16 +111,8 @@ export async function runBacktest(db: D1Database, config: Config) {
   const { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate } =
     await fetchHarnessData(db, allSeasonYears, priorYears);
 
-  const trainSeasonIds = new Set(
-    config.backtest.train_seasons
-      .map((y) => seasonYearToId.get(y))
-      .filter((id): id is number => id !== undefined),
-  );
-  const testSeasonIds = new Set(
-    config.backtest.test_seasons
-      .map((y) => seasonYearToId.get(y))
-      .filter((id): id is number => id !== undefined),
-  );
+  const trainSeasonIds = resolveSeasonIds(config.backtest.train_seasons, seasonYearToId);
+  const testSeasonIds = resolveSeasonIds(config.backtest.test_seasons, seasonYearToId);
 
   const harnessResult = runHarness(harnessData, config, trainSeasonIds, testSeasonIds);
 
@@ -200,16 +199,8 @@ export async function runCalibration(db: D1Database, config: Config) {
 
   const { harnessData, seasonYearToId } = await fetchHarnessData(db, allSeasonYears, priorYears);
 
-  const trainSeasonIds = new Set(
-    config.backtest.train_seasons
-      .map((y) => seasonYearToId.get(y))
-      .filter((id): id is number => id !== undefined),
-  );
-  const testSeasonIds = new Set(
-    config.backtest.test_seasons
-      .map((y) => seasonYearToId.get(y))
-      .filter((id): id is number => id !== undefined),
-  );
+  const trainSeasonIds = resolveSeasonIds(config.backtest.train_seasons, seasonYearToId);
+  const testSeasonIds = resolveSeasonIds(config.backtest.test_seasons, seasonYearToId);
 
   const result = runHarness(harnessData, config, trainSeasonIds, testSeasonIds);
 
@@ -309,25 +300,18 @@ export async function runCompare(
 
   const { harnessData, seasonYearToId } = await fetchHarnessData(db, allSeasonYears, priorYears);
 
-  const buildSeasonIdSet = (config: Config, key: "train_seasons" | "test_seasons") =>
-    new Set(
-      config.backtest[key]
-        .map((y) => seasonYearToId.get(y))
-        .filter((id): id is number => id !== undefined),
-    );
-
   const resultA = runHarness(
     harnessData,
     configA,
-    buildSeasonIdSet(configA, "train_seasons"),
-    buildSeasonIdSet(configA, "test_seasons"),
+    resolveSeasonIds(configA.backtest.train_seasons, seasonYearToId),
+    resolveSeasonIds(configA.backtest.test_seasons, seasonYearToId),
   );
 
   const resultB = runHarness(
     harnessData,
     configB,
-    buildSeasonIdSet(configB, "train_seasons"),
-    buildSeasonIdSet(configB, "test_seasons"),
+    resolveSeasonIds(configB.backtest.train_seasons, seasonYearToId),
+    resolveSeasonIds(configB.backtest.test_seasons, seasonYearToId),
   );
 
   const comparison = bootstrapCompare(resultA.predictions, resultB.predictions, nBootstrap, seed);
@@ -357,8 +341,10 @@ export async function runDeriveVenueHA(
   const seasons = await fetchSeasons(db, body.seasons);
   const seasonIds = seasons.map((s) => s.id);
 
-  const matches = await fetchMatchesForSeasons(db, seasonIds);
-  const venues = await fetchVenues(db);
+  const [matches, venues] = await Promise.all([
+    fetchMatchesForSeasons(db, seasonIds),
+    fetchVenues(db),
+  ]);
   const venueNames = new Map(venues.map((v) => [v.id, v.name]));
 
   const eloState: EloState = new Map();

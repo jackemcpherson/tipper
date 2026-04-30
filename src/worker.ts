@@ -105,8 +105,8 @@ export default {
     }
 
     return new Response(
-      "tipper worker\n\nEndpoints:\n  POST /backtest\n  POST /calibrate\n" +
-        "  POST /compare\n  POST /derive-venue-ha\n",
+      "tipper worker\n\nEndpoints:\n  POST /backtest\n  POST /predict\n" +
+        "  POST /calibrate\n  POST /compare\n  POST /derive-venue-ha\n",
       { headers: { "Content-Type": "text/plain" } },
     );
   },

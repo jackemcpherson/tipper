@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-AFL match prediction CLI (`tipper`) combining MOV-Elo ratings with player-level PAV (Player Approximate Value) ratings. Runs as a Cloudflare Worker backed by a D1 database, with a local CLI that posts configs to the worker.
+AFL match prediction CLI (`tipper`) combining MOV-Elo ratings with player-level PAV (Player Approximate Value) ratings. The CLI calls the Cloudflare D1 REST API directly and runs the engine locally. A thin Cloudflare Worker is also available for deployed/HTTP use.
 
 ## Commands
 
@@ -20,16 +20,20 @@ bun run check            # Lint + format check (biome check .)
 bun run format           # Auto-format (biome format --write .)
 ```
 
-The CLI itself runs as `bunx wrangler dev --remote` for the worker, then `bun run dist/cli/index.js <command>` (or via the `tipper` bin after build).
+The CLI requires `wrangler login` (or `CLOUDFLARE_API_TOKEN` env var) for D1 access. Run via `bun run dist/cli/index.js <command>` (or the `tipper` bin after build/install).
 
 ## Architecture
 
 Two parallel state machines joined by a read-only predictor:
 
 ```
-CLI (Commander) → HTTP POST → Worker (Cloudflare) → Engine (pure functions)
-                                  ↓
-                              D1 Database (afl-stats)
+CLI (Commander) → D1 REST API → D1 Database (afl-stats)
+       ↓
+  Orchestration → Engine (pure functions)
+
+Worker (Cloudflare) → Orchestration → Engine (pure functions)
+       ↓
+  D1 Database (afl-stats)
 ```
 
 **Engine layer (`src/engine/`)** — Pure functions, no I/O:
@@ -45,9 +49,13 @@ CLI (Commander) → HTTP POST → Worker (Cloudflare) → Engine (pure functions
 
 **Config layer (`src/config/`)** — Zod-validated configs stored as JSON files under `configs/`. Content-hashed (SHA-256 minus id/notes) for identity. Promotion guardrails require a backtest with matching hash before a config can become `_current.json`.
 
-**Worker (`src/worker.ts`)** — HTTP endpoints (`/backtest`, `/predict`, `/calibrate`). Fetches all data from D1, builds `HarnessData`, hands it to the pure engine.
+**Orchestration (`src/orchestration.ts`)** — Shared data-fetching and engine-invocation logic used by both CLI and Worker. Functions take a `D1Database` (Worker binding or REST shim).
 
-**CLI (`src/cli/`)** — Commander-based. Reads configs from disk, posts to the local worker, formats output. Commands: `config {list,show,current,promote,diff,create}`, `backtest`, `predict`.
+**D1 REST client (`src/data/d1-rest.ts`)** — `D1Database`-compatible shim that calls the Cloudflare D1 HTTP API, used by the CLI.
+
+**Worker (`src/worker.ts`)** — Thin HTTP wrapper around the orchestration layer for deployed use. Endpoints: `/backtest`, `/predict`, `/calibrate`, `/compare`, `/derive-venue-ha`.
+
+**CLI (`src/cli/`)** — Commander-based. Reads configs from disk, calls orchestration functions directly via the D1 REST shim, formats output. Commands: `config {list,show,current,promote,diff,create}`, `backtest`, `predict`, `compare`.
 
 ## Key Design Decisions
 

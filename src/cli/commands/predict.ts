@@ -42,7 +42,6 @@ export const predictCommand = new Command("predict")
 
       const targetYear = opts.season[0];
       if (targetYear === undefined) {
-        console.error("Error: predict requires exactly one --season value.");
         process.exit(1);
       }
 
@@ -50,7 +49,6 @@ export const predictCommand = new Command("predict")
         ...config,
         backtest: {
           ...config.backtest,
-          train_seasons: config.backtest.train_seasons,
           test_seasons: [targetYear],
         },
       };
@@ -69,12 +67,12 @@ export const predictCommand = new Command("predict")
       const dataThrough = result.data_through ?? "unknown";
 
       if (opts.json) {
-        console.log(formatPredictionsJson(predictions as never, configId, configHash, dataThrough));
+        console.log(formatPredictionsJson(predictions, configId, configHash, dataThrough));
       } else {
         const scope = `Round ${opts.roundNumber}, ${targetYear} — predictions`;
         console.log(formatHeader(configId, shortHash(configHash), dataThrough, scope));
         for (const p of predictions) {
-          console.log(formatPrediction(p as never));
+          console.log(formatPrediction(p));
         }
       }
     },
