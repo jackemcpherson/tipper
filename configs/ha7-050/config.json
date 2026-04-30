@@ -7,7 +7,7 @@
     "k": 25,
     "initial_rating": 1500,
     "home_advantage": 50,
-    "regression_to_mean": 0.10,
+    "regression_to_mean": 0.1,
     "mov_multiplier": "538_log"
   },
 

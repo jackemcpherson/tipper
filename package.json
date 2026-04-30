@@ -2,12 +2,25 @@
   "name": "@jackemcpherson/tipper",
   "version": "2.0.0",
   "description": "AFL match prediction CLI combining MOV-Elo with player-level PAV ratings",
+  "license": "MIT",
+  "author": "Jack McPherson <jackemcpherson@gmail.com>",
   "type": "module",
   "bin": {
     "tipper": "./dist/cli/index.js"
   },
+  "files": [
+    "dist/",
+    "configs/**/config.json",
+    "configs/_current.json",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "dev": "wrangler dev",
@@ -15,7 +28,8 @@
     "test": "vitest",
     "check": "biome check .",
     "format": "biome format --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "bun run typecheck && bun run build"
   },
   "dependencies": {
     "commander": "^13.0.0",
