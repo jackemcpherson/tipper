@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import type { Config } from "../../src/config/schema.js";
 import type { MatchRow, PlayerMatchStatsRow } from "../../src/data/types.js";
 import {
-  type PavSeasonState,
   computeDefScore,
   computeMidScore,
   computeOffScore,

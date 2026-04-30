@@ -1,7 +1,7 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.9/schema.json",
   "files": {
-    "ignore": [".wrangler/**", "dist/**", "node_modules/**", "configs/**/results-*.json"]
+    "includes": ["**", "!!**/.wrangler", "!!**/dist", "!!**/configs/**/results-*.json"]
   },
   "linter": {
     "enabled": true,
@@ -12,7 +12,8 @@
       },
       "style": {
         "useConst": "error",
-        "noNonNullAssertion": "warn"
+        "noNonNullAssertion": "warn",
+        "noDefaultExport": "error"
       }
     }
   },
@@ -22,7 +23,23 @@
     "indentWidth": 2,
     "lineWidth": 100
   },
-  "organizeImports": {
-    "enabled": true
-  }
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["*.config.ts", "src/worker.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    }
+  ]
 }

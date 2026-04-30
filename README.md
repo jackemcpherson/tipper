@@ -1,5 +1,8 @@
 # tipper
 
+[![CI](https://github.com/jackemcpherson/tipper/actions/workflows/ci.yml/badge.svg)](https://github.com/jackemcpherson/tipper/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@jackemcpherson/tipper)](https://www.npmjs.com/package/@jackemcpherson/tipper)
+
 AFL match prediction CLI combining MOV-Elo ratings with player-level PAV
 (Player Approximate Value). Runs as a Cloudflare Worker backed by a D1
 database.

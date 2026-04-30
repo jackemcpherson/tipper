@@ -8,7 +8,7 @@ function makePrediction(
   actualMargin: number,
 ): MatchPrediction {
   const homeWins = predictedMargin >= 0;
-  const actualHomeWins = actualMargin > 0;
+  const _actualHomeWins = actualMargin > 0;
   const predictedWinner = homeWins ? "home" : "away";
   const actualWinner = actualMargin > 0 ? "home" : actualMargin < 0 ? "away" : "draw";
   const correct = actualWinner === "draw" ? undefined : predictedWinner === actualWinner;

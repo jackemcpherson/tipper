@@ -2,12 +2,12 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { Config } from "../../src/config/schema.js";
 import type { MatchRow } from "../../src/data/types.js";
 import {
-  type EloHistory,
-  type EloState,
   applyRegression,
   computeContextualK,
   computeExpected,
   computeMovMultiplier,
+  type EloHistory,
+  type EloState,
   getRating,
   resolveHomeAdvantage,
   updateElo,
