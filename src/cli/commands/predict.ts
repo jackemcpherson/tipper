@@ -3,21 +3,21 @@ import { computeConfigHash, shortHash } from "../../config/hash.js";
 import { loadConfig, loadCurrentPointer } from "../../config/store.js";
 import { runPrediction } from "../../orchestration.js";
 import { getDatabase } from "../db.js";
-import { configOption, jsonOption, roundNumberOption, seasonOption, teamOption } from "../flags.js";
+import { configOption, jsonOption, roundOption, seasonOption, teamOption } from "../flags.js";
 import { formatHeader, formatPrediction } from "../format/human.js";
 import { formatPredictionsJson } from "../format/json.js";
 
 export const predictCommand = new Command("predict")
   .description("Predict match outcomes for a specific round")
   .addOption(seasonOption)
-  .addOption(roundNumberOption)
+  .addOption(roundOption)
   .addOption(teamOption)
   .addOption(configOption)
   .addOption(jsonOption)
   .action(
     async (opts: {
       season?: number[];
-      roundNumber?: number;
+      round?: number;
       team?: string;
       config?: string;
       json: boolean;
@@ -26,8 +26,8 @@ export const predictCommand = new Command("predict")
         console.error("Error: predict requires exactly one --season value.");
         process.exit(1);
       }
-      if (opts.roundNumber === undefined) {
-        console.error("Error: predict requires --round-number.");
+      if (opts.round === undefined) {
+        console.error("Error: predict requires --round.");
         process.exit(1);
       }
 
@@ -54,7 +54,7 @@ export const predictCommand = new Command("predict")
       };
 
       const db = getDatabase();
-      const result = await runPrediction(db, predictConfig, targetYear, opts.roundNumber);
+      const result = await runPrediction(db, predictConfig, targetYear, opts.round);
 
       let predictions = result.predictions;
       if (opts.team) {
@@ -69,7 +69,7 @@ export const predictCommand = new Command("predict")
       if (opts.json) {
         console.log(formatPredictionsJson(predictions, configId, configHash, dataThrough));
       } else {
-        const scope = `Round ${opts.roundNumber}, ${targetYear} — predictions`;
+        const scope = `Round ${opts.round}, ${targetYear} — predictions`;
         console.log(formatHeader(configId, shortHash(configHash), dataThrough, scope));
         for (const p of predictions) {
           console.log(formatPrediction(p));

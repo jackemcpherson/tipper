@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.1.0] - 2026-05-01
+
+### CLI improvements
+
+- Added short flags across all commands: `-s` (season), `-r` (round),
+  `-c` (config), `-j` (json), `-t` (team), `-a`/`-b` (compare configs)
+- **Breaking**: Renamed `--round-number` to `--round` (`-r`)
+
+### Example usage
+
+```bash
+tipper predict -s 2026 -r 7
+tipper backtest -s 2024,2025 -c pavfix-blend-w06 -j
+tipper compare -a elo-only-v1 -b pavfix-blend-w06
+```
+
 ## [3.0.0] - 2026-04-30
 
 **Breaking**: The CLI no longer requires a running Cloudflare Worker.

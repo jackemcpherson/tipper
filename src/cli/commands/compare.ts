@@ -4,8 +4,14 @@ import { runCompare } from "../../orchestration.js";
 import { getDatabase } from "../db.js";
 import { jsonOption } from "../flags.js";
 
-const configAOption = new Option("--config-a <id>", "Config ID for model A").makeOptionMandatory();
-const configBOption = new Option("--config-b <id>", "Config ID for model B").makeOptionMandatory();
+const configAOption = new Option(
+  "-a, --config-a <id>",
+  "Config ID for model A",
+).makeOptionMandatory();
+const configBOption = new Option(
+  "-b, --config-b <id>",
+  "Config ID for model B",
+).makeOptionMandatory();
 
 export const compareCommand = new Command("compare")
   .description("Bootstrap-compare two configs (paired by match)")
