@@ -17,7 +17,7 @@ import {
   fetchTeams,
   fetchVenues,
 } from "./data/queries.js";
-import type { PlayerSeasonPavRow } from "./data/types.js";
+import type { CompetitionCode, PlayerSeasonPavRow } from "./data/types.js";
 import { type EloState, getRating, updateElo } from "./engine/elo.js";
 import type { HarnessData } from "./engine/harness.js";
 import { runHarness, runPredict } from "./engine/harness.js";
@@ -61,8 +61,9 @@ export async function fetchHarnessData(
   db: D1Database,
   seasonYears: number[],
   priorYears: number[],
+  competition: CompetitionCode,
 ): Promise<FetchedData> {
-  const seasons = await fetchSeasons(db, seasonYears);
+  const seasons = await fetchSeasons(db, seasonYears, competition);
   const seasonIdToYear = new Map(seasons.map((s) => [s.id, s.year]));
   const seasonYearToId = new Map(seasons.map((s) => [s.year, s.id]));
 
@@ -80,15 +81,15 @@ export async function fetchHarnessData(
     .filter((e): e is { year: number; seasonId: number } => e.seasonId !== undefined);
   await Promise.all(
     priorEntries.map(async ({ year, seasonId }) => {
-      const priorPav = await fetchPriorSeasonPav(db, year);
+      const priorPav = await fetchPriorSeasonPav(db, year, competition);
       priorPavBySeason.set(seasonId, priorPav);
     }),
   );
 
   const [teams, venues, latestDate] = await Promise.all([
-    fetchTeams(db),
+    fetchTeams(db, competition),
     fetchVenues(db),
-    fetchLatestMatchDate(db),
+    fetchLatestMatchDate(db, competition),
   ]);
 
   const harnessData: HarnessData = {
@@ -104,12 +105,12 @@ export async function fetchHarnessData(
   return { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate };
 }
 
-export async function runBacktest(db: D1Database, config: Config) {
+export async function runBacktest(db: D1Database, config: Config, competition: CompetitionCode) {
   const allSeasonYears = [...config.backtest.train_seasons, ...config.backtest.test_seasons];
   const priorYears = config.backtest.test_seasons.map((y) => y - 1);
 
   const { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate } =
-    await fetchHarnessData(db, allSeasonYears, priorYears);
+    await fetchHarnessData(db, allSeasonYears, priorYears, competition);
 
   const trainSeasonIds = resolveSeasonIds(config.backtest.train_seasons, seasonYearToId);
   const testSeasonIds = resolveSeasonIds(config.backtest.test_seasons, seasonYearToId);
@@ -169,6 +170,7 @@ export async function runPrediction(
   config: Config,
   season: number,
   roundNumber: number,
+  competition: CompetitionCode,
 ) {
   const allYears = [...new Set([...config.backtest.train_seasons, season, season - 1])];
   const priorYears = [season - 1];
@@ -177,6 +179,7 @@ export async function runPrediction(
     db,
     allYears,
     priorYears,
+    competition,
   );
 
   const targetSeasonId = seasonYearToId.get(season);
@@ -193,11 +196,16 @@ export async function runPrediction(
   };
 }
 
-export async function runCalibration(db: D1Database, config: Config) {
+export async function runCalibration(db: D1Database, config: Config, competition: CompetitionCode) {
   const allSeasonYears = [...config.backtest.train_seasons, ...config.backtest.test_seasons];
   const priorYears = config.backtest.test_seasons.map((y) => y - 1);
 
-  const { harnessData, seasonYearToId } = await fetchHarnessData(db, allSeasonYears, priorYears);
+  const { harnessData, seasonYearToId } = await fetchHarnessData(
+    db,
+    allSeasonYears,
+    priorYears,
+    competition,
+  );
 
   const trainSeasonIds = resolveSeasonIds(config.backtest.train_seasons, seasonYearToId);
   const testSeasonIds = resolveSeasonIds(config.backtest.test_seasons, seasonYearToId);
@@ -272,6 +280,7 @@ export async function runCompare(
   db: D1Database,
   configA: Config,
   configB: Config,
+  competition: CompetitionCode,
   nBootstrap?: number,
   seed?: number,
 ) {
@@ -298,7 +307,12 @@ export async function runCompare(
     ]),
   ];
 
-  const { harnessData, seasonYearToId } = await fetchHarnessData(db, allSeasonYears, priorYears);
+  const { harnessData, seasonYearToId } = await fetchHarnessData(
+    db,
+    allSeasonYears,
+    priorYears,
+    competition,
+  );
 
   const resultA = runHarness(
     harnessData,
@@ -327,6 +341,7 @@ export async function runDeriveVenueHA(
   db: D1Database,
   body: {
     seasons: number[];
+    competition: CompetitionCode;
     elo: {
       k: number;
       initial_rating: number;
@@ -338,7 +353,7 @@ export async function runDeriveVenueHA(
     min_matches?: number;
   },
 ) {
-  const seasons = await fetchSeasons(db, body.seasons);
+  const seasons = await fetchSeasons(db, body.seasons, body.competition);
   const seasonIds = seasons.map((s) => s.id);
 
   const [matches, venues] = await Promise.all([

@@ -1,9 +1,17 @@
 import { Command } from "commander";
 import { computeConfigHash, shortHash } from "../../config/hash.js";
 import { loadConfig, loadCurrentPointer } from "../../config/store.js";
+import type { CompetitionCode } from "../../data/types.js";
 import { runPrediction } from "../../orchestration.js";
 import { getDatabase } from "../db.js";
-import { configOption, jsonOption, roundOption, seasonOption, teamOption } from "../flags.js";
+import {
+  compOption,
+  configOption,
+  jsonOption,
+  roundOption,
+  seasonOption,
+  teamOption,
+} from "../flags.js";
 import { formatHeader, formatPrediction } from "../format/human.js";
 import { formatPredictionsJson } from "../format/json.js";
 
@@ -11,6 +19,7 @@ export const predictCommand = new Command("predict")
   .description("Predict match outcomes for a specific round")
   .addOption(seasonOption)
   .addOption(roundOption)
+  .addOption(compOption)
   .addOption(teamOption)
   .addOption(configOption)
   .addOption(jsonOption)
@@ -18,6 +27,7 @@ export const predictCommand = new Command("predict")
     async (opts: {
       season?: number[];
       round?: number;
+      comp: CompetitionCode;
       team?: string;
       config?: string;
       json: boolean;
@@ -54,7 +64,7 @@ export const predictCommand = new Command("predict")
       };
 
       const db = getDatabase();
-      const result = await runPrediction(db, predictConfig, targetYear, opts.round);
+      const result = await runPrediction(db, predictConfig, targetYear, opts.round, opts.comp);
 
       let predictions = result.predictions;
       if (opts.team) {

@@ -10,6 +10,7 @@
  */
 
 import type {
+  CompetitionCode,
   MatchLineupRow,
   MatchRow,
   PlayerMatchStatsRow,
@@ -21,23 +22,38 @@ import type {
 } from "./types.js";
 
 /**
- * Fetch season rows for the given years.
+ * Fetch season rows for the given years, scoped to a single competition.
  *
- * Used to map year → season_id for query scoping.
+ * The afl-stats DB is multi-competition (AFLM/AFLW/VFL/VFLW); the same year
+ * exists as a season row in every competition. Without the competition filter,
+ * downstream match/team queries silently mix data across leagues.
  */
-export async function fetchSeasons(db: D1Database, years: number[]): Promise<SeasonRow[]> {
+export async function fetchSeasons(
+  db: D1Database,
+  years: number[],
+  competition: CompetitionCode,
+): Promise<SeasonRow[]> {
   const placeholders = years.map(() => "?").join(", ");
   const stmt = db.prepare(
-    `SELECT id, competition_id, year FROM seasons WHERE year IN (${placeholders})`,
+    `SELECT s.id, s.competition_id, s.year
+     FROM seasons s
+     JOIN competitions c ON s.competition_id = c.id
+     WHERE c.code = ? AND s.year IN (${placeholders})`,
   );
-  const result = await stmt.bind(...years).all<SeasonRow>();
+  const result = await stmt.bind(competition, ...years).all<SeasonRow>();
   return result.results;
 }
 
-/** Fetch all teams. */
-export async function fetchTeams(db: D1Database): Promise<TeamRow[]> {
+/** Fetch all teams in a competition. Same-name teams (e.g. Carlton) exist in multiple comps with distinct IDs. */
+export async function fetchTeams(db: D1Database, competition: CompetitionCode): Promise<TeamRow[]> {
   const result = await db
-    .prepare("SELECT id, name, abbreviation, competition_id FROM teams")
+    .prepare(
+      `SELECT t.id, t.name, t.abbreviation, t.competition_id
+       FROM teams t
+       JOIN competitions c ON t.competition_id = c.id
+       WHERE c.code = ?`,
+    )
+    .bind(competition)
     .all<TeamRow>();
   return result.results;
 }
@@ -160,15 +176,17 @@ export async function fetchPlayerStatsForMatches(
 export async function fetchPriorSeasonPav(
   db: D1Database,
   seasonYear: number,
+  competition: CompetitionCode,
 ): Promise<PlayerSeasonPavRow[]> {
   const sql = `
     SELECT psp.id, psp.player_id, psp.season_id, psp.team_id,
            psp.off_pav, psp.mid_pav, psp.def_pav, psp.total_pav
     FROM player_season_pav psp
     JOIN seasons s ON psp.season_id = s.id
-    WHERE s.year = ?
+    JOIN competitions c ON s.competition_id = c.id
+    WHERE c.code = ? AND s.year = ?
   `;
-  const result = await db.prepare(sql).bind(seasonYear).all<PlayerSeasonPavRow>();
+  const result = await db.prepare(sql).bind(competition, seasonYear).all<PlayerSeasonPavRow>();
   return result.results;
 }
 
@@ -191,13 +209,23 @@ export async function fetchPlayers(db: D1Database, playerIds: number[]): Promise
 }
 
 /**
- * Fetch the latest match date in the database.
+ * Fetch the latest match date for a competition.
  *
  * Used for the "data_through" field in backtest results.
  */
-export async function fetchLatestMatchDate(db: D1Database): Promise<string | null> {
+export async function fetchLatestMatchDate(
+  db: D1Database,
+  competition: CompetitionCode,
+): Promise<string | null> {
   const result = await db
-    .prepare("SELECT MAX(date) as max_date FROM matches WHERE home_points IS NOT NULL")
+    .prepare(
+      `SELECT MAX(m.date) as max_date
+       FROM matches m
+       JOIN seasons s ON m.season_id = s.id
+       JOIN competitions c ON s.competition_id = c.id
+       WHERE c.code = ? AND m.home_points IS NOT NULL`,
+    )
+    .bind(competition)
     .first<{ max_date: string | null }>();
   return result?.max_date ?? null;
 }

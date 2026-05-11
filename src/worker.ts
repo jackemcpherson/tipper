@@ -7,6 +7,7 @@
  */
 
 import type { Config } from "./config/schema.js";
+import { COMPETITION_CODES, type CompetitionCode } from "./data/types.js";
 import {
   runBacktest,
   runCalibration,
@@ -17,6 +18,13 @@ import {
 
 interface Env {
   DB: D1Database;
+}
+
+function parseCompetition(value: unknown): CompetitionCode {
+  if (typeof value === "string" && (COMPETITION_CODES as readonly string[]).includes(value)) {
+    return value as CompetitionCode;
+  }
+  return "AFLM";
 }
 
 function jsonResponse(data: unknown, status = 200): Response {
@@ -37,8 +45,10 @@ export default {
 
     if (url.pathname === "/backtest" && request.method === "POST") {
       try {
-        const config = (await request.json()) as Config;
-        return jsonResponse(await runBacktest(env.DB, config));
+        const body = (await request.json()) as { config: Config; competition?: string } | Config;
+        const config = "config" in body ? body.config : body;
+        const competition = parseCompetition("competition" in body ? body.competition : undefined);
+        return jsonResponse(await runBacktest(env.DB, config, competition));
       } catch (err) {
         return errorResponse(err);
       }
@@ -50,9 +60,16 @@ export default {
           config: Config;
           season: number;
           round_number: number;
+          competition?: string;
         };
         return jsonResponse(
-          await runPrediction(env.DB, body.config, body.season, body.round_number),
+          await runPrediction(
+            env.DB,
+            body.config,
+            body.season,
+            body.round_number,
+            parseCompetition(body.competition),
+          ),
         );
       } catch (err) {
         return errorResponse(err);
@@ -64,11 +81,19 @@ export default {
         const body = (await request.json()) as {
           configA: Config;
           configB: Config;
+          competition?: string;
           nBootstrap?: number;
           seed?: number;
         };
         return jsonResponse(
-          await runCompare(env.DB, body.configA, body.configB, body.nBootstrap, body.seed),
+          await runCompare(
+            env.DB,
+            body.configA,
+            body.configB,
+            parseCompetition(body.competition),
+            body.nBootstrap,
+            body.seed,
+          ),
         );
       } catch (err) {
         return errorResponse(err);
@@ -77,8 +102,10 @@ export default {
 
     if (url.pathname === "/calibrate" && request.method === "POST") {
       try {
-        const config = (await request.json()) as Config;
-        return jsonResponse(await runCalibration(env.DB, config));
+        const body = (await request.json()) as { config: Config; competition?: string } | Config;
+        const config = "config" in body ? body.config : body;
+        const competition = parseCompetition("competition" in body ? body.competition : undefined);
+        return jsonResponse(await runCalibration(env.DB, config, competition));
       } catch (err) {
         return errorResponse(err);
       }
@@ -88,6 +115,7 @@ export default {
       try {
         const body = (await request.json()) as {
           seasons: number[];
+          competition?: string;
           elo: {
             k: number;
             initial_rating: number;
@@ -98,7 +126,12 @@ export default {
           margin_per_rating_point: number;
           min_matches?: number;
         };
-        return jsonResponse(await runDeriveVenueHA(env.DB, body));
+        return jsonResponse(
+          await runDeriveVenueHA(env.DB, {
+            ...body,
+            competition: parseCompetition(body.competition),
+          }),
+        );
       } catch (err) {
         return errorResponse(err);
       }

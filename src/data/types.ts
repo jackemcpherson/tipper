@@ -5,6 +5,10 @@
  * Column names use snake_case to match the database schema.
  */
 
+export type CompetitionCode = "AFLM" | "AFLW" | "VFL" | "VFLW";
+
+export const COMPETITION_CODES: readonly CompetitionCode[] = ["AFLM", "AFLW", "VFL", "VFLW"];
+
 export interface SeasonRow {
   readonly id: number;
   readonly competition_id: number;

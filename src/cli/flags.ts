@@ -3,6 +3,7 @@
  */
 
 import { Option } from "commander";
+import { COMPETITION_CODES } from "../data/types.js";
 
 export const seasonOption = new Option(
   "-s, --season <seasons>",
@@ -11,7 +12,9 @@ export const seasonOption = new Option(
 
 export const roundOption = new Option("-r, --round <round>", "Round number").argParser(Number);
 
-export const compOption = new Option("--comp <comp>", "Competition code").default("AFLM");
+export const compOption = new Option("--comp <comp>", "Competition code")
+  .choices([...COMPETITION_CODES])
+  .default("AFLM");
 
 export const teamOption = new Option("-t, --team <team>", "Filter to a single team");
 
