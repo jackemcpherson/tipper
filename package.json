@@ -1,6 +1,6 @@
 {
   "name": "@jackemcpherson/tipper",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "AFL match prediction CLI combining MOV-Elo with player-level PAV ratings",
   "license": "MIT",
   "author": "Jack McPherson <jackemcpherson@gmail.com>",
