@@ -1,6 +1,7 @@
 {
   "config_id": "elo-ha-40",
   "config_hash": "85afb8a8856bca389fdd9d8db219aae9182b24d1e0b5acc41ad5f085e8221057",
+  "config_hash_note": "config_hash was computed with the pre-2026-06 broken canonicalisation (all configs hashed identically; see COR-01). Not valid for promotion checks - re-run the backtest to regenerate.",
   "ran_at": "2026-04-26T03:49:19.162Z",
   "data_through": "2026-04-25",
   "scope": {
