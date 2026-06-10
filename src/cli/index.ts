@@ -2,6 +2,7 @@
 
 import { program } from "commander";
 import { backtestCommand } from "./commands/backtest.js";
+import { calibrateCommand } from "./commands/calibrate.js";
 import { compareCommand } from "./commands/compare.js";
 import { configCommand } from "./commands/config/index.js";
 import { predictCommand } from "./commands/predict.js";
@@ -13,6 +14,7 @@ program
 
 program.addCommand(configCommand);
 program.addCommand(backtestCommand);
+program.addCommand(calibrateCommand);
 program.addCommand(compareCommand);
 program.addCommand(predictCommand);
 
