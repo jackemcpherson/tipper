@@ -23,11 +23,20 @@ export const backtestCommand = new Command("backtest")
       }
 
       const config = loadConfig(configId);
-      const configHash = await computeConfigHash(config);
 
       const backtestConfig = opts.season
         ? { ...config, backtest: { ...config.backtest, test_seasons: opts.season } }
         : config;
+
+      // Hash the *effective* config: a --season-overridden run stores a hash
+      // that can never match the on-disk config, so cherry-picked scopes can't
+      // satisfy the promotion guardrail (COR-09).
+      const configHash = await computeConfigHash(backtestConfig);
+      if (opts.season) {
+        console.log(
+          "Note: --season overrides the config's test_seasons; this run is not valid for promotion.",
+        );
+      }
 
       console.log(`Running backtest: ${configId} (${shortHash(configHash)})`);
       console.log(

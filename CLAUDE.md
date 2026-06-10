@@ -4,13 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-AFL match prediction CLI (`tipper`) combining MOV-Elo ratings with player-level PAV (Player Approximate Value) ratings. The CLI calls the Cloudflare D1 REST API directly and runs the engine locally. A thin Cloudflare Worker is also available for deployed/HTTP use.
+AFL match prediction CLI (`tipper`) combining MOV-Elo ratings with player-level PAV (Player Approximate Value) ratings. The CLI calls the Cloudflare D1 REST API directly and runs the engine locally. (The former thin Cloudflare Worker was retired in v3.2 — the CLI-direct architecture obsoleted it.)
 
 ## Commands
 
 ```bash
 bun install              # Install dependencies
-bun run dev              # Start local worker (wrangler dev)
 bun run build            # Compile TypeScript (tsc)
 bun run typecheck        # Type-check without emitting (tsc --noEmit)
 bun run test             # Run all tests (vitest)
@@ -30,10 +29,6 @@ Two parallel state machines joined by a read-only predictor:
 CLI (Commander) → D1 REST API → D1 Database (afl-stats)
        ↓
   Orchestration → Engine (pure functions)
-
-Worker (Cloudflare) → Orchestration → Engine (pure functions)
-       ↓
-  D1 Database (afl-stats)
 ```
 
 **Engine layer (`src/engine/`)** — Pure functions, no I/O:
@@ -52,8 +47,6 @@ Worker (Cloudflare) → Orchestration → Engine (pure functions)
 **Orchestration (`src/orchestration.ts`)** — Shared data-fetching and engine-invocation logic used by both CLI and Worker. Functions take a `D1Database` (Worker binding or REST shim).
 
 **D1 REST client (`src/data/d1-rest.ts`)** — `D1Database`-compatible shim that calls the Cloudflare D1 HTTP API, used by the CLI.
-
-**Worker (`src/worker.ts`)** — Thin HTTP wrapper around the orchestration layer for deployed use. Endpoints: `/backtest`, `/predict`, `/calibrate`, `/compare`, `/derive-venue-ha`.
 
 **CLI (`src/cli/`)** — Commander-based. Reads configs from disk, calls orchestration functions directly via the D1 REST shim, formats output. Commands: `config {list,show,current,promote,diff,create}`, `backtest`, `predict`, `compare`.
 
