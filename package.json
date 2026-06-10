@@ -29,7 +29,6 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "wrangler dev",
     "build": "tsc",
     "test": "vitest",
     "check": "biome check .",
