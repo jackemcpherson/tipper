@@ -197,8 +197,13 @@ export async function runPrediction(
 }
 
 export async function runCalibration(db: D1Database, config: Config, competition: CompetitionCode) {
-  const allSeasonYears = [...config.backtest.train_seasons, ...config.backtest.test_seasons];
-  const priorYears = config.backtest.test_seasons.map((y) => y - 1);
+  // Fit the slope on TRAIN seasons only (COR-08). It was previously fitted
+  // on the test seasons and then evaluated on those same seasons, so the
+  // promoted slope made headline test metrics optimistically biased. The
+  // harness runs with the train seasons as its prediction window (PAV
+  // active, walk-forward within them); test seasons stay untouched.
+  const allSeasonYears = [...config.backtest.train_seasons];
+  const priorYears = config.backtest.train_seasons.map((y) => y - 1);
 
   const { harnessData, seasonYearToId } = await fetchHarnessData(
     db,
@@ -207,10 +212,9 @@ export async function runCalibration(db: D1Database, config: Config, competition
     competition,
   );
 
-  const trainSeasonIds = resolveSeasonIds(config.backtest.train_seasons, seasonYearToId);
-  const testSeasonIds = resolveSeasonIds(config.backtest.test_seasons, seasonYearToId);
+  const fitSeasonIds = resolveSeasonIds(config.backtest.train_seasons, seasonYearToId);
 
-  const result = runHarness(harnessData, config, trainSeasonIds, testSeasonIds);
+  const result = runHarness(harnessData, config, new Set(), fitSeasonIds);
 
   const dataPoints: { pavDiff: number; eloDiff: number; actualMargin: number }[] = [];
   for (const p of result.predictions) {
@@ -256,6 +260,7 @@ export async function runCalibration(db: D1Database, config: Config, competition
     sumPavSq > 0 && sumEloDiffSq > 0 ? sumPavElo / Math.sqrt(sumPavSq * sumEloDiffSq) : 0;
 
   return {
+    fitted_on: { seasons: config.backtest.train_seasons, scope: "train_seasons" },
     data_points: dataPoints.length,
     pav_diff_stats: {
       mean: pavMean,
