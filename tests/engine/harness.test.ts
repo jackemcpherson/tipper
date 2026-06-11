@@ -160,4 +160,18 @@ describe("runHarness walk-forward ordering (TST-02)", () => {
     // The unplayed match contributed nothing to state.
     expect(result.predictions[0]?.homeElo).toBe(1500);
   });
+
+  it('throws loudly for the unimplemented "actually_played" include mode (COR-13)', () => {
+    // The mode stays in the schema so old configs still load — but it used
+    // to silently behave as named_lineup_excl_emerg. It must now fail fast.
+    const base = eloOnlyConfig();
+    const config: Config = {
+      ...base,
+      pav: { ...base.pav, include: "actually_played" },
+    };
+
+    expect(() =>
+      runHarness(harnessData([matchRow({ id: 101 })]), config, new Set(), TEST_SEASON),
+    ).toThrow(/actually_played.*not implemented/);
+  });
 });

@@ -100,6 +100,49 @@ describe("deriveVenueHA", () => {
     expect(Math.abs(neutral?.haPoints ?? 99)).toBeLessThan(5);
   });
 
+  it("ignores null-score matches in both the sums and the divisor (COR-13)", () => {
+    // 35 played matches with a constant 15-point home margin, plus 5
+    // unplayed (null-score) matches mixed in. The regression must see
+    // n=35: dividing by 40 would deflate the means and report a HA of
+    // 15 * 35/40 = 13.125 instead of 15.
+    const played = Array.from({ length: 35 }, (_, i) => ({
+      match: makeMatch({ id: i, venue_id: 1, home_points: 75, away_points: 60 }),
+      homeElo: 1500,
+      awayElo: 1500,
+    }));
+    const unplayed = Array.from({ length: 5 }, (_, i) => ({
+      match: makeMatch({ id: 100 + i, venue_id: 1, home_points: null, away_points: null }),
+      homeElo: 1500,
+      awayElo: 1500,
+    }));
+    // Interleave so the fix can't depend on ordering
+    const matches = [...played.slice(0, 20), ...unplayed, ...played.slice(20)];
+
+    const venueNames = new Map([[1, "Mixed Ground"]]);
+    const results = deriveVenueHA(matches, venueNames, 0.07, 30);
+
+    expect(results).toHaveLength(1);
+    expect(results[0]?.haPoints).toBeCloseTo(15, 6);
+    expect(results[0]?.nMatches).toBe(35);
+  });
+
+  it("applies the minimum-match threshold to scored matches only", () => {
+    // 32 matches at the venue but only 28 have scores — below the
+    // threshold of 30, so the venue must be excluded.
+    const matches = Array.from({ length: 32 }, (_, i) => ({
+      match: makeMatch(
+        i < 28
+          ? { id: i, venue_id: 3, home_points: 70, away_points: 60 }
+          : { id: i, venue_id: 3, home_points: null, away_points: null },
+      ),
+      homeElo: 1500,
+      awayElo: 1500,
+    }));
+
+    const results = deriveVenueHA(matches, new Map([[3, "Sparse"]]), 0.07, 30);
+    expect(results).toHaveLength(0);
+  });
+
   it("controls for team strength via Elo differential", () => {
     // Mix of Elo differentials with consistent relationship
     // margin ~ 5 (HA) + 0.07 * eloDiff

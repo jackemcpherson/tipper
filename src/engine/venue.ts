@@ -58,10 +58,11 @@ export function deriveVenueHA(
   const results: VenueHAResult[] = [];
 
   for (const [venueId, matches] of byVenue) {
-    if (matches.length < minMatches) continue;
-
     // OLS: y = a + b*x where y = actual_margin, x = (homeElo - awayElo)
-    const n = matches.length;
+    // Null-score (unplayed) matches contribute nothing to the sums, so n
+    // must count only the matches actually included — dividing by the
+    // total would deflate every mean and bias the intercept toward zero.
+    let n = 0;
     let sumX = 0;
     let sumY = 0;
     let sumXY = 0;
@@ -72,12 +73,15 @@ export function deriveVenueHA(
       if (m.match.home_points === null || m.match.away_points === null) continue;
       const x = m.homeElo - m.awayElo;
       const y = m.match.home_points - m.match.away_points;
+      n += 1;
       sumX += x;
       sumY += y;
       sumXY += x * y;
       sumXX += x * x;
       sumYY += y * y;
     }
+
+    if (n < minMatches || n === 0) continue;
 
     const meanX = sumX / n;
     const meanY = sumY / n;
