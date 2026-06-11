@@ -50,6 +50,26 @@ export interface HarnessResult {
 }
 
 /**
+ * Count the distinct teams appearing in each season's fixture.
+ *
+ * Feeds PavSeasonState.numTeams from actual data instead of a hardcoded
+ * 18 (which is wrong for AFLW and for pre-expansion AFLM seasons).
+ */
+function countTeamsBySeason(matches: MatchRow[]): Map<number, number> {
+  const teamsBySeason = new Map<number, Set<number>>();
+  for (const match of matches) {
+    let teams = teamsBySeason.get(match.season_id);
+    if (!teams) {
+      teams = new Set();
+      teamsBySeason.set(match.season_id, teams);
+    }
+    teams.add(match.home_team_id);
+    teams.add(match.away_team_id);
+  }
+  return new Map([...teamsBySeason].map(([seasonId, teams]) => [seasonId, teams.size]));
+}
+
+/**
  * Run the walk-forward harness over historical data.
  *
  * @param data - All pre-fetched data.
@@ -68,9 +88,11 @@ export function runHarness(
   const eloHistory: EloHistory = new Map();
   const predictions: MatchPrediction[] = [];
   const skippedMatches: number[] = [];
+  const teamCountBySeason = countTeamsBySeason(data.matches);
 
   let currentSeasonId: number | null = null;
-  let pavState: PavSeasonState = createPavSeasonState(18);
+  // Placeholder — replaced at the first season boundary below.
+  let pavState: PavSeasonState = createPavSeasonState(0);
   let priorPavMap: PriorPavMap = new Map();
   let priorLeague: LeagueAccumulator | null = null;
 
@@ -86,6 +108,7 @@ export function runHarness(
       }
 
       currentSeasonId = match.season_id;
+      const numTeams = teamCountBySeason.get(match.season_id) ?? 0;
 
       // Build prior PAV map from previous season
       const currentYear = data.seasonYearById.get(match.season_id);
@@ -105,11 +128,11 @@ export function runHarness(
       const isTrain = trainSeasonIds.has(match.season_id);
       if (isTrain) {
         // Train seasons: Elo-only, no PAV needed
-        pavState = createPavSeasonState(18);
+        pavState = createPavSeasonState(numTeams);
       } else if (priorLeague) {
-        pavState = createPavSeasonStateWithPriorLeague(18, priorLeague);
+        pavState = createPavSeasonStateWithPriorLeague(numTeams, priorLeague);
       } else {
-        pavState = createPavSeasonState(18);
+        pavState = createPavSeasonState(numTeams);
       }
     }
 
@@ -162,9 +185,11 @@ export function runPredict(
   const eloHistory: EloHistory = new Map();
   const predictions: MatchPrediction[] = [];
   const skippedMatches: number[] = [];
+  const teamCountBySeason = countTeamsBySeason(data.matches);
 
   let currentSeasonId: number | null = null;
-  let pavState: PavSeasonState = createPavSeasonState(18);
+  // Placeholder — replaced at the first season boundary below.
+  let pavState: PavSeasonState = createPavSeasonState(0);
   let priorPavMap: PriorPavMap = new Map();
   let priorLeague: LeagueAccumulator | null = null;
 
@@ -177,6 +202,7 @@ export function runPredict(
       }
 
       currentSeasonId = match.season_id;
+      const numTeams = teamCountBySeason.get(match.season_id) ?? 0;
 
       const currentYear = data.seasonYearById.get(match.season_id);
       if (currentYear !== undefined) {
@@ -191,9 +217,9 @@ export function runPredict(
       }
 
       if (priorLeague) {
-        pavState = createPavSeasonStateWithPriorLeague(18, priorLeague);
+        pavState = createPavSeasonStateWithPriorLeague(numTeams, priorLeague);
       } else {
-        pavState = createPavSeasonState(18);
+        pavState = createPavSeasonState(numTeams);
       }
     }
 
@@ -310,9 +336,13 @@ function filterLineup(
     case "starting_18_only":
       return teamLineups.filter((l) => l.is_emergency === 0 && l.is_substitute === 0);
     case "actually_played":
-      // For backtest, this would need player_match_stats presence check
-      // For now, same as excl_emerg (stats-based filtering happens elsewhere)
-      return teamLineups.filter((l) => l.is_emergency === 0);
+      // Kept in the schema so old configs fail loudly instead of silently
+      // behaving as named_lineup_excl_emerg (COR-13). Implementing it needs
+      // a player_match_stats presence check at prediction time.
+      throw new Error(
+        'pav.include "actually_played" is not implemented. ' +
+          'Use "named_lineup_excl_emerg" (the previous silent fallback) or another include mode.',
+      );
   }
 }
 

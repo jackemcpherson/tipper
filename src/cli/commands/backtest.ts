@@ -4,8 +4,9 @@ import type { BacktestResultsFile } from "../../config/schema.js";
 import { loadConfig, loadCurrentPointer, saveResults } from "../../config/store.js";
 import type { CompetitionCode } from "../../data/types.js";
 import { runBacktest } from "../../orchestration.js";
+import { resolveSeasonDataCache } from "../cache.js";
 import { getDatabase } from "../db.js";
-import { compOption, configOption, jsonOption, seasonOption } from "../flags.js";
+import { compOption, configOption, jsonOption, noCacheOption, seasonOption } from "../flags.js";
 import { formatHeader, formatMetrics } from "../format/human.js";
 
 export const backtestCommand = new Command("backtest")
@@ -14,8 +15,15 @@ export const backtestCommand = new Command("backtest")
   .addOption(compOption)
   .addOption(configOption)
   .addOption(jsonOption)
+  .addOption(noCacheOption)
   .action(
-    async (opts: { season?: number[]; comp: CompetitionCode; config?: string; json: boolean }) => {
+    async (opts: {
+      season?: number[];
+      comp: CompetitionCode;
+      config?: string;
+      json: boolean;
+      cache: boolean;
+    }) => {
       const configId = opts.config ?? loadCurrentPointer()?.config_id;
       if (!configId) {
         console.error("Error: No config specified and no current config set.");
@@ -45,7 +53,8 @@ export const backtestCommand = new Command("backtest")
       );
 
       const db = getDatabase();
-      const result = await runBacktest(db, backtestConfig, opts.comp);
+      const cache = resolveSeasonDataCache(opts.comp, opts.cache);
+      const result = await runBacktest(db, backtestConfig, opts.comp, cache);
 
       const resultsFile: BacktestResultsFile = {
         config_id: configId,

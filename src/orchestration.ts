@@ -17,7 +17,13 @@ import {
   fetchTeams,
   fetchVenues,
 } from "./data/queries.js";
-import type { CompetitionCode, PlayerSeasonPavRow } from "./data/types.js";
+import type {
+  CompetitionCode,
+  MatchLineupRow,
+  MatchRow,
+  PlayerMatchStatsRow,
+  PlayerSeasonPavRow,
+} from "./data/types.js";
 import { type EloState, getRating, updateElo } from "./engine/elo.js";
 import type { HarnessData } from "./engine/harness.js";
 import { runHarness, runPredict } from "./engine/harness.js";
@@ -51,29 +57,75 @@ export interface FetchedData {
   latestDate: string | null;
 }
 
+/** All raw rows for a single season — the unit of the local season cache. */
+export interface SeasonData {
+  matches: MatchRow[];
+  lineups: MatchLineupRow[];
+  stats: PlayerMatchStatsRow[];
+}
+
+/**
+ * Optional cache for per-season raw data.
+ *
+ * Historical seasons are append-only, so a completed season's rows can be
+ * cached indefinitely. Implementations decide which years are cacheable
+ * (e.g. only past seasons) — `get` returns undefined on miss or for
+ * non-cacheable years, and `set` may no-op. This interface keeps the
+ * orchestration layer runtime-agnostic; the CLI provides a Node fs
+ * implementation.
+ */
+export interface SeasonDataCache {
+  get(year: number): SeasonData | undefined;
+  set(year: number, data: SeasonData): void;
+}
+
+/** Fetch matches, lineups, and stats for one season from the database. */
+async function fetchSeasonData(db: D1Database, seasonId: number): Promise<SeasonData> {
+  const matches = await fetchMatchesForSeasons(db, [seasonId]);
+  const matchIds = matches.map((m) => m.id);
+  const [lineups, stats] = await Promise.all([
+    fetchLineupsForMatches(db, matchIds),
+    fetchPlayerStatsForMatches(db, matchIds),
+  ]);
+  return { matches, lineups, stats };
+}
+
 /**
  * Fetch all data needed for a harness run.
  *
  * Shared by backtest, predict, and calibrate endpoints to avoid
  * duplicating the data-fetching and HarnessData assembly logic.
+ *
+ * Seasons are fetched independently (in parallel), so each season can be
+ * served from the optional cache. Concatenating per-season results in
+ * ascending season_id order preserves the walk-forward sort invariant
+ * (each season's matches are already ordered by date, time, id).
  */
 export async function fetchHarnessData(
   db: D1Database,
   seasonYears: number[],
   priorYears: number[],
   competition: CompetitionCode,
+  cache?: SeasonDataCache,
 ): Promise<FetchedData> {
   const seasons = await fetchSeasons(db, seasonYears, competition);
   const seasonIdToYear = new Map(seasons.map((s) => [s.id, s.year]));
   const seasonYearToId = new Map(seasons.map((s) => [s.year, s.id]));
 
-  const allSeasonIds = seasons.map((s) => s.id);
-  const matches = await fetchMatchesForSeasons(db, allSeasonIds);
-  const matchIds = matches.map((m) => m.id);
-  const [lineups, stats] = await Promise.all([
-    fetchLineupsForMatches(db, matchIds),
-    fetchPlayerStatsForMatches(db, matchIds),
-  ]);
+  const orderedSeasons = [...seasons].sort((a, b) => a.id - b.id);
+  const perSeason = await Promise.all(
+    orderedSeasons.map(async (season) => {
+      const cached = cache?.get(season.year);
+      if (cached) return cached;
+      const data = await fetchSeasonData(db, season.id);
+      cache?.set(season.year, data);
+      return data;
+    }),
+  );
+
+  const matches = perSeason.flatMap((d) => d.matches);
+  const lineups = perSeason.flatMap((d) => d.lineups);
+  const stats = perSeason.flatMap((d) => d.stats);
 
   const priorPavBySeason = new Map<number, PlayerSeasonPavRow[]>();
   const priorEntries = priorYears
@@ -105,12 +157,17 @@ export async function fetchHarnessData(
   return { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate };
 }
 
-export async function runBacktest(db: D1Database, config: Config, competition: CompetitionCode) {
+export async function runBacktest(
+  db: D1Database,
+  config: Config,
+  competition: CompetitionCode,
+  cache?: SeasonDataCache,
+) {
   const allSeasonYears = [...config.backtest.train_seasons, ...config.backtest.test_seasons];
   const priorYears = config.backtest.test_seasons.map((y) => y - 1);
 
   const { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate } =
-    await fetchHarnessData(db, allSeasonYears, priorYears, competition);
+    await fetchHarnessData(db, allSeasonYears, priorYears, competition, cache);
 
   const trainSeasonIds = resolveSeasonIds(config.backtest.train_seasons, seasonYearToId);
   const testSeasonIds = resolveSeasonIds(config.backtest.test_seasons, seasonYearToId);
@@ -171,6 +228,7 @@ export async function runPrediction(
   season: number,
   roundNumber: number,
   competition: CompetitionCode,
+  cache?: SeasonDataCache,
 ) {
   const allYears = [...new Set([...config.backtest.train_seasons, season, season - 1])];
   const priorYears = [season - 1];
@@ -180,6 +238,7 @@ export async function runPrediction(
     allYears,
     priorYears,
     competition,
+    cache,
   );
 
   const targetSeasonId = seasonYearToId.get(season);
@@ -196,7 +255,12 @@ export async function runPrediction(
   };
 }
 
-export async function runCalibration(db: D1Database, config: Config, competition: CompetitionCode) {
+export async function runCalibration(
+  db: D1Database,
+  config: Config,
+  competition: CompetitionCode,
+  cache?: SeasonDataCache,
+) {
   // Fit the slope on TRAIN seasons only (COR-08). It was previously fitted
   // on the test seasons and then evaluated on those same seasons, so the
   // promoted slope made headline test metrics optimistically biased. The
@@ -210,6 +274,7 @@ export async function runCalibration(db: D1Database, config: Config, competition
     allSeasonYears,
     priorYears,
     competition,
+    cache,
   );
 
   const fitSeasonIds = resolveSeasonIds(config.backtest.train_seasons, seasonYearToId);
@@ -288,6 +353,7 @@ export async function runCompare(
   competition: CompetitionCode,
   nBootstrap?: number,
   seed?: number,
+  cache?: SeasonDataCache,
 ) {
   const seasonsA = configA.backtest.test_seasons;
   const seasonsB = configB.backtest.test_seasons;
@@ -317,6 +383,7 @@ export async function runCompare(
     allSeasonYears,
     priorYears,
     competition,
+    cache,
   );
 
   const resultA = runHarness(

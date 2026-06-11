@@ -22,6 +22,25 @@ import type {
 } from "./types.js";
 
 /**
+ * Run a chunked IN-clause query in parallel.
+ *
+ * D1 has a bind limit of ~100, so large IN clauses are batched in chunks
+ * of 80. The chunks are independent (no ordering requirement on the
+ * combined result), so they're fetched concurrently.
+ */
+async function fetchChunked<T>(
+  ids: number[],
+  fetchChunk: (chunk: number[]) => Promise<T[]>,
+): Promise<T[]> {
+  const chunks: number[][] = [];
+  for (let i = 0; i < ids.length; i += 80) {
+    chunks.push(ids.slice(i, i + 80));
+  }
+  const results = await Promise.all(chunks.map(fetchChunk));
+  return results.flat();
+}
+
+/**
  * Fetch season rows for the given years, scoped to a single competition.
  *
  * The afl-stats DB is multi-competition (AFLM/AFLW/VFL/VFLW); the same year
@@ -107,12 +126,7 @@ export async function fetchLineupsForMatches(
   db: D1Database,
   matchIds: number[],
 ): Promise<MatchLineupRow[]> {
-  if (matchIds.length === 0) return [];
-
-  // D1 has a bind limit of ~100; batch into chunks of 80
-  const results: MatchLineupRow[] = [];
-  for (let i = 0; i < matchIds.length; i += 80) {
-    const chunk = matchIds.slice(i, i + 80);
+  return fetchChunked(matchIds, async (chunk) => {
     const placeholders = chunk.map(() => "?").join(", ");
     const sql = `
       SELECT id, match_id, player_id, team_id, guernsey_number,
@@ -124,9 +138,8 @@ export async function fetchLineupsForMatches(
       .prepare(sql)
       .bind(...chunk)
       .all<MatchLineupRow>();
-    results.push(...result.results);
-  }
-  return results;
+    return result.results;
+  });
 }
 
 /**
@@ -140,11 +153,7 @@ export async function fetchPlayerStatsForMatches(
   db: D1Database,
   matchIds: number[],
 ): Promise<PlayerMatchStatsRow[]> {
-  if (matchIds.length === 0) return [];
-
-  const results: PlayerMatchStatsRow[] = [];
-  for (let i = 0; i < matchIds.length; i += 80) {
-    const chunk = matchIds.slice(i, i + 80);
+  return fetchChunked(matchIds, async (chunk) => {
     const placeholders = chunk.map(() => "?").join(", ");
     const sql = `
       SELECT id, match_id, player_id, team_id,
@@ -162,9 +171,8 @@ export async function fetchPlayerStatsForMatches(
       .prepare(sql)
       .bind(...chunk)
       .all<PlayerMatchStatsRow>();
-    results.push(...result.results);
-  }
-  return results;
+    return result.results;
+  });
 }
 
 /**
@@ -192,20 +200,15 @@ export async function fetchPriorSeasonPav(
 
 /** Fetch player names for display. */
 export async function fetchPlayers(db: D1Database, playerIds: number[]): Promise<PlayerRow[]> {
-  if (playerIds.length === 0) return [];
-
-  const results: PlayerRow[] = [];
-  for (let i = 0; i < playerIds.length; i += 80) {
-    const chunk = playerIds.slice(i, i + 80);
+  return fetchChunked(playerIds, async (chunk) => {
     const placeholders = chunk.map(() => "?").join(", ");
     const sql = `SELECT id, first_name, surname FROM players WHERE id IN (${placeholders})`;
     const result = await db
       .prepare(sql)
       .bind(...chunk)
       .all<PlayerRow>();
-    results.push(...result.results);
-  }
-  return results;
+    return result.results;
+  });
 }
 
 /**
