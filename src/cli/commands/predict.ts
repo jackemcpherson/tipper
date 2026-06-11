@@ -3,11 +3,13 @@ import { computeConfigHash, shortHash } from "../../config/hash.js";
 import { loadConfig, loadCurrentPointer } from "../../config/store.js";
 import type { CompetitionCode } from "../../data/types.js";
 import { runPrediction } from "../../orchestration.js";
+import { resolveSeasonDataCache } from "../cache.js";
 import { getDatabase } from "../db.js";
 import {
   compOption,
   configOption,
   jsonOption,
+  noCacheOption,
   roundOption,
   seasonOption,
   teamOption,
@@ -23,6 +25,7 @@ export const predictCommand = new Command("predict")
   .addOption(teamOption)
   .addOption(configOption)
   .addOption(jsonOption)
+  .addOption(noCacheOption)
   .action(
     async (opts: {
       season?: number[];
@@ -31,6 +34,7 @@ export const predictCommand = new Command("predict")
       team?: string;
       config?: string;
       json: boolean;
+      cache: boolean;
     }) => {
       if (!opts.season || opts.season.length !== 1) {
         console.error("Error: predict requires exactly one --season value.");
@@ -64,7 +68,15 @@ export const predictCommand = new Command("predict")
       };
 
       const db = getDatabase();
-      const result = await runPrediction(db, predictConfig, targetYear, opts.round, opts.comp);
+      const cache = resolveSeasonDataCache(opts.comp, opts.cache);
+      const result = await runPrediction(
+        db,
+        predictConfig,
+        targetYear,
+        opts.round,
+        opts.comp,
+        cache,
+      );
 
       let predictions = result.predictions;
       if (opts.team) {

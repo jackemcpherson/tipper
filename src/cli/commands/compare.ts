@@ -2,8 +2,9 @@ import { Command, Option } from "commander";
 import { loadConfig } from "../../config/store.js";
 import type { CompetitionCode } from "../../data/types.js";
 import { runCompare } from "../../orchestration.js";
+import { resolveSeasonDataCache } from "../cache.js";
 import { getDatabase } from "../db.js";
-import { compOption, jsonOption } from "../flags.js";
+import { compOption, jsonOption, noCacheOption } from "../flags.js";
 
 const configAOption = new Option(
   "-a, --config-a <id>",
@@ -20,8 +21,15 @@ export const compareCommand = new Command("compare")
   .addOption(configBOption)
   .addOption(compOption)
   .addOption(jsonOption)
+  .addOption(noCacheOption)
   .action(
-    async (opts: { configA: string; configB: string; comp: CompetitionCode; json: boolean }) => {
+    async (opts: {
+      configA: string;
+      configB: string;
+      comp: CompetitionCode;
+      json: boolean;
+      cache: boolean;
+    }) => {
       const configA = loadConfig(opts.configA);
       const configB = loadConfig(opts.configB);
 
@@ -29,7 +37,8 @@ export const compareCommand = new Command("compare")
       console.log(`Test seasons: ${configA.backtest.test_seasons.join(", ")}`);
 
       const db = getDatabase();
-      const result = await runCompare(db, configA, configB, opts.comp);
+      const cache = resolveSeasonDataCache(opts.comp, opts.cache);
+      const result = await runCompare(db, configA, configB, opts.comp, undefined, undefined, cache);
 
       if (opts.json) {
         console.log(JSON.stringify(result, null, 2));

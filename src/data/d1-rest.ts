@@ -13,22 +13,61 @@ interface D1RestResponse {
   errors: Array<{ message: string }>;
 }
 
+export interface D1RestClientOptions {
+  /** Total attempts for a query that keeps returning HTTP 429 (default 3). */
+  maxAttempts?: number;
+  /** Base backoff delay in ms when no Retry-After header is present (default 500). */
+  retryBaseDelayMs?: number;
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export function createD1RestClient(
   accountId: string,
   databaseId: string,
   apiToken: string,
+  options: D1RestClientOptions = {},
 ): D1Database {
   const baseUrl = `https://api.cloudflare.com/client/v4/accounts/${accountId}/d1/database/${databaseId}/query`;
+  const maxAttempts = options.maxAttempts ?? 3;
+  const retryBaseDelayMs = options.retryBaseDelayMs ?? 500;
+
+  /**
+   * POST the query, retrying on HTTP 429 (Cloudflare rate limit).
+   *
+   * Honours the Retry-After header when present; otherwise exponential
+   * backoff with jitter. Gives up after maxAttempts and returns the
+   * final 429 response for normal error handling.
+   */
+  async function fetchWithRetry(body: string): Promise<Response> {
+    for (let attempt = 1; ; attempt++) {
+      const response = await fetch(baseUrl, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiToken}`,
+          "Content-Type": "application/json",
+        },
+        body,
+      });
+
+      if (response.status !== 429 || attempt >= maxAttempts) {
+        return response;
+      }
+
+      const retryAfterHeader = response.headers.get("Retry-After");
+      const retryAfterSec = retryAfterHeader === null ? Number.NaN : Number(retryAfterHeader);
+      const delayMs =
+        Number.isFinite(retryAfterSec) && retryAfterSec >= 0
+          ? retryAfterSec * 1000
+          : retryBaseDelayMs * 2 ** (attempt - 1) * (1 + Math.random());
+      await sleep(delayMs);
+    }
+  }
 
   async function execute<T>(sql: string, params: unknown[]): Promise<{ results: T[] }> {
-    const response = await fetch(baseUrl, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ sql, params }),
-    });
+    const response = await fetchWithRetry(JSON.stringify({ sql, params }));
 
     if (!response.ok) {
       const text = await response.text();

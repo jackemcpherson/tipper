@@ -22,6 +22,11 @@ export const configOption = new Option("-c, --config <id>", "Config ID override"
 
 export const jsonOption = new Option("-j, --json", "Output as JSON").default(false);
 
+export const noCacheOption = new Option(
+  "--no-cache",
+  "Bypass the local season-data cache (~/.cache/tipper); TIPPER_NO_CACHE=1 also disables it",
+);
+
 export const reasonOption = new Option("--reason <reason>", "Promotion reason (required)");
 
 function parseSeasons(value: string): number[] {

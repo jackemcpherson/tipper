@@ -42,6 +42,13 @@ tipper config create new-config --from pavfix-blend-w06
 tipper config diff config-a config-b
 ```
 
+### Caching
+
+Historical season data (matches, lineups, player stats) is cached under
+`~/.cache/tipper/` after the first fetch. Past seasons are append-only, so
+the cache never goes stale; the current season is always fetched live.
+Pass `--no-cache` (or set `TIPPER_NO_CACHE=1`) to bypass it.
+
 ## Development
 
 ```bash
