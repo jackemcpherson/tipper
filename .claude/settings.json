@@ -20,9 +20,21 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd /Users/jackmcpherson/Projects/tipper && bunx @biomejs/biome check . 2>&1 && bun run typecheck 2>&1 || { echo '{\"decision\":\"block\",\"reason\":\"Biome check or typecheck failed. Fix errors before committing.\"}'; exit 0; }",
+            "command": "cd /Users/jackmcpherson/Projects/tipper && bun run typecheck 2>&1 && bun run check 2>&1 || { echo '{\"decision\":\"block\",\"reason\":\"Typecheck or lint errors. Fix before committing.\"}'; exit 0; }",
             "timeout": 60,
-            "statusMessage": "Running pre-commit checks (biome + typecheck)..."
+            "statusMessage": "Running pre-commit checks (typecheck + biome)..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/jackmcpherson/Projects/tipper && bun run typecheck 2>&1 && bun run check 2>&1 || echo '{\"systemMessage\":\"Warning: typecheck or lint errors remain.\"}'",
+            "timeout": 60,
+            "statusMessage": "Running final quality check..."
           }
         ]
       }
