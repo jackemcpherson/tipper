@@ -1,5 +1,36 @@
 # Changelog
 
+## [3.3.0] - 2026-06-12
+
+### Model: v4 promoted (`v4-shotoff`)
+
+Two combined mechanisms, each individually sub-bar but nearly additive
+(tasks 28 and 31):
+
+- **Scoring-shot Elo updates** (`elo.shot_margin_weight: 1.0`) — the Elo
+  update margin is the scoring-shot-implied margin (shots × 3.64 league
+  pts/shot), removing conversion luck from the update signal
+- **Walk-forward team offsets** (`output.team_offset: {k: 32,
+  season_carry: 0.5}`) — a heavily-shrunk per-team performance-vs-rating
+  estimate learned from prediction residuals, applied at prediction time
+  (the Task 24 cellar-dweller tail bias, e.g. West Coast −16.7 pts/match)
+
+Results: 2021–2025 LogLoss 0.8409 (−0.0075 vs v3), 2016–2019 confirmatory
+window 0.8454 (−0.0100), era-stratified pooled bootstrap CI [−0.0144,
+−0.0026] excludes zero (Brier CI too), 2026 gate flat (+0.0003, n=115).
+First promotion under the two-window evaluation procedure.
+
+### Methodology
+
+- Scored window expanded to 1,890 matches: 2016–2019 added as a mandatory
+  confirmatory window (`predha80-early`); 2020 stays train-only
+- `bootstrapCompareStratified` in `metrics.ts` — era-stratified pooled
+  paired bootstrap, now the headline significance test
+- Five further directions resolved negative with documented evidence:
+  convex margin maps (task 24), rest/travel differentials (task 26),
+  round-phase blend schedules (task 27), rating_points as a second player
+  signal (task 29), age-curve priors (blocked on DOB coverage, task 30)
+
 ## [3.2.0] - 2026-06-12
 
 ### Model: v3 promoted (`predha-080`)

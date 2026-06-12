@@ -67,6 +67,16 @@ export const ConfigSchema = z.object({
     // without this the predicted margin contains no home advantage at all.
     // Optional (not defaulted) to keep existing config hashes stable.
     prediction_home_advantage: z.number().optional(),
+    // Walk-forward per-team performance offsets (margin points) applied at
+    // prediction time and learned from residuals: offset = sum/(n+k), shrunk
+    // toward 0; evidence decays by season_carry at each season boundary.
+    // Optional (not defaulted) to keep existing config hashes stable.
+    team_offset: z
+      .object({
+        k: z.number().positive(),
+        season_carry: z.number().min(0).max(1),
+      })
+      .optional(),
   }),
 
   backtest: z.object({

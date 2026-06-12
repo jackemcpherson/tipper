@@ -1,6 +1,6 @@
 {
-  "config_id": "predha-080",
-  "promoted_at": "2026-06-12T00:42:27.296Z",
-  "promoted_from": "pavfix-blend-w06",
-  "promotion_reason": "Task 20: prediction-side home advantage (80 rating pts = 5.6 margin pts, the measured home bias). LogLoss 0.8485 (-0.0128 vs v2), bootstrap CI excludes zero on LogLoss and Brier, 2026 OOS improves -0.0406. Largest single improvement to date."
+  "config_id": "v4-shotoff",
+  "promoted_at": "2026-06-12T03:15:20.641Z",
+  "promoted_from": "predha-080",
+  "promotion_reason": "Task 31 (v4): scoring-shot Elo (w=1.0) + walk-forward team offsets (k=32, carry=0.5). Primary dLL -0.0075 (bar 0.005), early window -0.0100, pooled stratified bootstrap CI [-0.0144, -0.0026] excludes zero (Brier CI also excludes zero), 2026 gate flat (dLL +0.0003, CI +/-0.02). First promotion under the Task 25 two-window procedure."
 }
