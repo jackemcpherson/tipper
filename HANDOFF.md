@@ -40,6 +40,13 @@ rankings were by our own computed LogLoss, not the comp's scoring). Implications
 
 ## Open items, in priority order
 
+0. **Task 33 — missed-tip pattern analysis with field triangulation** (planned by Jack,
+   full plan in `docs/task-33-plan-missed-tip-analysis.md`): tag v3's wrong tips
+   2023–2026, split consensus misses from tipper-specific misses using the Squiggle
+   field, profile the sources that repeatedly beat us on the latter, cluster with a
+   ≥2-season replication gate, and graduate clusters into pre-registered candidates
+   scored on the close-game band + tips bar. Pre-registered kill condition included.
+   This is the designated next iteration.
 1. **A3 weekly comp monitoring** (method established in Task 32, `/tmp/sq_rank_multi.py`
    pattern): score v3 — and v4 as a shadow — against the Squiggle field on tips weekly
    for the rest of 2026, plus close-game (|pred margin| < 12) sign accuracy. v3 is
