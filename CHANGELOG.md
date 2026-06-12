@@ -1,5 +1,42 @@
 # Changelog
 
+## [3.2.0] - 2026-06-12
+
+### Model: v3 promoted (`predha-080`)
+
+Predictions previously contained no home advantage at all —
+`elo.home_advantage` only shaped Elo update sizes, leaving a systematic
++5.6 pt bias against home teams. New `output.prediction_home_advantage`
+(80 rating points) corrects it:
+
+- 2021–2025: LogLoss 0.8485 (−0.0128 vs v2), tips 68.1%, MAE 26.31
+- 2026 out-of-sample (115 matches): LogLoss 0.7925 (−0.0405 vs v2,
+  bootstrap CI excludes zero), tips 73.7%
+
+See `docs/task-20-prediction-home-advantage.md`. Two further experiments
+were run and rejected with documented evidence: opponent-adjusted PAV
+(task 19) and per-zone blend slopes (task 21). Their engine support
+remains behind optional config fields that are inert when unset.
+
+### Harness fixes
+
+- **Warm-up gap**: `backtest -s`, `predict`, and `compare` now warm up
+  over seasons between the train window and the target — previously a
+  2026 run jumped from 2020 Elo state straight to 2026 (live `predict`
+  was affected too)
+- Results filenames include the short config hash so scope-overridden
+  runs can't overwrite same-day promotion-valid results
+- Promotion guardrail accepts any results file matching the current
+  config hash, not just the lexically-latest file
+- Stale wrangler OAuth tokens are skipped during credential resolution
+
+### CLI improvements
+
+- `compare -s <seasons>` — score a comparison on an overridden window
+  (e.g. `tipper compare -a predha-080 -b pavfix-blend-w06 -s 2026`)
+- Backtest results now include per-zone PAV sums per match
+  (`homePavZones`/`awayPavZones`) for diagnostics
+
 ## [3.1.0] - 2026-05-01
 
 ### CLI improvements

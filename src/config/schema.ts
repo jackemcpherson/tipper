@@ -29,6 +29,10 @@ export const ConfigSchema = z.object({
     prior_weight_k: z.number().nonnegative(),
     prior_source: z.enum(["previous_season_final"]),
     missing_player_default: z.number(),
+    // Optional (not defaulted): the hash covers the parsed config, so a
+    // .default() here would change every existing config's hash and
+    // invalidate their results files. Absent means 0 (off).
+    opponent_adjustment_alpha: z.number().min(0).optional(),
     include: z.enum([
       "named_lineup_excl_emerg",
       "named_lineup_incl_emerg",
@@ -40,12 +44,20 @@ export const ConfigSchema = z.object({
   blend: z.object({
     weight_elo: z.number().min(0).max(1),
     pav_calibration_slope: z.number(),
+    // Optional per-zone slopes replace pav_calibration_slope when present.
+    // Optional (not defaulted) to keep existing config hashes stable.
+    pav_zone_slopes: z.object({ off: z.number(), mid: z.number(), def: z.number() }).optional(),
     where: z.literal("team_rating"),
   }),
 
   output: z.object({
     margin_per_rating_point: z.number(),
     sigma: z.number().positive(),
+    // Rating points added to the home side at prediction time. Distinct from
+    // elo.home_advantage, which only shapes the update's expected result —
+    // without this the predicted margin contains no home advantage at all.
+    // Optional (not defaulted) to keep existing config hashes stable.
+    prediction_home_advantage: z.number().optional(),
   }),
 
   backtest: z.object({

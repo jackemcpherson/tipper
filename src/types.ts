@@ -21,6 +21,8 @@ export interface MatchPrediction {
   readonly awayElo: number;
   readonly homePavTotal: number;
   readonly awayPavTotal: number;
+  readonly homePavZones: { readonly off: number; readonly mid: number; readonly def: number };
+  readonly awayPavZones: { readonly off: number; readonly mid: number; readonly def: number };
 
   readonly predictedMargin: number;
   readonly predictedWinner: "home" | "away";

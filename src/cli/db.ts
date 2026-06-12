@@ -41,15 +41,26 @@ function wranglerConfigCandidates(): string[] {
 }
 
 function readWranglerToken(): string | undefined {
+  // Multiple config locations can coexist (e.g. an abandoned macOS
+  // Library/Preferences file alongside an actively-refreshed ~/.wrangler),
+  // so pick the unexpired token with the latest expiration rather than the
+  // first file found.
+  let best: { token: string; expiresAt: number } | undefined;
   for (const configPath of wranglerConfigCandidates()) {
     if (!existsSync(configPath)) continue;
     const content = readFileSync(configPath, "utf-8");
     // Tolerate leading whitespace and trailing content (e.g. comments) —
     // newer wrangler versions format the TOML differently to v1.
-    const match = /^\s*oauth_token\s*=\s*"([^"]+)"/m.exec(content);
-    if (match?.[1]) return match[1];
+    const tokenMatch = /^\s*oauth_token\s*=\s*"([^"]+)"/m.exec(content);
+    if (!tokenMatch?.[1]) continue;
+    const expiryMatch = /^\s*expiration_time\s*=\s*"([^"]+)"/m.exec(content);
+    const expiresAt = expiryMatch?.[1] ? Date.parse(expiryMatch[1]) : Number.POSITIVE_INFINITY;
+    if (Number.isNaN(expiresAt) || expiresAt <= Date.now()) continue;
+    if (!best || expiresAt > best.expiresAt) {
+      best = { token: tokenMatch[1], expiresAt };
+    }
   }
-  return undefined;
+  return best?.token;
 }
 
 export function getDatabase(): D1Database {

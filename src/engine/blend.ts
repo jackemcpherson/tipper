@@ -9,21 +9,37 @@
 
 import type { Config } from "../config/schema.js";
 
+/** Per-zone PAV sums for a team's lineup. */
+export interface TeamPavSums {
+  off: number;
+  mid: number;
+  def: number;
+  total: number;
+}
+
 /**
  * Compute the blended team rating.
  *
- * team_rating = weight_elo × elo + (1 - weight_elo) × (pav_calibration_slope × summed_pav)
+ * team_rating = weight_elo × elo + (1 - weight_elo) × calibrated_pav
+ *
+ * calibrated_pav is pav_calibration_slope × total PAV, or — when
+ * blend.pav_zone_slopes is set — a per-zone weighted sum
+ * (s_off×off + s_mid×mid + s_def×def). Equal per-zone slopes reproduce
+ * the global slope exactly.
  *
  * @param elo - Team's current Elo rating.
- * @param summedPav - Sum of total PAV for all players in the team's lineup.
+ * @param pav - Per-zone PAV sums for the team's lineup.
  * @param blendConfig - Blend section of the config.
  * @returns Blended team rating.
  */
 export function computeTeamRating(
   elo: number,
-  summedPav: number,
+  pav: TeamPavSums,
   blendConfig: Config["blend"],
 ): number {
-  const pavCalibrated = blendConfig.pav_calibration_slope * summedPav;
+  const slopes = blendConfig.pav_zone_slopes;
+  const pavCalibrated = slopes
+    ? slopes.off * pav.off + slopes.mid * pav.mid + slopes.def * pav.def
+    : blendConfig.pav_calibration_slope * pav.total;
   return blendConfig.weight_elo * elo + (1 - blendConfig.weight_elo) * pavCalibrated;
 }

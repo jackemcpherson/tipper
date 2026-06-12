@@ -143,6 +143,7 @@ describe("computeTeamStrength", () => {
       pointsConceded: 80,
       insideFiftiesConceded: 50,
       gamesPlayed: 1,
+      oppQualitySum: 0,
     };
     // league avg = 80/50 = 1.6
     const strength = computeTeamStrength(teamStats, 1.6);
@@ -158,11 +159,69 @@ describe("computeTeamStrength", () => {
       pointsConceded: 0,
       insideFiftiesConceded: 0,
       gamesPlayed: 0,
+      oppQualitySum: 0,
     };
     const strength = computeTeamStrength(teamStats, 1.6);
     expect(strength.offence).toBe(1);
     expect(strength.midfield).toBe(1);
     expect(strength.defence).toBe(1);
+  });
+});
+
+describe("opponent adjustment", () => {
+  const statsFixture = (): PlayerMatchStatsRow[] => [
+    makePlayerStats({ player_id: 1, team_id: 100, inside_fifties: 5, goals: 2 }),
+    makePlayerStats({ player_id: 2, team_id: 100, inside_fifties: 3, goals: 1 }),
+    makePlayerStats({ player_id: 3, team_id: 200, inside_fifties: 4, goals: 1 }),
+    makePlayerStats({ player_id: 4, team_id: 200, inside_fifties: 3, goals: 2 }),
+  ];
+
+  it("alpha=0 (default) ignores recorded opponent quality entirely", () => {
+    const plain = createPavSeasonState(18);
+    const withQuality = createPavSeasonState(18);
+    updatePavState(plain, makeMatch(), statsFixture());
+    updatePavState(withQuality, makeMatch(), statsFixture(), { home: 0.5, away: -0.5 });
+
+    const a = computePlayerPav(plain, 1, 100);
+    const b = computePlayerPav(withQuality, 1, 100);
+    expect(b.offPav).toBeCloseTo(a.offPav, 10);
+    expect(b.midPav).toBeCloseTo(a.midPav, 10);
+    expect(b.defPav).toBeCloseTo(a.defPav, 10);
+    expect(b.totalPav).toBeCloseTo(a.totalPav, 10);
+  });
+
+  it("scales pools by 1 + alpha × avg opponent quality", () => {
+    const state = createPavSeasonState(18);
+    updatePavState(state, makeMatch(), statsFixture(), { home: 0.5, away: -0.5 });
+
+    const base = computePlayerPav(state, 1, 100);
+    const adjusted = computePlayerPav(state, 1, 100, 0.5);
+    // home team faced quality +0.5 over 1 game: adj = 1 + 0.5×0.5 = 1.25
+    expect(adjusted.totalPav).toBeCloseTo(base.totalPav * 1.25, 6);
+
+    const awayBase = computePlayerPav(state, 3, 200);
+    const awayAdjusted = computePlayerPav(state, 3, 200, 0.5);
+    // away team faced quality −0.5: adj = 1 − 0.25 = 0.75
+    expect(awayAdjusted.totalPav).toBeCloseTo(awayBase.totalPav * 0.75, 6);
+  });
+
+  it("averages opponent quality across games", () => {
+    const state = createPavSeasonState(18);
+    updatePavState(state, makeMatch({ id: 1 }), statsFixture(), { home: 1.0, away: 0 });
+    updatePavState(state, makeMatch({ id: 2 }), statsFixture(), { home: 0, away: 0 });
+
+    const base = computePlayerPav(state, 1, 100);
+    const adjusted = computePlayerPav(state, 1, 100, 1.0);
+    // avg quality = 0.5 over 2 games: adj = 1 + 1.0×0.5 = 1.5
+    expect(adjusted.totalPav).toBeCloseTo(base.totalPav * 1.5, 6);
+  });
+
+  it("clamps the adjustment at zero instead of going negative", () => {
+    const state = createPavSeasonState(18);
+    updatePavState(state, makeMatch(), statsFixture(), { home: -3, away: 3 });
+
+    const adjusted = computePlayerPav(state, 1, 100, 1.0);
+    expect(adjusted.totalPav).toBe(0);
   });
 });
 
