@@ -19,6 +19,19 @@ for the evaluation procedure.
 4. **The 2026 gate was burned 2026-06-12** for the v4 decision (came back flat). The OOS
    gate for future candidates is 2026 R14 onward (and 2027 once it exists).
 
+## Product goal (stated by Jack 2026-06-12)
+
+**Enter Squiggle's model comp next year (2027). The comp is scored on TIPS** — not bits,
+not MAE (a prior session note claiming otherwise was wrong; our T9/T18 "1st of 29"
+rankings were by our own computed LogLoss, not the comp's scoring). Implications:
+- LogLoss stays the *selection* metric (tip% is too low-powered to select on — T11), but
+  report every candidate's pooled tip delta alongside, and treat a tip regression on the
+  scored windows as a red flag even when LogLoss improves.
+- The comp is decided in close games: track sign-accuracy in the |predicted margin| < 12
+  band vs the Squiggle field (add to A3 weekly monitoring).
+- Probability-head work (sigma, clamps, calibration) is irrelevant to the comp score —
+  deprioritize unless it moves margin sign.
+
 ## Open items, in priority order
 
 1. **Re-run the per-team residual diagnostic on v4 records** (Task 24 method, offline).
