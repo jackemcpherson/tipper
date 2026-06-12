@@ -27,6 +27,10 @@ export const ConfigSchema = z.object({
     // (regress to 1500). Optional (not defaulted): the hash covers the parsed
     // config, so a .default() would invalidate every existing config's hash.
     regression_pav_target_weight: z.number().min(0).max(1).optional(),
+    // Weight of the scoring-shot (luck-adjusted) margin in the Elo update:
+    // margin = (1−w)×actual + w×(shot_diff × league pts/shot). Absent means 0
+    // (actual margin only). Optional (not defaulted) to keep hashes stable.
+    shot_margin_weight: z.number().min(0).max(1).optional(),
   }),
 
   pav: z.object({

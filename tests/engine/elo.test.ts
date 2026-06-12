@@ -6,9 +6,11 @@ import {
   computeContextualK,
   computeExpected,
   computeMovMultiplier,
+  computeUpdateMargin,
   type EloHistory,
   type EloState,
   getRating,
+  LEAGUE_POINTS_PER_SHOT,
   resolveHomeAdvantage,
   updateElo,
 } from "../../src/engine/elo.js";
@@ -231,6 +233,98 @@ describe("updateElo", () => {
 
     const result = updateElo(state, match, config);
     expect(result.movMultiplier).toBe(1.0);
+  });
+});
+
+describe("computeUpdateMargin", () => {
+  it("returns the actual margin when shot_margin_weight is absent", () => {
+    const match = makeMatch({ home_points: 68, away_points: 54 });
+    expect(computeUpdateMargin(match, DEFAULT_ELO_CONFIG)).toBe(14);
+  });
+
+  it("returns the pure shot margin at weight 1", () => {
+    // home 18 shots, away 14 shots → diff 4
+    const match = makeMatch({
+      home_goals: 10,
+      home_behinds: 8,
+      home_points: 68,
+      away_goals: 8,
+      away_behinds: 6,
+      away_points: 54,
+    });
+    const config = { ...DEFAULT_ELO_CONFIG, shot_margin_weight: 1 };
+    expect(computeUpdateMargin(match, config)).toBeCloseTo(4 * LEAGUE_POINTS_PER_SHOT, 10);
+  });
+
+  it("blends actual and shot margins at intermediate weights", () => {
+    const match = makeMatch({
+      home_goals: 10,
+      home_behinds: 8,
+      home_points: 68,
+      away_goals: 8,
+      away_behinds: 6,
+      away_points: 54,
+    });
+    const config = { ...DEFAULT_ELO_CONFIG, shot_margin_weight: 0.5 };
+    expect(computeUpdateMargin(match, config)).toBeCloseTo(
+      0.5 * 14 + 0.5 * 4 * LEAGUE_POINTS_PER_SHOT,
+      10,
+    );
+  });
+
+  it("can flip the sign for a team that out-shoots but loses", () => {
+    // Home: 10.2 (62), away: 6.18 (54). Home wins by 8 but is out-shot 12 to 24.
+    const match = makeMatch({
+      home_goals: 10,
+      home_behinds: 2,
+      home_points: 62,
+      away_goals: 6,
+      away_behinds: 18,
+      away_points: 54,
+    });
+    const config = { ...DEFAULT_ELO_CONFIG, shot_margin_weight: 1 };
+    expect(computeUpdateMargin(match, config)).toBeLessThan(0);
+  });
+
+  it("falls back to the actual margin when shot counts are missing", () => {
+    const match = makeMatch({ home_goals: null, home_behinds: null });
+    const config = { ...DEFAULT_ELO_CONFIG, shot_margin_weight: 0.5 };
+    expect(computeUpdateMargin(match, config)).toBe(14);
+  });
+});
+
+describe("updateElo with shot_margin_weight", () => {
+  it("is bit-identical to baseline when the field is absent", () => {
+    const stateA: EloState = new Map([
+      [100, 1530],
+      [200, 1470],
+    ]);
+    const stateB: EloState = new Map(stateA);
+    const match = makeMatch({ home_points: 80, away_points: 60 });
+
+    const a = updateElo(stateA, match, DEFAULT_ELO_CONFIG);
+    const b = updateElo(stateB, match, { ...DEFAULT_ELO_CONFIG, shot_margin_weight: 0 });
+
+    expect(b.homeNewRating).toBe(a.homeNewRating);
+    expect(b.awayNewRating).toBe(a.awayNewRating);
+  });
+
+  it("rewards the out-shooting loser at weight 1", () => {
+    const state: EloState = new Map();
+    // Home wins by 8 on the scoreboard but is out-shot 12 to 24.
+    const match = makeMatch({
+      home_goals: 10,
+      home_behinds: 2,
+      home_points: 62,
+      away_goals: 6,
+      away_behinds: 18,
+      away_points: 54,
+    });
+
+    const result = updateElo(state, match, { ...DEFAULT_ELO_CONFIG, shot_margin_weight: 1 });
+
+    expect(result.homeNewRating).toBeLessThan(1500);
+    expect(result.awayNewRating).toBeGreaterThan(1500);
   });
 });
 

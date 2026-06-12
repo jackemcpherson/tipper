@@ -113,6 +113,38 @@ export function resolveHomeAdvantage(eloConfig: Config["elo"], venueId: number):
 }
 
 /**
+ * League-average points per scoring shot, AFLM 2015–2025 (range 3.60–3.67
+ * across all eleven seasons — stable enough for a constant).
+ */
+export const LEAGUE_POINTS_PER_SHOT = 3.64;
+
+/**
+ * Margin used for the Elo update: actual margin blended with the
+ * scoring-shot-implied margin (conversion luck removed) when
+ * shot_margin_weight is set. Falls back to the actual margin when shot
+ * counts are missing. The blended margin drives result sign and MOV
+ * magnitude alike, so a team that out-shoots but loses can gain rating.
+ */
+export function computeUpdateMargin(match: MatchRow, eloConfig: Config["elo"]): number {
+  if (match.home_points === null || match.away_points === null) {
+    throw new Error(`Cannot compute update margin for match ${match.id}: missing scores`);
+  }
+  const actual = match.home_points - match.away_points;
+  const w = eloConfig.shot_margin_weight ?? 0;
+  if (
+    w === 0 ||
+    match.home_goals === null ||
+    match.home_behinds === null ||
+    match.away_goals === null ||
+    match.away_behinds === null
+  ) {
+    return actual;
+  }
+  const shotDiff = match.home_goals + match.home_behinds - (match.away_goals + match.away_behinds);
+  return (1 - w) * actual + w * shotDiff * LEAGUE_POINTS_PER_SHOT;
+}
+
+/**
  * Update Elo state after a completed match.
  *
  * Mutates the state map (and optionally history) in place for efficiency
@@ -140,7 +172,7 @@ export function updateElo(
   const ha = resolveHomeAdvantage(eloConfig, match.venue_id);
   const homeExpected = computeExpected(homeRating, awayRating, ha);
 
-  const margin = match.home_points - match.away_points;
+  const margin = computeUpdateMargin(match, eloConfig);
   const homeActual = margin > 0 ? 1 : margin < 0 ? 0 : 0.5;
 
   // MOV multiplier uses raw Elo diff: winner minus loser
