@@ -1,6 +1,6 @@
 {
-  "config_id": "v4-shotoff",
-  "promoted_at": "2026-06-12T03:15:20.641Z",
-  "promoted_from": "predha-080",
-  "promotion_reason": "Task 31 (v4): scoring-shot Elo (w=1.0) + walk-forward team offsets (k=32, carry=0.5). Primary dLL -0.0075 (bar 0.005), early window -0.0100, pooled stratified bootstrap CI [-0.0144, -0.0026] excludes zero (Brier CI also excludes zero), 2026 gate flat (dLL +0.0003, CI +/-0.02). First promotion under the Task 25 two-window procedure."
+  "config_id": "predha-080",
+  "promoted_at": "2026-06-12T04:51:53.766Z",
+  "promoted_from": "v4-shotoff",
+  "promotion_reason": "Task 32: reverted v4 -> v3 for comp alignment. Squiggle comp scores tips; v4 trails v3 on tips in every recent season (2023-26: 0/-4/-1/-4, -9 cumulative over 763 games) despite better LogLoss/MAE. v3 has comp pedigree (2nd in 2024, 4th in 2026 to date vs v4's 12th-13th). v4 machinery retained inert; re-evaluate at 2026 season end tips-first."
 }

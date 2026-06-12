@@ -1,5 +1,23 @@
 # Changelog
 
+## [3.3.1] - 2026-06-12
+
+### Model: reverted to v3 (`predha-080`)
+
+The product goal is Squiggle's model comp (2027), which is **scored on
+tips**. Re-ranking against the live Squiggle field (task 32) showed v4
+trails v3 on tips in every recent season (2023–2026: 0/−4/−1/−4, −9
+cumulative over 763 games) despite better LogLoss and MAE — v4's margin
+gains are concentrated in already-decided games while close-game sign
+accuracy suffers. v3 placed 2nd (2024) and 4th (2026 to date) on the comp
+metric; v4's best is 12th–13th.
+
+The v4 engine machinery (`shot_margin_weight`, `team_offset`) remains and
+is bit-inert when unset; tips-first re-evaluation at 2026 season end.
+The promotion bar now additionally requires no tip regression vs the
+incumbent on the pooled scored windows (recent-season deltas reported
+separately).
+
 ## [3.3.0] - 2026-06-12
 
 ### Model: v4 promoted (`v4-shotoff`)
