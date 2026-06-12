@@ -27,15 +27,8 @@
     "prediction_home_advantage": 65
   },
   "backtest": {
-    "train_seasons": [
-      2015,
-      2016,
-      2017
-    ],
-    "test_seasons": [
-      2018,
-      2019
-    ],
+    "train_seasons": [2015, 2016, 2017],
+    "test_seasons": [2018, 2019],
     "walk_forward": true
   }
 }
