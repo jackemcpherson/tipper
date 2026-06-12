@@ -17,7 +17,7 @@ import type {
   PlayerSeasonPavRow,
 } from "../data/types.js";
 import type { MatchPrediction } from "../types.js";
-import { computeTeamRating } from "./blend.js";
+import { computeTeamRating, type TeamPavSums } from "./blend.js";
 import { applyRegression, type EloHistory, type EloState, getRating, updateElo } from "./elo.js";
 import {
   computePlayerPav,
@@ -152,13 +152,20 @@ export function runHarness(
 
     // Update state from completed matches
     if (isCompleted) {
+      // Opponent quality uses pre-match ratings — never this match's result
+      const homeEloPre = getRating(eloState, match.home_team_id, config.elo.initial_rating);
+      const awayEloPre = getRating(eloState, match.away_team_id, config.elo.initial_rating);
+
       // Elo always updates (train and test), history tracks for contextual K
       updateElo(eloState, match, config.elo, eloHistory);
 
       // PAV only updates in test seasons (train is Elo-only)
       if (!isTrain) {
         const matchStats = data.statsByMatch.get(match.id) ?? [];
-        updatePavState(pavState, match, matchStats);
+        updatePavState(pavState, match, matchStats, {
+          home: (awayEloPre - config.elo.initial_rating) / 400,
+          away: (homeEloPre - config.elo.initial_rating) / 400,
+        });
       }
     }
   }
@@ -244,9 +251,15 @@ export function runPredict(
         }
       }
 
+      const homeEloPre = getRating(eloState, match.home_team_id, config.elo.initial_rating);
+      const awayEloPre = getRating(eloState, match.away_team_id, config.elo.initial_rating);
+
       updateElo(eloState, match, config.elo, eloHistory);
       const matchStats = data.statsByMatch.get(match.id) ?? [];
-      updatePavState(pavState, match, matchStats);
+      updatePavState(pavState, match, matchStats, {
+        home: (awayEloPre - config.elo.initial_rating) / 400,
+        away: (homeEloPre - config.elo.initial_rating) / 400,
+      });
     }
   }
 
@@ -274,13 +287,15 @@ function generatePrediction(
   const homeGamesPlayed = homeTeamStats?.gamesPlayed ?? 0;
   const awayGamesPlayed = awayTeamStats?.gamesPlayed ?? 0;
 
-  const homePavTotal = sumTeamPav(homeLineup, pavState, priorPavMap, homeGamesPlayed, config);
-  const awayPavTotal = sumTeamPav(awayLineup, pavState, priorPavMap, awayGamesPlayed, config);
+  const homePav = sumTeamPav(homeLineup, pavState, priorPavMap, homeGamesPlayed, config);
+  const awayPav = sumTeamPav(awayLineup, pavState, priorPavMap, awayGamesPlayed, config);
 
-  const homeTeamRating = computeTeamRating(homeElo, homePavTotal, config.blend);
-  const awayTeamRating = computeTeamRating(awayElo, awayPavTotal, config.blend);
+  const homeTeamRating = computeTeamRating(homeElo, homePav, config.blend);
+  const awayTeamRating = computeTeamRating(awayElo, awayPav, config.blend);
 
-  const margin = predictMargin(homeTeamRating, awayTeamRating, config.output);
+  // Home advantage at prediction time, in rating points (0 when unset)
+  const predictionHa = config.output.prediction_home_advantage ?? 0;
+  const margin = predictMargin(homeTeamRating + predictionHa, awayTeamRating, config.output);
   const winProb = computeWinProbability(margin, config.output.sigma);
 
   // Predicted winner from full-precision margin, never from rounded display
@@ -310,8 +325,10 @@ function generatePrediction(
     awayTeamRating,
     homeElo,
     awayElo,
-    homePavTotal,
-    awayPavTotal,
+    homePavTotal: homePav.total,
+    awayPavTotal: awayPav.total,
+    homePavZones: { off: homePav.off, mid: homePav.mid, def: homePav.def },
+    awayPavZones: { off: awayPav.off, mid: awayPav.mid, def: awayPav.def },
     predictedMargin: margin,
     predictedWinner,
     winProbability: winProb,
@@ -352,19 +369,28 @@ function sumTeamPav(
   priorPavMap: PriorPavMap,
   teamGamesPlayed: number,
   config: Config,
-): number {
-  let total = 0;
+): TeamPavSums {
+  let off = 0;
+  let mid = 0;
+  let def = 0;
   for (const player of lineup) {
-    const currentPav = computePlayerPav(pavState, player.player_id, player.team_id);
+    const currentPav = computePlayerPav(
+      pavState,
+      player.player_id,
+      player.team_id,
+      config.pav.opponent_adjustment_alpha ?? 0,
+    );
     const blended = blendWithPrior(
       currentPav,
       priorPavMap.get(player.player_id),
       teamGamesPlayed,
       config.pav,
     );
-    total += blended.totalPav;
+    off += blended.offPav;
+    mid += blended.midPav;
+    def += blended.defPav;
   }
-  return total;
+  return { off, mid, def, total: off + mid + def };
 }
 
 function assertNonDecreasingSeasonIds(matches: MatchRow[]): void {

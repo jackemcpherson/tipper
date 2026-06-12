@@ -1,6 +1,6 @@
 {
-  "config_id": "pavfix-blend-w06",
-  "promoted_at": "2026-04-30T10:30:00.000Z",
-  "promoted_from": "elo-only-tuned-v1b",
-  "promotion_reason": "v2: Corrected PAV blend (Task 15). LogLoss 0.8607 (-0.012 vs v1.5), bootstrap CI excludes zero. First statistically significant improvement."
+  "config_id": "predha-080",
+  "promoted_at": "2026-06-12T00:42:27.296Z",
+  "promoted_from": "pavfix-blend-w06",
+  "promotion_reason": "Task 20: prediction-side home advantage (80 rating pts = 5.6 margin pts, the measured home bias). LogLoss 0.8485 (-0.0128 vs v2), bootstrap CI excludes zero on LogLoss and Brier, 2026 OOS improves -0.0406. Largest single improvement to date."
 }

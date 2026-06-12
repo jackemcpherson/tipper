@@ -26,6 +26,18 @@ export interface TeamSeasonAccumulator {
   pointsConceded: number;
   insideFiftiesConceded: number;
   gamesPlayed: number;
+  /**
+   * Sum of per-match opponent quality deltas (caller-defined units, e.g.
+   * (opp_elo − initial) / 400 from the harness). Drives the schedule-strength
+   * adjustment in computePlayerPav. Stays 0 when no quality is supplied.
+   */
+  oppQualitySum: number;
+}
+
+/** Per-match opponent quality deltas for the two sides, supplied by the caller. */
+export interface OpponentQuality {
+  home: number;
+  away: number;
 }
 
 /** League-wide cumulative averages. */
@@ -112,6 +124,7 @@ function getOrCreateTeamStats(state: PavSeasonState, teamId: number): TeamSeason
       pointsConceded: 0,
       insideFiftiesConceded: 0,
       gamesPlayed: 0,
+      oppQualitySum: 0,
     };
     state.teamStats.set(teamId, stats);
   }
@@ -258,16 +271,21 @@ export function computeTeamStrength(
  * @param state - PAV season state (mutated).
  * @param match - Completed match with scores.
  * @param matchStats - All player stats for this match.
+ * @param oppQuality - Optional opponent quality deltas (pre-match, per side).
  */
 export function updatePavState(
   state: PavSeasonState,
   match: MatchRow,
   matchStats: PlayerMatchStatsRow[],
+  oppQuality?: OpponentQuality,
 ): void {
   if (match.home_points === null || match.away_points === null) return;
 
   const homeStats = getOrCreateTeamStats(state, match.home_team_id);
   const awayStats = getOrCreateTeamStats(state, match.away_team_id);
+
+  homeStats.oppQualitySum += oppQuality?.home ?? 0;
+  awayStats.oppQualitySum += oppQuality?.away ?? 0;
 
   // Compute team-level inside 50s from player stats
   const homeI50 = matchStats
@@ -323,11 +341,18 @@ export function updatePavState(
  * Player share = player_cumulative_score / team_cumulative_score
  *
  * With the fixed pool, this gives a pace-equivalent season-end PAV.
+ *
+ * The optional opponent adjustment scales the team's pools by
+ * `1 + alpha × avg(opponent quality delta)` — production against a
+ * strong schedule earns a larger pool, against a weak schedule a smaller
+ * one. Applied at the pool level because the per-zone strength measures
+ * are ratios, where a uniform per-match stat scaling would cancel out.
  */
 export function computePlayerPav(
   state: PavSeasonState,
   playerId: number,
   teamId: number,
+  oppAdjustmentAlpha = 0,
 ): PlayerPav {
   const playerInv = state.playerInvolvement.get(playerId);
   const teamInv = state.teamInvolvement.get(teamId);
@@ -348,9 +373,16 @@ export function computePlayerPav(
   // Actually: total league pool = PAV_POOL_PER_TEAM_PER_ZONE × numTeams
   // Each team's share is proportional to their strength
   // For simplicity and HPN alignment: team_pool = PAV_POOL_PER_TEAM_PER_ZONE × strength
-  const offPool = PAV_POOL_PER_TEAM_PER_ZONE * strength.offence;
-  const midPool = PAV_POOL_PER_TEAM_PER_ZONE * strength.midfield;
-  const defPool = PAV_POOL_PER_TEAM_PER_ZONE * strength.defence;
+  // Clamped at 0 so an extreme alpha against a weak schedule can shrink the
+  // pool to nothing but never turn it negative.
+  const scheduleAdj =
+    oppAdjustmentAlpha !== 0 && teamStats.gamesPlayed > 0
+      ? Math.max(0, 1 + oppAdjustmentAlpha * (teamStats.oppQualitySum / teamStats.gamesPlayed))
+      : 1;
+
+  const offPool = PAV_POOL_PER_TEAM_PER_ZONE * strength.offence * scheduleAdj;
+  const midPool = PAV_POOL_PER_TEAM_PER_ZONE * strength.midfield * scheduleAdj;
+  const defPool = PAV_POOL_PER_TEAM_PER_ZONE * strength.defence * scheduleAdj;
 
   // Player's share of team total
   const offShare = teamInv.offTotal > 0 ? playerInv.offScore / teamInv.offTotal : 0;
