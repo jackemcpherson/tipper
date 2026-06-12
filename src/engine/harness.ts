@@ -17,7 +17,7 @@ import type {
   PlayerSeasonPavRow,
 } from "../data/types.js";
 import type { MatchPrediction } from "../types.js";
-import { computeTeamRating, type TeamPavSums } from "./blend.js";
+import { calibratePav, computeTeamRating, type TeamPavSums } from "./blend.js";
 import { applyRegression, type EloHistory, type EloState, getRating, updateElo } from "./elo.js";
 import {
   computePlayerPav,
@@ -70,6 +70,89 @@ function countTeamsBySeason(matches: MatchRow[]): Map<number, number> {
 }
 
 /**
+ * Index each team's first match of each season.
+ *
+ * Matches must already be in chronological order, so the first occurrence
+ * of a team within a season is its first fixture.
+ */
+function indexFirstMatchByTeam(matches: MatchRow[]): Map<number, Map<number, number>> {
+  const bySeason = new Map<number, Map<number, number>>();
+  for (const match of matches) {
+    let teams = bySeason.get(match.season_id);
+    if (!teams) {
+      teams = new Map();
+      bySeason.set(match.season_id, teams);
+    }
+    if (!teams.has(match.home_team_id)) teams.set(match.home_team_id, match.id);
+    if (!teams.has(match.away_team_id)) teams.set(match.away_team_id, match.id);
+  }
+  return bySeason;
+}
+
+/**
+ * Build per-team season-boundary regression targets from prior-season PAV.
+ *
+ * For each team entering the season, sums prior-season PAV over the team's
+ * first named lineup (the same list-quality signal the R1 prior blend uses),
+ * calibrates it onto the Elo scale, and mean-centres across teams:
+ *
+ *   target = 1500 + w × (pav_implied − mean(pav_implied))
+ *
+ * Returns undefined (regress to 1500) when the feature is off or no team has
+ * lineup data. Teams without a computable target regress to 1500.
+ */
+export function buildRegressionTargets(
+  seasonId: number,
+  firstMatchByTeam: Map<number, Map<number, number>>,
+  lineupsByMatch: Map<number, MatchLineupRow[]>,
+  priorPavMap: PriorPavMap,
+  config: Config,
+): Map<number, number> | undefined {
+  const weight = config.elo.regression_pav_target_weight;
+  if (weight === undefined) return undefined;
+
+  const teamFirstMatch = firstMatchByTeam.get(seasonId);
+  if (!teamFirstMatch) return undefined;
+
+  const defaultPav = config.pav.missing_player_default;
+  const pavRatings = new Map<number, number>();
+
+  for (const [teamId, matchId] of teamFirstMatch) {
+    const lineup = filterLineup(lineupsByMatch.get(matchId) ?? [], teamId, config.pav.include);
+    if (lineup.length === 0) continue;
+
+    let off = 0;
+    let mid = 0;
+    let def = 0;
+    for (const player of lineup) {
+      const prior = priorPavMap.get(player.player_id);
+      if (prior) {
+        off += prior.offPav;
+        mid += prior.midPav;
+        def += prior.defPav;
+      } else {
+        off += defaultPav / 3;
+        mid += defaultPav / 3;
+        def += defaultPav / 3;
+      }
+    }
+    pavRatings.set(teamId, calibratePav({ off, mid, def, total: off + mid + def }, config.blend));
+  }
+
+  if (pavRatings.size === 0) return undefined;
+
+  let sum = 0;
+  for (const rating of pavRatings.values()) sum += rating;
+  const mean = sum / pavRatings.size;
+
+  const targets = new Map<number, number>();
+  for (const [teamId, rating] of pavRatings) {
+    targets.set(teamId, 1500 + weight * (rating - mean));
+  }
+  return targets;
+}
+
+/**
  * Run the walk-forward harness over historical data.
  *
  * @param data - All pre-fetched data.
@@ -89,6 +172,7 @@ export function runHarness(
   const predictions: MatchPrediction[] = [];
   const skippedMatches: number[] = [];
   const teamCountBySeason = countTeamsBySeason(data.matches);
+  const firstMatchByTeam = indexFirstMatchByTeam(data.matches);
 
   let currentSeasonId: number | null = null;
   // Placeholder — replaced at the first season boundary below.
@@ -99,12 +183,10 @@ export function runHarness(
   for (const match of data.matches) {
     // Season boundary detection
     if (match.season_id !== currentSeasonId) {
-      if (currentSeasonId !== null) {
+      const isFirstSeason = currentSeasonId === null;
+      if (!isFirstSeason) {
         // Save league averages from completed season for R1 prior
         priorLeague = getLeagueAccumulator(pavState);
-
-        // Apply Elo regression at season boundary
-        applyRegression(eloState, config.elo.regression_to_mean);
       }
 
       currentSeasonId = match.season_id;
@@ -122,6 +204,19 @@ export function runHarness(
             break;
           }
         }
+      }
+
+      // Apply Elo regression at season boundary (after the prior PAV map
+      // rebuild so PAV-implied targets use the season entering, not the old)
+      if (!isFirstSeason) {
+        const targets = buildRegressionTargets(
+          match.season_id,
+          firstMatchByTeam,
+          data.lineupsByMatch,
+          priorPavMap,
+          config,
+        );
+        applyRegression(eloState, config.elo.regression_to_mean, targets);
       }
 
       // Reset PAV state for new season
@@ -193,6 +288,7 @@ export function runPredict(
   const predictions: MatchPrediction[] = [];
   const skippedMatches: number[] = [];
   const teamCountBySeason = countTeamsBySeason(data.matches);
+  const firstMatchByTeam = indexFirstMatchByTeam(data.matches);
 
   let currentSeasonId: number | null = null;
   // Placeholder — replaced at the first season boundary below.
@@ -203,9 +299,9 @@ export function runPredict(
   for (const match of data.matches) {
     // Season boundary detection
     if (match.season_id !== currentSeasonId) {
-      if (currentSeasonId !== null) {
+      const isFirstSeason = currentSeasonId === null;
+      if (!isFirstSeason) {
         priorLeague = getLeagueAccumulator(pavState);
-        applyRegression(eloState, config.elo.regression_to_mean);
       }
 
       currentSeasonId = match.season_id;
@@ -221,6 +317,17 @@ export function runPredict(
             break;
           }
         }
+      }
+
+      if (!isFirstSeason) {
+        const targets = buildRegressionTargets(
+          match.season_id,
+          firstMatchByTeam,
+          data.lineupsByMatch,
+          priorPavMap,
+          config,
+        );
+        applyRegression(eloState, config.elo.regression_to_mean, targets);
       }
 
       if (priorLeague) {

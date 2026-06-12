@@ -387,4 +387,36 @@ describe("applyRegression", () => {
     expect(state.get(1)).toBe(1500);
     expect(state.get(2)).toBe(1500);
   });
+
+  it("regresses toward per-team targets when provided", () => {
+    const state: EloState = new Map([
+      [1, 1600],
+      [2, 1400],
+    ]);
+    const targets = new Map([
+      [1, 1700],
+      [2, 1300],
+    ]);
+
+    applyRegression(state, 0.5, targets);
+
+    // 1600 + 0.5 * (1700 - 1600) = 1650
+    expect(state.get(1)).toBe(1650);
+    // 1400 + 0.5 * (1300 - 1400) = 1350
+    expect(state.get(2)).toBe(1350);
+  });
+
+  it("falls back to 1500 for teams without a target", () => {
+    const state: EloState = new Map([
+      [1, 1600],
+      [2, 1400],
+    ]);
+    const targets = new Map([[1, 1700]]);
+
+    applyRegression(state, 0.5, targets);
+
+    expect(state.get(1)).toBe(1650);
+    // 1400 + 0.5 * (1500 - 1400) = 1450
+    expect(state.get(2)).toBe(1450);
+  });
 });

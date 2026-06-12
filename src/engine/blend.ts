@@ -37,9 +37,17 @@ export function computeTeamRating(
   pav: TeamPavSums,
   blendConfig: Config["blend"],
 ): number {
+  return (
+    blendConfig.weight_elo * elo + (1 - blendConfig.weight_elo) * calibratePav(pav, blendConfig)
+  );
+}
+
+/**
+ * Map PAV sums onto the Elo rating scale using the configured slope(s).
+ */
+export function calibratePav(pav: TeamPavSums, blendConfig: Config["blend"]): number {
   const slopes = blendConfig.pav_zone_slopes;
-  const pavCalibrated = slopes
+  return slopes
     ? slopes.off * pav.off + slopes.mid * pav.mid + slopes.def * pav.def
     : blendConfig.pav_calibration_slope * pav.total;
-  return blendConfig.weight_elo * elo + (1 - blendConfig.weight_elo) * pavCalibrated;
 }

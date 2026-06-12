@@ -211,16 +211,23 @@ function pushHistory(history: EloHistory, teamId: number, change: number, window
 }
 
 /**
- * Apply off-season regression to mean for all teams.
+ * Apply off-season regression for all teams.
  *
- * Called at season boundaries (when season_id changes).
+ * Called at season boundaries (when season_id changes). Each team regresses
+ * toward its entry in `targets` when provided, otherwise toward 1500.
  *
  * @param state - Current Elo state (mutated).
- * @param regressionFactor - Fraction to regress toward 1500.
+ * @param regressionFactor - Fraction to regress toward the target.
+ * @param targets - Optional per-team regression targets (team_id → rating).
  */
-export function applyRegression(state: EloState, regressionFactor: number): void {
+export function applyRegression(
+  state: EloState,
+  regressionFactor: number,
+  targets?: Map<number, number>,
+): void {
   const mean = 1500;
   for (const [teamId, rating] of state) {
-    state.set(teamId, rating + regressionFactor * (mean - rating));
+    const target = targets?.get(teamId) ?? mean;
+    state.set(teamId, rating + regressionFactor * (target - rating));
   }
 }

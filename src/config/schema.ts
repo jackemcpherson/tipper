@@ -22,6 +22,11 @@ export const ConfigSchema = z.object({
     k_context_window: z.number().int().positive().default(8),
     home_advantage_source: z.enum(["static", "per_venue"]).default("static"),
     venue_ha: z.record(z.string(), z.number()).optional(),
+    // Weight of the PAV-implied team rating in the season-boundary regression
+    // target: target = 1500 + w × (pav_implied − league_mean). Absent means 0
+    // (regress to 1500). Optional (not defaulted): the hash covers the parsed
+    // config, so a .default() would invalidate every existing config's hash.
+    regression_pav_target_weight: z.number().min(0).max(1).optional(),
   }),
 
   pav: z.object({
