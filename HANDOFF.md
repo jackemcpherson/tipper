@@ -40,13 +40,14 @@ rankings were by our own computed LogLoss, not the comp's scoring). Implications
 
 ## Open items, in priority order
 
-0. **Task 33 — missed-tip pattern analysis with field triangulation** (planned by Jack,
-   full plan in `docs/task-33-plan-missed-tip-analysis.md`): tag v3's wrong tips
-   2023–2026, split consensus misses from tipper-specific misses using the Squiggle
-   field, profile the sources that repeatedly beat us on the latter, cluster with a
-   ≥2-season replication gate, and graduate clusters into pre-registered candidates
-   scored on the close-game band + tips bar. Pre-registered kill condition included.
-   This is the designated next iteration.
+0. ~~Task 33~~ **Done 2026-06-12** (`docs/task-33-missed-tip-analysis.md`): 79% of v3's
+   misses are consensus misses; the tipper-specific remainder (24 games, all |pred|<12)
+   yields one mechanism-backed replicating cluster (neutral-venue nominal-home, 6×
+   over-represented, 3 seasons) whose fix — prediction HA 0 at neutral venues — is worth
+   only +1 tip / −0.0011 LogLoss pooled. **Effective kill: no exploitable model-tweak
+   blind spot at the field's information level; gains must come from new information
+   (D4) or the A2 bundle.** Neutral≈0 added to the A2 bucketed-HA bundle below. St Kilda
+   overrating (6/6 "tipped StK, lost", 3 seasons) noted as diagnostic only.
 1. **A3 weekly comp monitoring** (method established in Task 32, `/tmp/sq_rank_multi.py`
    pattern): score v3 — and v4 as a shadow — against the Squiggle field on tips weekly
    for the rest of 2026, plus close-game (|pred margin| < 12) sign accuracy. v3 is
@@ -56,7 +57,8 @@ rankings were by our own computed LogLoss, not the comp's scoring). Implications
    the |margin| < 2-goal band, where v3 beats v4. Any future candidate should be
    diagnosed on that band specifically before anything else.
 3. **A2 end-of-2026 bundle** (~Sept 2026, offline-exact, **v3 baselines**): bucketed
-   prediction HA {derby ≈20, true-home-vs-interstate ≈110, else 80}; flat HA re-sweep
+   prediction HA {derby ≈20, true-home-vs-interstate ≈110, **neutral ≈0 (T33)**, else
+   80}; flat HA re-sweep
    70–100; sigma third confirmation (then retire); finals-HA check (−2.71, n=45); plus
    **tips-first v4 re-evaluation** (full-2026 realized tips v4 vs v3) under the amended
    bar.
@@ -85,6 +87,10 @@ targets). This session adds:
 - **rating_points as PAV replacement/ensemble in the blend** (T29): r 0.90–0.95 with PAV
   at the consumed level. Lives on only as a D1 feature candidate.
 - **Age-curve priors** (T30): blocked on DOB coverage, not refuted.
+- **Standalone neutral-venue prediction HA** (T33): mechanism real (cluster replicates
+  3 seasons, LogLoss improves both old windows) but +1 tip / −0.0011 pooled — sub-bar
+  alone. Lives on only inside the A2 bucketed-HA bundle. Miss-pattern mining generally:
+  79% of misses are consensus; don't re-mine v3 residuals without new information.
 
 ## Mechanics reminders
 
