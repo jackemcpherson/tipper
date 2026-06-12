@@ -132,7 +132,20 @@ export function bootstrapCompare(
   nBootstrap = 1000,
   seed = 42,
 ): BootstrapComparison {
-  // Build paired arrays indexed by matchId
+  return bootstrapCompareStratified([{ predictionsA, predictionsB }], nBootstrap, seed);
+}
+
+/** One stratum of paired predictions (e.g. one evaluation era). */
+export interface PredictionStratum {
+  readonly predictionsA: readonly MatchPrediction[];
+  readonly predictionsB: readonly MatchPrediction[];
+}
+
+/** Pair two prediction arrays by matchId, validating exact coverage. */
+function pairByMatchId(
+  predictionsA: readonly MatchPrediction[],
+  predictionsB: readonly MatchPrediction[],
+): { pairedA: MatchPrediction[]; pairedB: MatchPrediction[] } {
   const mapA = new Map(predictionsA.map((p) => [p.matchId, p]));
   const mapB = new Map(predictionsB.map((p) => [p.matchId, p]));
 
@@ -142,7 +155,6 @@ export function bootstrapCompare(
     );
   }
 
-  const matchIds: number[] = [];
   const pairedA: MatchPrediction[] = [];
   const pairedB: MatchPrediction[] = [];
 
@@ -151,39 +163,65 @@ export function bootstrapCompare(
     if (predB === undefined) {
       throw new Error(`Match ${matchId} present in A but not in B`);
     }
-    matchIds.push(matchId);
     pairedA.push(predA);
     pairedB.push(predB);
   }
 
-  // Check B doesn't have extra matches
   for (const matchId of mapB.keys()) {
     if (!mapA.has(matchId)) {
       throw new Error(`Match ${matchId} present in B but not in A`);
     }
   }
 
-  const n = matchIds.length;
-  const metricsA = computeMetrics(predictionsA);
-  const metricsB = computeMetrics(predictionsB);
+  return { pairedA, pairedB };
+}
 
-  // Bootstrap: resample indices and compute deltas
+/**
+ * Era-stratified pooled paired bootstrap.
+ *
+ * Each stratum (e.g. the 2021–2025 primary window and the 2016–2019
+ * confirmatory window) is resampled independently with replacement,
+ * preserving its size, so era composition is held fixed across bootstrap
+ * iterations. Metric deltas (A minus B) are computed on the pooled
+ * resample. With a single stratum this is identical to bootstrapCompare.
+ *
+ * Strata must not share matchIds; pairing is validated per stratum.
+ */
+export function bootstrapCompareStratified(
+  strata: readonly PredictionStratum[],
+  nBootstrap = 1000,
+  seed = 42,
+): BootstrapComparison {
+  if (strata.length === 0) {
+    throw new Error("At least one stratum is required");
+  }
+
+  const paired = strata.map((s) => pairByMatchId(s.predictionsA, s.predictionsB));
+  const pooledA = paired.flatMap((p) => p.pairedA);
+  const pooledB = paired.flatMap((p) => p.pairedB);
+
+  const metricsA = computeMetrics(pooledA);
+  const metricsB = computeMetrics(pooledB);
+
+  // Bootstrap: resample within each stratum, score the pooled resample
   const rand = createPrng(seed);
   const logLossDeltas: number[] = [];
   const brierDeltas: number[] = [];
   const tipPctDeltas: number[] = [];
 
   for (let b = 0; b < nBootstrap; b++) {
-    // Resample indices with replacement
     const sampleA: MatchPrediction[] = [];
     const sampleB: MatchPrediction[] = [];
-    for (let i = 0; i < n; i++) {
-      const idx = Math.floor(rand() * n);
-      const predA = pairedA[idx];
-      const predB = pairedB[idx];
-      if (predA === undefined || predB === undefined) continue;
-      sampleA.push(predA);
-      sampleB.push(predB);
+    for (const { pairedA, pairedB } of paired) {
+      const n = pairedA.length;
+      for (let i = 0; i < n; i++) {
+        const idx = Math.floor(rand() * n);
+        const predA = pairedA[idx];
+        const predB = pairedB[idx];
+        if (predA === undefined || predB === undefined) continue;
+        sampleA.push(predA);
+        sampleB.push(predB);
+      }
     }
 
     const mA = computeMetrics(sampleA);
