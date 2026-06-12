@@ -391,12 +391,15 @@ export async function runCompare(
     );
   }
 
+  // Same implicit warm-up of gap seasons as runBacktest, so a 2026-only
+  // comparison doesn't run on years-stale state.
+  const trainMax = Math.max(...configA.backtest.train_seasons, ...configB.backtest.train_seasons);
+  const testMax = Math.max(...seasonsA);
   const allSeasonYears = [
     ...new Set([
       ...configA.backtest.train_seasons,
-      ...configA.backtest.test_seasons,
       ...configB.backtest.train_seasons,
-      ...configB.backtest.test_seasons,
+      ...seasonRange(trainMax + 1, testMax),
     ]),
   ].sort((a, b) => a - b);
   const priorYears = [

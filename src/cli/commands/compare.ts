@@ -4,7 +4,7 @@ import type { CompetitionCode } from "../../data/types.js";
 import { runCompare } from "../../orchestration.js";
 import { resolveSeasonDataCache } from "../cache.js";
 import { getDatabase } from "../db.js";
-import { compOption, jsonOption, noCacheOption } from "../flags.js";
+import { compOption, jsonOption, noCacheOption, seasonOption } from "../flags.js";
 
 const configAOption = new Option(
   "-a, --config-a <id>",
@@ -19,6 +19,7 @@ export const compareCommand = new Command("compare")
   .description("Bootstrap-compare two configs (paired by match)")
   .addOption(configAOption)
   .addOption(configBOption)
+  .addOption(seasonOption)
   .addOption(compOption)
   .addOption(jsonOption)
   .addOption(noCacheOption)
@@ -26,12 +27,19 @@ export const compareCommand = new Command("compare")
     async (opts: {
       configA: string;
       configB: string;
+      season?: number[];
       comp: CompetitionCode;
       json: boolean;
       cache: boolean;
     }) => {
-      const configA = loadConfig(opts.configA);
-      const configB = loadConfig(opts.configB);
+      let configA = loadConfig(opts.configA);
+      let configB = loadConfig(opts.configB);
+
+      if (opts.season) {
+        configA = { ...configA, backtest: { ...configA.backtest, test_seasons: opts.season } };
+        configB = { ...configB, backtest: { ...configB.backtest, test_seasons: opts.season } };
+        console.log("Note: --season overrides both configs' test_seasons.");
+      }
 
       console.log(`Comparing: ${opts.configA} vs ${opts.configB}`);
       console.log(`Test seasons: ${configA.backtest.test_seasons.join(", ")}`);
