@@ -157,13 +157,34 @@ export async function fetchHarnessData(
   return { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate };
 }
 
+/** Inclusive year range; empty when start > end. */
+function seasonRange(start: number, end: number): number[] {
+  const years: number[] = [];
+  for (let y = start; y <= end; y++) {
+    years.push(y);
+  }
+  return years;
+}
+
 export async function runBacktest(
   db: D1Database,
   config: Config,
   competition: CompetitionCode,
   cache?: SeasonDataCache,
 ) {
-  const allSeasonYears = [...config.backtest.train_seasons, ...config.backtest.test_seasons];
+  // Seasons between train and test are fetched as implicit warm-up (Elo and
+  // PAV update, no predictions). Without them a --season 2026 run jumps from
+  // 2020 state straight to 2026 and the 2025 PAV prior fetch silently finds
+  // no season id (Task 6 cold-start bug).
+  const gapYears = seasonRange(
+    Math.max(...config.backtest.train_seasons) + 1,
+    Math.min(...config.backtest.test_seasons) - 1,
+  );
+  const allSeasonYears = [
+    ...config.backtest.train_seasons,
+    ...gapYears,
+    ...config.backtest.test_seasons,
+  ];
   const priorYears = config.backtest.test_seasons.map((y) => y - 1);
 
   const { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate } =
@@ -230,7 +251,14 @@ export async function runPrediction(
   competition: CompetitionCode,
   cache?: SeasonDataCache,
 ) {
-  const allYears = [...new Set([...config.backtest.train_seasons, season, season - 1])];
+  // Warm up over every season from the end of training through the target
+  // season — skipping intermediate years leaves Elo state years stale.
+  const allYears = [
+    ...new Set([
+      ...config.backtest.train_seasons,
+      ...seasonRange(Math.max(...config.backtest.train_seasons) + 1, season),
+    ]),
+  ];
   const priorYears = [season - 1];
 
   const { harnessData, seasonYearToId, latestDate } = await fetchHarnessData(

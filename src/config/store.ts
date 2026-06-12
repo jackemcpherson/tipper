@@ -84,14 +84,16 @@ export function loadResults(configId: string, filename: string): BacktestResults
   return BacktestResultsSchema.parse(raw);
 }
 
-/** Save backtest results. Filename is results-<iso-date>.json. */
+/** Save backtest results. Filename is results-<iso-date>-<short-hash>.json. */
 export function saveResults(configId: string, results: BacktestResultsFile): string {
   const dir = join(CONFIGS_DIR, configId);
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });
   }
   const date = new Date().toISOString().slice(0, 10);
-  const filename = `results-${date}.json`;
+  // Short hash in the name so a scope-overridden run (different effective
+  // hash) can't overwrite a promotion-valid run from the same day.
+  const filename = `results-${date}-${results.config_hash.slice(0, 8)}.json`;
   writeFileSync(join(dir, filename), `${JSON.stringify(results, null, 2)}\n`);
   return filename;
 }
@@ -117,18 +119,19 @@ export async function validatePromotion(configId: string, reason: string): Promi
   if (resultFiles.length === 0) {
     return `Config '${configId}' has no backtest results. Run a backtest first.`;
   }
-  const latestFile = resultFiles[0];
-  if (!latestFile) {
-    return `Config '${configId}' has no backtest results. Run a backtest first.`;
-  }
-  const latestResults = loadResults(configId, latestFile);
+  // Any results file whose hash matches the current config content proves a
+  // backtest ran on exactly this config. The hash covers test_seasons, so a
+  // --season-overridden run can never satisfy this (COR-09). Requiring the
+  // *latest* file to match would let a same-day scope-overridden run block a
+  // legitimate promotion.
   const currentHash = await computeConfigHash(config);
-
-  if (latestResults.config_hash !== currentHash) {
-    return `Config '${configId}' was modified after its most recent backtest. Results hash: ${latestResults.config_hash.slice(0, 8)}, current config hash: ${currentHash.slice(0, 8)}. Re-run the backtest before promoting.`;
+  for (const filename of resultFiles) {
+    const results = loadResults(configId, filename);
+    if (results.config_hash === currentHash) {
+      return null;
+    }
   }
-
-  return null;
+  return `Config '${configId}' has no backtest results matching its current content (hash ${currentHash.slice(0, 8)}). The config was modified after its backtests ran. Re-run the backtest before promoting.`;
 }
 
 /**
