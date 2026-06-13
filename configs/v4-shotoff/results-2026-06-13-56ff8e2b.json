@@ -1,31 +1,31 @@
 {
   "config_id": "v4-shotoff",
   "config_hash": "56ff8e2b09bcddebf8321d6ae951771a5bd5da8856fbf1396cf5a23d1823bf34",
-  "ran_at": "2026-06-12T03:13:30.894Z",
-  "data_through": "2026-06-11",
+  "ran_at": "2026-06-13T01:55:07.771Z",
+  "data_through": "2026-06-12",
   "scope": {
     "seasons": [
       2026
     ]
   },
   "overall": {
-    "matches": 115,
-    "tips": 80,
-    "tip_pct": 0.7017543859649122,
-    "mae_margin": 26.903876834417712,
-    "rmse_margin": 34.33712450506044,
-    "log_loss_bits": 0.7924256809892122,
-    "brier": 0.18731311516381477
+    "matches": 116,
+    "tips": 81,
+    "tip_pct": 0.7043478260869566,
+    "mae_margin": 26.878093349813536,
+    "rmse_margin": 34.260816934319,
+    "log_loss_bits": 0.7890380079895974,
+    "brier": 0.18620260706677427
   },
   "by_season": {
     "2026": {
-      "matches": 115,
-      "tips": 80,
-      "tip_pct": 0.7017543859649122,
-      "mae_margin": 26.903876834417712,
-      "rmse_margin": 34.33712450506044,
-      "log_loss_bits": 0.7924256809892122,
-      "brier": 0.18731311516381477
+      "matches": 116,
+      "tips": 81,
+      "tip_pct": 0.7043478260869566,
+      "mae_margin": 26.878093349813536,
+      "rmse_margin": 34.260816934319,
+      "log_loss_bits": 0.7890380079895974,
+      "brier": 0.18620260706677427
     }
   },
   "calibration": [
@@ -43,9 +43,9 @@
     },
     {
       "bucket": "70-80%",
-      "predicted": 0.7433088620610804,
-      "actual": 0.7931034482758621,
-      "n": 29
+      "predicted": 0.7438033769150769,
+      "actual": 0.8,
+      "n": 30
     },
     {
       "bucket": "80-90%",
@@ -3969,6 +3969,40 @@
       "actualMargin": -57,
       "actualWinner": "away",
       "correct": false
+    },
+    {
+      "matchId": 72874,
+      "date": "2026-06-12",
+      "round": "Round 14",
+      "roundNumber": 14,
+      "home": "Geelong",
+      "away": "Gold Coast",
+      "venue": "Kardinia Park",
+      "homeTeamRating": 1789.8592981637407,
+      "awayTeamRating": 1604.4670615206032,
+      "homeElo": 1744.5586567618848,
+      "awayElo": 1554.2111890761835,
+      "homePavTotal": 265.93333241719506,
+      "awayPavTotal": 240.45961497097522,
+      "homePavZones": {
+        "off": 90.49510548620914,
+        "mid": 93.2342671946331,
+        "def": 82.2039597363528
+      },
+      "awayPavZones": {
+        "off": 76.1622016632316,
+        "mid": 82.35812650111316,
+        "def": 81.93928680663045
+      },
+      "predictedMargin": 21.08700737966629,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7581443076809761,
+        "away": 0.24185569231902393
+      },
+      "actualMargin": 45,
+      "actualWinner": "home",
+      "correct": true
     }
   ]
 }
