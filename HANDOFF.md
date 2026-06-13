@@ -45,14 +45,18 @@ rankings were by our own computed LogLoss, not the comp's scoring). Implications
    yields one mechanism-backed replicating cluster (neutral-venue nominal-home, 6×
    over-represented, 3 seasons) whose fix — prediction HA 0 at neutral venues — is worth
    only +1 tip / −0.0011 LogLoss pooled. **Effective kill: no exploitable model-tweak
-   blind spot at the field's information level; gains must come from new information
-   (D4) or the A2 bundle.** Neutral≈0 added to the A2 bucketed-HA bundle below. St Kilda
-   overrating (6/6 "tipped StK, lost", 3 seasons) noted as diagnostic only.
+   blind spot at the field's information level.** Neutral≈0 added to the A2 bucketed-HA
+   bundle below. St Kilda overrating (6/6 "tipped StK, lost", 3 seasons) noted as
+   diagnostic only. T34 then quantified the information ceiling: even the closing
+   market adds ~1–2 tips/season — 2027 comp strategy is v3-class skill + variance, with
+   D1 (stack) and A2 (bundle) the remaining live modelling bets.
 1. **A3 weekly comp monitoring** (method established in Task 32, `/tmp/sq_rank_multi.py`
    pattern): score v3 — and v4 as a shadow — against the Squiggle field on tips weekly
    for the rest of 2026, plus close-game (|pred margin| < 12) sign accuracy. v3 is
    currently 4th of 29; the field's annual winner rotates (~±10 tips of luck), so track
-   trends, not ranks.
+   trends, not ranks. **Plus the market column (T34):** v3 vs Punters (source 5 ≈
+   closing odds, mean |Δp| 0.011) on tips + close band; a market gap drifting beyond
+   ~±3 tips season-to-date is the alert threshold.
 2. **Close-game sign accuracy is the new top modelling target.** The comp is decided in
    the |margin| < 2-goal band, where v3 beats v4. Any future candidate should be
    diagnosed on that band specifically before anything else.
@@ -62,6 +66,13 @@ rankings were by our own computed LogLoss, not the comp's scoring). Implications
    70–100; sigma third confirmation (then retire); finals-HA check (−2.71, n=45); plus
    **tips-first v4 re-evaluation** (full-2026 realized tips v4 vs v3) under the amended
    bar.
+3b. ~~D4 market-aware mode~~ **Closed 2026-06-13** (`docs/task-34-market-benchmark.md`;
+   product decision: benchmark only, tipper stays market-independent). Closing market
+   vs v3: +10 tips on 2016–19 but +2 on 2021–25, +0 on 2026, and v3 *beat the market by
+   6 in 2024*; market LogLoss edge (−0.015/−0.035) is calibration the comp doesn't
+   score. Market right on 17/24 T33 tipper-specific misses but wrong on 17/23 mirror
+   games — v3's against-the-field edge is also against-the-market and would be diluted
+   by any ensemble. The closing market would have won none of the last four comps.
 4. **D1 learned stacking head** (task list #9, unblocked): regularised logistic over
    {Elo diff, PAV zone diffs, HA bucket, lineup rating_points-rate diff (r=0.76 vs PAV
    per-game, Task 29)}. Strictly walk-forward, severe regularisation. Note: per the comp
