@@ -7,15 +7,26 @@ the Squiggle comp metric — in every recent season (2023–26: 0/−4/−1/−4
 games). No live predictions were issued under v4. Its machinery stays in the engine,
 bit-inert when unset; tips-first re-evaluation at 2026 season end.
 
-**Task 36 result (this session):** OD split ratings (`od-w100-k008`) — last untested
-structural idea — is **parked, not promoted**. Comp-currency picture flips v4: pooled
-close-band sign +18, recent-3 tips +5 (vs v4 −9), 2026 R1-R14 Δ LogLoss −0.0182 with
-tied tips. Pooled Δ LogLoss −0.0054 (above bar) but CI lower bound −0.0007 just inside
-zero; misses strict bar by the marginal failure mode, not the v4 failure mode. Engine
-machinery ships inert; OD added as second shadow in the A3 monitor alongside v4. Read
-`docs/task-36-split-ratings.md`. **DOB backfill (T30 dependency) is also done** —
-players.date_of_birth coverage 1998–2014 went 0–10% → 99% via afl-stats
-`scripts/backfill-dob.mts`. Age-curve fitting (the tipper-side T30) is now unblocked.
+**Task 36 result:** OD split ratings (`od-w100-k008`) — last untested structural idea —
+is **parked, not promoted**. Comp-currency picture flips v4: pooled close-band sign +18,
+recent-3 tips +5 (vs v4 −9), 2026 R1-R14 Δ LogLoss −0.0182 with tied tips. Pooled Δ
+LogLoss −0.0054 (above bar) but CI lower bound −0.0007 just inside zero; misses strict
+bar by the marginal failure mode, not the v4 failure mode. Engine machinery ships inert;
+OD added as second shadow in the A3 monitor alongside v4. Read
+`docs/task-36-split-ratings.md`.
+
+**DOB backfill done** — players.date_of_birth coverage 1998–2014 went 0–10% → 99% via
+afl-stats `scripts/backfill-dob.mts`.
+
+**Task 37 result (Task 30 tipper-side): killed on T35 fingerprint.** Within-player
+1998–2014 age-transition curve applied as a multiplier on the R1 PAV prior; pre-registered
+test ran the dose sweep w ∈ {0.25, 0.5, 0.75, 1.0}. **Pooled LogLoss got WORSE** in
+both training windows (Δ +0.0016 primary, +0.0015 confirmatory); tips marginally positive
+(+3 primary, +8 confirmatory, +2 recent-3). 2026 OOS Δ LL −0.0047 but inside the noise
+floor at n=117. Root cause: survivor-bias in the within-player fit + tiny lever arm at
+K=15 (R1 prior loses to current PAV by R8). Engine machinery (`prior.ts` age curve,
+`pav.age_curve_weight` schema, DOB plumbing through `HarnessData`) ships inert; no
+config ships. Read `docs/task-37-age-curve-priors.md`.
 Baselines (v3): primary 2021–2025 LogLoss **0.8485** / tips 68.1%; early window
 2016–2019 **0.8555** (`predha80-early`; n=1,890 total). Read
 `docs/task-32-squiggle-rerank.md` first, then task-31 (v4), task-25 (procedure).
@@ -95,13 +106,16 @@ rankings were by our own computed LogLoss, not the comp's scoring). Implications
    informative — offsets absorbed only part of the cellar bias (WCE −16.7 → −12.9) —
    but any fix must now also pass the tips criterion (v4 didn't).
 6. ~~DOB backfill in afl-stats~~ **Done 2026-06-13** (AFL-MCP `scripts/backfill-dob.mts`):
-   players.date_of_birth coverage 1998–2014 went 0–10% → 99–100%, 2015–2025 → 97–100%.
-   Source: AFL Tables all-time team lists via fitzroy (with direct-fetch override for
-   Brisbane Lions where fitzroy's slug map is wrong). Age-curve fitting (the tipper-side
-   T30 work) is now unblocked — fit on 1998–2014 clean window, follow the T35 lesson and
-   pre-register a univariate test before any combiner sees the feature.
+   coverage 1998–2014 0–10% → 99–100%. Source: AFL Tables all-time team lists via fitzroy
+   (with direct-fetch override for Brisbane Lions where fitzroy's slug map is wrong).
 
-7. **T36 OD shadow + R14+ accumulation**. OD machinery ships inert
+7. ~~Age-curve PAV priors (T37 / T30 tipper-side)~~ **Killed 2026-06-13** on the T35
+   fingerprint: pooled LL +0.0015–0.0016 in both training windows, tip gain sub-noise.
+   Lever arm too short at K=15 + within-player fit suffers survivor bias. Engine
+   machinery ships inert. Resurrection: selection-corrected curve OR per-zone curve OR
+   R1-R4-only application (none queued — see task-37 doc).
+
+8. **T36 OD shadow + R14+ accumulation**. OD machinery ships inert
    (`docs/task-36-split-ratings.md`). At end of 2026 (alongside A2 bundle and v4
    tips-first re-eval), re-pool OD with the accrued R14+ window — if the lower CI bound
    moves off zero with the extra ~100 matches, promote on the comp-currency case
@@ -125,6 +139,10 @@ targets). This session adds:
 - **Learned stacking head over existing features** (T35): all variants significantly
   negative on both metrics; walk-forward estimation variance with no incremental signal
   to buy. Do not relitigate without a feature that survives a univariate test first.
+- **Age-curve PAV priors as a global multiplier** (T37, the first feature run under the
+  T35 pre-registration rule): pooled LL worsens both training windows; lever arm
+  too short at K=15. Resurrection conditions are non-trivial structural changes
+  (selection-corrected curve, per-zone curve, R1-R4-only dose) — see task-37 doc.
 - **Standalone neutral-venue prediction HA** (T33): mechanism real (cluster replicates
   3 seasons, LogLoss improves both old windows) but +1 tip / −0.0011 pooled — sub-bar
   alone. Lives on only inside the A2 bucketed-HA bundle. Miss-pattern mining generally:

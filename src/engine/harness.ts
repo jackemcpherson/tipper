@@ -43,7 +43,7 @@ import {
   updatePavState,
 } from "./pav.js";
 import { computeWinProbability, predictMargin } from "./predict.js";
-import { blendWithPrior, buildPriorPavMap, type PriorPavMap } from "./prior.js";
+import { applyAgeCurve, blendWithPrior, buildPriorPavMap, type PriorPavMap } from "./prior.js";
 
 /** All data needed for a harness run, pre-fetched into memory. */
 export interface HarnessData {
@@ -54,6 +54,9 @@ export interface HarnessData {
   teamNames: Map<number, string>;
   venueNames: Map<number, string>;
   seasonYearById: Map<number, number>;
+  /** Task 37: player_id → ISO date_of_birth (or null). Empty map disables the
+   * age-curve adjustment even when `pav.age_curve_weight` is set. */
+  dobByPlayerId: Map<number, string | null>;
 }
 
 /** Result of a harness run. */
@@ -230,6 +233,14 @@ export function runHarness(
         }
       }
 
+      // Task 37: age-curve adjustment to the R1 prior. `match` is the first match
+      // of the current season; its date proxies R1. No-op when weight is absent
+      // (bit-identical to v3) or 0.
+      const ageCurveWeight = config.pav.age_curve_weight ?? 0;
+      if (ageCurveWeight > 0 && data.dobByPlayerId.size > 0) {
+        priorPavMap = applyAgeCurve(priorPavMap, data.dobByPlayerId, match.date, ageCurveWeight);
+      }
+
       // Apply Elo regression at season boundary (after the prior PAV map
       // rebuild so PAV-implied targets use the season entering, not the old)
       if (!isFirstSeason) {
@@ -382,6 +393,11 @@ export function runPredict(
             break;
           }
         }
+      }
+
+      const ageCurveWeight = config.pav.age_curve_weight ?? 0;
+      if (ageCurveWeight > 0 && data.dobByPlayerId.size > 0) {
+        priorPavMap = applyAgeCurve(priorPavMap, data.dobByPlayerId, match.date, ageCurveWeight);
       }
 
       if (!isFirstSeason) {

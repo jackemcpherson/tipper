@@ -56,6 +56,13 @@ export const ConfigSchema = z.object({
     // .default() here would change every existing config's hash and
     // invalidate their results files. Absent means 0 (off).
     opponent_adjustment_alpha: z.number().min(0).optional(),
+    // Task 37 (T30 tipper-side): weight of the empirical player-age-curve adjustment
+    // to the R1 prior. Multiplies each player's prior-season PAV by
+    // (1 − w + w × age_transition_ratio[age_at_R1]) using a within-player ratio
+    // table fitted on AFLM 1998-2014 (DOB-coverage-complete, no test-window leakage).
+    // Absent = off (bit-identical to v3). Optional (not defaulted) to keep existing
+    // config hashes stable.
+    age_curve_weight: z.number().min(0).max(1).optional(),
     include: z.enum([
       "named_lineup_excl_emerg",
       "named_lineup_incl_emerg",

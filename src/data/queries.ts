@@ -211,6 +211,28 @@ export async function fetchPlayers(db: D1Database, playerIds: number[]): Promise
   });
 }
 
+/** Fetch player DOBs for the age-curve adjustment (Task 37). Map keyed by player_id. */
+export async function fetchPlayerDobs(
+  db: D1Database,
+  playerIds: number[],
+): Promise<Map<number, string | null>> {
+  const map = new Map<number, string | null>();
+  if (playerIds.length === 0) return map;
+  await fetchChunked(playerIds, async (chunk) => {
+    const placeholders = chunk.map(() => "?").join(", ");
+    const sql = `SELECT id, date_of_birth FROM players WHERE id IN (${placeholders})`;
+    const result = await db
+      .prepare(sql)
+      .bind(...chunk)
+      .all<{ id: number; date_of_birth: string | null }>();
+    for (const row of result.results) {
+      map.set(row.id, row.date_of_birth);
+    }
+    return result.results;
+  });
+  return map;
+}
+
 /**
  * Fetch the latest match date for a competition.
  *
