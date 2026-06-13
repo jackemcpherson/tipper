@@ -73,10 +73,13 @@ rankings were by our own computed LogLoss, not the comp's scoring). Implications
    score. Market right on 17/24 T33 tipper-specific misses but wrong on 17/23 mirror
    games — v3's against-the-field edge is also against-the-market and would be diluted
    by any ensemble. The closing market would have won none of the last four comps.
-4. **D1 learned stacking head** (task list #9, unblocked): regularised logistic over
-   {Elo diff, PAV zone diffs, HA bucket, lineup rating_points-rate diff (r=0.76 vs PAV
-   per-game, Task 29)}. Strictly walk-forward, severe regularisation. Note: per the comp
-   goal, evaluate its close-game sign accuracy and pooled tips, not just LogLoss.
+4. ~~D1 learned stacking head~~ **Killed 2026-06-13** (`docs/task-35-stacking-head.md`):
+   three walk-forward variants (ridge margin, logistic sign, residual-shrinkage toward
+   v3) all significantly worse than v3 on pooled LogLoss (+0.010 to +0.015, CIs exclude
+   zero) AND tips (−14 to −32). Harness validated (lite replica recovers v3 at corr
+   0.99+). The features beyond Elo/PAV carry no incremental signal (T22/T26/T27/T33);
+   a stack is a combiner, not a source. Resurrection: a new feature that first survives
+   a univariate pre-registered test.
 5. **Per-team residual diagnostic on v4-class records** (Task 24 method) remains
    informative — offsets absorbed only part of the cellar bias (WCE −16.7 → −12.9) —
    but any fix must now also pass the tips criterion (v4 didn't).
@@ -98,6 +101,9 @@ targets). This session adds:
 - **rating_points as PAV replacement/ensemble in the blend** (T29): r 0.90–0.95 with PAV
   at the consumed level. Lives on only as a D1 feature candidate.
 - **Age-curve priors** (T30): blocked on DOB coverage, not refuted.
+- **Learned stacking head over existing features** (T35): all variants significantly
+  negative on both metrics; walk-forward estimation variance with no incremental signal
+  to buy. Do not relitigate without a feature that survives a univariate test first.
 - **Standalone neutral-venue prediction HA** (T33): mechanism real (cluster replicates
   3 seasons, LogLoss improves both old windows) but +1 tip / −0.0011 pooled — sub-bar
   alone. Lives on only inside the A2 bucketed-HA bundle. Miss-pattern mining generally:
