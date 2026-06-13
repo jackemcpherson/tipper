@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Config } from "../../src/config/schema.js";
-import type { MatchRow } from "../../src/data/types.js";
-import { type HarnessData, runHarness } from "../../src/engine/harness.js";
+import type { MatchLineupRow, MatchRow } from "../../src/data/types.js";
+import { buildRegressionTargets, type HarnessData, runHarness } from "../../src/engine/harness.js";
 
 /**
  * Elo-only config (weight_elo = 1) so the fixture needs no lineups,
@@ -173,5 +173,114 @@ describe("runHarness walk-forward ordering (TST-02)", () => {
     expect(() =>
       runHarness(harnessData([matchRow({ id: 101 })]), config, new Set(), TEST_SEASON),
     ).toThrow(/actually_played.*not implemented/);
+  });
+});
+
+describe("buildRegressionTargets (Task 23)", () => {
+  function lineupRow(matchId: number, teamId: number, playerId: number): MatchLineupRow {
+    return {
+      id: playerId,
+      match_id: matchId,
+      player_id: playerId,
+      team_id: teamId,
+      guernsey_number: null,
+      position: null,
+      is_emergency: 0,
+      is_substitute: 0,
+    };
+  }
+
+  function targetsConfig(weight: number): Config {
+    const base = eloOnlyConfig();
+    return {
+      ...base,
+      elo: { ...base.elo, regression_pav_target_weight: weight },
+      pav: { ...base.pav, missing_player_default: 6 },
+    };
+  }
+
+  // Team 1's first 2025 match is 101, team 2's is also 101.
+  const firstMatchByTeam = new Map([
+    [
+      2,
+      new Map([
+        [1, 101],
+        [2, 101],
+      ]),
+    ],
+  ]);
+
+  const lineupsByMatch = new Map([
+    [
+      101,
+      [lineupRow(101, 1, 11), lineupRow(101, 1, 12), lineupRow(101, 2, 21), lineupRow(101, 2, 22)],
+    ],
+  ]);
+
+  // Player 11 strong prior, others missing (default 6 → 2/zone).
+  const priorPavMap = new Map([[11, { offPav: 10, midPav: 10, defPav: 10, totalPav: 30 }]]);
+
+  it("returns undefined when the config field is absent", () => {
+    expect(
+      buildRegressionTargets(2, firstMatchByTeam, lineupsByMatch, priorPavMap, eloOnlyConfig()),
+    ).toBeUndefined();
+  });
+
+  it("mean-centres targets at 1500", () => {
+    const targets = buildRegressionTargets(
+      2,
+      firstMatchByTeam,
+      lineupsByMatch,
+      priorPavMap,
+      targetsConfig(1),
+    );
+    expect(targets).toBeDefined();
+    // Team 1 pav = 30 + 6 = 36 → calibrated 252; team 2 pav = 12 → 84. Mean 168.
+    expect(targets?.get(1)).toBe(1500 + (252 - 168));
+    expect(targets?.get(2)).toBe(1500 + (84 - 168));
+  });
+
+  it("scales deviations by the weight", () => {
+    const targets = buildRegressionTargets(
+      2,
+      firstMatchByTeam,
+      lineupsByMatch,
+      priorPavMap,
+      targetsConfig(0.5),
+    );
+    expect(targets?.get(1)).toBe(1500 + 0.5 * 84);
+    expect(targets?.get(2)).toBe(1500 - 0.5 * 84);
+  });
+
+  it("with weight 0, all targets are exactly 1500", () => {
+    const targets = buildRegressionTargets(
+      2,
+      firstMatchByTeam,
+      lineupsByMatch,
+      priorPavMap,
+      targetsConfig(0),
+    );
+    expect(targets?.get(1)).toBe(1500);
+    expect(targets?.get(2)).toBe(1500);
+  });
+
+  it("skips teams with no lineup data (they regress to 1500 by default)", () => {
+    const sparseLineups = new Map([[101, [lineupRow(101, 1, 11)]]]);
+    const targets = buildRegressionTargets(
+      2,
+      firstMatchByTeam,
+      sparseLineups,
+      priorPavMap,
+      targetsConfig(1),
+    );
+    // Only team 1 has a lineup → its pav is the mean → target 1500.
+    expect(targets?.get(1)).toBe(1500);
+    expect(targets?.has(2)).toBe(false);
+  });
+
+  it("returns undefined when no team has lineup data", () => {
+    expect(
+      buildRegressionTargets(2, firstMatchByTeam, new Map(), priorPavMap, targetsConfig(1)),
+    ).toBeUndefined();
   });
 });

@@ -1,6 +1,6 @@
 {
   "config_id": "predha-080",
-  "promoted_at": "2026-06-12T00:42:27.296Z",
-  "promoted_from": "pavfix-blend-w06",
-  "promotion_reason": "Task 20: prediction-side home advantage (80 rating pts = 5.6 margin pts, the measured home bias). LogLoss 0.8485 (-0.0128 vs v2), bootstrap CI excludes zero on LogLoss and Brier, 2026 OOS improves -0.0406. Largest single improvement to date."
+  "promoted_at": "2026-06-12T04:51:53.766Z",
+  "promoted_from": "v4-shotoff",
+  "promotion_reason": "Task 32: reverted v4 -> v3 for comp alignment. Squiggle comp scores tips; v4 trails v3 on tips in every recent season (2023-26: 0/-4/-1/-4, -9 cumulative over 763 games) despite better LogLoss/MAE. v3 has comp pedigree (2nd in 2024, 4th in 2026 to date vs v4's 12th-13th). v4 machinery retained inert; re-evaluate at 2026 season end tips-first."
 }

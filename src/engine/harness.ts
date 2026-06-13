@@ -17,8 +17,22 @@ import type {
   PlayerSeasonPavRow,
 } from "../data/types.js";
 import type { MatchPrediction } from "../types.js";
-import { computeTeamRating, type TeamPavSums } from "./blend.js";
+import { calibratePav, computeTeamRating, type TeamPavSums } from "./blend.js";
 import { applyRegression, type EloHistory, type EloState, getRating, updateElo } from "./elo.js";
+import {
+  applyOdRegression,
+  createOdState,
+  type OdState,
+  odImpliedRating,
+  updateOd,
+} from "./odelo.js";
+import {
+  createTeamOffsetState,
+  decayTeamOffsets,
+  getTeamOffset,
+  type TeamOffsetState,
+  updateTeamOffsets,
+} from "./offset.js";
 import {
   computePlayerPav,
   createPavSeasonState,
@@ -29,7 +43,7 @@ import {
   updatePavState,
 } from "./pav.js";
 import { computeWinProbability, predictMargin } from "./predict.js";
-import { blendWithPrior, buildPriorPavMap, type PriorPavMap } from "./prior.js";
+import { applyAgeCurve, blendWithPrior, buildPriorPavMap, type PriorPavMap } from "./prior.js";
 
 /** All data needed for a harness run, pre-fetched into memory. */
 export interface HarnessData {
@@ -40,6 +54,9 @@ export interface HarnessData {
   teamNames: Map<number, string>;
   venueNames: Map<number, string>;
   seasonYearById: Map<number, number>;
+  /** Task 37: player_id → ISO date_of_birth (or null). Empty map disables the
+   * age-curve adjustment even when `pav.age_curve_weight` is set. */
+  dobByPlayerId: Map<number, string | null>;
 }
 
 /** Result of a harness run. */
@@ -70,6 +87,89 @@ function countTeamsBySeason(matches: MatchRow[]): Map<number, number> {
 }
 
 /**
+ * Index each team's first match of each season.
+ *
+ * Matches must already be in chronological order, so the first occurrence
+ * of a team within a season is its first fixture.
+ */
+function indexFirstMatchByTeam(matches: MatchRow[]): Map<number, Map<number, number>> {
+  const bySeason = new Map<number, Map<number, number>>();
+  for (const match of matches) {
+    let teams = bySeason.get(match.season_id);
+    if (!teams) {
+      teams = new Map();
+      bySeason.set(match.season_id, teams);
+    }
+    if (!teams.has(match.home_team_id)) teams.set(match.home_team_id, match.id);
+    if (!teams.has(match.away_team_id)) teams.set(match.away_team_id, match.id);
+  }
+  return bySeason;
+}
+
+/**
+ * Build per-team season-boundary regression targets from prior-season PAV.
+ *
+ * For each team entering the season, sums prior-season PAV over the team's
+ * first named lineup (the same list-quality signal the R1 prior blend uses),
+ * calibrates it onto the Elo scale, and mean-centres across teams:
+ *
+ *   target = 1500 + w × (pav_implied − mean(pav_implied))
+ *
+ * Returns undefined (regress to 1500) when the feature is off or no team has
+ * lineup data. Teams without a computable target regress to 1500.
+ */
+export function buildRegressionTargets(
+  seasonId: number,
+  firstMatchByTeam: Map<number, Map<number, number>>,
+  lineupsByMatch: Map<number, MatchLineupRow[]>,
+  priorPavMap: PriorPavMap,
+  config: Config,
+): Map<number, number> | undefined {
+  const weight = config.elo.regression_pav_target_weight;
+  if (weight === undefined) return undefined;
+
+  const teamFirstMatch = firstMatchByTeam.get(seasonId);
+  if (!teamFirstMatch) return undefined;
+
+  const defaultPav = config.pav.missing_player_default;
+  const pavRatings = new Map<number, number>();
+
+  for (const [teamId, matchId] of teamFirstMatch) {
+    const lineup = filterLineup(lineupsByMatch.get(matchId) ?? [], teamId, config.pav.include);
+    if (lineup.length === 0) continue;
+
+    let off = 0;
+    let mid = 0;
+    let def = 0;
+    for (const player of lineup) {
+      const prior = priorPavMap.get(player.player_id);
+      if (prior) {
+        off += prior.offPav;
+        mid += prior.midPav;
+        def += prior.defPav;
+      } else {
+        off += defaultPav / 3;
+        mid += defaultPav / 3;
+        def += defaultPav / 3;
+      }
+    }
+    pavRatings.set(teamId, calibratePav({ off, mid, def, total: off + mid + def }, config.blend));
+  }
+
+  if (pavRatings.size === 0) return undefined;
+
+  let sum = 0;
+  for (const rating of pavRatings.values()) sum += rating;
+  const mean = sum / pavRatings.size;
+
+  const targets = new Map<number, number>();
+  for (const [teamId, rating] of pavRatings) {
+    targets.set(teamId, 1500 + weight * (rating - mean));
+  }
+  return targets;
+}
+
+/**
  * Run the walk-forward harness over historical data.
  *
  * @param data - All pre-fetched data.
@@ -89,22 +189,31 @@ export function runHarness(
   const predictions: MatchPrediction[] = [];
   const skippedMatches: number[] = [];
   const teamCountBySeason = countTeamsBySeason(data.matches);
+  const firstMatchByTeam = indexFirstMatchByTeam(data.matches);
 
   let currentSeasonId: number | null = null;
   // Placeholder — replaced at the first season boundary below.
   let pavState: PavSeasonState = createPavSeasonState(0);
   let priorPavMap: PriorPavMap = new Map();
   let priorLeague: LeagueAccumulator | null = null;
+  const offsetConfig = config.output.team_offset;
+  const offsetState: TeamOffsetState = createTeamOffsetState();
+  const odConfig = config.elo.od;
+  const odState: OdState = createOdState();
 
   for (const match of data.matches) {
     // Season boundary detection
     if (match.season_id !== currentSeasonId) {
-      if (currentSeasonId !== null) {
+      const isFirstSeason = currentSeasonId === null;
+      if (!isFirstSeason) {
         // Save league averages from completed season for R1 prior
         priorLeague = getLeagueAccumulator(pavState);
-
-        // Apply Elo regression at season boundary
-        applyRegression(eloState, config.elo.regression_to_mean);
+        if (offsetConfig) {
+          decayTeamOffsets(offsetState, offsetConfig.season_carry);
+        }
+        if (odConfig) {
+          applyOdRegression(odState, odConfig.regression_to_mean);
+        }
       }
 
       currentSeasonId = match.season_id;
@@ -124,6 +233,27 @@ export function runHarness(
         }
       }
 
+      // Task 37: age-curve adjustment to the R1 prior. `match` is the first match
+      // of the current season; its date proxies R1. No-op when weight is absent
+      // (bit-identical to v3) or 0.
+      const ageCurveWeight = config.pav.age_curve_weight ?? 0;
+      if (ageCurveWeight > 0 && data.dobByPlayerId.size > 0) {
+        priorPavMap = applyAgeCurve(priorPavMap, data.dobByPlayerId, match.date, ageCurveWeight);
+      }
+
+      // Apply Elo regression at season boundary (after the prior PAV map
+      // rebuild so PAV-implied targets use the season entering, not the old)
+      if (!isFirstSeason) {
+        const targets = buildRegressionTargets(
+          match.season_id,
+          firstMatchByTeam,
+          data.lineupsByMatch,
+          priorPavMap,
+          config,
+        );
+        applyRegression(eloState, config.elo.regression_to_mean, targets);
+      }
+
       // Reset PAV state for new season
       const isTrain = trainSeasonIds.has(match.season_id);
       if (isTrain) {
@@ -140,13 +270,38 @@ export function runHarness(
     const isTest = testSeasonIds.has(match.season_id);
     const isCompleted = match.home_points !== null && match.away_points !== null;
 
-    // For test seasons, generate predictions before updating state
-    if (isTest && isCompleted) {
-      const prediction = generatePrediction(match, eloState, pavState, priorPavMap, config, data);
-      if (prediction) {
-        predictions.push(prediction);
-      } else {
-        skippedMatches.push(match.id);
+    // For test seasons, generate predictions before updating state. With
+    // team offsets enabled, non-train seasons also generate (unrecorded)
+    // predictions so the offset state can learn from their residuals.
+    if ((isTest || (offsetConfig && !isTrain)) && isCompleted) {
+      const marginAdjust = offsetConfig
+        ? getTeamOffset(offsetState, match.home_team_id, offsetConfig.k) -
+          getTeamOffset(offsetState, match.away_team_id, offsetConfig.k)
+        : 0;
+      const prediction = generatePrediction(
+        match,
+        eloState,
+        pavState,
+        priorPavMap,
+        config,
+        data,
+        marginAdjust,
+        odState,
+      );
+      if (isTest) {
+        if (prediction) {
+          predictions.push(prediction);
+        } else {
+          skippedMatches.push(match.id);
+        }
+      }
+      if (offsetConfig && prediction && prediction.actualMargin !== undefined) {
+        updateTeamOffsets(
+          offsetState,
+          match.home_team_id,
+          match.away_team_id,
+          prediction.actualMargin - prediction.predictedMargin,
+        );
       }
     }
 
@@ -158,6 +313,12 @@ export function runHarness(
 
       // Elo always updates (train and test), history tracks for contextual K
       updateElo(eloState, match, config.elo, eloHistory);
+
+      // OD updates on every completed match (train and test alike) — the
+      // signal is points-residual, same as Elo's, so it warms identically.
+      if (odConfig) {
+        updateOd(odState, match, odConfig);
+      }
 
       // PAV only updates in test seasons (train is Elo-only)
       if (!isTrain) {
@@ -193,19 +354,30 @@ export function runPredict(
   const predictions: MatchPrediction[] = [];
   const skippedMatches: number[] = [];
   const teamCountBySeason = countTeamsBySeason(data.matches);
+  const firstMatchByTeam = indexFirstMatchByTeam(data.matches);
 
   let currentSeasonId: number | null = null;
   // Placeholder — replaced at the first season boundary below.
   let pavState: PavSeasonState = createPavSeasonState(0);
   let priorPavMap: PriorPavMap = new Map();
   let priorLeague: LeagueAccumulator | null = null;
+  const offsetConfig = config.output.team_offset;
+  const offsetState: TeamOffsetState = createTeamOffsetState();
+  const odConfig = config.elo.od;
+  const odState: OdState = createOdState();
 
   for (const match of data.matches) {
     // Season boundary detection
     if (match.season_id !== currentSeasonId) {
-      if (currentSeasonId !== null) {
+      const isFirstSeason = currentSeasonId === null;
+      if (!isFirstSeason) {
         priorLeague = getLeagueAccumulator(pavState);
-        applyRegression(eloState, config.elo.regression_to_mean);
+        if (offsetConfig) {
+          decayTeamOffsets(offsetState, offsetConfig.season_carry);
+        }
+        if (odConfig) {
+          applyOdRegression(odState, odConfig.regression_to_mean);
+        }
       }
 
       currentSeasonId = match.season_id;
@@ -223,6 +395,22 @@ export function runPredict(
         }
       }
 
+      const ageCurveWeight = config.pav.age_curve_weight ?? 0;
+      if (ageCurveWeight > 0 && data.dobByPlayerId.size > 0) {
+        priorPavMap = applyAgeCurve(priorPavMap, data.dobByPlayerId, match.date, ageCurveWeight);
+      }
+
+      if (!isFirstSeason) {
+        const targets = buildRegressionTargets(
+          match.season_id,
+          firstMatchByTeam,
+          data.lineupsByMatch,
+          priorPavMap,
+          config,
+        );
+        applyRegression(eloState, config.elo.regression_to_mean, targets);
+      }
+
       if (priorLeague) {
         pavState = createPavSeasonStateWithPriorLeague(numTeams, priorLeague);
       } else {
@@ -233,21 +421,54 @@ export function runPredict(
     const isCompleted = match.home_points !== null && match.away_points !== null;
     const isTargetRound = match.season_id === targetSeasonId && match.round_number === targetRound;
 
+    const marginAdjust = offsetConfig
+      ? getTeamOffset(offsetState, match.home_team_id, offsetConfig.k) -
+        getTeamOffset(offsetState, match.away_team_id, offsetConfig.k)
+      : 0;
+
     if (isTargetRound && !isCompleted) {
       // This is an unplayed match in the target round — predict it
-      const prediction = generatePrediction(match, eloState, pavState, priorPavMap, config, data);
+      const prediction = generatePrediction(
+        match,
+        eloState,
+        pavState,
+        priorPavMap,
+        config,
+        data,
+        marginAdjust,
+        odState,
+      );
       if (prediction) {
         predictions.push(prediction);
       } else {
         skippedMatches.push(match.id);
       }
     } else if (isCompleted) {
-      // Completed match (could be earlier in the target round) — update state
-      if (isTargetRound) {
-        // Predict first, then update (matches already played in this round)
-        const prediction = generatePrediction(match, eloState, pavState, priorPavMap, config, data);
-        if (prediction) {
+      // Completed match (could be earlier in the target round) — update state.
+      // With team offsets enabled, every completed match contributes a
+      // (possibly unrecorded) prediction so offset state stays warm — the
+      // same rule the backtest harness uses for non-train seasons.
+      if (isTargetRound || offsetConfig) {
+        const prediction = generatePrediction(
+          match,
+          eloState,
+          pavState,
+          priorPavMap,
+          config,
+          data,
+          marginAdjust,
+          odState,
+        );
+        if (isTargetRound && prediction) {
           predictions.push(prediction);
+        }
+        if (offsetConfig && prediction && prediction.actualMargin !== undefined) {
+          updateTeamOffsets(
+            offsetState,
+            match.home_team_id,
+            match.away_team_id,
+            prediction.actualMargin - prediction.predictedMargin,
+          );
         }
       }
 
@@ -255,6 +476,9 @@ export function runPredict(
       const awayEloPre = getRating(eloState, match.away_team_id, config.elo.initial_rating);
 
       updateElo(eloState, match, config.elo, eloHistory);
+      if (odConfig) {
+        updateOd(odState, match, odConfig);
+      }
       const matchStats = data.statsByMatch.get(match.id) ?? [];
       updatePavState(pavState, match, matchStats, {
         home: (awayEloPre - config.elo.initial_rating) / 400,
@@ -273,9 +497,42 @@ function generatePrediction(
   priorPavMap: PriorPavMap,
   config: Config,
   data: HarnessData,
+  marginAdjust = 0,
+  odState?: OdState,
 ): MatchPrediction | null {
   const homeElo = getRating(eloState, match.home_team_id, config.elo.initial_rating);
   const awayElo = getRating(eloState, match.away_team_id, config.elo.initial_rating);
+
+  // Mix the OD-implied rating into the Elo slot when enabled (T36): the
+  // result feeds blend.computeTeamRating exactly as the scalar Elo does, so
+  // every downstream consumer (calibration, prediction HA, sigma) is
+  // untouched. `homeElo`/`awayElo` reported on the prediction record stay
+  // the raw scalar Elo so existing diagnostics don't shift meaning.
+  const odConfig = config.elo.od;
+  const homeEloUsed =
+    odConfig !== undefined && odState !== undefined
+      ? (1 - odConfig.weight) * homeElo +
+        odConfig.weight *
+          odImpliedRating(
+            odState,
+            match.home_team_id,
+            odConfig,
+            config.output.margin_per_rating_point,
+            config.elo.initial_rating,
+          )
+      : homeElo;
+  const awayEloUsed =
+    odConfig !== undefined && odState !== undefined
+      ? (1 - odConfig.weight) * awayElo +
+        odConfig.weight *
+          odImpliedRating(
+            odState,
+            match.away_team_id,
+            odConfig,
+            config.output.margin_per_rating_point,
+            config.elo.initial_rating,
+          )
+      : awayElo;
 
   // Compute team PAV sums from lineups
   const lineups = data.lineupsByMatch.get(match.id) ?? [];
@@ -290,12 +547,14 @@ function generatePrediction(
   const homePav = sumTeamPav(homeLineup, pavState, priorPavMap, homeGamesPlayed, config);
   const awayPav = sumTeamPav(awayLineup, pavState, priorPavMap, awayGamesPlayed, config);
 
-  const homeTeamRating = computeTeamRating(homeElo, homePav, config.blend);
-  const awayTeamRating = computeTeamRating(awayElo, awayPav, config.blend);
+  const homeTeamRating = computeTeamRating(homeEloUsed, homePav, config.blend);
+  const awayTeamRating = computeTeamRating(awayEloUsed, awayPav, config.blend);
 
-  // Home advantage at prediction time, in rating points (0 when unset)
+  // Home advantage at prediction time, in rating points (0 when unset);
+  // marginAdjust carries the team-offset term in margin points.
   const predictionHa = config.output.prediction_home_advantage ?? 0;
-  const margin = predictMargin(homeTeamRating + predictionHa, awayTeamRating, config.output);
+  const margin =
+    predictMargin(homeTeamRating + predictionHa, awayTeamRating, config.output) + marginAdjust;
   const winProb = computeWinProbability(margin, config.output.sigma);
 
   // Predicted winner from full-precision margin, never from rounded display

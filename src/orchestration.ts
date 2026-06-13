@@ -11,6 +11,7 @@ import {
   fetchLatestMatchDate,
   fetchLineupsForMatches,
   fetchMatchesForSeasons,
+  fetchPlayerDobs,
   fetchPlayerStatsForMatches,
   fetchPriorSeasonPav,
   fetchSeasons,
@@ -138,10 +139,20 @@ export async function fetchHarnessData(
     }),
   );
 
-  const [teams, venues, latestDate] = await Promise.all([
+  // Task 37: gather every player_id referenced by priors or lineups so the age-curve
+  // adjustment can find a DOB. We hit the players table once (chunked by 80 per the
+  // D1 bind limit) rather than per-season. Players without DOB pass through unchanged.
+  const dobPlayerIds = new Set<number>();
+  for (const rows of priorPavBySeason.values()) {
+    for (const row of rows) dobPlayerIds.add(row.player_id);
+  }
+  for (const row of lineups) dobPlayerIds.add(row.player_id);
+
+  const [teams, venues, latestDate, dobByPlayerId] = await Promise.all([
     fetchTeams(db, competition),
     fetchVenues(db),
     fetchLatestMatchDate(db, competition),
+    fetchPlayerDobs(db, [...dobPlayerIds]),
   ]);
 
   const harnessData: HarnessData = {
@@ -152,6 +163,7 @@ export async function fetchHarnessData(
     teamNames: new Map(teams.map((t) => [t.id, t.name])),
     venueNames: new Map(venues.map((v) => [v.id, v.name])),
     seasonYearById: seasonIdToYear,
+    dobByPlayerId,
   };
 
   return { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate };

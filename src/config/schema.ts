@@ -22,6 +22,29 @@ export const ConfigSchema = z.object({
     k_context_window: z.number().int().positive().default(8),
     home_advantage_source: z.enum(["static", "per_venue"]).default("static"),
     venue_ha: z.record(z.string(), z.number()).optional(),
+    // Weight of the PAV-implied team rating in the season-boundary regression
+    // target: target = 1500 + w × (pav_implied − league_mean). Absent means 0
+    // (regress to 1500). Optional (not defaulted): the hash covers the parsed
+    // config, so a .default() would invalidate every existing config's hash.
+    regression_pav_target_weight: z.number().min(0).max(1).optional(),
+    // Weight of the scoring-shot (luck-adjusted) margin in the Elo update:
+    // margin = (1−w)×actual + w×(shot_diff × league pts/shot). Absent means 0
+    // (actual margin only). Optional (not defaulted) to keep hashes stable.
+    shot_margin_weight: z.number().min(0).max(1).optional(),
+    // Task 36 (D2): offence/defence split ratings. Parallel attack/concede
+    // state in points space, mixed into the Elo slot at prediction weight
+    // `weight`. Absent means off (bit-identical to v3). Optional (not
+    // defaulted) to keep existing config hashes stable.
+    od: z
+      .object({
+        weight: z.number().min(0).max(1),
+        k: z.number().positive(),
+        home_advantage_points: z.number(),
+        initial_score: z.number().positive(),
+        regression_to_mean: z.number().min(0).max(1),
+        shot_score_weight: z.number().min(0).max(1).optional(),
+      })
+      .optional(),
   }),
 
   pav: z.object({
@@ -33,6 +56,13 @@ export const ConfigSchema = z.object({
     // .default() here would change every existing config's hash and
     // invalidate their results files. Absent means 0 (off).
     opponent_adjustment_alpha: z.number().min(0).optional(),
+    // Task 37 (T30 tipper-side): weight of the empirical player-age-curve adjustment
+    // to the R1 prior. Multiplies each player's prior-season PAV by
+    // (1 − w + w × age_transition_ratio[age_at_R1]) using a within-player ratio
+    // table fitted on AFLM 1998-2014 (DOB-coverage-complete, no test-window leakage).
+    // Absent = off (bit-identical to v3). Optional (not defaulted) to keep existing
+    // config hashes stable.
+    age_curve_weight: z.number().min(0).max(1).optional(),
     include: z.enum([
       "named_lineup_excl_emerg",
       "named_lineup_incl_emerg",
@@ -58,6 +88,16 @@ export const ConfigSchema = z.object({
     // without this the predicted margin contains no home advantage at all.
     // Optional (not defaulted) to keep existing config hashes stable.
     prediction_home_advantage: z.number().optional(),
+    // Walk-forward per-team performance offsets (margin points) applied at
+    // prediction time and learned from residuals: offset = sum/(n+k), shrunk
+    // toward 0; evidence decays by season_carry at each season boundary.
+    // Optional (not defaulted) to keep existing config hashes stable.
+    team_offset: z
+      .object({
+        k: z.number().positive(),
+        season_carry: z.number().min(0).max(1),
+      })
+      .optional(),
   }),
 
   backtest: z.object({

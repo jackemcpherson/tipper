@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { bootstrapCompare } from "../../src/engine/metrics.js";
+import { bootstrapCompare, bootstrapCompareStratified } from "../../src/engine/metrics.js";
 import type { MatchPrediction } from "../../src/types.js";
 
 function makePrediction(
@@ -122,6 +122,24 @@ describe("bootstrapCompare", () => {
     expect(() => bootstrapCompare(predsA, predsB)).toThrow("present in A but not in B");
   });
 
+  it("matches bootstrapCompareStratified with a single stratum bit-for-bit", () => {
+    const predsA = Array.from({ length: 60 }, (_, i) =>
+      makePrediction(i, 10 + (i % 7), i % 3 === 0 ? -8 : 14),
+    );
+    const predsB = Array.from({ length: 60 }, (_, i) =>
+      makePrediction(i, 6 + (i % 4), i % 3 === 0 ? -8 : 14),
+    );
+
+    const single = bootstrapCompare(predsA, predsB, 300, 42);
+    const stratified = bootstrapCompareStratified(
+      [{ predictionsA: predsA, predictionsB: predsB }],
+      300,
+      42,
+    );
+
+    expect(stratified).toEqual(single);
+  });
+
   it("reports correct point estimates alongside CIs", () => {
     const predsA = Array.from({ length: 50 }, (_, i) =>
       makePrediction(i, 15, i % 2 === 0 ? 20 : -10),
@@ -139,5 +157,92 @@ describe("bootstrapCompare", () => {
       result.configA.logLossBits - result.configB.logLossBits,
       10,
     );
+  });
+});
+
+describe("bootstrapCompareStratified", () => {
+  it("pools point estimates across strata", () => {
+    // Stratum 1: A clearly better; stratum 2: identical predictions
+    const s1A = Array.from({ length: 40 }, (_, i) => makePrediction(i, 20, 15));
+    const s1B = Array.from({ length: 40 }, (_, i) => makePrediction(i, -20, 15));
+    const s2 = Array.from({ length: 40 }, (_, i) => makePrediction(100 + i, 10, 12));
+
+    const result = bootstrapCompareStratified(
+      [
+        { predictionsA: s1A, predictionsB: s1B },
+        { predictionsA: s2, predictionsB: s2 },
+      ],
+      500,
+      42,
+    );
+
+    expect(result.configA.matches).toBe(80);
+    expect(result.configB.matches).toBe(80);
+    // A's advantage is diluted by the identical stratum but still present
+    expect(result.deltas.logLossBits.point).toBeLessThan(0);
+    expect(result.deltas.logLossBits.excludesZero).toBe(true);
+  });
+
+  it("produces a CI including zero when strata disagree and cancel", () => {
+    // Stratum 1: A better; stratum 2: B better via the mirrored construction.
+    // Item-level variation gives the bootstrap real resample variance.
+    const margin = (i: number) => 10 + (i % 7);
+    const actual = (i: number) => (i % 3 === 0 ? -8 : 14);
+    const s1A = Array.from({ length: 30 }, (_, i) => makePrediction(i, margin(i), actual(i)));
+    const s1B = Array.from({ length: 30 }, (_, i) => makePrediction(i, -margin(i), actual(i)));
+    const s2A = Array.from({ length: 30 }, (_, i) =>
+      makePrediction(100 + i, -margin(i), actual(i)),
+    );
+    const s2B = Array.from({ length: 30 }, (_, i) => makePrediction(100 + i, margin(i), actual(i)));
+
+    const result = bootstrapCompareStratified(
+      [
+        { predictionsA: s1A, predictionsB: s1B },
+        { predictionsA: s2A, predictionsB: s2B },
+      ],
+      500,
+      42,
+    );
+
+    expect(result.deltas.logLossBits.point).toBeCloseTo(0, 10);
+    expect(result.deltas.logLossBits.excludesZero).toBe(false);
+  });
+
+  it("is deterministic with the same seed", () => {
+    const s1A = Array.from({ length: 25 }, (_, i) =>
+      makePrediction(i, 10 + (i % 5), i % 3 === 0 ? -5 : 12),
+    );
+    const s1B = Array.from({ length: 25 }, (_, i) =>
+      makePrediction(i, 8 + (i % 3), i % 3 === 0 ? -5 : 12),
+    );
+    const s2A = Array.from({ length: 35 }, (_, i) =>
+      makePrediction(100 + i, 12 - (i % 4), i % 2 === 0 ? 6 : -9),
+    );
+    const s2B = Array.from({ length: 35 }, (_, i) =>
+      makePrediction(100 + i, 14 - (i % 6), i % 2 === 0 ? 6 : -9),
+    );
+
+    const strata = [
+      { predictionsA: s1A, predictionsB: s1B },
+      { predictionsA: s2A, predictionsB: s2B },
+    ];
+    const r1 = bootstrapCompareStratified(strata, 200, 99);
+    const r2 = bootstrapCompareStratified(strata, 200, 99);
+
+    expect(r1.deltas.logLossBits.ci95).toEqual(r2.deltas.logLossBits.ci95);
+    expect(r1.deltas.brier.ci95).toEqual(r2.deltas.brier.ci95);
+  });
+
+  it("throws on pairing mismatch within a stratum", () => {
+    const s1A = [makePrediction(1, 10, 5), makePrediction(2, 10, 5)];
+    const s1B = [makePrediction(1, 10, 5), makePrediction(3, 10, 5)];
+
+    expect(() => bootstrapCompareStratified([{ predictionsA: s1A, predictionsB: s1B }])).toThrow(
+      "present in A but not in B",
+    );
+  });
+
+  it("throws on empty strata", () => {
+    expect(() => bootstrapCompareStratified([])).toThrow("At least one stratum");
   });
 });

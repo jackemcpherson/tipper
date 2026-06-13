@@ -1,0 +1,4008 @@
+{
+  "config_id": "v4-shotoff",
+  "config_hash": "56ff8e2b09bcddebf8321d6ae951771a5bd5da8856fbf1396cf5a23d1823bf34",
+  "ran_at": "2026-06-13T01:55:07.771Z",
+  "data_through": "2026-06-12",
+  "scope": {
+    "seasons": [
+      2026
+    ]
+  },
+  "overall": {
+    "matches": 116,
+    "tips": 81,
+    "tip_pct": 0.7043478260869566,
+    "mae_margin": 26.878093349813536,
+    "rmse_margin": 34.260816934319,
+    "log_loss_bits": 0.7890380079895974,
+    "brier": 0.18620260706677427
+  },
+  "by_season": {
+    "2026": {
+      "matches": 116,
+      "tips": 81,
+      "tip_pct": 0.7043478260869566,
+      "mae_margin": 26.878093349813536,
+      "rmse_margin": 34.260816934319,
+      "log_loss_bits": 0.7890380079895974,
+      "brier": 0.18620260706677427
+    }
+  },
+  "calibration": [
+    {
+      "bucket": "50-60%",
+      "predicted": 0.5510015252952641,
+      "actual": 0.5333333333333333,
+      "n": 30
+    },
+    {
+      "bucket": "60-70%",
+      "predicted": 0.6506398796068017,
+      "actual": 0.52,
+      "n": 25
+    },
+    {
+      "bucket": "70-80%",
+      "predicted": 0.7438033769150769,
+      "actual": 0.8,
+      "n": 30
+    },
+    {
+      "bucket": "80-90%",
+      "predicted": 0.8530536509560479,
+      "actual": 0.8846153846153846,
+      "n": 26
+    },
+    {
+      "bucket": "90-100%",
+      "predicted": 0.9341372075021356,
+      "actual": 1,
+      "n": 5
+    }
+  ],
+  "matches": [
+    {
+      "matchId": 10977,
+      "date": "2026-03-05",
+      "round": "Opening Round",
+      "roundNumber": 0,
+      "home": "Sydney",
+      "away": "Carlton",
+      "venue": "SCG",
+      "homeTeamRating": 1638.8036283974063,
+      "awayTeamRating": 1403.009479835208,
+      "homeElo": 1574.224913995677,
+      "awayElo": 1453.5489463920132,
+      "homePavTotal": 248.45000000000002,
+      "awayPavTotal": 189.98,
+      "homePavZones": {
+        "off": 73.07333333333334,
+        "mid": 87.84333333333335,
+        "def": 87.53333333333333
+      },
+      "awayPavZones": {
+        "off": 61.13333333333333,
+        "mid": 70.73333333333333,
+        "def": 58.11333333333332
+      },
+      "predictedMargin": 21.404376005758266,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7610724888708955,
+        "away": 0.2389275111291045
+      },
+      "actualMargin": 63,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 10978,
+      "date": "2026-03-06",
+      "round": "Opening Round",
+      "roundNumber": 0,
+      "home": "Gold Coast",
+      "away": "Geelong",
+      "venue": "Carrara",
+      "homeTeamRating": 1733.8874123158932,
+      "awayTeamRating": 1800.8730519860715,
+      "homeElo": 1656.9696471931552,
+      "awayElo": 1724.0416999767858,
+      "homePavTotal": 264.71000000000004,
+      "awayPavTotal": 274.28,
+      "homePavZones": {
+        "off": 81.54666666666665,
+        "mid": 89.13666666666668,
+        "def": 94.02666666666669
+      },
+      "awayPavZones": {
+        "off": 77.74666666666666,
+        "mid": 98.47666666666665,
+        "def": 98.05666666666667
+      },
+      "predictedMargin": -0.8831381793200326,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.4863085441327874,
+        "away": 0.5136914558672125
+      },
+      "actualMargin": 56,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 10979,
+      "date": "2026-03-07",
+      "round": "Opening Round",
+      "roundNumber": 0,
+      "home": "GWS Giants",
+      "away": "Hawthorn",
+      "venue": "Sydney Showground",
+      "homeTeamRating": 1572.7368049848678,
+      "awayTeamRating": 1807.3495396088235,
+      "homeElo": 1543.3347816414466,
+      "awayElo": 1734.0440993480393,
+      "homePavTotal": 231.44,
+      "awayPavTotal": 274.45,
+      "homePavZones": {
+        "off": 76.11666666666667,
+        "mid": 69.15666666666667,
+        "def": 86.16666666666666
+      },
+      "awayPavZones": {
+        "off": 92.71000000000001,
+        "mid": 84.41000000000001,
+        "def": 97.32999999999998
+      },
+      "predictedMargin": -10.813034066951438,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.3509804808791839,
+        "away": 0.6490195191208161
+      },
+      "actualMargin": 27,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 10980,
+      "date": "2026-03-07",
+      "round": "Opening Round",
+      "roundNumber": 0,
+      "home": "Brisbane Lions",
+      "away": "Western Bulldogs",
+      "venue": "Gabba",
+      "homeTeamRating": 1897.1290748071208,
+      "awayTeamRating": 1822.1902840948283,
+      "homeElo": 1895.4131380118677,
+      "awayElo": 1701.586620158047,
+      "homePavTotal": 271.93000000000006,
+      "awayPavTotal": 286.73,
+      "homePavZones": {
+        "off": 84.21666666666667,
+        "mid": 99.83666666666666,
+        "def": 87.8766666666667
+      },
+      "awayPavZones": {
+        "off": 103.07333333333334,
+        "mid": 103.54333333333334,
+        "def": 80.11333333333336
+      },
+      "predictedMargin": 9.228898954687725,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6295526871369526,
+        "away": 0.37044731286304744
+      },
+      "actualMargin": -5,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 10981,
+      "date": "2026-03-08",
+      "round": "Opening Round",
+      "roundNumber": 0,
+      "home": "St Kilda",
+      "away": "Collingwood",
+      "venue": "MCG",
+      "homeTeamRating": 1565.820269868236,
+      "awayTeamRating": 1765.1974924409867,
+      "homeElo": 1343.2317964470599,
+      "awayElo": 1726.2921007349782,
+      "homePavTotal": 271.93,
+      "awayPavTotal": 261.03,
+      "homePavZones": {
+        "off": 102.95000000000002,
+        "mid": 90.00999999999999,
+        "def": 78.97000000000001
+      },
+      "awayPavZones": {
+        "off": 81.58999999999997,
+        "mid": 97.43,
+        "def": 82.00999999999999
+      },
+      "predictedMargin": -9.746783712722715,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.3640002922715664,
+        "away": 0.6359997077284336
+      },
+      "actualMargin": -12,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 20312,
+      "date": "2026-03-12",
+      "round": "Round 1",
+      "roundNumber": 1,
+      "home": "Carlton",
+      "away": "Richmond",
+      "venue": "MCG",
+      "homeTeamRating": 1401.3536626605646,
+      "awayTeamRating": 1234.0401395010917,
+      "homeElo": 1438.3112377411294,
+      "awayElo": 1190.888725835153,
+      "homePavTotal": 192.65921844255905,
+      "awayPavTotal": 185.91,
+      "homePavZones": {
+        "off": 61.66842981385716,
+        "mid": 70.69549677488072,
+        "def": 60.295291853821176
+      },
+      "awayPavZones": {
+        "off": 69.35666666666667,
+        "mid": 59.81666666666666,
+        "def": 56.73666666666665
+      },
+      "predictedMargin": 20.304949268274203,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7508207060445278,
+        "away": 0.24917929395547223
+      },
+      "actualMargin": 4,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 20313,
+      "date": "2026-03-13",
+      "round": "Round 1",
+      "roundNumber": 1,
+      "home": "Essendon",
+      "away": "Hawthorn",
+      "venue": "MCG",
+      "homeTeamRating": 1256.75393357207,
+      "awayTeamRating": 1768.517198238242,
+      "homeElo": 1242.8567692867834,
+      "awayElo": 1702.5626276082037,
+      "homePavTotal": 182.88,
+      "awayPavTotal": 267.31306243677346,
+      "homePavZones": {
+        "off": 57.13,
+        "mid": 57.55999999999999,
+        "def": 68.19
+      },
+      "awayPavZones": {
+        "off": 90.85399603202227,
+        "mid": 83.46225828926605,
+        "def": 92.99680811548514
+      },
+      "predictedMargin": -34.70855381192291,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.1374636052490032,
+        "away": 0.8625363947509967
+      },
+      "actualMargin": -62,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 20314,
+      "date": "2026-03-14",
+      "round": "Round 1",
+      "roundNumber": 1,
+      "home": "Western Bulldogs",
+      "away": "GWS Giants",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1857.3925877826932,
+      "awayTeamRating": 1608.3719131174967,
+      "homeElo": 1701.586620158047,
+      "awayElo": 1574.8162533812822,
+      "homePavTotal": 299.3274462095137,
+      "awayPavTotal": 237.4327802350155,
+      "homePavZones": {
+        "off": 108.75048798030979,
+        "mid": 106.47538066256463,
+        "def": 84.10157756663928
+      },
+      "awayPavZones": {
+        "off": 78.94118338035716,
+        "mid": 71.62316810344828,
+        "def": 86.86842875121006
+      },
+      "predictedMargin": 23.387041465826528,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7788008553034136,
+        "away": 0.2211991446965864
+      },
+      "actualMargin": 81,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 20315,
+      "date": "2026-03-14",
+      "round": "Round 1",
+      "roundNumber": 1,
+      "home": "Geelong",
+      "away": "Fremantle",
+      "venue": "Kardinia Park",
+      "homeTeamRating": 1814.1546086885173,
+      "awayTeamRating": 1616.9594097894937,
+      "homeElo": 1688.6623638768024,
+      "awayElo": 1539.2150829824898,
+      "homePavTotal": 286.62939821157886,
+      "awayPavTotal": 248.14999999999998,
+      "homePavZones": {
+        "off": 94.1338107336216,
+        "mid": 95.28317679133049,
+        "def": 97.21241068662677
+      },
+      "awayPavZones": {
+        "off": 87.83999999999997,
+        "mid": 93.43,
+        "def": 66.87999999999998
+      },
+      "predictedMargin": 20.94062281631782,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7567851989034284,
+        "away": 0.24321480109657156
+      },
+      "actualMargin": 10,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 20316,
+      "date": "2026-03-14",
+      "round": "Round 1",
+      "roundNumber": 1,
+      "home": "Sydney",
+      "away": "Brisbane Lions",
+      "venue": "SCG",
+      "homeTeamRating": 1669.3419809651045,
+      "awayTeamRating": 1754.169722769393,
+      "homeElo": 1589.462622646561,
+      "awayElo": 1895.4131380118677,
+      "homePavTotal": 256.10664449512166,
+      "awayPavTotal": 220.77077009815076,
+      "homePavZones": {
+        "off": 76.2171648547309,
+        "mid": 90.728125,
+        "def": 89.16135464039077
+      },
+      "awayPavZones": {
+        "off": 65.66872538720068,
+        "mid": 85.69332524271843,
+        "def": 69.40871946823167
+      },
+      "predictedMargin": -1.191089479622323,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.4816035955191995,
+        "away": 0.5183964044808005
+      },
+      "actualMargin": 44,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 20317,
+      "date": "2026-03-14",
+      "round": "Round 1",
+      "roundNumber": 1,
+      "home": "Collingwood",
+      "away": "Adelaide",
+      "venue": "MCG",
+      "homeTeamRating": 1781.3540094257812,
+      "awayTeamRating": 1634.5323841051732,
+      "homeElo": 1736.0529480260002,
+      "awayElo": 1583.1739735086217,
+      "homePavTotal": 264.715946396429,
+      "awayPavTotal": 245.00000000000003,
+      "homePavZones": {
+        "off": 84.12324564294289,
+        "mid": 95.30887896825396,
+        "def": 85.28382178523216
+      },
+      "awayPavZones": {
+        "off": 92.27333333333335,
+        "mid": 76.38333333333334,
+        "def": 76.34333333333333
+      },
+      "predictedMargin": 14.38520267503288,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6902292525388214,
+        "away": 0.3097707474611786
+      },
+      "actualMargin": -14,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 20318,
+      "date": "2026-03-15",
+      "round": "Round 1",
+      "roundNumber": 1,
+      "home": "North Melbourne",
+      "away": "Port Adelaide",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1332.6745066862652,
+      "awayTeamRating": 1385.843089330017,
+      "homeElo": 1108.5338178104419,
+      "awayElo": 1384.186628883362,
+      "homePavTotal": 238.89000000000004,
+      "awayPavTotal": 198.73,
+      "homePavZones": {
+        "off": 92.76333333333335,
+        "mid": 73.21333333333334,
+        "def": 72.91333333333336
+      },
+      "awayPavZones": {
+        "off": 64.69333333333333,
+        "mid": 61.283333333333324,
+        "def": 72.75333333333333
+      },
+      "predictedMargin": 2.1911972065010374,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5334345475745503,
+        "away": 0.46656545242544967
+      },
+      "actualMargin": 46,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 20319,
+      "date": "2026-03-15",
+      "round": "Round 1",
+      "roundNumber": 1,
+      "home": "Melbourne",
+      "away": "St Kilda",
+      "venue": "MCG",
+      "homeTeamRating": 1532.9229406714676,
+      "awayTeamRating": 1517.7429223888312,
+      "homeElo": 1518.9874877857792,
+      "awayElo": 1333.470949156038,
+      "homePavTotal": 222.42000000000002,
+      "awayPavTotal": 256.82091071257105,
+      "homePavZones": {
+        "off": 80.76666666666667,
+        "mid": 79.16666666666667,
+        "def": 62.486666666666665
+      },
+      "awayPavZones": {
+        "off": 94.1627362044013,
+        "mid": 85.03862318334265,
+        "def": 77.61955132482714
+      },
+      "predictedMargin": 6.516367515438185,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.594429470654789,
+        "away": 0.405570529345211
+      },
+      "actualMargin": 13,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 20320,
+      "date": "2026-03-15",
+      "round": "Round 1",
+      "roundNumber": 1,
+      "home": "Gold Coast",
+      "away": "West Coast",
+      "venue": "Carrara",
+      "homeTeamRating": 1735.6528796199696,
+      "awayTeamRating": 1063.2370860049787,
+      "homeElo": 1692.3489832931386,
+      "awayElo": 1079.4697700082977,
+      "homePavTotal": 257.7453083467243,
+      "awayPavTotal": 148.70999999999998,
+      "homePavZones": {
+        "off": 77.13558717822964,
+        "mid": 86.5898032807104,
+        "def": 94.01991788778425
+      },
+      "awayPavZones": {
+        "off": 46.11333333333333,
+        "mid": 45.06333333333333,
+        "def": 57.53333333333332
+      },
+      "predictedMargin": 58.136404400872436,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.9587735560094038,
+        "away": 0.04122644399059616
+      },
+      "actualMargin": 59,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 20321,
+      "date": "2026-03-19",
+      "round": "Round 2",
+      "roundNumber": 2,
+      "home": "Hawthorn",
+      "away": "Sydney",
+      "venue": "MCG",
+      "homeTeamRating": 1791.9333213455313,
+      "awayTeamRating": 1661.7484460737576,
+      "homeElo": 1716.3053720510338,
+      "awayElo": 1660.8448907566576,
+      "homePavTotal": 272.7419475074832,
+      "awayPavTotal": 238.06237890773082,
+      "homePavZones": {
+        "off": 93.39666096264054,
+        "mid": 87.59268187602072,
+        "def": 91.75260466882192
+      },
+      "awayPavZones": {
+        "off": 68.10344673667984,
+        "mid": 81.93883698836196,
+        "def": 88.02009518268903
+      },
+      "predictedMargin": 16.046491537508974,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7081759295667296,
+        "away": 0.2918240704332704
+      },
+      "actualMargin": 17,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 26309,
+      "date": "2026-03-20",
+      "round": "Round 2",
+      "roundNumber": 2,
+      "home": "Adelaide",
+      "away": "Western Bulldogs",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1718.0823328263882,
+      "awayTeamRating": 1871.4971493376975,
+      "homeElo": 1646.4652046705771,
+      "awayElo": 1715.7233661132811,
+      "homePavTotal": 261.3094796822366,
+      "awayPavTotal": 301.33951104699713,
+      "homePavZones": {
+        "off": 99.4388850784874,
+        "mid": 83.32499843002195,
+        "def": 78.54559617372723
+      },
+      "awayPavZones": {
+        "off": 110.77807450882648,
+        "mid": 105.21619538698107,
+        "def": 85.3452411511896
+      },
+      "predictedMargin": -5.86322135157047,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.4143776275588781,
+        "away": 0.5856223724411219
+      },
+      "actualMargin": -6,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 42388,
+      "date": "2026-03-21",
+      "round": "Round 2",
+      "roundNumber": 2,
+      "home": "Richmond",
+      "away": "Gold Coast",
+      "venue": "MCG",
+      "homeTeamRating": 1319.4805880512095,
+      "awayTeamRating": 1777.6243279867122,
+      "homeElo": 1230.3384377307268,
+      "awayElo": 1693.1440794801292,
+      "homePavTotal": 208.01514651187136,
+      "awayPavTotal": 272.59443182745304,
+      "homePavZones": {
+        "off": 66.3201176283102,
+        "mid": 68.00180900848711,
+        "def": 73.69321987507404
+      },
+      "awayPavZones": {
+        "off": 84.87051109856425,
+        "mid": 95.53583382823395,
+        "def": 92.18808690065481
+      },
+      "predictedMargin": -30.985273119017005,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.16186564237046797,
+        "away": 0.838134357629532
+      },
+      "actualMargin": -68,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 42389,
+      "date": "2026-03-21",
+      "round": "Round 2",
+      "roundNumber": 2,
+      "home": "GWS Giants",
+      "away": "St Kilda",
+      "venue": "Sydney Showground",
+      "homeTeamRating": 1595.8523928607367,
+      "awayTeamRating": 1562.5837648187617,
+      "homeElo": 1560.679507426048,
+      "awayElo": 1384.236942676398,
+      "homePavTotal": 235.9879360167148,
+      "awayPavTotal": 261.96736301636224,
+      "homePavZones": {
+        "off": 78.56251672143097,
+        "mid": 72.78529411764707,
+        "def": 84.64012517763676
+      },
+      "awayPavZones": {
+        "off": 98.99246675461058,
+        "mid": 84.79422566450631,
+        "def": 78.18067059724538
+      },
+      "predictedMargin": 10.289135031070616,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6426646491753452,
+        "away": 0.35733535082465484
+      },
+      "actualMargin": -4,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 42390,
+      "date": "2026-03-21",
+      "round": "Round 2",
+      "roundNumber": 2,
+      "home": "Fremantle",
+      "away": "Melbourne",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1660.431206967522,
+      "awayTeamRating": 1518.3565348774594,
+      "homeElo": 1539.2150829824898,
+      "awayElo": 1468.221494265419,
+      "homePavTotal": 263.7067553600158,
+      "awayPavTotal": 228.1075144282164,
+      "homePavZones": {
+        "off": 89.98990700315113,
+        "mid": 91.67684159634318,
+        "def": 82.04000676052145
+      },
+      "awayPavZones": {
+        "off": 84.10065696591391,
+        "mid": 80.82252358490567,
+        "def": 63.18433387739684
+      },
+      "predictedMargin": 16.735536011252957,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7153998893741436,
+        "away": 0.28460011062585644
+      },
+      "actualMargin": 48,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 42391,
+      "date": "2026-03-22",
+      "round": "Round 2",
+      "roundNumber": 2,
+      "home": "Port Adelaide",
+      "away": "Essendon",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1373.3339535352884,
+      "awayTeamRating": 1273.642399448374,
+      "homeElo": 1325.1225137893298,
+      "awayElo": 1229.1140248439533,
+      "homePavTotal": 206.93545851048185,
+      "awayPavTotal": 191.8744576803614,
+      "homePavZones": {
+        "off": 69.52637999005705,
+        "mid": 67.82061265911308,
+        "def": 69.5884658613117
+      },
+      "awayPavZones": {
+        "off": 64.00059116364818,
+        "mid": 59.88602254728659,
+        "def": 67.98784396942663
+      },
+      "predictedMargin": 13.585956657823735,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6813238012631362,
+        "away": 0.3186761987368638
+      },
+      "actualMargin": 63,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 42392,
+      "date": "2026-03-22",
+      "round": "Round 2",
+      "roundNumber": 2,
+      "home": "West Coast",
+      "away": "North Melbourne",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1108.1120991351568,
+      "awayTeamRating": 1388.9068434395786,
+      "homeElo": 1078.6746738213071,
+      "awayElo": 1167.597932904474,
+      "homePavTotal": 164.9396274128158,
+      "awayPavTotal": 246.33126384801534,
+      "homePavZones": {
+        "off": 53.59996864634292,
+        "mid": 53.288157030223395,
+        "def": 58.05150173624949
+      },
+      "awayPavZones": {
+        "off": 95.63027741383814,
+        "mid": 75.419414893617,
+        "def": 75.2815715405602
+      },
+      "predictedMargin": -17.09151454620975,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.2809177820204343,
+        "away": 0.7190822179795657
+      },
+      "actualMargin": 17,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 42393,
+      "date": "2026-03-26",
+      "round": "Round 3",
+      "roundNumber": 3,
+      "home": "Geelong",
+      "away": "Adelaide",
+      "venue": "Kardinia Park",
+      "homeTeamRating": 1765.0431280799646,
+      "awayTeamRating": 1574.3019849019333,
+      "homeElo": 1688.6623638768024,
+      "awayElo": 1623.1168223177706,
+      "homePavTotal": 269.0544337796605,
+      "awayPavTotal": 214.8697006553361,
+      "homePavZones": {
+        "off": 85.53361955128773,
+        "mid": 89.90702266469023,
+        "def": 93.61379156368255
+      },
+      "awayPavZones": {
+        "off": 78.93265133274767,
+        "mid": 65.92496669518574,
+        "def": 70.01208262740266
+      },
+      "predictedMargin": 18.17051578654936,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7300387739321663,
+        "away": 0.2699612260678337
+      },
+      "actualMargin": 8,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 42394,
+      "date": "2026-03-27",
+      "round": "Round 3",
+      "roundNumber": 3,
+      "home": "Collingwood",
+      "away": "GWS Giants",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1794.6788848281947,
+      "awayTeamRating": 1580.039677271468,
+      "homeElo": 1672.7617168640447,
+      "awayElo": 1565.155234566449,
+      "homePavTotal": 283.0739531598082,
+      "awayPavTotal": 229.36821376023423,
+      "homePavZones": {
+        "off": 82.93636082902093,
+        "mid": 96.626601578244,
+        "def": 103.51099075254325
+      },
+      "awayPavZones": {
+        "off": 77.46105339170565,
+        "mid": 74.47088192576582,
+        "def": 77.43627844276276
+      },
+      "predictedMargin": 19.60808628633582,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7441643694674754,
+        "away": 0.25583563053252456
+      },
+      "actualMargin": 33,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 42395,
+      "date": "2026-03-28",
+      "round": "Round 3",
+      "roundNumber": 3,
+      "home": "St Kilda",
+      "away": "Brisbane Lions",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1534.305141468822,
+      "awayTeamRating": 1782.350999419095,
+      "homeElo": 1379.761215535997,
+      "awayElo": 1824.030869901771,
+      "homePavTotal": 252.80862158145717,
+      "awayPavTotal": 246.1825355990668,
+      "homePavZones": {
+        "off": 97.77532861296714,
+        "mid": 82.50758029697295,
+        "def": 72.52571267151708
+      },
+      "awayPavZones": {
+        "off": 81.12775496808678,
+        "mid": 89.47069649062534,
+        "def": 75.58408414035468
+      },
+      "predictedMargin": -12.563256951865704,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.33033350436523123,
+        "away": 0.6696664956347688
+      },
+      "actualMargin": -33,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 42396,
+      "date": "2026-03-28",
+      "round": "Round 3",
+      "roundNumber": 3,
+      "home": "Fremantle",
+      "away": "Richmond",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1695.0643875437459,
+      "awayTeamRating": 1237.7111392646839,
+      "homeElo": 1558.8629578316707,
+      "awayElo": 1217.4271370074741,
+      "homePavTotal": 271.88183969537056,
+      "awayPavTotal": 181.52549994997122,
+      "homePavZones": {
+        "off": 90.1580941155396,
+        "mid": 92.33814335273266,
+        "def": 89.38560222709827
+      },
+      "awayPavZones": {
+        "off": 57.32330319656413,
+        "mid": 57.34925960276016,
+        "def": 66.85293715064694
+      },
+      "predictedMargin": 41.94365137721124,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.902009159569519,
+        "away": 0.09799084043048101
+      },
+      "actualMargin": 60,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 42397,
+      "date": "2026-03-28",
+      "round": "Round 3",
+      "roundNumber": 3,
+      "home": "Essendon",
+      "away": "North Melbourne",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1221.38432498388,
+      "awayTeamRating": 1331.6568608565728,
+      "homeElo": 1211.8007230659844,
+      "awayElo": 1133.5294219277455,
+      "homePavTotal": 176.89088575160665,
+      "awayPavTotal": 233.1588919624698,
+      "homePavZones": {
+        "off": 64.30136681386476,
+        "mid": 56.76863038056589,
+        "def": 55.820888557176
+      },
+      "awayPavZones": {
+        "off": 87.83886871757169,
+        "mid": 73.3977889752327,
+        "def": 71.92223426966541
+      },
+      "predictedMargin": -4.5824588388457235,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.4320561546206297,
+        "away": 0.5679438453793704
+      },
+      "actualMargin": -12,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 42398,
+      "date": "2026-03-29",
+      "round": "Round 3",
+      "roundNumber": 3,
+      "home": "Port Adelaide",
+      "away": "West Coast",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1354.3235386765712,
+      "awayTeamRating": 1127.2198562600256,
+      "homeElo": 1342.4358155672987,
+      "awayElo": 1112.7431847980356,
+      "homePavTotal": 196.41499045812765,
+      "awayPavTotal": 164.46247687560987,
+      "homePavZones": {
+        "off": 68.76832023294327,
+        "mid": 64.38783692428173,
+        "def": 63.25883330090267
+      },
+      "awayPavZones": {
+        "off": 55.75308180128803,
+        "mid": 55.542220461567766,
+        "def": 53.16717461275405
+      },
+      "predictedMargin": 23.371799185053877,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7786682369428443,
+        "away": 0.22133176305715574
+      },
+      "actualMargin": -2,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 42399,
+      "date": "2026-03-29",
+      "round": "Round 3",
+      "roundNumber": 3,
+      "home": "Carlton",
+      "away": "Melbourne",
+      "venue": "MCG",
+      "homeTeamRating": 1372.5603481062935,
+      "awayTeamRating": 1477.888711881044,
+      "homeElo": 1398.8615258455557,
+      "awayElo": 1448.5736194162382,
+      "homePavTotal": 190.82573454013746,
+      "awayPavTotal": 217.8444532748715,
+      "homePavZones": {
+        "off": 62.06476708079315,
+        "mid": 66.57645541227738,
+        "def": 62.18451204706693
+      },
+      "awayPavZones": {
+        "off": 81.37542978829433,
+        "mid": 77.3056765916243,
+        "def": 59.16334689495288
+      },
+      "predictedMargin": -1.247178850712395,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.4807504577196246,
+        "away": 0.5192495422803753
+      },
+      "actualMargin": -23,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 42400,
+      "date": "2026-04-02",
+      "round": "Round 4",
+      "roundNumber": 4,
+      "home": "Brisbane Lions",
+      "away": "Collingwood",
+      "venue": "Gabba",
+      "homeTeamRating": 1779.6511273164297,
+      "awayTeamRating": 1686.1335173948469,
+      "homeElo": 1832.4306889292236,
+      "awayElo": 1683.1850101693794,
+      "homePavTotal": 243.41279486075567,
+      "awayPavTotal": 241.99202379516856,
+      "homePavZones": {
+        "off": 84.40420244459315,
+        "mid": 89.44688040037049,
+        "def": 69.56171201579204
+      },
+      "awayPavZones": {
+        "off": 74.52318087702078,
+        "mid": 77.64592589819114,
+        "def": 89.82291701995668
+      },
+      "predictedMargin": 12.021326000809685,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6633683745713312,
+        "away": 0.33663162542866876
+      },
+      "actualMargin": 54,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 42401,
+      "date": "2026-04-03",
+      "round": "Round 4",
+      "roundNumber": 4,
+      "home": "North Melbourne",
+      "away": "Carlton",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1296.7318311738077,
+      "awayTeamRating": 1358.5159436641525,
+      "homeElo": 1121.4227559601288,
+      "awayElo": 1359.2627052027437,
+      "homePavTotal": 223.26015516666558,
+      "awayPavTotal": 194.30229048901595,
+      "homePavZones": {
+        "off": 86.18008115181627,
+        "mid": 65.33098959602161,
+        "def": 71.7490844188277
+      },
+      "awayPavZones": {
+        "off": 61.14323059597543,
+        "mid": 69.47880647383292,
+        "def": 63.68025341920758
+      },
+      "predictedMargin": 0.7720458355373844,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5119854387624043,
+        "away": 0.4880145612375957
+      },
+      "actualMargin": 10,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 42402,
+      "date": "2026-04-03",
+      "round": "Round 4",
+      "roundNumber": 4,
+      "home": "Adelaide",
+      "away": "Fremantle",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1632.3457604060777,
+      "awayTeamRating": 1712.3360496352407,
+      "homeElo": 1605.3894407959817,
+      "awayElo": 1564.0322896203256,
+      "homePavTotal": 239.44750069012622,
+      "awayPavTotal": 276.95271824471996,
+      "homePavZones": {
+        "off": 88.99277488278426,
+        "mid": 80.75550375950017,
+        "def": 69.69922204784176
+      },
+      "awayPavZones": {
+        "off": 90.5621686780039,
+        "mid": 95.59895416064641,
+        "def": 90.79159540606963
+      },
+      "predictedMargin": 1.6036980762927722,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5246450779052412,
+        "away": 0.4753549220947588
+      },
+      "actualMargin": -2,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 42434,
+      "date": "2026-04-04",
+      "round": "Round 4",
+      "roundNumber": 4,
+      "home": "Richmond",
+      "away": "Port Adelaide",
+      "venue": "MCG",
+      "homeTeamRating": 1226.7019019149873,
+      "awayTeamRating": 1366.4722022187111,
+      "homeElo": 1212.2578052188192,
+      "awayElo": 1289.0898046895845,
+      "homePavTotal": 178.69568379032916,
+      "awayPavTotal": 212.2166903109649,
+      "homePavZones": {
+        "off": 53.6044825145905,
+        "mid": 55.63321883149023,
+        "def": 69.45798244424843
+      },
+      "awayPavZones": {
+        "off": 75.65306332718167,
+        "mid": 74.6558470111805,
+        "def": 61.90777997260273
+      },
+      "predictedMargin": -5.86647813266606,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.4143333672160461,
+        "away": 0.5856666327839539
+      },
+      "actualMargin": -42,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 42691,
+      "date": "2026-04-04",
+      "round": "Round 4",
+      "roundNumber": 4,
+      "home": "West Coast",
+      "away": "Sydney",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1176.9964081621595,
+      "awayTeamRating": 1708.4622693617125,
+      "homeElo": 1166.0891956757498,
+      "awayElo": 1640.0550282182146,
+      "homePavTotal": 170.8212463343507,
+      "awayPavTotal": 259.24321944989396,
+      "homePavZones": {
+        "off": 57.98107883022549,
+        "mid": 54.031213642062234,
+        "def": 58.80895386206297
+      },
+      "awayPavZones": {
+        "off": 76.87718430447362,
+        "mid": 91.7195470138029,
+        "def": 90.64648813161746
+      },
+      "predictedMargin": -35.26741909424936,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.13405010800917994,
+        "away": 0.8659498919908201
+      },
+      "actualMargin": -128,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 43385,
+      "date": "2026-04-05",
+      "round": "Round 4",
+      "roundNumber": 4,
+      "home": "Melbourne",
+      "away": "Gold Coast",
+      "venue": "MCG",
+      "homeTeamRating": 1500.295944040393,
+      "awayTeamRating": 1756.6065953139146,
+      "homeElo": 1488.1724400590501,
+      "awayElo": 1706.055380203382,
+      "homePavTotal": 217.36060692991805,
+      "awayPavTotal": 262.3008041768843,
+      "homePavZones": {
+        "off": 79.10138139941452,
+        "mid": 77.61770741225763,
+        "def": 60.641518118245884
+      },
+      "awayPavZones": {
+        "off": 78.04195364434932,
+        "mid": 92.15589351357761,
+        "def": 92.10295701895735
+      },
+      "predictedMargin": -14.935117681830596,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.3037463918173671,
+        "away": 0.6962536081826329
+      },
+      "actualMargin": 20,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 43556,
+      "date": "2026-04-05",
+      "round": "Round 4",
+      "roundNumber": 4,
+      "home": "Western Bulldogs",
+      "away": "Essendon",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1763.4974070826242,
+      "awayTeamRating": 1219.6226454732046,
+      "homeElo": 1739.0717484660877,
+      "awayElo": 1223.907389033601,
+      "homePavTotal": 257.6776259672816,
+      "awayPavTotal": 173.66096910000144,
+      "homePavZones": {
+        "off": 99.72819989547787,
+        "mid": 81.26058175947239,
+        "def": 76.68884431233131
+      },
+      "awayPavZones": {
+        "off": 59.1497643752014,
+        "mid": 57.411507545258786,
+        "def": 57.099697179541245
+      },
+      "predictedMargin": 50.79883788969086,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.9377815324791352,
+        "away": 0.062218467520864795
+      },
+      "actualMargin": 34,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 44257,
+      "date": "2026-04-06",
+      "round": "Round 4",
+      "roundNumber": 4,
+      "home": "Hawthorn",
+      "away": "Geelong",
+      "venue": "MCG",
+      "homeTeamRating": 1766.1539378101663,
+      "awayTeamRating": 1798.6587389815709,
+      "homeElo": 1737.0952345894768,
+      "awayElo": 1706.3897453985912,
+      "homePavTotal": 259.0526757287719,
+      "awayPavTotal": 277.27773108446047,
+      "homePavZones": {
+        "off": 92.30276252830063,
+        "mid": 82.46223719576598,
+        "def": 84.28767600470526
+      },
+      "awayPavZones": {
+        "off": 90.2023558403011,
+        "mid": 93.54130654322084,
+        "def": 93.5340687009385
+      },
+      "predictedMargin": 3.4338444751615946,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5516171387510875,
+        "away": 0.44838286124891247
+      },
+      "actualMargin": 1,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 46994,
+      "date": "2026-04-09",
+      "round": "Round 5",
+      "roundNumber": 5,
+      "home": "Adelaide",
+      "away": "Carlton",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1646.9577647078454,
+      "awayTeamRating": 1303.4972780006035,
+      "homeElo": 1564.3939299029364,
+      "awayElo": 1308.7229801526748,
+      "homePavTotal": 253.47888876541785,
+      "awayPavTotal": 185.46503360614037,
+      "homePavZones": {
+        "off": 87.5508063051609,
+        "mid": 81.80286242080494,
+        "def": 84.12522003945199
+      },
+      "awayPavZones": {
+        "off": 60.56291058781808,
+        "mid": 63.89066681033938,
+        "def": 61.0114562079829
+      },
+      "predictedMargin": 33.05408975463232,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8520540412297152,
+        "away": 0.14794595877028482
+      },
+      "actualMargin": 28,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 47883,
+      "date": "2026-04-10",
+      "round": "Round 5",
+      "roundNumber": 5,
+      "home": "Collingwood",
+      "away": "Fremantle",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1771.0340426604032,
+      "awayTeamRating": 1741.1214515454415,
+      "homeElo": 1668.826196483763,
+      "awayElo": 1605.027800513371,
+      "homePavTotal": 275.4574594797257,
+      "awayPavTotal": 278.45146408438984,
+      "homePavZones": {
+        "off": 85.09432230848536,
+        "mid": 94.63737044683366,
+        "def": 95.72576672440668
+      },
+      "awayPavZones": {
+        "off": 90.50932291464233,
+        "mid": 96.5873060848622,
+        "def": 91.35483508488532
+      },
+      "predictedMargin": 6.7801500084069035,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5979471404417342,
+        "away": 0.40205285955826575
+      },
+      "actualMargin": -6,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 48568,
+      "date": "2026-04-11",
+      "round": "Round 5",
+      "roundNumber": 5,
+      "home": "North Melbourne",
+      "away": "Brisbane Lions",
+      "venue": "Barossa Park",
+      "homeTeamRating": 1312.1252396079035,
+      "awayTeamRating": 1874.1280207423285,
+      "homeElo": 1171.9624810101977,
+      "awayElo": 1846.78950261484,
+      "homePavTotal": 217.9171739914776,
+      "awayPavTotal": 274.1391064892015,
+      "homePavZones": {
+        "off": 86.12110325769865,
+        "mid": 65.76390660189873,
+        "def": 66.03216413188022
+      },
+      "awayPavZones": {
+        "off": 90.04069080155213,
+        "mid": 101.15760367115715,
+        "def": 82.94081201649222
+      },
+      "predictedMargin": -35.807127125469634,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.13081371821468463,
+        "away": 0.8691862817853153
+      },
+      "actualMargin": -26,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 48647,
+      "date": "2026-04-11",
+      "round": "Round 5",
+      "roundNumber": 5,
+      "home": "Essendon",
+      "away": "Melbourne",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1225.776345630153,
+      "awayTeamRating": 1580.9605766559532,
+      "homeElo": 1222.4742466791142,
+      "awayElo": 1546.7143149179706,
+      "homePavTotal": 176.17084083262392,
+      "awayPavTotal": 233.6573102294485,
+      "homePavZones": {
+        "off": 61.69858032189813,
+        "mid": 57.0342308494363,
+        "def": 57.438029661289505
+      },
+      "awayPavZones": {
+        "off": 89.3738442281828,
+        "mid": 81.95622465162394,
+        "def": 62.32724134964177
+      },
+      "predictedMargin": -22.498028464735185,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.22902883737851087,
+        "away": 0.7709711626214891
+      },
+      "actualMargin": 45,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 48768,
+      "date": "2026-04-11",
+      "round": "Round 5",
+      "roundNumber": 5,
+      "home": "Sydney",
+      "away": "Gold Coast",
+      "venue": "Norwood Oval",
+      "homeTeamRating": 1710.536171437451,
+      "awayTeamRating": 1730.3898006476056,
+      "homeElo": 1653.4906187634106,
+      "awayElo": 1647.5135053444615,
+      "homePavTotal": 257.1005583235774,
+      "awayPavTotal": 265.4887265391243,
+      "homePavZones": {
+        "off": 79.82447842816991,
+        "mid": 87.16587694031304,
+        "def": 90.11020295509446
+      },
+      "awayPavZones": {
+        "off": 79.52025811270732,
+        "mid": 93.32734371390288,
+        "def": 92.64112471251406
+      },
+      "predictedMargin": 4.226073125417898,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5629265355102883,
+        "away": 0.43707346448971174
+      },
+      "actualMargin": 32,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 48892,
+      "date": "2026-04-11",
+      "round": "Round 5",
+      "roundNumber": 5,
+      "home": "Hawthorn",
+      "away": "Western Bulldogs",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1820.5344404650855,
+      "awayTeamRating": 1763.047456420194,
+      "homeElo": 1756.391203946458,
+      "awayElo": 1740.5048908205745,
+      "homePavTotal": 274.3700680279168,
+      "awayPavTotal": 257.2088898968829,
+      "homePavZones": {
+        "off": 96.35502181322133,
+        "mid": 88.90510573075336,
+        "def": 89.10994048394204
+      },
+      "awayPavZones": {
+        "off": 95.30375510001615,
+        "mid": 84.19424065788526,
+        "def": 77.71089413898149
+      },
+      "predictedMargin": 8.277476076985241,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6174950939818231,
+        "away": 0.3825049060181769
+      },
+      "actualMargin": 40,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 49607,
+      "date": "2026-04-12",
+      "round": "Round 5",
+      "roundNumber": 5,
+      "home": "Geelong",
+      "away": "West Coast",
+      "venue": "Norwood Oval",
+      "homeTeamRating": 1772.9599022828859,
+      "awayTeamRating": 1150.983453633675,
+      "homeElo": 1687.09377604161,
+      "awayElo": 1152.6536051305538,
+      "homePavTotal": 272.2243188727168,
+      "awayPavTotal": 164.39711228003964,
+      "homePavZones": {
+        "off": 87.114652436813,
+        "mid": 96.52272119763832,
+        "def": 88.58694523826549
+      },
+      "awayPavZones": {
+        "off": 52.64931709072394,
+        "mid": 55.274669677801924,
+        "def": 56.47312551151378
+      },
+      "predictedMargin": 55.03470060402563,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.9507430151245324,
+        "away": 0.04925698487546759
+      },
+      "actualMargin": 46,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 49780,
+      "date": "2026-04-12",
+      "round": "Round 5",
+      "roundNumber": 5,
+      "home": "GWS Giants",
+      "away": "Richmond",
+      "venue": "Barossa Park",
+      "homeTeamRating": 1580.188187245666,
+      "awayTeamRating": 1226.200789705088,
+      "homeElo": 1554.7319412611143,
+      "awayElo": 1163.389024083484,
+      "homePavTotal": 231.65939825686993,
+      "awayPavTotal": 189.00922389600544,
+      "homePavZones": {
+        "off": 75.19475790566601,
+        "mid": 71.05488342103322,
+        "def": 85.40975693017069
+      },
+      "awayPavZones": {
+        "off": 55.508474171430926,
+        "mid": 58.51152617086215,
+        "def": 74.98922355371236
+      },
+      "predictedMargin": 35.71422195234041,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8686333535733953,
+        "away": 0.13136664642660467
+      },
+      "actualMargin": 56,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 49957,
+      "date": "2026-04-12",
+      "round": "Round 5",
+      "roundNumber": 5,
+      "home": "Port Adelaide",
+      "away": "St Kilda",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1418.7386819225492,
+      "awayTeamRating": 1534.6924060143206,
+      "homeElo": 1337.9585858249197,
+      "awayElo": 1371.3613965085444,
+      "homePavTotal": 220.427830814342,
+      "awayPavTotal": 254.750775876465,
+      "homePavZones": {
+        "off": 78.06574857726797,
+        "mid": 75.5649188426365,
+        "def": 66.79716339443755
+      },
+      "awayPavZones": {
+        "off": 98.54463042259697,
+        "mid": 86.5783637020479,
+        "def": 69.62778175182014
+      },
+      "predictedMargin": -3.317261214129478,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.45006552117566057,
+        "away": 0.5499344788243394
+      },
+      "actualMargin": -14,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 54278,
+      "date": "2026-04-16",
+      "round": "Round 6",
+      "roundNumber": 6,
+      "home": "Carlton",
+      "away": "Collingwood",
+      "venue": "MCG",
+      "homeTeamRating": 1361.3910673803543,
+      "awayTeamRating": 1728.3080437316364,
+      "homeElo": 1304.0758911755838,
+      "awayElo": 1683.2394259817863,
+      "homePavTotal": 207.18062291547525,
+      "awayPavTotal": 257.07285576244084,
+      "homePavZones": {
+        "off": 66.98492336469678,
+        "mid": 67.81134807920341,
+        "def": 72.38435147157506
+      },
+      "awayPavZones": {
+        "off": 76.27355483397004,
+        "mid": 87.7760682071336,
+        "def": 93.0232327213372
+      },
+      "predictedMargin": -20.872407401532556,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.24384998546983339,
+        "away": 0.7561500145301666
+      },
+      "actualMargin": -5,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 55429,
+      "date": "2026-04-17",
+      "round": "Round 6",
+      "roundNumber": 6,
+      "home": "Geelong",
+      "away": "Western Bulldogs",
+      "venue": "Kardinia Park",
+      "homeTeamRating": 1781.0965357341092,
+      "awayTeamRating": 1804.3332046332184,
+      "homeElo": 1688.5739819735074,
+      "awayElo": 1720.9593685042728,
+      "homePavTotal": 274.8182602884357,
+      "awayPavTotal": 276.180068540887,
+      "homePavZones": {
+        "off": 90.46126995098798,
+        "mid": 99.56534151300833,
+        "def": 84.79164882443938
+      },
+      "awayPavZones": {
+        "off": 97.7958497312055,
+        "mid": 95.869421465156,
+        "def": 82.51479734452552
+      },
+      "predictedMargin": 2.83683084393555,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.542949977483047,
+        "away": 0.45705002251695304
+      },
+      "actualMargin": 75,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 55524,
+      "date": "2026-04-17",
+      "round": "Round 6",
+      "roundNumber": 6,
+      "home": "Sydney",
+      "away": "GWS Giants",
+      "venue": "SCG",
+      "homeTeamRating": 1736.0903949793028,
+      "awayTeamRating": 1570.2562652990691,
+      "homeElo": 1676.1828299392937,
+      "awayElo": 1557.8984691181756,
+      "homePavTotal": 261.3729949240361,
+      "awayPavTotal": 227.42527334245767,
+      "homePavZones": {
+        "off": 83.46428108710332,
+        "mid": 92.86410897616332,
+        "def": 85.0446048607695
+      },
+      "awayPavZones": {
+        "off": 66.3859607195727,
+        "mid": 71.3123102629439,
+        "def": 89.7270023599411
+      },
+      "predictedMargin": 17.385162562025425,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7220944413567263,
+        "away": 0.2779055586432737
+      },
+      "actualMargin": 41,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 56341,
+      "date": "2026-04-18",
+      "round": "Round 6",
+      "roundNumber": 6,
+      "home": "Gold Coast",
+      "away": "Essendon",
+      "venue": "Carrara",
+      "homeTeamRating": 1709.5468583201828,
+      "awayTeamRating": 1272.8702370451958,
+      "homeElo": 1624.8212941685783,
+      "awayElo": 1298.9539239984138,
+      "homePavTotal": 262.90226231714706,
+      "awayPavTotal": 176.60244869959476,
+      "homePavZones": {
+        "off": 85.05455172255759,
+        "mid": 89.31770457395976,
+        "def": 88.53000602062971
+      },
+      "awayPavZones": {
+        "off": 65.12478400836282,
+        "mid": 58.46775845796428,
+        "def": 53.00990623326765
+      },
+      "predictedMargin": 40.10268563083439,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8929062918372141,
+        "away": 0.10709370816278585
+      },
+      "actualMargin": 9,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 56538,
+      "date": "2026-04-18",
+      "round": "Round 6",
+      "roundNumber": 6,
+      "home": "Hawthorn",
+      "away": "Port Adelaide",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1779.3196121739848,
+      "awayTeamRating": 1421.9741587744115,
+      "homeElo": 1775.9367262627597,
+      "awayElo": 1350.638643744316,
+      "homePavTotal": 255.42426868606103,
+      "awayPavTotal": 218.8630734783216,
+      "homePavZones": {
+        "off": 78.06200566504575,
+        "mid": 86.3879482416245,
+        "def": 90.97431477939077
+      },
+      "awayPavZones": {
+        "off": 74.648762253103,
+        "mid": 77.94535699107522,
+        "def": 66.2689542341434
+      },
+      "predictedMargin": 34.289503177398636,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8599349719733944,
+        "away": 0.1400650280266056
+      },
+      "actualMargin": 3,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 56689,
+      "date": "2026-04-18",
+      "round": "Round 6",
+      "roundNumber": 6,
+      "home": "Adelaide",
+      "away": "St Kilda",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1564.901306510846,
+      "awayTeamRating": 1535.3710099733457,
+      "homeElo": 1569.0410188800274,
+      "awayElo": 1358.6813385891483,
+      "homePavTotal": 223.11648124206616,
+      "awayPavTotal": 257.7162205911311,
+      "homePavZones": {
+        "off": 79.64946357731299,
+        "mid": 64.70826689563238,
+        "def": 78.75875076912078
+      },
+      "awayPavZones": {
+        "off": 98.89829113889827,
+        "mid": 85.75990417774672,
+        "def": 73.05802527448613
+      },
+      "predictedMargin": 10.77706411510091,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6485858055306137,
+        "away": 0.35141419446938627
+      },
+      "actualMargin": 1,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 57608,
+      "date": "2026-04-19",
+      "round": "Round 6",
+      "roundNumber": 6,
+      "home": "North Melbourne",
+      "away": "Richmond",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1328.058289734914,
+      "awayTeamRating": 1165.7322615958838,
+      "homeElo": 1169.0237693301683,
+      "awayElo": 1160.2224962264227,
+      "homePavTotal": 224.24993849728494,
+      "awayPavTotal": 168.04994412397303,
+      "homePavZones": {
+        "off": 87.88689738368478,
+        "mid": 67.5155263496886,
+        "def": 68.84751476391156
+      },
+      "awayPavZones": {
+        "off": 53.277251703428355,
+        "mid": 51.99025958734942,
+        "def": 62.782432833195244
+      },
+      "predictedMargin": 20.13420575148368,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7492012184919807,
+        "away": 0.25079878150801926
+      },
+      "actualMargin": 75,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 57765,
+      "date": "2026-04-19",
+      "round": "Round 6",
+      "roundNumber": 6,
+      "home": "Melbourne",
+      "away": "Brisbane Lions",
+      "venue": "MCG",
+      "homeTeamRating": 1451.0059151187147,
+      "awayTeamRating": 1819.4429140758211,
+      "homeElo": 1470.234637598671,
+      "awayElo": 1849.7282142948695,
+      "homePavTotal": 203.573265301858,
+      "awayPavTotal": 253.93858627930842,
+      "homePavZones": {
+        "off": 81.11734650426041,
+        "mid": 76.50868080327653,
+        "def": 45.94723799432104
+      },
+      "awayPavZones": {
+        "off": 84.6561890796815,
+        "mid": 93.75245478912356,
+        "def": 75.52994241050338
+      },
+      "predictedMargin": -22.130687862701464,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.23232063914879708,
+        "away": 0.7676793608512029
+      },
+      "actualMargin": 2,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 57872,
+      "date": "2026-04-19",
+      "round": "Round 6",
+      "roundNumber": 6,
+      "home": "West Coast",
+      "away": "Fremantle",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1176.6887339704053,
+      "awayTeamRating": 1726.051341055078,
+      "homeElo": 1151.1733991986564,
+      "awayElo": 1590.6145710153476,
+      "homePavTotal": 173.91378988377164,
+      "awayPavTotal": 276.15323448535264,
+      "homePavZones": {
+        "off": 61.38435414862069,
+        "mid": 53.32791350967758,
+        "def": 59.2015222254734
+      },
+      "awayPavZones": {
+        "off": 91.6451868542698,
+        "mid": 90.67514888254381,
+        "def": 93.83289874853905
+      },
+      "predictedMargin": -38.146776439144006,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.11745299582104751,
+        "away": 0.8825470041789525
+      },
+      "actualMargin": -56,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 63165,
+      "date": "2026-04-23",
+      "round": "Round 7",
+      "roundNumber": 7,
+      "home": "Western Bulldogs",
+      "away": "Sydney",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1624.4532367657375,
+      "awayTeamRating": 1662.621879526017,
+      "homeElo": 1685.5777168267132,
+      "awayElo": 1615.8281998314515,
+      "homePavTotal": 219.40545615148505,
+      "awayPavTotal": 248.04070985798245,
+      "homePavZones": {
+        "off": 81.41290012057586,
+        "mid": 79.25011320415226,
+        "def": 58.74244282675692
+      },
+      "awayPavZones": {
+        "off": 73.92493794566789,
+        "mid": 85.35771409555078,
+        "def": 88.75805781676377
+      },
+      "predictedMargin": 2.850128827818584,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5431444009185935,
+        "away": 0.4568555990814065
+      },
+      "actualMargin": -66,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 64541,
+      "date": "2026-04-24",
+      "round": "Round 7",
+      "roundNumber": 7,
+      "home": "Richmond",
+      "away": "Melbourne",
+      "venue": "MCG",
+      "homeTeamRating": 1138.2816355741315,
+      "awayTeamRating": 1454.2993338511524,
+      "homeElo": 1135.4640141298753,
+      "awayElo": 1458.5901115177467,
+      "homePavTotal": 163.54252329523555,
+      "awayPavTotal": 207.25209953496434,
+      "homePavZones": {
+        "off": 53.51931582139646,
+        "mid": 50.1075527390073,
+        "def": 59.9156547348318
+      },
+      "awayPavZones": {
+        "off": 80.20276322084771,
+        "mid": 78.18350369125994,
+        "def": 48.865832622856686
+      },
+      "predictedMargin": -20.408127703982878,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.24820423796211444,
+        "away": 0.7517957620378856
+      },
+      "actualMargin": -54,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 65550,
+      "date": "2026-04-25",
+      "round": "Round 7",
+      "roundNumber": 7,
+      "home": "Hawthorn",
+      "away": "Gold Coast",
+      "venue": "UTAS Stadium",
+      "homeTeamRating": 1765.0618410861912,
+      "awayTeamRating": 1744.8504256122283,
+      "homeElo": 1777.6640878851738,
+      "awayElo": 1629.2270624097223,
+      "homePavTotal": 249.95111235151975,
+      "awayPavTotal": 274.58996141081985,
+      "homePavZones": {
+        "off": 83.93436851729098,
+        "mid": 82.76451579094066,
+        "def": 83.25222804328811
+      },
+      "awayPavZones": {
+        "off": 90.86933539810562,
+        "mid": 100.27319468585664,
+        "def": 83.4474313268576
+      },
+      "predictedMargin": 7.944228013610088,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6132055394113274,
+        "away": 0.3867944605886726
+      },
+      "actualMargin": 49,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 65779,
+      "date": "2026-04-25",
+      "round": "Round 7",
+      "roundNumber": 7,
+      "home": "Essendon",
+      "away": "Collingwood",
+      "venue": "MCG",
+      "homeTeamRating": 1297.5846560818518,
+      "awayTeamRating": 1748.0273039970407,
+      "homeElo": 1294.5481557572698,
+      "awayElo": 1683.2394259817863,
+      "homePavTotal": 186.39270062535428,
+      "awayPavTotal": 264.1295621271002,
+      "homePavZones": {
+        "off": 66.6555412250862,
+        "mid": 59.923175540343365,
+        "def": 59.813983859924704
+      },
+      "awayPavZones": {
+        "off": 79.47096046476153,
+        "mid": 89.89144949656841,
+        "def": 94.76715216577024
+      },
+      "predictedMargin": -28.24906582561556,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.18170983130030782,
+        "away": 0.8182901686996922
+      },
+      "actualMargin": -77,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 65954,
+      "date": "2026-04-25",
+      "round": "Round 7",
+      "roundNumber": 7,
+      "home": "Port Adelaide",
+      "away": "Geelong",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1431.2104366531837,
+      "awayTeamRating": 1845.3412431080033,
+      "homeElo": 1348.9112821219019,
+      "awayElo": 1723.955633651067,
+      "homePavTotal": 222.53924541226831,
+      "awayPavTotal": 290.2118032197835,
+      "homePavZones": {
+        "off": 76.58358057072095,
+        "mid": 78.33609138841742,
+        "def": 67.61957345312993
+      },
+      "awayPavZones": {
+        "off": 92.29686405259618,
+        "mid": 103.64878396914791,
+        "def": 94.26615519803943
+      },
+      "predictedMargin": -26.967250150902483,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.191585355527227,
+        "away": 0.808414644472773
+      },
+      "actualMargin": 30,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 66073,
+      "date": "2026-04-25",
+      "round": "Round 7",
+      "roundNumber": 7,
+      "home": "Fremantle",
+      "away": "Carlton",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1745.4627797014414,
+      "awayTeamRating": 1340.3762665412087,
+      "homeElo": 1603.5241240998985,
+      "awayElo": 1304.0758911755838,
+      "homePavTotal": 280.32790768733975,
+      "awayPavTotal": 199.66029624816,
+      "homePavZones": {
+        "off": 92.97023057877911,
+        "mid": 90.98289264200568,
+        "def": 96.37478446655496
+      },
+      "awayPavZones": {
+        "off": 62.064560150233575,
+        "mid": 64.91630681042403,
+        "def": 72.67942928750239
+      },
+      "predictedMargin": 35.92514865684353,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8698861919722805,
+        "away": 0.13011380802771955
+      },
+      "actualMargin": 14,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 67094,
+      "date": "2026-04-26",
+      "round": "Round 7",
+      "roundNumber": 7,
+      "home": "St Kilda",
+      "away": "West Coast",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1542.9269330750903,
+      "awayTeamRating": 1158.7128595735544,
+      "homeElo": 1354.968272578401,
+      "awayElo": 1138.2638461141055,
+      "homePavTotal": 261.2174239650908,
+      "awayPavTotal": 170.25284565741885,
+      "homePavZones": {
+        "off": 99.89239848308031,
+        "mid": 83.61208181556748,
+        "def": 77.71294366644302
+      },
+      "awayPavZones": {
+        "off": 54.02689092987261,
+        "mid": 52.83130315122343,
+        "def": 63.3946515763228
+      },
+      "predictedMargin": 36.234254994333725,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.871706091446601,
+        "away": 0.12829390855339895
+      },
+      "actualMargin": 101,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 67278,
+      "date": "2026-04-26",
+      "round": "Round 7",
+      "roundNumber": 7,
+      "home": "Brisbane Lions",
+      "away": "Adelaide",
+      "venue": "Gabba",
+      "homeTeamRating": 1806.1196747683548,
+      "awayTeamRating": 1605.2295112069842,
+      "homeElo": 1861.372740375794,
+      "awayElo": 1572.7540848907747,
+      "homePavTotal": 246.67049475482338,
+      "awayPavTotal": 236.75102357304587,
+      "homePavZones": {
+        "off": 85.61446440790812,
+        "mid": 92.91675158214439,
+        "def": 68.1392787647709
+      },
+      "awayPavZones": {
+        "off": 83.44187858224636,
+        "mid": 73.14437423320888,
+        "def": 80.16477075759065
+      },
+      "predictedMargin": 17.864577122308983,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7269632873404119,
+        "away": 0.27303671265958807
+      },
+      "actualMargin": 52,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 67341,
+      "date": "2026-04-26",
+      "round": "Round 7",
+      "roundNumber": 7,
+      "home": "GWS Giants",
+      "away": "North Melbourne",
+      "venue": "Manuka Oval",
+      "homeTeamRating": 1590.0087412535038,
+      "awayTeamRating": 1412.3471387190925,
+      "homeElo": 1618.2530992260179,
+      "awayElo": 1193.7822514267157,
+      "homePavTotal": 221.53481309686984,
+      "awayPavTotal": 249.09740476061515,
+      "homePavZones": {
+        "off": 70.30630663159562,
+        "mid": 67.08919912935774,
+        "def": 84.13930733591647
+      },
+      "awayPavZones": {
+        "off": 95.71914658256397,
+        "mid": 77.91865368520523,
+        "def": 75.45960449284595
+      },
+      "predictedMargin": 19.70836682288309,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.745129862746419,
+        "away": 0.254870137253581
+      },
+      "actualMargin": 7,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 73332,
+      "date": "2026-04-30",
+      "round": "Round 8",
+      "roundNumber": 8,
+      "home": "Collingwood",
+      "away": "Hawthorn",
+      "venue": "MCG",
+      "homeTeamRating": 1724.6892797406388,
+      "awayTeamRating": 1836.056114521139,
+      "homeElo": 1702.9821933414767,
+      "awayElo": 1791.0663532015549,
+      "homePavTotal": 251.5387788919814,
+      "awayPavTotal": 272.4793524907694,
+      "homePavZones": {
+        "off": 73.17836656079089,
+        "mid": 87.11286117941272,
+        "def": 91.24755115177777
+      },
+      "awayPavZones": {
+        "off": 91.46487227175528,
+        "mid": 86.35601072955009,
+        "def": 94.65846948946397
+      },
+      "predictedMargin": -3.9262998160724196,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.44132737629436347,
+        "away": 0.5586726237056365
+      },
+      "actualMargin": 0,
+      "actualWinner": "draw"
+    },
+    {
+      "matchId": 72823,
+      "date": "2026-05-01",
+      "round": "Round 8",
+      "roundNumber": 8,
+      "home": "Western Bulldogs",
+      "away": "Fremantle",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1604.3786221769974,
+      "awayTeamRating": 1711.2913629999152,
+      "homeElo": 1596.9067503468816,
+      "awayElo": 1562.0561282216827,
+      "homePavTotal": 231.26058258261824,
+      "awayPavTotal": 277.0031799552339,
+      "homePavZones": {
+        "off": 89.25760605938184,
+        "mid": 84.14095965114484,
+        "def": 57.86201687209157
+      },
+      "awayPavZones": {
+        "off": 94.4704255795435,
+        "mid": 90.51382608624543,
+        "def": 92.01892828944499
+      },
+      "predictedMargin": -1.896725411355846,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.4709552693505035,
+        "away": 0.5290447306494965
+      },
+      "actualMargin": -12,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 72824,
+      "date": "2026-05-01",
+      "round": "Round 8",
+      "roundNumber": 8,
+      "home": "Adelaide",
+      "away": "Port Adelaide",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1599.1609847832033,
+      "awayTeamRating": 1502.1530627860516,
+      "homeElo": 1566.8528740409631,
+      "awayElo": 1442.786810414497,
+      "homePavTotal": 235.8464286997658,
+      "awayPavTotal": 227.77017482728075,
+      "homePavZones": {
+        "off": 86.25498105720625,
+        "mid": 74.02064811200093,
+        "def": 75.5707995305586
+      },
+      "awayPavZones": {
+        "off": 77.77088956543574,
+        "mid": 81.70890610824448,
+        "def": 68.29037915360057
+      },
+      "predictedMargin": 15.034781830752474,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.697336521410062,
+        "away": 0.30266347858993803
+      },
+      "actualMargin": 1,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72825,
+      "date": "2026-05-02",
+      "round": "Round 8",
+      "roundNumber": 8,
+      "home": "Essendon",
+      "away": "Brisbane Lions",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1265.2963916033618,
+      "awayTeamRating": 1855.8422804406503,
+      "homeElo": 1274.8053883975795,
+      "awayElo": 1867.2739512256055,
+      "homePavTotal": 179.07713948068067,
+      "awayPavTotal": 263.19707618998245,
+      "homePavZones": {
+        "off": 63.33513471500144,
+        "mid": 54.60285454390458,
+        "def": 61.13915022177464
+      },
+      "awayPavZones": {
+        "off": 86.23662054324515,
+        "mid": 98.81301460823374,
+        "def": 78.14744103850353
+      },
+      "predictedMargin": -39.61633884089533,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.10960234633739818,
+        "away": 0.8903976536626018
+      },
+      "actualMargin": -64,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 72826,
+      "date": "2026-05-02",
+      "round": "Round 8",
+      "roundNumber": 8,
+      "home": "West Coast",
+      "away": "Richmond",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1148.5720142905357,
+      "awayTeamRating": 1138.4720198266136,
+      "homeElo": 1128.7317962492841,
+      "awayElo": 1111.2577180649528,
+      "homePavTotal": 168.67053268714758,
+      "awayPavTotal": 168.80811229159818,
+      "homePavZones": {
+        "off": 53.559095447525145,
+        "mid": 54.8314407666021,
+        "def": 60.27999647302033
+      },
+      "awayPavZones": {
+        "off": 52.41094177476836,
+        "mid": 50.90096139213905,
+        "def": 65.49620912469076
+      },
+      "predictedMargin": 6.453895149689388,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5935930823828579,
+        "away": 0.4064069176171421
+      },
+      "actualMargin": -11,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 72827,
+      "date": "2026-05-02",
+      "round": "Round 8",
+      "roundNumber": 8,
+      "home": "Geelong",
+      "away": "North Melbourne",
+      "venue": "Kardinia Park",
+      "homeTeamRating": 1758.980672495568,
+      "awayTeamRating": 1434.7802090492805,
+      "homeElo": 1630.0801053584719,
+      "awayElo": 1192.301601019348,
+      "homePavTotal": 279.4634301748084,
+      "awayPavTotal": 257.4431893922387,
+      "homePavZones": {
+        "off": 94.44270466992849,
+        "mid": 98.31863804339267,
+        "def": 86.70208746148728
+      },
+      "awayPavZones": {
+        "off": 98.8635316511916,
+        "mid": 80.93969564252356,
+        "def": 77.63996209852354
+      },
+      "predictedMargin": 30.22581500373277,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.832792556965749,
+        "away": 0.16720744303425095
+      },
+      "actualMargin": 49,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72828,
+      "date": "2026-05-02",
+      "round": "Round 8",
+      "roundNumber": 8,
+      "home": "Carlton",
+      "away": "St Kilda",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1387.3780333761379,
+      "awayTeamRating": 1511.2311005327063,
+      "homeElo": 1345.5438870537996,
+      "awayElo": 1364.5003224432223,
+      "homePavTotal": 207.57647478666553,
+      "awayPavTotal": 247.8281230556731,
+      "homePavZones": {
+        "off": 67.70624763687216,
+        "mid": 68.63886140097658,
+        "def": 71.23136574881678
+      },
+      "awayPavZones": {
+        "off": 81.83773276781096,
+        "mid": 84.35708205186558,
+        "def": 81.63330823599657
+      },
+      "predictedMargin": -3.617416462477829,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.44574295787769624,
+        "away": 0.5542570421223038
+      },
+      "actualMargin": -39,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 72829,
+      "date": "2026-05-03",
+      "round": "Round 8",
+      "roundNumber": 8,
+      "home": "Sydney",
+      "away": "Melbourne",
+      "venue": "SCG",
+      "homeTeamRating": 1766.5384860662994,
+      "awayTeamRating": 1496.3176686237057,
+      "homeElo": 1704.499166311283,
+      "awayElo": 1482.7964075826692,
+      "homePavTotal": 266.1891591323825,
+      "awayPavTotal": 217.09126255156895,
+      "homePavZones": {
+        "off": 83.75075208129871,
+        "mid": 96.84650315794107,
+        "def": 85.59190389314271
+      },
+      "awayPavZones": {
+        "off": 84.73771535672424,
+        "mid": 79.7591971276383,
+        "def": 52.594350067206385
+      },
+      "predictedMargin": 27.649661050001647,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8137189157184155,
+        "away": 0.18628108428158452
+      },
+      "actualMargin": 17,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72830,
+      "date": "2026-05-03",
+      "round": "Round 8",
+      "roundNumber": 8,
+      "home": "Gold Coast",
+      "away": "GWS Giants",
+      "venue": "Carrara",
+      "homeTeamRating": 1713.2444724262564,
+      "awayTeamRating": 1637.1090849814761,
+      "homeElo": 1615.8247970933412,
+      "awayElo": 1619.7337496333855,
+      "homePavTotal": 266.15716939960345,
+      "awayPavTotal": 238.07215688571603,
+      "homePavZones": {
+        "off": 81.82119518116465,
+        "mid": 95.27495656669478,
+        "def": 89.06101765174401
+      },
+      "awayPavZones": {
+        "off": 74.78613076426612,
+        "mid": 74.17020985438306,
+        "def": 89.11581626706685
+      },
+      "predictedMargin": 10.115292971449708,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6405379063728965,
+        "away": 0.35946209362710346
+      },
+      "actualMargin": 20,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72831,
+      "date": "2026-05-07",
+      "round": "Round 9",
+      "roundNumber": 9,
+      "home": "Fremantle",
+      "away": "Hawthorn",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1751.7266596790034,
+      "awayTeamRating": 1860.3943062938001,
+      "homeElo": 1602.5592603354573,
+      "awayElo": 1843.4778381870694,
+      "homePavTotal": 282.77666170831986,
+      "awayPavTotal": 269.9354435233175,
+      "homePavZones": {
+        "off": 94.82183306504666,
+        "mid": 92.36828177989678,
+        "def": 95.58654686337644
+      },
+      "awayPavZones": {
+        "off": 91.11517308742619,
+        "mid": 89.98041648884819,
+        "def": 88.8398539470431
+      },
+      "predictedMargin": -2.814966082507439,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.4573698331177489,
+        "away": 0.5426301668822511
+      },
+      "actualMargin": 15,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 72832,
+      "date": "2026-05-08",
+      "round": "Round 9",
+      "roundNumber": 9,
+      "home": "Brisbane Lions",
+      "away": "Carlton",
+      "venue": "Gabba",
+      "homeTeamRating": 1869.929457587732,
+      "awayTeamRating": 1392.0849011760415,
+      "homeElo": 1872.5833709632745,
+      "awayElo": 1298.4310059814757,
+      "homePavTotal": 267.0982804930459,
+      "awayPavTotal": 219.3767168576997,
+      "homePavZones": {
+        "off": 88.86576401160161,
+        "mid": 99.77596377032357,
+        "def": 78.45655271112071
+      },
+      "awayPavZones": {
+        "off": 70.11892948297583,
+        "mid": 77.27746474095562,
+        "def": 71.98032263376825
+      },
+      "predictedMargin": 40.92154663275645,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8970313462760491,
+        "away": 0.10296865372395092
+      },
+      "actualMargin": 11,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72833,
+      "date": "2026-05-08",
+      "round": "Round 9",
+      "roundNumber": 9,
+      "home": "Port Adelaide",
+      "away": "Western Bulldogs",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1506.3347983569186,
+      "awayTeamRating": 1586.8938652782758,
+      "homeElo": 1436.8624522453736,
+      "awayElo": 1556.403618233107,
+      "homePavTotal": 230.53869417753165,
+      "awayPavTotal": 233.7001482745533,
+      "homePavZones": {
+        "off": 80.09335021187663,
+        "mid": 81.55325548044362,
+        "def": 68.89208848521142
+      },
+      "awayPavZones": {
+        "off": 88.65853300829467,
+        "mid": 83.27872239397672,
+        "def": 61.762892872281924
+      },
+      "predictedMargin": -1.5518401955464545,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.4761368202859978,
+        "away": 0.5238631797140022
+      },
+      "actualMargin": -2,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 72834,
+      "date": "2026-05-09",
+      "round": "Round 9",
+      "roundNumber": 9,
+      "home": "North Melbourne",
+      "away": "Sydney",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1387.030288788244,
+      "awayTeamRating": 1749.738752120693,
+      "homeElo": 1190.0242011486596,
+      "awayElo": 1711.9400490480598,
+      "homePavTotal": 240.8444632475839,
+      "awayPavTotal": 258.57956008154065,
+      "homePavZones": {
+        "off": 96.19694681346989,
+        "mid": 74.58646984117678,
+        "def": 70.06104659293723
+      },
+      "awayPavZones": {
+        "off": 80.21596410299198,
+        "mid": 94.43823773548137,
+        "def": 83.92535824306734
+      },
+      "predictedMargin": -22.76761714143496,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.22663411492406693,
+        "away": 0.7733658850759331
+      },
+      "actualMargin": -8,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 72835,
+      "date": "2026-05-09",
+      "round": "Round 9",
+      "roundNumber": 9,
+      "home": "GWS Giants",
+      "away": "Essendon",
+      "venue": "Sydney Showground",
+      "homeTeamRating": 1595.6587010975818,
+      "awayTeamRating": 1266.2475319393352,
+      "homeElo": 1598.3204575197308,
+      "awayElo": 1269.4959686599104,
+      "homePavTotal": 227.8365397171999,
+      "awayPavTotal": 180.55752603184544,
+      "homePavZones": {
+        "off": 71.04750153963424,
+        "mid": 70.96066247479996,
+        "def": 85.82837570276571
+      },
+      "awayPavZones": {
+        "off": 64.04012049872897,
+        "mid": 54.10942395767976,
+        "def": 62.40798157543671
+      },
+      "predictedMargin": 32.85953313679673,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8507838286224182,
+        "away": 0.1492161713775818
+      },
+      "actualMargin": 14,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72836,
+      "date": "2026-05-09",
+      "round": "Round 9",
+      "roundNumber": 9,
+      "home": "Gold Coast",
+      "away": "St Kilda",
+      "venue": "TIO Stadium",
+      "homeTeamRating": 1662.9224122965334,
+      "awayTeamRating": 1516.5097855807753,
+      "homeElo": 1637.238089206996,
+      "awayElo": 1411.6132035155463,
+      "homePavTotal": 243.55123059416542,
+      "awayPavTotal": 239.6012966903262,
+      "homePavZones": {
+        "off": 76.42072716162996,
+        "mid": 81.03990941459548,
+        "def": 86.09059401793995
+      },
+      "awayPavZones": {
+        "off": 80.66801584779269,
+        "mid": 81.0188795066088,
+        "def": 77.9144013359247
+      },
+      "predictedMargin": 15.687901616140191,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7043658499942554,
+        "away": 0.29563415000574456
+      },
+      "actualMargin": 29,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72837,
+      "date": "2026-05-09",
+      "round": "Round 9",
+      "roundNumber": 9,
+      "home": "Geelong",
+      "away": "Collingwood",
+      "venue": "MCG",
+      "homeTeamRating": 1773.260785381531,
+      "awayTeamRating": 1751.8257555591908,
+      "homeElo": 1632.3575052291603,
+      "awayElo": 1650.570708355962,
+      "homePavTotal": 284.0846987704104,
+      "awayPavTotal": 272.5033390157506,
+      "homePavZones": {
+        "off": 97.29664797972978,
+        "mid": 99.8735470548197,
+        "def": 86.91450373586093
+      },
+      "awayPavZones": {
+        "off": 80.97467477900993,
+        "mid": 93.73127989294957,
+        "def": 97.7973843437911
+      },
+      "predictedMargin": 8.546529608967914,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6209331498789802,
+        "away": 0.3790668501210198
+      },
+      "actualMargin": 54,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72838,
+      "date": "2026-05-10",
+      "round": "Round 9",
+      "roundNumber": 9,
+      "home": "Melbourne",
+      "away": "West Coast",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1477.2916275769335,
+      "awayTeamRating": 1143.2807310928883,
+      "homeElo": 1475.3555248458924,
+      "awayElo": 1100.2944757813148,
+      "homePavTotal": 211.88030084075226,
+      "awayPavTotal": 172.88292500146707,
+      "homePavZones": {
+        "off": 79.20004336603326,
+        "mid": 80.96181133591871,
+        "def": 51.71844613880028
+      },
+      "awayPavZones": {
+        "off": 51.80337554950991,
+        "mid": 55.01122691338384,
+        "def": 66.06832253857333
+      },
+      "predictedMargin": 33.648842125266945,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8558877588906314,
+        "away": 0.1441122411093686
+      },
+      "actualMargin": 32,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72839,
+      "date": "2026-05-10",
+      "round": "Round 9",
+      "roundNumber": 9,
+      "home": "Richmond",
+      "away": "Adelaide",
+      "venue": "MCG",
+      "homeTeamRating": 1192.9018712057266,
+      "awayTeamRating": 1638.913962269134,
+      "homeElo": 1139.6950385329221,
+      "awayElo": 1572.7772322100866,
+      "homePavTotal": 182.18037792942079,
+      "awayPavTotal": 248.80032312592397,
+      "homePavZones": {
+        "off": 58.088695694729324,
+        "mid": 56.07907069751401,
+        "def": 68.01261153717746
+      },
+      "awayPavZones": {
+        "off": 84.09343619864272,
+        "mid": 83.22616589749867,
+        "def": 81.48072102978254
+      },
+      "predictedMargin": -32.22783903654642,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.15339555685997863,
+        "away": 0.8466044431400214
+      },
+      "actualMargin": -37,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 72840,
+      "date": "2026-05-14",
+      "round": "Round 10",
+      "roundNumber": 10,
+      "home": "Brisbane Lions",
+      "away": "Geelong",
+      "venue": "Gabba",
+      "homeTeamRating": 1821.8528229000901,
+      "awayTeamRating": 1806.4012307108658,
+      "homeElo": 1873.4764518482064,
+      "awayElo": 1659.55554419778,
+      "homePavTotal": 249.70188655567074,
+      "awayPavTotal": 290.1044604180496,
+      "homePavZones": {
+        "off": 84.87376375381663,
+        "mid": 93.57173503514527,
+        "def": 71.25638776670881
+      },
+      "awayPavZones": {
+        "off": 98.83084910557761,
+        "mid": 96.4994275127611,
+        "def": 94.77418379971088
+      },
+      "predictedMargin": 5.223904735599387,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5768661627188177,
+        "away": 0.42313383728118226
+      },
+      "actualMargin": -41,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 72841,
+      "date": "2026-05-15",
+      "round": "Round 10",
+      "roundNumber": 10,
+      "home": "Sydney",
+      "away": "Collingwood",
+      "venue": "SCG",
+      "homeTeamRating": 1718.7038319431426,
+      "awayTeamRating": 1601.429055696542,
+      "homeElo": 1650.3291320576257,
+      "awayElo": 1623.3726693873425,
+      "homePavTotal": 260.70224474254485,
+      "awayPavTotal": 224.52242129406548,
+      "homePavZones": {
+        "off": 85.30702414389569,
+        "mid": 91.98245621327445,
+        "def": 83.4127643853747
+      },
+      "awayPavZones": {
+        "off": 67.97789323250962,
+        "mid": 74.52438875409888,
+        "def": 82.02013930745699
+      },
+      "predictedMargin": 16.222087995183234,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7100290008287633,
+        "away": 0.2899709991712367
+      },
+      "actualMargin": 6,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72842,
+      "date": "2026-05-15",
+      "round": "Round 10",
+      "roundNumber": 10,
+      "home": "Gold Coast",
+      "away": "Port Adelaide",
+      "venue": "TIO Stadium",
+      "homeTeamRating": 1736.4781371410381,
+      "awayTeamRating": 1453.0602568362642,
+      "homeElo": 1643.3360808286413,
+      "awayElo": 1408.8959042657066,
+      "homePavTotal": 268.56444626533545,
+      "awayPavTotal": 217.47878409563424,
+      "homePavZones": {
+        "off": 78.44500716176279,
+        "mid": 98.79498256939794,
+        "def": 91.32445653417471
+      },
+      "awayPavZones": {
+        "off": 76.9931117817218,
+        "mid": 74.45602460637878,
+        "def": 66.02964770753368
+      },
+      "predictedMargin": 26.495940941366957,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8046885523770383,
+        "away": 0.1953114476229617
+      },
+      "actualMargin": 25,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72843,
+      "date": "2026-05-16",
+      "round": "Round 10",
+      "roundNumber": 10,
+      "home": "Adelaide",
+      "away": "North Melbourne",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1617.0225656669286,
+      "awayTeamRating": 1429.4044371503528,
+      "homeElo": 1586.4226725551111,
+      "awayElo": 1251.6351181390937,
+      "homePavTotal": 238.0364164521406,
+      "awayPavTotal": 242.77961861827103,
+      "homePavZones": {
+        "off": 79.05761116708545,
+        "mid": 81.33786934441366,
+        "def": 77.64093594064151
+      },
+      "awayPavZones": {
+        "off": 95.7913733991443,
+        "mid": 76.77115553748082,
+        "def": 70.21708968164589
+      },
+      "predictedMargin": 20.869210341024072,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.756120216572604,
+        "away": 0.24387978342739602
+      },
+      "actualMargin": 68,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72844,
+      "date": "2026-05-16",
+      "round": "Round 10",
+      "roundNumber": 10,
+      "home": "Melbourne",
+      "away": "Hawthorn",
+      "venue": "MCG",
+      "homeTeamRating": 1507.523618376198,
+      "awayTeamRating": 1736.1333238379084,
+      "homeElo": 1477.3392505314835,
+      "awayElo": 1781.0089853334116,
+      "homePavTotal": 222.27314201879045,
+      "awayPavTotal": 238.88059427349754,
+      "homePavZones": {
+        "off": 79.43069681067512,
+        "mid": 81.51104982451419,
+        "def": 61.33139538360115
+      },
+      "awayPavZones": {
+        "off": 77.9515243633095,
+        "mid": 81.23440687123558,
+        "def": 79.69466303895244
+      },
+      "predictedMargin": -12.601344284778401,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.3298940351884777,
+        "away": 0.6701059648115223
+      },
+      "actualMargin": 39,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 72845,
+      "date": "2026-05-16",
+      "round": "Round 10",
+      "roundNumber": 10,
+      "home": "Carlton",
+      "away": "Western Bulldogs",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1385.1934375087844,
+      "awayTeamRating": 1606.0379661936345,
+      "homeElo": 1297.5379250965439,
+      "awayElo": 1584.370166212774,
+      "homePavTotal": 217.10230548627908,
+      "awayPavTotal": 234.54618754150084,
+      "homePavZones": {
+        "off": 71.42393997600718,
+        "mid": 77.43465422807884,
+        "def": 68.24371128219308
+      },
+      "awayPavZones": {
+        "off": 83.50962068224747,
+        "mid": 79.94670743938345,
+        "def": 71.08985941986992
+      },
+      "predictedMargin": -11.252302556608102,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.34571466826796554,
+        "away": 0.6542853317320345
+      },
+      "actualMargin": 12,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 72846,
+      "date": "2026-05-17",
+      "round": "Round 10",
+      "roundNumber": 10,
+      "home": "Essendon",
+      "away": "Fremantle",
+      "venue": "MCG",
+      "homeTeamRating": 1323.0017228304712,
+      "awayTeamRating": 1754.2185696982046,
+      "homeElo": 1312.054034455626,
+      "awayElo": 1665.0281131891152,
+      "homePavTotal": 191.729638619058,
+      "awayPavTotal": 270.25540430315476,
+      "homePavZones": {
+        "off": 67.2844469440468,
+        "mid": 62.53566885931102,
+        "def": 61.909522815700164
+      },
+      "awayPavZones": {
+        "off": 92.76018470703517,
+        "mid": 89.21734340605639,
+        "def": 88.2778761900632
+      },
+      "predictedMargin": -28.94454406699503,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.17650784952635395,
+        "away": 0.8234921504736461
+      },
+      "actualMargin": -43,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 72847,
+      "date": "2026-05-17",
+      "round": "Round 10",
+      "roundNumber": 10,
+      "home": "St Kilda",
+      "away": "Richmond",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1487.0434771682021,
+      "awayTeamRating": 1171.9647113288488,
+      "homeElo": 1405.5152118939009,
+      "awayElo": 1126.0495981878976,
+      "homePavTotal": 230.3658567248288,
+      "awayPavTotal": 177.61771844263893,
+      "homePavZones": {
+        "off": 76.8968551448484,
+        "mid": 77.87746577849857,
+        "def": 75.59153580148184
+      },
+      "awayPavZones": {
+        "off": 57.12899014658579,
+        "mid": 55.27045962469063,
+        "def": 65.21826867136252
+      },
+      "predictedMargin": 32.87912187909243,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8509120800010826,
+        "away": 0.14908791999891735
+      },
+      "actualMargin": 36,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72848,
+      "date": "2026-05-17",
+      "round": "Round 10",
+      "roundNumber": 10,
+      "home": "West Coast",
+      "away": "GWS Giants",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1135.4699436894043,
+      "awayTeamRating": 1568.642704447043,
+      "homeElo": 1098.3107500957237,
+      "awayElo": 1555.7623917240153,
+      "homePavTotal": 170.5137037045412,
+      "awayPavTotal": 227.30649492292926,
+      "homePavZones": {
+        "off": 53.31151080360165,
+        "mid": 54.09340533220911,
+        "def": 63.10878756873044
+      },
+      "awayPavZones": {
+        "off": 74.39473590226474,
+        "mid": 72.74403564267065,
+        "def": 80.16772337799387
+      },
+      "predictedMargin": -30.47854281894954,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.16541581888637347,
+        "away": 0.8345841811136265
+      },
+      "actualMargin": 17,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 72849,
+      "date": "2026-05-21",
+      "round": "Round 11",
+      "roundNumber": 11,
+      "home": "Hawthorn",
+      "away": "Adelaide",
+      "venue": "UTAS Stadium",
+      "homeTeamRating": 1734.7767002631929,
+      "awayTeamRating": 1657.1201828526569,
+      "homeElo": 1709.995529900009,
+      "awayElo": 1591.0313766561394,
+      "homePavTotal": 253.64277924534338,
+      "awayPavTotal": 251.3961340033543,
+      "homePavZones": {
+        "off": 83.83596566622342,
+        "mid": 89.5039592838575,
+        "def": 80.30285429526246
+      },
+      "awayPavZones": {
+        "off": 91.54419091598018,
+        "mid": 83.51250467189467,
+        "def": 76.33943841547945
+      },
+      "predictedMargin": 10.016057925997547,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6393198354469058,
+        "away": 0.36068016455309415
+      },
+      "actualMargin": 9,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72850,
+      "date": "2026-05-22",
+      "round": "Round 11",
+      "roundNumber": 11,
+      "home": "Richmond",
+      "away": "Essendon",
+      "venue": "MCG",
+      "homeTeamRating": 1173.0337094565548,
+      "awayTeamRating": 1293.4605292864037,
+      "homeElo": 1119.9689150062138,
+      "awayElo": 1298.8287750004824,
+      "homePavTotal": 179.3058833570092,
+      "awayPavTotal": 183.99773271046172,
+      "homePavZones": {
+        "off": 59.78755433791891,
+        "mid": 56.03653514918186,
+        "def": 63.48179386990844
+      },
+      "awayPavZones": {
+        "off": 63.11156681781098,
+        "mid": 59.603161605525834,
+        "def": 61.28300428712488
+      },
+      "predictedMargin": -4.53473864138777,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.43272547090747576,
+        "away": 0.5672745290925243
+      },
+      "actualMargin": 18,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 72851,
+      "date": "2026-05-22",
+      "round": "Round 11",
+      "roundNumber": 11,
+      "home": "Fremantle",
+      "away": "St Kilda",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1732.9052102297796,
+      "awayTeamRating": 1503.201033207069,
+      "homeElo": 1678.2533726442587,
+      "awayElo": 1411.5958950755846,
+      "homePavTotal": 259.788572374472,
+      "awayPavTotal": 234.84236192446264,
+      "homePavZones": {
+        "off": 90.29277061870691,
+        "mid": 79.47115980531848,
+        "def": 90.02464195044664
+      },
+      "awayPavZones": {
+        "off": 74.75718601346018,
+        "mid": 82.25850047973684,
+        "def": 77.82667543126561
+      },
+      "predictedMargin": 22.755395600377742,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7732577081911441,
+        "away": 0.22674229180885586
+      },
+      "actualMargin": 30,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72852,
+      "date": "2026-05-23",
+      "round": "Round 11",
+      "roundNumber": 11,
+      "home": "North Melbourne",
+      "away": "Gold Coast",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1416.3631480542626,
+      "awayTeamRating": 1747.0827554324524,
+      "homeElo": 1247.0264140380655,
+      "awayElo": 1643.3360808286413,
+      "homePavTotal": 239.1022400627767,
+      "awayPavTotal": 272.3593998480059,
+      "homePavZones": {
+        "off": 94.14232391048155,
+        "mid": 75.80725764211472,
+        "def": 69.15265851018043
+      },
+      "awayPavZones": {
+        "off": 82.73159902521238,
+        "mid": 97.75625060602823,
+        "def": 91.87155021676533
+      },
+      "predictedMargin": -18.857123555445803,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.2631479131418832,
+        "away": 0.7368520868581168
+      },
+      "actualMargin": 6,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 72853,
+      "date": "2026-05-23",
+      "round": "Round 11",
+      "roundNumber": 11,
+      "home": "Geelong",
+      "away": "Sydney",
+      "venue": "Kardinia Park",
+      "homeTeamRating": 1855.3302448617633,
+      "awayTeamRating": 1718.1242788560423,
+      "homeElo": 1751.7130871246568,
+      "awayElo": 1659.9651054074914,
+      "homePavTotal": 287.82650751036687,
+      "awayPavTotal": 258.42585729013297,
+      "homePavZones": {
+        "off": 98.02940687110983,
+        "mid": 94.74677763471371,
+        "def": 95.0503230045433
+      },
+      "awayPavZones": {
+        "off": 83.68880327088152,
+        "mid": 92.21664383045439,
+        "def": 82.52041018879706
+      },
+      "predictedMargin": 15.73424419431475,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7048602075831184,
+        "away": 0.2951397924168816
+      },
+      "actualMargin": 27,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72854,
+      "date": "2026-05-23",
+      "round": "Round 11",
+      "roundNumber": 11,
+      "home": "Collingwood",
+      "away": "West Coast",
+      "venue": "MCG",
+      "homeTeamRating": 1697.903344923514,
+      "awayTeamRating": 1179.2639429396186,
+      "homeElo": 1613.7366960374768,
+      "awayElo": 1154.8305783807298,
+      "homePavTotal": 261.11556230354563,
+      "awayPavTotal": 174.05009873718174,
+      "homePavZones": {
+        "off": 74.93646274549768,
+        "mid": 90.03954037050782,
+        "def": 96.13955918754016
+      },
+      "awayPavZones": {
+        "off": 54.8408705523048,
+        "mid": 55.511246561886054,
+        "def": 63.69798162299087
+      },
+      "predictedMargin": 46.34752844607316,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.9213787743280879,
+        "away": 0.0786212256719121
+      },
+      "actualMargin": 10,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72855,
+      "date": "2026-05-23",
+      "round": "Round 11",
+      "roundNumber": 11,
+      "home": "Port Adelaide",
+      "away": "Carlton",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1467.6181323854917,
+      "awayTeamRating": 1357.7260283569199,
+      "homeElo": 1408.8959042657066,
+      "awayElo": 1361.1000632415248,
+      "homePavTotal": 222.68844468439298,
+      "awayPavTotal": 193.62510392642614,
+      "homePavZones": {
+        "off": 77.90913923243946,
+        "mid": 76.09725693006617,
+        "def": 68.68204852188737
+      },
+      "awayPavZones": {
+        "off": 67.70679636708587,
+        "mid": 73.1163619990995,
+        "def": 52.80194556024077
+      },
+      "predictedMargin": 12.955722095514377,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.674175105557878,
+        "away": 0.32582489444212204
+      },
+      "actualMargin": -34,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 72856,
+      "date": "2026-05-24",
+      "round": "Round 11",
+      "roundNumber": 11,
+      "home": "GWS Giants",
+      "away": "Brisbane Lions",
+      "venue": "Sydney Showground",
+      "homeTeamRating": 1529.363579574738,
+      "awayTeamRating": 1739.1026353233774,
+      "homeElo": 1499.2425634390092,
+      "awayElo": 1781.3189089213295,
+      "homePavTotal": 225.38578639827242,
+      "awayPavTotal": 239.87664256032775,
+      "homePavZones": {
+        "off": 76.06731086979255,
+        "mid": 70.55129422922992,
+        "def": 78.76718129924993
+      },
+      "awayPavZones": {
+        "off": 84.14389873399882,
+        "mid": 91.01471556407482,
+        "def": 64.71802826225412
+      },
+      "predictedMargin": -9.14062131594481,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.3715543860343743,
+        "away": 0.6284456139656257
+      },
+      "actualMargin": 78,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 72857,
+      "date": "2026-05-24",
+      "round": "Round 11",
+      "roundNumber": 11,
+      "home": "Western Bulldogs",
+      "away": "Melbourne",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1542.1263710488197,
+      "awayTeamRating": 1573.6820423884353,
+      "homeElo": 1520.808028067793,
+      "awayElo": 1548.3527059648861,
+      "homePavTotal": 225.32262890357282,
+      "awayPavTotal": 230.70083696303453,
+      "homePavZones": {
+        "off": 78.62725048210314,
+        "mid": 74.02918174202647,
+        "def": 72.66619667944319
+      },
+      "awayPavZones": {
+        "off": 82.10533779684087,
+        "mid": 84.41132533156085,
+        "def": 64.18417383463283
+      },
+      "predictedMargin": 3.965327392271741,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5592281898414799,
+        "away": 0.44077181015852007
+      },
+      "actualMargin": 3,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72858,
+      "date": "2026-05-28",
+      "round": "Round 12",
+      "roundNumber": 12,
+      "home": "St Kilda",
+      "away": "Hawthorn",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1500.5751259228718,
+      "awayTeamRating": 1751.2487404900046,
+      "homeElo": 1406.3909642904555,
+      "awayElo": 1720.8776155041003,
+      "homePavTotal": 235.0202359535495,
+      "awayPavTotal": 257.20089149282296,
+      "homePavZones": {
+        "off": 77.72513864397435,
+        "mid": 81.5312817646801,
+        "def": 75.76381554489507
+      },
+      "awayPavZones": {
+        "off": 94.43801214325258,
+        "mid": 83.38002086940651,
+        "def": 79.38285848016385
+      },
+      "predictedMargin": -12.835129365422404,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.3272055855992679,
+        "away": 0.6727944144007321
+      },
+      "actualMargin": -52,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 72859,
+      "date": "2026-05-29",
+      "round": "Round 12",
+      "roundNumber": 12,
+      "home": "Carlton",
+      "away": "Geelong",
+      "venue": "MCG",
+      "homeTeamRating": 1425.4387840632685,
+      "awayTeamRating": 1876.2916456854684,
+      "homeElo": 1430.1566041964115,
+      "awayElo": 1769.0499938666264,
+      "homePavTotal": 203.0292089698761,
+      "awayPavTotal": 291.6052280867065,
+      "homePavZones": {
+        "off": 67.38267685746578,
+        "mid": 73.51109400426252,
+        "def": 62.135438108147824
+      },
+      "awayPavZones": {
+        "off": 96.21358993377969,
+        "mid": 98.77516276032432,
+        "def": 96.61647539260254
+      },
+      "predictedMargin": -28.461428759620475,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.18010984671982988,
+        "away": 0.8198901532801701
+      },
+      "actualMargin": 4,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 72860,
+      "date": "2026-05-30",
+      "round": "Round 12",
+      "roundNumber": 12,
+      "home": "Sydney",
+      "away": "Richmond",
+      "venue": "SCG",
+      "homeTeamRating": 1616.9402993589488,
+      "awayTeamRating": 1202.2308427643295,
+      "homeElo": 1642.6281986655217,
+      "awayElo": 1155.5165732915104,
+      "homePavTotal": 225.9387990837517,
+      "awayPavTotal": 182.1217072679013,
+      "homePavZones": {
+        "off": 74.88969361094387,
+        "mid": 75.82949475302534,
+        "def": 75.21961071978247
+      },
+      "awayPavZones": {
+        "off": 54.37846759925002,
+        "mid": 59.29151716180449,
+        "def": 68.45172250684678
+      },
+      "predictedMargin": 41.20518664729722,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.8984316187951118,
+        "away": 0.1015683812048882
+      },
+      "actualMargin": 114,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72861,
+      "date": "2026-05-30",
+      "round": "Round 12",
+      "roundNumber": 12,
+      "home": "Brisbane Lions",
+      "away": "Fremantle",
+      "venue": "Gabba",
+      "homeTeamRating": 1732.2302204414134,
+      "awayTeamRating": 1752.2941655502975,
+      "homeElo": 1706.9462763736365,
+      "awayElo": 1683.4583034293878,
+      "homePavTotal": 253.38622051861998,
+      "awayPavTotal": 265.60949881644177,
+      "homePavZones": {
+        "off": 87.98396144641434,
+        "mid": 94.23382587750731,
+        "def": 71.16843319469834
+      },
+      "awayPavZones": {
+        "off": 90.83240175047366,
+        "mid": 81.56987463896294,
+        "def": 93.20722242700514
+      },
+      "predictedMargin": 2.1068623711709584,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5321805457381968,
+        "away": 0.46781945426180316
+      },
+      "actualMargin": -25,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 72862,
+      "date": "2026-05-30",
+      "round": "Round 12",
+      "roundNumber": 12,
+      "home": "Western Bulldogs",
+      "away": "Collingwood",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1570.9813440594248,
+      "awayTeamRating": 1686.3050972598533,
+      "homeElo": 1485.2183774607552,
+      "awayElo": 1615.422444335432,
+      "homePavTotal": 243.29026538182504,
+      "awayPavTotal": 256.6030742408367,
+      "homePavZones": {
+        "off": 87.29290024428366,
+        "mid": 83.4667275299171,
+        "def": 72.5306376076243
+      },
+      "awayPavZones": {
+        "off": 73.53065617983512,
+        "mid": 90.50291557421481,
+        "def": 92.56950248678672
+      },
+      "predictedMargin": -1.413241428079583,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.47823143524467,
+        "away": 0.5217685647553301
+      },
+      "actualMargin": 4,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 72863,
+      "date": "2026-05-31",
+      "round": "Round 12",
+      "roundNumber": 12,
+      "home": "Melbourne",
+      "away": "GWS Giants",
+      "venue": "Traeger Park",
+      "homeTeamRating": 1605.4409588710614,
+      "awayTeamRating": 1592.893032223837,
+      "homeElo": 1583.942356571924,
+      "awayElo": 1573.6151959867025,
+      "homePavTotal": 234.42440056108896,
+      "awayPavTotal": 232.15141519890335,
+      "homePavZones": {
+        "off": 90.61528994562411,
+        "mid": 85.78965000835335,
+        "def": 58.019460607111476
+      },
+      "awayPavZones": {
+        "off": 73.40690734971628,
+        "mid": 72.6327541303418,
+        "def": 86.11175371884528
+      },
+      "predictedMargin": 5.466332329867177,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5802024223454372,
+        "away": 0.4197975776545628
+      },
+      "actualMargin": -49,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 72864,
+      "date": "2026-05-31",
+      "round": "Round 12",
+      "roundNumber": 12,
+      "home": "West Coast",
+      "away": "Essendon",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1190.104959106331,
+      "awayTeamRating": 1193.3419621978646,
+      "homeElo": 1153.1448300827747,
+      "awayElo": 1263.2811167151858,
+      "homePavTotal": 178.29160501598426,
+      "awayPavTotal": 155.80206562008064,
+      "homePavZones": {
+        "off": 56.199106860156675,
+        "mid": 57.60250847783057,
+        "def": 64.489989677997
+      },
+      "awayPavZones": {
+        "off": 55.50780418660492,
+        "mid": 49.190160463997195,
+        "def": 51.104100969478516
+      },
+      "predictedMargin": 4.6604275959344434,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5690357638663881,
+        "away": 0.4309642361336119
+      },
+      "actualMargin": 30,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72865,
+      "date": "2026-06-04",
+      "round": "Round 13",
+      "roundNumber": 13,
+      "home": "Adelaide",
+      "away": "Geelong",
+      "venue": "Adelaide Oval",
+      "homeTeamRating": 1593.6100005652452,
+      "awayTeamRating": 1802.6791063829169,
+      "homeElo": 1580.149291052048,
+      "awayElo": 1709.2802817902643,
+      "homePavTotal": 231.00501930075023,
+      "awayPavTotal": 278.09581209159694,
+      "homePavZones": {
+        "off": 80.05959957934509,
+        "mid": 76.08471810640293,
+        "def": 74.8607016150022
+      },
+      "awayPavZones": {
+        "off": 94.11760661830739,
+        "mid": 95.1781019996737,
+        "def": 88.80010347361582
+      },
+      "predictedMargin": -9.219184999060015,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.3705690174293904,
+        "away": 0.6294309825706096
+      },
+      "actualMargin": 1,
+      "actualWinner": "home",
+      "correct": false
+    },
+    {
+      "matchId": 72866,
+      "date": "2026-06-05",
+      "round": "Round 13",
+      "roundNumber": 13,
+      "home": "Hawthorn",
+      "away": "Western Bulldogs",
+      "venue": "MCG",
+      "homeTeamRating": 1740.7949945022106,
+      "awayTeamRating": 1557.192783681733,
+      "homeElo": 1741.7504915491975,
+      "awayElo": 1465.5569016960908,
+      "homePavTotal": 248.97820625990983,
+      "awayPavTotal": 242.5775274348978,
+      "homePavZones": {
+        "off": 83.48353199188097,
+        "mid": 84.27155507475541,
+        "def": 81.22311919327343
+      },
+      "awayPavZones": {
+        "off": 87.14044653246467,
+        "mid": 84.16673060602847,
+        "def": 71.27035029640467
+      },
+      "predictedMargin": 19.319840624954043,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7413748162745547,
+        "away": 0.2586251837254453
+      },
+      "actualMargin": -6,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 72867,
+      "date": "2026-06-06",
+      "round": "Round 13",
+      "roundNumber": 13,
+      "home": "North Melbourne",
+      "away": "Fremantle",
+      "venue": "Hands Oval",
+      "homeTeamRating": 1421.1438905728655,
+      "awayTeamRating": 1730.884505865729,
+      "homeElo": 1284.2688009797455,
+      "awayElo": 1683.4583034293878,
+      "homePavTotal": 232.81656526804267,
+      "awayPavTotal": 257.9478685256571,
+      "homePavZones": {
+        "off": 93.38435863920343,
+        "mid": 73.30572201442342,
+        "def": 66.12648461441582
+      },
+      "awayPavZones": {
+        "off": 92.21157828952933,
+        "mid": 80.77236467712281,
+        "def": 84.96392555900499
+      },
+      "predictedMargin": -18.447248366947974,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.26720041304448916,
+        "away": 0.7327995869555108
+      },
+      "actualMargin": -124,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 72868,
+      "date": "2026-06-06",
+      "round": "Round 13",
+      "roundNumber": 13,
+      "home": "Gold Coast",
+      "away": "Brisbane Lions",
+      "venue": "Carrara",
+      "homeTeamRating": 1739.0162665701,
+      "awayTeamRating": 1681.191397953807,
+      "homeElo": 1606.0936938869613,
+      "awayElo": 1706.9462763736365,
+      "homePavTotal": 277.46924214068247,
+      "awayPavTotal": 235.12154026969125,
+      "homePavZones": {
+        "off": 86.39908156819179,
+        "mid": 100.11007019067824,
+        "def": 90.96009038181245
+      },
+      "awayPavZones": {
+        "off": 82.3445936774701,
+        "mid": 85.39642968478105,
+        "def": 67.38051690744011
+      },
+      "predictedMargin": 10.675004798502666,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.6473531266949284,
+        "away": 0.3526468733050716
+      },
+      "actualMargin": -31,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 72869,
+      "date": "2026-06-06",
+      "round": "Round 13",
+      "roundNumber": 13,
+      "home": "West Coast",
+      "away": "Port Adelaide",
+      "venue": "Perth Stadium",
+      "homeTeamRating": 1221.570459931956,
+      "awayTeamRating": 1400.990129243091,
+      "homeElo": 1194.0084244453546,
+      "awayElo": 1339.8393633108199,
+      "homePavTotal": 180.77777170939854,
+      "awayPavTotal": 213.6725276469364,
+      "homePavZones": {
+        "off": 56.11485410953858,
+        "mid": 59.51984401560645,
+        "def": 65.1430735842535
+      },
+      "awayPavZones": {
+        "off": 74.95041973147013,
+        "mid": 72.92135603934855,
+        "def": 65.80075187611772
+      },
+      "predictedMargin": -9.68548005597432,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.36475921133732114,
+        "away": 0.6352407886626789
+      },
+      "actualMargin": -6,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 72870,
+      "date": "2026-06-07",
+      "round": "Round 13",
+      "roundNumber": 13,
+      "home": "Sydney",
+      "away": "St Kilda",
+      "venue": "SCG",
+      "homeTeamRating": 1723.219605254299,
+      "awayTeamRating": 1550.488340009221,
+      "homeElo": 1644.8780171687697,
+      "awayElo": 1385.5180882453583,
+      "homePavTotal": 263.4886898629535,
+      "awayPavTotal": 257.36383018251007,
+      "homePavZones": {
+        "off": 86.428924401679,
+        "mid": 92.24719610259993,
+        "def": 84.81256935867461
+      },
+      "awayPavZones": {
+        "off": 91.15363578870864,
+        "mid": 84.9250074260687,
+        "def": 81.28518696773271
+      },
+      "predictedMargin": 20.507024168190895,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.752727823822545,
+        "away": 0.247272176177455
+      },
+      "actualMargin": 2,
+      "actualWinner": "home",
+      "correct": true
+    },
+    {
+      "matchId": 72871,
+      "date": "2026-06-07",
+      "round": "Round 13",
+      "roundNumber": 13,
+      "home": "Essendon",
+      "away": "Carlton",
+      "venue": "MCG",
+      "homeTeamRating": 1192.0670475424322,
+      "awayTeamRating": 1482.6536170626696,
+      "homeElo": 1222.4175223526058,
+      "awayElo": 1489.9263162727736,
+      "homePavTotal": 164.11985905055417,
+      "awayPavTotal": 210.6705651656905,
+      "homePavZones": {
+        "off": 52.271498754468475,
+        "mid": 51.68286641283941,
+        "def": 60.1654938832463
+      },
+      "awayPavZones": {
+        "off": 69.91211357326004,
+        "mid": 75.20509606506934,
+        "def": 65.55335552736112
+      },
+      "predictedMargin": -18.89354060017317,
+      "predictedWinner": "away",
+      "winProbability": {
+        "home": 0.262789958746686,
+        "away": 0.737210041253314
+      },
+      "actualMargin": -5,
+      "actualWinner": "away",
+      "correct": true
+    },
+    {
+      "matchId": 72872,
+      "date": "2026-06-08",
+      "round": "Round 13",
+      "roundNumber": 13,
+      "home": "Collingwood",
+      "away": "Melbourne",
+      "venue": "MCG",
+      "homeTeamRating": 1666.4441468182667,
+      "awayTeamRating": 1626.7669041711192,
+      "homeElo": 1635.0839201000963,
+      "awayElo": 1594.3600589782632,
+      "homePavTotal": 245.2740462203725,
+      "awayPavTotal": 239.81923446326994,
+      "homePavZones": {
+        "off": 72.30793243662812,
+        "mid": 81.5080012237787,
+        "def": 91.4581125599657
+      },
+      "awayPavZones": {
+        "off": 86.44671827960079,
+        "mid": 86.15864524016554,
+        "def": 67.2138709435036
+      },
+      "predictedMargin": 8.369514334823622,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.618673714389183,
+        "away": 0.38132628561081705
+      },
+      "actualMargin": -8,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 72873,
+      "date": "2026-06-11",
+      "round": "Round 14",
+      "roundNumber": 14,
+      "home": "Western Bulldogs",
+      "away": "Adelaide",
+      "venue": "Marvel Stadium",
+      "homeTeamRating": 1551.405902620667,
+      "awayTeamRating": 1595.5751999820704,
+      "homeElo": 1459.6868152422337,
+      "awayElo": 1544.8709160804276,
+      "homePavTotal": 241.76703889039746,
+      "awayPavTotal": 239.28308414465138,
+      "homePavZones": {
+        "off": 85.23763791774073,
+        "mid": 82.89275185484084,
+        "def": 73.63664911781589
+      },
+      "awayPavZones": {
+        "off": 83.4007891937334,
+        "mid": 78.036160672142,
+        "def": 77.84613427877596
+      },
+      "predictedMargin": 1.1548320961487428,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.5178442949842924,
+        "away": 0.4821557050157076
+      },
+      "actualMargin": -57,
+      "actualWinner": "away",
+      "correct": false
+    },
+    {
+      "matchId": 72874,
+      "date": "2026-06-12",
+      "round": "Round 14",
+      "roundNumber": 14,
+      "home": "Geelong",
+      "away": "Gold Coast",
+      "venue": "Kardinia Park",
+      "homeTeamRating": 1789.8592981637407,
+      "awayTeamRating": 1604.4670615206032,
+      "homeElo": 1744.5586567618848,
+      "awayElo": 1554.2111890761835,
+      "homePavTotal": 265.93333241719506,
+      "awayPavTotal": 240.45961497097522,
+      "homePavZones": {
+        "off": 90.49510548620914,
+        "mid": 93.2342671946331,
+        "def": 82.2039597363528
+      },
+      "awayPavZones": {
+        "off": 76.1622016632316,
+        "mid": 82.35812650111316,
+        "def": 81.93928680663045
+      },
+      "predictedMargin": 21.08700737966629,
+      "predictedWinner": "home",
+      "winProbability": {
+        "home": 0.7581443076809761,
+        "away": 0.24185569231902393
+      },
+      "actualMargin": 45,
+      "actualWinner": "home",
+      "correct": true
+    }
+  ]
+}
