@@ -1,5 +1,85 @@
 # Changelog
 
+## [3.4.0] - 2026-06-13
+
+### Model: v3 (`predha-080`) unchanged
+
+The current pointer stays at `predha-080`. Two engine candidates were
+prototyped and one feature was killed under the new pre-registration
+rule (Task 35); the model itself didn't move.
+
+### Research (Tasks 33–37)
+
+The full rethink agenda (`docs/task-24-tail-diagnostic.md` onward) was
+executed in two sittings:
+
+- **Task 33** — missed-tip field triangulation: 79% of v3's 233 misses
+  are consensus misses; one replicating cluster (neutral-venue HA) is
+  worth +1 tip / −0.0011 LL, folded into the A2 bundle.
+- **Task 34** — closing market benchmark (D4-i): market wins ~0 tips
+  recent, would have won none of the last four comps. Product decision:
+  tipper stays market-independent; market becomes the A3 monitor column.
+- **Task 35** — learned stacking head (D1): three walk-forward variants
+  (ridge, logistic, residual-shrink) all significantly worse on both
+  metrics. Combiners over the existing features are dead until a new
+  feature first survives a univariate pre-registered test.
+- **Task 36** — offence/defence split ratings (D2): pooled Δ LL −0.0054
+  (CI [−0.0007, +0.0110] just inside zero), close-band signs +18 pooled,
+  recent-3 tips +5 (vs v4 −9, the opposite fingerprint), 2026 R1–R14
+  Δ LL −0.0182 with tied tips. Comp-passing on every criterion except
+  the strict CI lower bound — **parked** pending end-of-2026 re-pool
+  with R14+ accrued.
+- **Task 37** — age-curve PAV priors (T30 tipper-side, the first
+  feature run under the pre-registration rule): pooled LL got worse on
+  both training windows at every dose; survivor-bias in the
+  within-player fit + tiny lever arm at K=15. **Killed.**
+
+### New: A3 weekly comp monitoring
+
+`analysis/weekly-monitor.py` productionizes the T32/T34 conventions into
+a repeatable run: refreshes v3 + v4-shadow + (T36) OD-shadow backtests,
+scores against the Squiggle field on tips, tracks close-band
+(|v3 pred margin| < 12) sign accuracy, and includes a Punters market
+column (T34 ≈ closing odds). Alerts at ±3 tips season-to-date drift
+(exit code 2). Append-style CSV log at `analysis/weekly-monitor-log.csv`,
+one row per run date (idempotent). First R14 row: v3 86/116 (rank 4/30),
+v4-shadow 82 (13th), OD-shadow 86 (tied 4th), market gap +3 — alert
+fired.
+
+### Engine machinery (all bit-inert when the new config fields are absent)
+
+- `src/engine/odelo.ts` + optional `elo.od.{weight, k,
+  home_advantage_points, initial_score, regression_to_mean,
+  shot_score_weight?}` block. Parallel attack/concede state in points
+  space, mixed into the Elo slot of the blend. `od-w100-k008` is the
+  leading T36 candidate; 12 sweep variants kept as the audit trail.
+- `src/engine/prior.ts`: age-curve helpers (`AGE_TRANSITION_RATIO`,
+  `ageAtDate`, `applyAgeCurve`) and optional `pav.age_curve_weight`.
+  T37 killed the global multiplier; helpers ship for a future
+  selection-corrected, per-zone, or R1-only retry.
+- `src/data/queries.ts`: `fetchPlayerDobs` and
+  `HarnessData.dobByPlayerId` plumbing so the engine can see player DOB
+  at season-boundary time.
+
+### Procedure / bar changes
+
+- **Tips criterion is now part of the promotion bar** (added Task 32):
+  no tip regression vs the incumbent on the pooled scored windows, AND
+  a recent-3-seasons (currently 2023–25) tip deficit is disqualifying.
+  This is what kept v4 reverted, parked T36, and would have killed any
+  age-curve dose even if LogLoss had moved.
+- **Pre-registration rule** (added Task 35, first applied Task 37):
+  any new feature must survive a univariate test with the hypothesis +
+  acceptance criterion written down BEFORE the backtests run. Combiners
+  over existing features need a *new* feature to combine first.
+- **DOB backfill in afl-stats** (work in
+  jackemcpherson/AFL-MCP `scripts/backfill-dob.mts`): per-AFLM-season
+  DOB coverage went 0–10% → 99% for 1998–2014 and 97–100% for
+  2015–2025. Source: AFL Tables all-time team lists via fitzroy, with
+  a direct-fetch override for Brisbane Lions (fitzroy 3.0.1 slug bug:
+  brisbane.html instead of brisbanel.html). Unblocked T30 / T37
+  tipper-side; T37's verdict then closed the work for now.
+
 ## [3.3.1] - 2026-06-12
 
 ### Model: reverted to v3 (`predha-080`)

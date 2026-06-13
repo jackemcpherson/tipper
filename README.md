@@ -41,20 +41,20 @@ account and afl-stats D1 database.
 tipper backtest
 
 # Backtest a specific config
-tipper backtest --config pavfix-blend-w06
+tipper backtest --config predha-080
 
 # Predict upcoming matches
-tipper predict --season 2026 --round 8
+tipper predict --season 2026 --round 15
 
 # Bootstrap-compare two configs
-tipper compare --config-a pavfix-blend-w06 --config-b elo-only-tuned-v1b
+tipper compare --config-a predha-080 --config-b od-w100-k008
 
 # Manage configs
 tipper config list
-tipper config show pavfix-blend-w06
+tipper config show predha-080
 tipper config current
-tipper config promote pavfix-blend-w06 --reason "v2: corrected PAV blend"
-tipper config create new-config --from pavfix-blend-w06
+tipper config promote predha-080 --reason "v3: prediction-side home advantage"
+tipper config create new-config --from predha-080
 tipper config diff config-a config-b
 ```
 
@@ -91,29 +91,52 @@ The engine is pure functions with no I/O. The CLI fetches all data from
 the Cloudflare D1 REST API (the former thin Worker was retired in v3.2)
 and passes pre-fetched data to the engine.
 
-## Current model (v2)
+## Current model (v3)
 
 ```
-Model:  pavfix-blend-w06
-Type:   MOV-Elo + PAV (corrected defence formula)
+Model:  predha-080
+Type:   MOV-Elo + PAV (corrected defence formula) + prediction-side home advantage
 
 Parameters:
-  K-factor:            25
-  Home advantage:      160 Elo points (11.2 scoreboard points)
-  Regression to mean:  0.10
-  MOV multiplier:      538_log
-  Sigma:               36
-  Blend weight (Elo):  0.6
-  PAV cal. slope:      6.986
+  K-factor:                     25
+  Update home advantage:        160 Elo points (shapes Elo's expected result)
+  Prediction home advantage:    80 rating points = 5.6 scoreboard points
+  Regression to mean:           0.10
+  MOV multiplier:               538_log
+  Sigma:                        36
+  Blend weight (Elo):           0.6
+  PAV cal. slope:               6.986
 
 Performance (2021-2025, 1062 matches):
-  Tip%:      66.1%
-  LogLoss:   0.8607
-  Brier:     0.2060
+  Tip%:      68.1%  (716/1062)
+  LogLoss:   0.8485
+  MAE:       26.31
 
-Out-of-sample (2026, 63 matches):
-  Tip%:      77.8%
-  LogLoss:   0.8029
+Out-of-sample (2026, R1-R14, 116 matches):
+  Tip%:      73.3%  (85/116)
+  LogLoss:   0.7893
 ```
 
-See `docs/` for the full tuning reports (Tasks 1-18).
+The defining feature of v3 (`docs/task-20-prediction-home-advantage.md`)
+is that home advantage finally enters predictions: prior HA tuning only
+shaped Elo's update sizes, leaving a +5.6 pt/match systematic bias
+against home teams in the predicted margin. The 80-point fix is derived
+from the measured bias, not fitted, and the out-of-sample improvement
+(−0.04 LogLoss vs v2) exceeded the in-sample one — the opposite of an
+overfit signature.
+
+See `docs/` for the full research ledger (Tasks 1–37). Weekly comp
+monitoring vs the Squiggle field lives at `analysis/weekly-monitor.py`.
+
+## Contributing
+
+This is personal tooling targeting Jack McPherson's entry in the 2027
+Squiggle model competition. The CLI is published to npm so the
+maintainer can install it on new machines, not as an invitation to
+contribute — it requires a private Cloudflare D1 database populated with
+the afl-stats schema and won't work against anyone else's data.
+
+External issues and pull requests are out of scope. If you're curious
+about the modelling, the full research ledger and the rationale behind
+every accepted/rejected experiment lives in `docs/task-*.md`; the
+running open-items list lives in `HANDOFF.md`.
