@@ -20,6 +20,13 @@ import type { MatchPrediction } from "../types.js";
 import { calibratePav, computeTeamRating, type TeamPavSums } from "./blend.js";
 import { applyRegression, type EloHistory, type EloState, getRating, updateElo } from "./elo.js";
 import {
+  applyOdRegression,
+  createOdState,
+  type OdState,
+  odImpliedRating,
+  updateOd,
+} from "./odelo.js";
+import {
   createTeamOffsetState,
   decayTeamOffsets,
   getTeamOffset,
@@ -188,6 +195,8 @@ export function runHarness(
   let priorLeague: LeagueAccumulator | null = null;
   const offsetConfig = config.output.team_offset;
   const offsetState: TeamOffsetState = createTeamOffsetState();
+  const odConfig = config.elo.od;
+  const odState: OdState = createOdState();
 
   for (const match of data.matches) {
     // Season boundary detection
@@ -198,6 +207,9 @@ export function runHarness(
         priorLeague = getLeagueAccumulator(pavState);
         if (offsetConfig) {
           decayTeamOffsets(offsetState, offsetConfig.season_carry);
+        }
+        if (odConfig) {
+          applyOdRegression(odState, odConfig.regression_to_mean);
         }
       }
 
@@ -263,6 +275,7 @@ export function runHarness(
         config,
         data,
         marginAdjust,
+        odState,
       );
       if (isTest) {
         if (prediction) {
@@ -289,6 +302,12 @@ export function runHarness(
 
       // Elo always updates (train and test), history tracks for contextual K
       updateElo(eloState, match, config.elo, eloHistory);
+
+      // OD updates on every completed match (train and test alike) — the
+      // signal is points-residual, same as Elo's, so it warms identically.
+      if (odConfig) {
+        updateOd(odState, match, odConfig);
+      }
 
       // PAV only updates in test seasons (train is Elo-only)
       if (!isTrain) {
@@ -333,6 +352,8 @@ export function runPredict(
   let priorLeague: LeagueAccumulator | null = null;
   const offsetConfig = config.output.team_offset;
   const offsetState: TeamOffsetState = createTeamOffsetState();
+  const odConfig = config.elo.od;
+  const odState: OdState = createOdState();
 
   for (const match of data.matches) {
     // Season boundary detection
@@ -342,6 +363,9 @@ export function runPredict(
         priorLeague = getLeagueAccumulator(pavState);
         if (offsetConfig) {
           decayTeamOffsets(offsetState, offsetConfig.season_carry);
+        }
+        if (odConfig) {
+          applyOdRegression(odState, odConfig.regression_to_mean);
         }
       }
 
@@ -396,6 +420,7 @@ export function runPredict(
         config,
         data,
         marginAdjust,
+        odState,
       );
       if (prediction) {
         predictions.push(prediction);
@@ -416,6 +441,7 @@ export function runPredict(
           config,
           data,
           marginAdjust,
+          odState,
         );
         if (isTargetRound && prediction) {
           predictions.push(prediction);
@@ -434,6 +460,9 @@ export function runPredict(
       const awayEloPre = getRating(eloState, match.away_team_id, config.elo.initial_rating);
 
       updateElo(eloState, match, config.elo, eloHistory);
+      if (odConfig) {
+        updateOd(odState, match, odConfig);
+      }
       const matchStats = data.statsByMatch.get(match.id) ?? [];
       updatePavState(pavState, match, matchStats, {
         home: (awayEloPre - config.elo.initial_rating) / 400,
@@ -453,9 +482,41 @@ function generatePrediction(
   config: Config,
   data: HarnessData,
   marginAdjust = 0,
+  odState?: OdState,
 ): MatchPrediction | null {
   const homeElo = getRating(eloState, match.home_team_id, config.elo.initial_rating);
   const awayElo = getRating(eloState, match.away_team_id, config.elo.initial_rating);
+
+  // Mix the OD-implied rating into the Elo slot when enabled (T36): the
+  // result feeds blend.computeTeamRating exactly as the scalar Elo does, so
+  // every downstream consumer (calibration, prediction HA, sigma) is
+  // untouched. `homeElo`/`awayElo` reported on the prediction record stay
+  // the raw scalar Elo so existing diagnostics don't shift meaning.
+  const odConfig = config.elo.od;
+  const homeEloUsed =
+    odConfig !== undefined && odState !== undefined
+      ? (1 - odConfig.weight) * homeElo +
+        odConfig.weight *
+          odImpliedRating(
+            odState,
+            match.home_team_id,
+            odConfig,
+            config.output.margin_per_rating_point,
+            config.elo.initial_rating,
+          )
+      : homeElo;
+  const awayEloUsed =
+    odConfig !== undefined && odState !== undefined
+      ? (1 - odConfig.weight) * awayElo +
+        odConfig.weight *
+          odImpliedRating(
+            odState,
+            match.away_team_id,
+            odConfig,
+            config.output.margin_per_rating_point,
+            config.elo.initial_rating,
+          )
+      : awayElo;
 
   // Compute team PAV sums from lineups
   const lineups = data.lineupsByMatch.get(match.id) ?? [];
@@ -470,8 +531,8 @@ function generatePrediction(
   const homePav = sumTeamPav(homeLineup, pavState, priorPavMap, homeGamesPlayed, config);
   const awayPav = sumTeamPav(awayLineup, pavState, priorPavMap, awayGamesPlayed, config);
 
-  const homeTeamRating = computeTeamRating(homeElo, homePav, config.blend);
-  const awayTeamRating = computeTeamRating(awayElo, awayPav, config.blend);
+  const homeTeamRating = computeTeamRating(homeEloUsed, homePav, config.blend);
+  const awayTeamRating = computeTeamRating(awayEloUsed, awayPav, config.blend);
 
   // Home advantage at prediction time, in rating points (0 when unset);
   // marginAdjust carries the team-offset term in margin points.

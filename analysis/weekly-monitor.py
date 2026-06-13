@@ -32,6 +32,7 @@ from datetime import date
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 V3 = "predha-080"
 V4 = "v4-shotoff"
+OD = "od-w100-k008"  # T36 second shadow (parked candidate)
 YEAR = 2026
 CLOSE = 12.0
 ALERT_TIPS = 3
@@ -40,14 +41,14 @@ UA = "tipper-weekly-monitor/1.0 (jackemcpherson@gmail.com)"
 LOG_PATH = os.path.join(REPO, "analysis", "weekly-monitor-log.csv")
 LOG_COLUMNS = [
     "run_date", "games_complete", "v3_tips", "v3_rank", "field_n",
-    "leader", "leader_tips", "v4_tips", "v4_rank", "punters_tips",
-    "market_gap", "close_n", "close_v3", "close_v4", "close_punters",
-    "close_field_pct", "alert",
+    "leader", "leader_tips", "v4_tips", "v4_rank", "od_tips", "od_rank",
+    "punters_tips", "market_gap", "close_n", "close_v3", "close_v4",
+    "close_od", "close_punters", "close_field_pct", "alert",
 ]
 
 
 def refresh_results():
-    for config_id in (V3, V4):
+    for config_id in (V3, V4, OD):
         print(f"refreshing {config_id} (backtest -s {YEAR}) ...", flush=True)
         r = subprocess.run(
             ["bun", "run", "dist/cli/index.js", "backtest", "-c", config_id, "-s", str(YEAR)],
@@ -140,9 +141,11 @@ def main():
 
     v3_path, v3_data = load_latest_results(V3)
     v4_path, v4_data = load_latest_results(V4)
+    od_path, od_data = load_latest_results(OD)
     if not args.no_refresh:
         prune_old_results(V3, v3_path, v3_data)
         prune_old_results(V4, v4_path, v4_data)
+        prune_old_results(OD, od_path, od_data)
 
     games = fetch_squiggle("games;complete=100")["games"]
     tips = fetch_squiggle("tips")["tips"]
@@ -151,7 +154,8 @@ def main():
 
     v3_by_gid = score_ours(v3_data["matches"], gkey, "v3")
     v4_by_gid = score_ours(v4_data["matches"], gkey, "v4")
-    covered = set(v3_by_gid) & set(v4_by_gid)
+    od_by_gid = score_ours(od_data["matches"], gkey, "od")
+    covered = set(v3_by_gid) & set(v4_by_gid) & set(od_by_gid)
     if len(covered) < len(games):
         print(
             f"WARNING: results lag the field by {len(games) - len(covered)} completed game(s) "
@@ -198,18 +202,21 @@ def main():
 
     rows.append(ours_row("Tipper v3", v3_by_gid))
     rows.append(ours_row("v4-shadow", v4_by_gid))
+    rows.append(ours_row("OD-shadow", od_by_gid))
     rows.sort(key=lambda r: (-r[1], r[2] if r[2] is not None else 99))
     rank = {name: i for i, (name, _, _) in enumerate(rows, 1)}
     v3_tips = next(r[1] for r in rows if r[0] == "Tipper v3")
     v4_tips = next(r[1] for r in rows if r[0] == "v4-shadow")
+    od_tips = next(r[1] for r in rows if r[0] == "OD-shadow")
     leader, leader_tips, _ = rows[0]
 
     if not args.quiet:
         print(f"\n=== {YEAR} comp standing ({len(games)} completed games, "
               f"{field_n} full-coverage sources + tipper) — scored on TIPS ===")
+        ours = ("Tipper v3", "v4-shadow", "OD-shadow")
         for i, (name, tp, mae) in enumerate(rows, 1):
-            if i <= 5 or name in ("Tipper v3", "v4-shadow") or i == len(rows):
-                pad = ">>" if name in ("Tipper v3", "v4-shadow") else "  "
+            if i <= 5 or name in ours or i == len(rows):
+                pad = ">>" if name in ours else "  "
                 mae_s = f"  MAE {mae:.2f}" if mae is not None else ""
                 print(f"{pad}{i:>3}  {name:<24} {tp:>4} {100 * tp / len(games):>5.1f}%{mae_s}")
 
@@ -234,6 +241,7 @@ def main():
 
     close_v3, _ = band_count(lambda gid: v3_by_gid[gid]["predictedMargin"] >= 0)
     close_v4, _ = band_count(lambda gid: v4_by_gid[gid]["predictedMargin"] >= 0)
+    close_od, _ = band_count(lambda gid: od_by_gid[gid]["predictedMargin"] >= 0)
     close_pun, close_pun_n = band_count(
         lambda gid: (
             float(punters_by_gid[gid]["hconfidence"]) >= 50
@@ -251,6 +259,7 @@ def main():
         print(f"  v3       {close_v3}/{close_n} ({close_v3 / close_n:.1%})" if close_n else "  (none)")
         if close_n:
             print(f"  v4       {close_v4}/{close_n} ({close_v4 / close_n:.1%})")
+            print(f"  OD       {close_od}/{close_n} ({close_od / close_n:.1%})")
             print(f"  Punters  {close_pun}/{close_pun_n} ({close_pun / close_pun_n:.1%})"
                   if close_pun_n else "  Punters  (no coverage)")
             print(f"  field    {close_field_pct:.1%} (mean correct across sources)")
@@ -287,11 +296,14 @@ def main():
         "leader_tips": leader_tips,
         "v4_tips": v4_tips,
         "v4_rank": rank["v4-shadow"],
+        "od_tips": od_tips,
+        "od_rank": rank["OD-shadow"],
         "punters_tips": pun_tips,
         "market_gap": market_gap,
         "close_n": close_n,
         "close_v3": close_v3,
         "close_v4": close_v4,
+        "close_od": close_od,
         "close_punters": close_pun,
         "close_field_pct": round(close_field_pct, 4),
         "alert": int(alert),

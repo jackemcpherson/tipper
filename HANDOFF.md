@@ -1,11 +1,21 @@
 # Handoff — next research session
 
-**State as of 2026-06-12 (post Tasks 24–32, June re-think executed):** **v3 current**
+**State as of 2026-06-13 (post Tasks 24–36, June re-think fully executed):** **v3 current**
 (`predha-080`, release 3.3.1). v4 (`v4-shotoff` = scoring-shot Elo + team offsets) was
 promoted and **reverted the same day** (Task 32): it wins LogLoss/MAE but loses tips —
 the Squiggle comp metric — in every recent season (2023–26: 0/−4/−1/−4, −9 over 763
 games). No live predictions were issued under v4. Its machinery stays in the engine,
 bit-inert when unset; tips-first re-evaluation at 2026 season end.
+
+**Task 36 result (this session):** OD split ratings (`od-w100-k008`) — last untested
+structural idea — is **parked, not promoted**. Comp-currency picture flips v4: pooled
+close-band sign +18, recent-3 tips +5 (vs v4 −9), 2026 R1-R14 Δ LogLoss −0.0182 with
+tied tips. Pooled Δ LogLoss −0.0054 (above bar) but CI lower bound −0.0007 just inside
+zero; misses strict bar by the marginal failure mode, not the v4 failure mode. Engine
+machinery ships inert; OD added as second shadow in the A3 monitor alongside v4. Read
+`docs/task-36-split-ratings.md`. **DOB backfill (T30 dependency) is also done** —
+players.date_of_birth coverage 1998–2014 went 0–10% → 99% via afl-stats
+`scripts/backfill-dob.mts`. Age-curve fitting (the tipper-side T30) is now unblocked.
 Baselines (v3): primary 2021–2025 LogLoss **0.8485** / tips 68.1%; early window
 2016–2019 **0.8555** (`predha80-early`; n=1,890 total). Read
 `docs/task-32-squiggle-rerank.md` first, then task-31 (v4), task-25 (procedure).
@@ -50,13 +60,14 @@ rankings were by our own computed LogLoss, not the comp's scoring). Implications
    diagnostic only. T34 then quantified the information ceiling: even the closing
    market adds ~1–2 tips/season — 2027 comp strategy is v3-class skill + variance, with
    D1 (stack) and A2 (bundle) the remaining live modelling bets.
-1. **A3 weekly comp monitoring** (method established in Task 32, `/tmp/sq_rank_multi.py`
-   pattern): score v3 — and v4 as a shadow — against the Squiggle field on tips weekly
-   for the rest of 2026, plus close-game (|pred margin| < 12) sign accuracy. v3 is
-   currently 4th of 29; the field's annual winner rotates (~±10 tips of luck), so track
-   trends, not ranks. **Plus the market column (T34):** v3 vs Punters (source 5 ≈
-   closing odds, mean |Δp| 0.011) on tips + close band; a market gap drifting beyond
-   ~±3 tips season-to-date is the alert threshold.
+1. **A3 weekly comp monitoring SHIPPED** — `analysis/weekly-monitor.py`. Refreshes v3
+   + v4-shadow backtests, scores against the Squiggle field on tips, close-band
+   (|v3 pred margin| < 12) sign accuracy, and a market column (Punters source 5,
+   T34 ≈ closing odds). Alerts at ±3 tips season-to-date drift (exit code 2). Log:
+   `analysis/weekly-monitor-log.csv`, one row per run date (idempotent same-day). First
+   run 2026-06-13 R14: v3 86/116 (rank 4/30, leader Wheelo 88), v4-shadow 82 (rank 12),
+   market gap +3 (alert fired — v3 currently ahead of the closing market). Add OD
+   (`od-w100-k008`) as a second shadow row once T36 machinery ships.
 2. **Close-game sign accuracy is the new top modelling target.** The comp is decided in
    the |margin| < 2-goal band, where v3 beats v4. Any future candidate should be
    diagnosed on that band specifically before anything else.
@@ -83,8 +94,18 @@ rankings were by our own computed LogLoss, not the comp's scoring). Implications
 5. **Per-team residual diagnostic on v4-class records** (Task 24 method) remains
    informative — offsets absorbed only part of the cellar bias (WCE −16.7 → −12.9) —
    but any fix must now also pass the tips criterion (v4 didn't).
-6. **DOB backfill in afl-stats** would unblock age-curve priors (Task 30): coverage is
-   0–52% in-window; fit on 1998–2014 once backfilled.
+6. ~~DOB backfill in afl-stats~~ **Done 2026-06-13** (AFL-MCP `scripts/backfill-dob.mts`):
+   players.date_of_birth coverage 1998–2014 went 0–10% → 99–100%, 2015–2025 → 97–100%.
+   Source: AFL Tables all-time team lists via fitzroy (with direct-fetch override for
+   Brisbane Lions where fitzroy's slug map is wrong). Age-curve fitting (the tipper-side
+   T30 work) is now unblocked — fit on 1998–2014 clean window, follow the T35 lesson and
+   pre-register a univariate test before any combiner sees the feature.
+
+7. **T36 OD shadow + R14+ accumulation**. OD machinery ships inert
+   (`docs/task-36-split-ratings.md`). At end of 2026 (alongside A2 bundle and v4
+   tips-first re-eval), re-pool OD with the accrued R14+ window — if the lower CI bound
+   moves off zero with the extra ~100 matches, promote on the comp-currency case
+   (close-band +18 pooled, recent-3 tips +5, 2026 R1-R14 Δ LL −0.0182).
 
 ## Documented negatives (do not re-propose without new data)
 
