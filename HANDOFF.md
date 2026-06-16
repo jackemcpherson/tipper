@@ -27,6 +27,42 @@ floor at n=117. Root cause: survivor-bias in the within-player fit + tiny lever 
 K=15 (R1 prior loses to current PAV by R8). Engine machinery (`prior.ts` age curve,
 `pav.age_curve_weight` schema, DOB plumbing through `HarnessData`) ships inert; no
 config ships. Read `docs/task-37-age-curve-priors.md`.
+
+**Task 38 result (2026-06-16): Wheelo adversarial review — three candidate tasks queued, all
+three worked through.** Head-to-head over 971 paired matches 2022–26 found tipper and Wheelo
+**statistically tied on tips** (Δ −2, CI [−0.022, +0.019]); ΔLogLoss −0.014 directional, CI
+straddles zero. Decomposition into two opposite-sign cuts that cancel: Wheelo wins T33-style
+misses 22/24, v3 wins consensus-wrong games +14/256 (the against-the-field contrarian edge).
+Parameter fit identified two load-bearing structural differences: **per-venue HGA (Wheelo
+range 21.9 pts vs v3 4.6 pts)** and **stat-driven OD split (Attack r=+0.93 with xScore,
+Defence r=−0.94 with TotalPoints_Opposition)**.
+
+**Outcomes (same day, 2026-06-16):**
+- **38a per-venue HGA — KILLED** (`docs/task-38a-per-venue-hga.md`). Walk-forward residual
+  fit, α∈{1, 0.5} × min_n=5. Primary 2021–25 ΔLL −0.003 sub-bar (CI [−0.007, +0.013] includes
+  zero); pooled tip regression −4 on both variants; **direction reversal on early window**
+  (ΔLL +0.014 / +0.004 worse) kills it via the confirmatory criterion. Engine machinery ships
+  inert (`src/engine/venue-ha.ts`, `output.prediction_home_advantage_per_venue`); bit-inert
+  verified (predha-080 still hashes `2641f46f`, LogLoss `0.8485`, 716 tips). The Wheelo 21.9-pt
+  per-venue range is most likely team-strength leakage, not pure venue effect.
+- **38c T28 standalone shot-margin — RE-PARKED with 2026 warning** (`docs/task-38c-shot-margin-restest.md`).
+  Original T28 numbers reproduce bit-identically (primary +5 tips / ΔLL −0.0034 sub-bar; early
+  +6 / −0.0064; pooled CI [−0.0102, +0.0009] just barely inside zero). **New 2026 R1–R14 OOS
+  evidence reverses direction**: ΔTips −2, ΔLL +0.0069. Sliding recent-3 (2024+25+26) ΔTips
+  −4 — the v4 failure mode shape. Verdict deferred to October A2 re-test; if full-2026 also
+  reverses, this becomes a kill.
+- **38b T36 OD R14+ — PRE-FLIGHT GO, designated v5 candidate** (`docs/task-38b-od-preflight.md`).
+  With R14 added: pooled ΔTips +13, recent-3 sliding (2024–26) +4 (passes T32 disqualifying
+  line), ΔLL pooled point estimate ≈ −0.0070 (now meaningfully past the 0.005 bar — was
+  −0.0054 at T36). 2026 R1–R14 ΔLL −0.0183 specifically (largest per-window LL gain in OD's
+  record). Machinery bit-inert through T38a changes; A3 monitor correctly tracking OD as
+  second shadow (rank 4 at R13 vs v3 rank 5). `_current.json` stays at v3 = `predha-080`
+  pending October re-eval (pooled CI lower bound crosses zero + consensus-wrong regression
+  guard TBD).
+
+**Net Wheelo-closure picture:** of the two identified structural gaps, per-venue HGA is dead
+(38a) and OD-split is alive (38b). The Wheelo head-to-head gap most likely lives entirely in
+the OD update mechanic, not in HGA structure. Read
 Baselines (v3): primary 2021–2025 LogLoss **0.8485** / tips 68.1%; early window
 2016–2019 **0.8555** (`predha80-early`; n=1,890 total). Read
 `docs/task-32-squiggle-rerank.md` first, then task-31 (v4), task-25 (procedure).
@@ -115,11 +151,32 @@ rankings were by our own computed LogLoss, not the comp's scoring). Implications
    machinery ships inert. Resurrection: selection-corrected curve OR per-zone curve OR
    R1-R4-only application (none queued — see task-37 doc).
 
-8. **T36 OD shadow + R14+ accumulation**. OD machinery ships inert
-   (`docs/task-36-split-ratings.md`). At end of 2026 (alongside A2 bundle and v4
-   tips-first re-eval), re-pool OD with the accrued R14+ window — if the lower CI bound
-   moves off zero with the extra ~100 matches, promote on the comp-currency case
-   (close-band +18 pooled, recent-3 tips +5, 2026 R1-R14 Δ LL −0.0182).
+8. **T38b OD shadow + R14+ accumulation (PRE-FLIGHT GO 2026-06-16; v5 candidate)**.
+   `docs/task-38b-od-preflight.md`. Pre-flight check with R14 added: pooled ΔTips +13
+   (was +12 at T36), recent-3 sliding (2024–26) +4 (passes T32 disqualifying line), ΔLL
+   pooled point ≈ −0.0070 (now past 0.005 bar, was −0.0054 at T36). 2026 R1–R14 ΔLL
+   −0.0183 specifically (largest per-window LL gain in OD's record). Machinery bit-inert
+   through T38a engine changes; A3 monitor correctly tracking OD as second shadow (rank
+   4 at R13 vs v3 rank 5). **Wheelo review (T38) externally validates the OD shape**:
+   Wheelo's Attack r=+0.93 with xScore, per-team residuals halve v3's on the same teams.
+   October re-eval (A2 bundle) checks: pooled CI lower bound crosses zero + consensus-wrong
+   regression guard (TBD — write OD-vs-v3 clone of `analysis/wheelo-headhead.py` before
+   October). If all four gates pass, OD is the 2026-end promotion candidate.
+
+9. ~~T38a per-venue HGA~~ **Killed 2026-06-16** (`docs/task-38a-per-venue-hga.md`):
+   walk-forward residual fit fails on three counts — pooled tip regression (−4 both α
+   variants), ΔLL CI includes zero on primary, **direction reversal on early window**
+   (ΔLL +0.014 / +0.004 worse). Engine machinery ships inert
+   (`src/engine/venue-ha.ts`, `output.prediction_home_advantage_per_venue`). Resurrection
+   conditions: team-venue interaction term (not venue-only intercept) to remove
+   team-strength leakage; OR fold into A2 bucketed-HA bundle (the T33 neutral piece
+   already lives there, the bucketing is sample-efficient).
+
+10. ~~T38c T28 standalone shot-margin re-test~~ **Re-parked 2026-06-16 with 2026 warning**
+    (`docs/task-38c-shot-margin-restest.md`). Pre-2026: clean (+5/+6 tips both windows,
+    pooled ΔLL −0.0047 just inside zero on CI). New 2026 R1–R14: ΔTips −2, ΔLL +0.0069
+    — direction reversal. Sliding recent-3 (2024–26) −4 tips. Decision deferred to A2
+    full-2026 re-test in October; if 2026 stays reversed, kill instead of re-park.
 
 ## Documented negatives (do not re-propose without new data)
 

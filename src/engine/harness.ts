@@ -44,6 +44,12 @@ import {
 } from "./pav.js";
 import { computeWinProbability, predictMargin } from "./predict.js";
 import { applyAgeCurve, blendWithPrior, buildPriorPavMap, type PriorPavMap } from "./prior.js";
+import {
+  createVenueHaPredState,
+  getVenueHaPred,
+  updateVenueHaPred,
+  type VenueHaPredState,
+} from "./venue-ha.js";
 
 /** All data needed for a harness run, pre-fetched into memory. */
 export interface HarnessData {
@@ -200,6 +206,8 @@ export function runHarness(
   const offsetState: TeamOffsetState = createTeamOffsetState();
   const odConfig = config.elo.od;
   const odState: OdState = createOdState();
+  const venueHaConfig = config.output.prediction_home_advantage_per_venue;
+  const venueHaState: VenueHaPredState = createVenueHaPredState();
 
   for (const match of data.matches) {
     // Season boundary detection
@@ -271,13 +279,18 @@ export function runHarness(
     const isCompleted = match.home_points !== null && match.away_points !== null;
 
     // For test seasons, generate predictions before updating state. With
-    // team offsets enabled, non-train seasons also generate (unrecorded)
-    // predictions so the offset state can learn from their residuals.
-    if ((isTest || (offsetConfig && !isTrain)) && isCompleted) {
-      const marginAdjust = offsetConfig
+    // team offsets or per-venue HGA enabled, non-train seasons also generate
+    // (unrecorded) predictions so those states can learn from their
+    // residuals.
+    if ((isTest || ((offsetConfig || venueHaConfig) && !isTrain)) && isCompleted) {
+      const offsetAdjust = offsetConfig
         ? getTeamOffset(offsetState, match.home_team_id, offsetConfig.k) -
           getTeamOffset(offsetState, match.away_team_id, offsetConfig.k)
         : 0;
+      const venueHaAdjust = venueHaConfig
+        ? getVenueHaPred(venueHaState, match.venue_id, venueHaConfig.alpha, venueHaConfig.min_n)
+        : 0;
+      const marginAdjust = offsetAdjust + venueHaAdjust;
       const prediction = generatePrediction(
         match,
         eloState,
@@ -295,13 +308,14 @@ export function runHarness(
           skippedMatches.push(match.id);
         }
       }
-      if (offsetConfig && prediction && prediction.actualMargin !== undefined) {
-        updateTeamOffsets(
-          offsetState,
-          match.home_team_id,
-          match.away_team_id,
-          prediction.actualMargin - prediction.predictedMargin,
-        );
+      if (prediction && prediction.actualMargin !== undefined) {
+        const residual = prediction.actualMargin - prediction.predictedMargin;
+        if (offsetConfig) {
+          updateTeamOffsets(offsetState, match.home_team_id, match.away_team_id, residual);
+        }
+        if (venueHaConfig) {
+          updateVenueHaPred(venueHaState, match.venue_id, residual);
+        }
       }
     }
 
@@ -365,6 +379,8 @@ export function runPredict(
   const offsetState: TeamOffsetState = createTeamOffsetState();
   const odConfig = config.elo.od;
   const odState: OdState = createOdState();
+  const venueHaConfig = config.output.prediction_home_advantage_per_venue;
+  const venueHaState: VenueHaPredState = createVenueHaPredState();
 
   for (const match of data.matches) {
     // Season boundary detection
@@ -421,10 +437,14 @@ export function runPredict(
     const isCompleted = match.home_points !== null && match.away_points !== null;
     const isTargetRound = match.season_id === targetSeasonId && match.round_number === targetRound;
 
-    const marginAdjust = offsetConfig
+    const offsetAdjust = offsetConfig
       ? getTeamOffset(offsetState, match.home_team_id, offsetConfig.k) -
         getTeamOffset(offsetState, match.away_team_id, offsetConfig.k)
       : 0;
+    const venueHaAdjust = venueHaConfig
+      ? getVenueHaPred(venueHaState, match.venue_id, venueHaConfig.alpha, venueHaConfig.min_n)
+      : 0;
+    const marginAdjust = offsetAdjust + venueHaAdjust;
 
     if (isTargetRound && !isCompleted) {
       // This is an unplayed match in the target round — predict it
@@ -445,10 +465,10 @@ export function runPredict(
       }
     } else if (isCompleted) {
       // Completed match (could be earlier in the target round) — update state.
-      // With team offsets enabled, every completed match contributes a
-      // (possibly unrecorded) prediction so offset state stays warm — the
-      // same rule the backtest harness uses for non-train seasons.
-      if (isTargetRound || offsetConfig) {
+      // With team offsets or per-venue HGA enabled, every completed match
+      // contributes a (possibly unrecorded) prediction so those states stay
+      // warm — the same rule the backtest harness uses for non-train seasons.
+      if (isTargetRound || offsetConfig || venueHaConfig) {
         const prediction = generatePrediction(
           match,
           eloState,
@@ -462,13 +482,14 @@ export function runPredict(
         if (isTargetRound && prediction) {
           predictions.push(prediction);
         }
-        if (offsetConfig && prediction && prediction.actualMargin !== undefined) {
-          updateTeamOffsets(
-            offsetState,
-            match.home_team_id,
-            match.away_team_id,
-            prediction.actualMargin - prediction.predictedMargin,
-          );
+        if (prediction && prediction.actualMargin !== undefined) {
+          const residual = prediction.actualMargin - prediction.predictedMargin;
+          if (offsetConfig) {
+            updateTeamOffsets(offsetState, match.home_team_id, match.away_team_id, residual);
+          }
+          if (venueHaConfig) {
+            updateVenueHaPred(venueHaState, match.venue_id, residual);
+          }
         }
       }
 

@@ -98,6 +98,19 @@ export const ConfigSchema = z.object({
         season_carry: z.number().min(0).max(1),
       })
       .optional(),
+    // Task 38a: walk-forward per-venue prediction HGA (margin points). Adds
+    // to the predicted margin alongside `prediction_home_advantage` (which
+    // stays as the global static term — per-venue values are deltas).
+    // `alpha` mixes venue mean with global mean (1=venue only, 0=global
+    // only); `min_n` is the minimum completed matches at a venue before
+    // its own estimate is used (else fall back to global mean). Optional
+    // (not defaulted) to keep existing config hashes stable.
+    prediction_home_advantage_per_venue: z
+      .object({
+        alpha: z.number().min(0).max(1),
+        min_n: z.number().int().nonnegative(),
+      })
+      .optional(),
   }),
 
   backtest: z.object({

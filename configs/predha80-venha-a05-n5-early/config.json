@@ -1,7 +1,7 @@
 {
-  "id": "od-w100-k008",
+  "id": "predha80-venha-a05-n5-early",
   "schema_version": 1,
-  "notes": "Task 36 (D2): offence/defence split ratings sweep. T38b v5 candidate — pre-flight GO 2026-06-16 (pooled ΔTips +13 inc 2026 R14, ΔLL point ≈ −0.0070 past bar, recent-3 sliding +4); promotion decision deferred to October A2 re-eval pending pooled CI lower-bound off zero + consensus-wrong regression guard.",
+  "notes": "Task 38a confirmatory: predha80-venha-a05-n5 on the early window. Train 2015, test 2016-2019. 2020 (COVID) excluded.",
   "elo": {
     "k": 25,
     "initial_rating": 1500,
@@ -10,14 +10,7 @@
     "mov_multiplier": "538_log",
     "k_context_sensitivity": 0,
     "k_context_window": 8,
-    "home_advantage_source": "static",
-    "od": {
-      "weight": 1.0,
-      "k": 0.08,
-      "home_advantage_points": 10,
-      "initial_score": 85,
-      "regression_to_mean": 0.2
-    }
+    "home_advantage_source": "static"
   },
   "pav": {
     "computation": "round_by_round_cumulative",
@@ -34,11 +27,15 @@
   "output": {
     "margin_per_rating_point": 0.07,
     "sigma": 36,
-    "prediction_home_advantage": 80
+    "prediction_home_advantage": 80,
+    "prediction_home_advantage_per_venue": {
+      "alpha": 0.5,
+      "min_n": 5
+    }
   },
   "backtest": {
-    "train_seasons": [2020],
-    "test_seasons": [2021, 2022, 2023, 2024, 2025],
+    "train_seasons": [2015],
+    "test_seasons": [2016, 2017, 2018, 2019],
     "walk_forward": true
   }
 }

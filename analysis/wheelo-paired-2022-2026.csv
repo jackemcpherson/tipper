@@ -1,0 +1,972 @@
+matchId,season,date,home,away,venue,p_v3,pred_v3,p_w,pred_w,actual
+1198,2022,2022-03-16,Melbourne,Western Bulldogs,MCG,0.6980,15.10,0.5810,6.60,26
+1199,2022,2022-03-17,Carlton,Richmond,MCG,0.3623,-9.88,0.3560,-11.90,25
+1200,2022,2022-03-18,St Kilda,Collingwood,Marvel Stadium,0.6977,15.07,0.5860,7.00,-17
+1201,2022,2022-03-19,Geelong,Essendon,MCG,0.6712,12.70,0.5920,7.50,66
+1202,2022,2022-03-19,GWS Giants,Sydney,Accor Stadium,0.5211,1.37,0.4740,-2.10,-20
+1203,2022,2022-03-19,Brisbane Lions,Port Adelaide,Gabba,0.5983,6.81,0.7230,19.10,11
+1204,2022,2022-03-20,Hawthorn,North Melbourne,MCG,0.5606,4.06,0.6890,15.90,20
+1205,2022,2022-03-20,Adelaide,Fremantle,Adelaide Oval,0.6492,10.83,0.6730,14.50,-1
+1206,2022,2022-03-20,West Coast,Gold Coast,Perth Stadium,0.5676,4.56,0.6580,13.20,-27
+1207,2022,2022-03-24,Western Bulldogs,Carlton,Marvel Stadium,0.8199,28.46,0.6670,13.80,-12
+1208,2022,2022-03-25,Sydney,Geelong,SCG,0.5312,2.04,0.4280,-5.80,30
+1209,2022,2022-03-26,Collingwood,Adelaide,MCG,0.7046,15.71,0.7080,17.50,42
+1210,2022,2022-03-26,Essendon,Brisbane Lions,Marvel Stadium,0.4288,-4.81,0.2970,-17.00,-22
+1211,2022,2022-03-26,Port Adelaide,Hawthorn,Adelaide Oval,0.7729,22.71,0.6020,8.30,-64
+1212,2022,2022-03-26,Gold Coast,Melbourne,Carrara,0.1857,-27.73,0.2140,-25.40,-13
+1213,2022,2022-03-27,North Melbourne,West Coast,Marvel Stadium,0.7309,18.26,0.5370,2.90,15
+1214,2022,2022-03-27,Richmond,GWS Giants,MCG,0.4826,-1.13,0.4680,-2.60,36
+1215,2022,2022-03-27,Fremantle,St Kilda,Perth Stadium,0.4799,-1.30,0.5540,4.30,-10
+1216,2022,2022-03-31,Western Bulldogs,Sydney,Marvel Stadium,0.5601,4.02,0.5750,6.10,11
+1218,2022,2022-04-01,Melbourne,Essendon,MCG,0.8399,31.24,0.7860,25.30,29
+1217,2022,2022-04-01,Adelaide,Port Adelaide,Adelaide Oval,0.3557,-10.43,0.3830,-9.50,4
+1219,2022,2022-04-02,GWS Giants,Gold Coast,Sydney Showground,0.6481,10.74,0.6210,9.80,26
+1220,2022,2022-04-02,Collingwood,Geelong,MCG,0.3969,-7.17,0.3420,-13.00,-13
+1221,2022,2022-04-02,Brisbane Lions,North Melbourne,Gabba,0.8753,36.85,0.9290,46.90,108
+1222,2022,2022-04-03,Carlton,Hawthorn,MCG,0.5520,3.46,0.4500,-4.00,1
+1223,2022,2022-04-03,St Kilda,Richmond,Marvel Stadium,0.6291,9.19,0.6550,12.80,33
+1224,2022,2022-04-03,West Coast,Fremantle,Perth Stadium,0.5763,5.19,0.5170,1.40,-55
+1225,2022,2022-04-07,Port Adelaide,Melbourne,Adelaide Oval,0.2832,-16.87,0.2460,-21.90,-32
+1226,2022,2022-04-08,Geelong,Brisbane Lions,Kardinia Park,0.4802,-1.28,0.4610,-3.10,10
+1227,2022,2022-04-09,Sydney,North Melbourne,SCG,0.8116,27.38,0.9090,42.60,11
+1228,2022,2022-04-09,Collingwood,West Coast,Marvel Stadium,0.7584,21.11,0.8120,28.30,-13
+1229,2022,2022-04-09,Richmond,Western Bulldogs,MCG,0.3603,-10.05,0.3230,-14.70,38
+1230,2022,2022-04-09,Fremantle,GWS Giants,Perth Stadium,0.5359,2.36,0.6110,9.00,34
+1231,2022,2022-04-10,Essendon,Adelaide,Marvel Stadium,0.6231,8.72,0.6060,8.60,4
+1232,2022,2022-04-10,Hawthorn,St Kilda,MCG,0.5173,1.12,0.5390,3.20,-69
+1233,2022,2022-04-10,Gold Coast,Carlton,Carrara,0.4794,-1.34,0.4510,-3.90,30
+1234,2022,2022-04-14,Brisbane Lions,Collingwood,Gabba,0.8338,30.36,0.8240,29.80,7
+1235,2022,2022-04-15,North Melbourne,Western Bulldogs,Marvel Stadium,0.2867,-16.53,0.1160,-38.30,-68
+1236,2022,2022-04-15,West Coast,Sydney,Perth Stadium,0.2728,-17.89,0.4320,-5.50,-63
+1237,2022,2022-04-16,St Kilda,Gold Coast,Marvel Stadium,0.7443,19.63,0.7310,19.70,26
+1238,2022,2022-04-16,Adelaide,Richmond,Adelaide Oval,0.4654,-2.27,0.4620,-3.10,19
+1239,2022,2022-04-16,Melbourne,GWS Giants,MCG,0.8825,38.13,0.8710,36.20,67
+1240,2022,2022-04-17,Carlton,Port Adelaide,MCG,0.4669,-2.17,0.5670,5.40,3
+1241,2022,2022-04-17,Essendon,Fremantle,Marvel Stadium,0.5966,6.68,0.5080,0.70,-48
+1242,2022,2022-04-18,Hawthorn,Geelong,MCG,0.3126,-14.13,0.2610,-20.50,12
+1243,2022,2022-04-22,GWS Giants,St Kilda,Manuka Oval,0.4126,-6.00,0.4590,-3.30,-17
+1244,2022,2022-04-23,Western Bulldogs,Adelaide,Mars Stadium,0.7673,22.09,0.8290,30.30,-1
+1245,2022,2022-04-23,Port Adelaide,West Coast,Adelaide Oval,0.8055,26.60,0.8600,34.60,84
+1246,2022,2022-04-23,Fremantle,Carlton,Perth Stadium,0.6679,12.41,0.6690,14.00,35
+1247,2022,2022-04-24,North Melbourne,Geelong,Ninja Stadium,0.2711,-18.06,0.1300,-36.00,-60
+1248,2022,2022-04-24,Gold Coast,Brisbane Lions,Carrara,0.2361,-21.71,0.2100,-25.80,-52
+1249,2022,2022-04-24,Richmond,Melbourne,MCG,0.2557,-19.63,0.2120,-25.50,-22
+1250,2022,2022-04-25,Hawthorn,Sydney,UTAS Stadium,0.3167,-13.77,0.3910,-8.90,-41
+1251,2022,2022-04-25,Essendon,Collingwood,MCG,0.5906,6.23,0.3910,-8.80,-11
+1252,2022,2022-04-29,West Coast,Richmond,Perth Stadium,0.3817,-8.34,0.4150,-6.80,-109
+1253,2022,2022-04-30,Geelong,Fremantle,Kardinia Park,0.7320,18.37,0.7780,24.30,-3
+1254,2022,2022-04-30,Adelaide,GWS Giants,Adelaide Oval,0.5594,3.98,0.4960,-0.30,-59
+1255,2022,2022-04-30,Melbourne,Hawthorn,MCG,0.8613,34.52,0.8230,29.40,10
+1256,2022,2022-04-30,Carlton,North Melbourne,Marvel Stadium,0.6752,13.05,0.7650,22.90,50
+1257,2022,2022-04-30,St Kilda,Port Adelaide,Cazalys Stadium,0.6258,8.93,0.5040,0.30,-1
+1258,2022,2022-05-01,Collingwood,Gold Coast,MCG,0.6524,11.09,0.6840,15.20,25
+1259,2022,2022-05-01,Western Bulldogs,Essendon,Marvel Stadium,0.7366,18.83,0.6780,14.70,32
+1260,2022,2022-05-01,Sydney,Brisbane Lions,SCG,0.5242,1.58,0.5430,3.40,-24
+1261,2022,2022-05-06,Port Adelaide,Western Bulldogs,Adelaide Oval,0.6081,7.55,0.6300,10.70,17
+1262,2022,2022-05-06,Fremantle,North Melbourne,Perth Stadium,0.7488,20.09,0.8770,37.30,78
+1263,2022,2022-05-07,Richmond,Collingwood,MCG,0.6567,11.45,0.5690,5.60,27
+1264,2022,2022-05-07,Sydney,Gold Coast,SCG,0.8301,29.84,0.7940,26.30,-14
+1265,2022,2022-05-07,GWS Giants,Geelong,Manuka Oval,0.5000,0.00,0.5540,4.40,-53
+1266,2022,2022-05-07,Essendon,Hawthorn,Marvel Stadium,0.5431,2.84,0.4730,-2.20,27
+1267,2022,2022-05-07,Brisbane Lions,West Coast,Gabba,0.9273,47.86,0.9720,61.50,75
+1268,2022,2022-05-08,Melbourne,St Kilda,MCG,0.7834,23.91,0.6880,15.70,38
+1269,2022,2022-05-08,Carlton,Adelaide,Marvel Stadium,0.6756,13.08,0.7220,18.90,48
+1270,2022,2022-05-13,Collingwood,Western Bulldogs,Marvel Stadium,0.4335,-4.48,0.4480,-4.20,-48
+1271,2022,2022-05-14,Hawthorn,Richmond,MCG,0.3764,-8.76,0.3620,-11.30,-23
+1272,2022,2022-05-14,North Melbourne,Port Adelaide,Ninja Stadium,0.2776,-17.42,0.1890,-28.40,-69
+1273,2022,2022-05-14,St Kilda,Geelong,Marvel Stadium,0.5230,1.50,0.4990,-0.10,10
+1274,2022,2022-05-14,Sydney,Essendon,SCG,0.7737,22.80,0.7790,24.80,58
+1275,2022,2022-05-14,Adelaide,Brisbane Lions,Adelaide Oval,0.1689,-29.99,0.2090,-26.10,-36
+1276,2022,2022-05-15,Gold Coast,Fremantle,Carrara,0.4039,-6.64,0.4610,-3.10,36
+1277,2022,2022-05-15,GWS Giants,Carlton,Sydney Showground,0.5992,6.88,0.5510,4.10,-30
+1278,2022,2022-05-15,West Coast,Melbourne,Perth Stadium,0.0689,-48.89,0.0440,-54.80,-74
+1279,2022,2022-05-20,Carlton,Sydney,Marvel Stadium,0.3773,-8.69,0.4080,-7.50,15
+1280,2022,2022-05-21,Western Bulldogs,Gold Coast,Mars Stadium,0.7100,16.22,0.7150,18.40,19
+1281,2022,2022-05-21,Geelong,Port Adelaide,Kardinia Park,0.6249,8.86,0.6770,14.90,35
+1282,2022,2022-05-21,North Melbourne,Melbourne,Marvel Stadium,0.1014,-41.25,0.0440,-55.10,-47
+1283,2022,2022-05-21,Adelaide,St Kilda,Adelaide Oval,0.3125,-14.14,0.2900,-17.90,-21
+1284,2022,2022-05-21,Richmond,Essendon,MCG,0.7278,17.95,0.7630,23.10,32
+1285,2022,2022-05-22,GWS Giants,West Coast,Sydney Showground,0.7200,17.18,0.8690,36.20,52
+1286,2022,2022-05-22,Hawthorn,Brisbane Lions,UTAS Stadium,0.2052,-25.28,0.3020,-16.80,5
+1287,2022,2022-05-22,Fremantle,Collingwood,Perth Stadium,0.6821,13.65,0.7420,21.00,-36
+1288,2022,2022-05-27,Sydney,Richmond,SCG,0.6172,8.25,0.5900,7.30,6
+1289,2022,2022-05-28,Geelong,Adelaide,Kardinia Park,0.8239,28.99,0.8580,34.50,42
+1290,2022,2022-05-28,Brisbane Lions,GWS Giants,Gabba,0.8444,31.90,0.8500,33.30,14
+1291,2022,2022-05-28,Melbourne,Fremantle,MCG,0.8510,32.89,0.8280,30.40,-38
+1292,2022,2022-05-28,West Coast,Western Bulldogs,Perth Stadium,0.2051,-25.29,0.1450,-34.00,-101
+1293,2022,2022-05-28,Gold Coast,Hawthorn,TIO Stadium,0.5896,6.16,0.5700,5.70,67
+1294,2022,2022-05-29,St Kilda,North Melbourne,Marvel Stadium,0.8283,29.60,0.8730,36.70,53
+1295,2022,2022-05-29,Collingwood,Carlton,MCG,0.5732,4.96,0.5120,0.90,4
+1296,2022,2022-05-29,Port Adelaide,Essendon,Adelaide Oval,0.7760,23.07,0.8300,30.70,16
+1297,2022,2022-06-03,Western Bulldogs,Geelong,Marvel Stadium,0.5729,4.94,0.5730,6.00,-13
+1298,2022,2022-06-04,Adelaide,West Coast,Adelaide Oval,0.7191,17.09,0.8880,39.60,31
+1299,2022,2022-06-04,Gold Coast,North Melbourne,TIO Stadium,0.7392,19.09,0.8650,35.90,62
+1300,2022,2022-06-04,Melbourne,Sydney,MCG,0.7419,19.37,0.7330,20.20,-12
+1301,2022,2022-06-05,Hawthorn,Collingwood,MCG,0.4410,-3.95,0.3890,-9.20,-4
+1302,2022,2022-06-05,Fremantle,Brisbane Lions,Perth Stadium,0.3186,-13.59,0.4710,-2.40,14
+1303,2022,2022-06-09,Richmond,Port Adelaide,MCG,0.5149,0.96,0.6320,10.90,12
+1304,2022,2022-06-10,Essendon,Carlton,MCG,0.5074,0.47,0.3790,-9.90,-26
+1305,2022,2022-06-11,Fremantle,Hawthorn,Perth Stadium,0.7676,22.12,0.8350,31.50,13
+1306,2022,2022-06-11,Brisbane Lions,St Kilda,Gabba,0.7263,17.80,0.7720,24.10,21
+1307,2022,2022-06-12,North Melbourne,GWS Giants,Marvel Stadium,0.4330,-4.51,0.2600,-20.80,-49
+1308,2022,2022-06-13,Collingwood,Melbourne,MCG,0.3695,-9.30,0.3610,-11.50,26
+1309,2022,2022-06-16,Richmond,Carlton,MCG,0.6624,11.94,0.6350,11.10,15
+1310,2022,2022-06-17,St Kilda,Essendon,Marvel Stadium,0.7833,23.91,0.6630,13.50,-35
+1311,2022,2022-06-18,Port Adelaide,Sydney,Adelaide Oval,0.4436,-3.77,0.4070,-7.50,23
+1312,2022,2022-06-18,West Coast,Geelong,Perth Stadium,0.1540,-32.13,0.1200,-37.60,-18
+1313,2022,2022-06-18,GWS Giants,Western Bulldogs,Sydney Showground,0.3482,-11.05,0.3920,-8.80,-20
+1314,2022,2022-06-19,Gold Coast,Adelaide,Carrara,0.6841,13.83,0.7150,18.20,43
+1315,2022,2022-06-23,Melbourne,Brisbane Lions,MCG,0.5658,4.43,0.6170,9.60,64
+1316,2022,2022-06-24,Western Bulldogs,Hawthorn,Marvel Stadium,0.7704,22.44,0.7610,22.90,42
+1317,2022,2022-06-24,West Coast,Essendon,Perth Stadium,0.3503,-10.87,0.3140,-15.60,10
+1318,2022,2022-06-25,Carlton,Fremantle,Marvel Stadium,0.4794,-1.34,0.5060,0.50,31
+1319,2022,2022-06-25,Geelong,Richmond,MCG,0.6907,14.43,0.5600,4.90,3
+1320,2022,2022-06-25,Sydney,St Kilda,SCG,0.6526,11.11,0.6890,15.90,51
+1321,2022,2022-06-26,North Melbourne,Adelaide,Ninja Stadium,0.4713,-1.87,0.3380,-13.50,-57
+1322,2022,2022-06-26,Collingwood,GWS Giants,MCG,0.6857,13.97,0.6770,14.80,11
+1323,2022,2022-06-26,Port Adelaide,Gold Coast,Adelaide Oval,0.6739,12.93,0.6150,9.40,2
+1324,2022,2022-06-30,Brisbane Lions,Western Bulldogs,Gabba,0.7263,17.80,0.6940,16.30,41
+1325,2022,2022-07-01,Carlton,St Kilda,Marvel Stadium,0.5100,0.64,0.5250,2.00,-15
+1326,2022,2022-07-02,Essendon,Sydney,MCG,0.3378,-11.92,0.3360,-13.60,9
+1327,2022,2022-07-02,Adelaide,Melbourne,Adelaide Oval,0.2741,-17.76,0.2330,-23.40,-29
+1328,2022,2022-07-02,Gold Coast,Collingwood,Carrara,0.4669,-2.17,0.5620,5.00,-5
+1329,2022,2022-07-02,Geelong,North Melbourne,Kardinia Park,0.9069,42.99,0.9590,56.20,112
+1330,2022,2022-07-03,Richmond,West Coast,MCG,0.8455,32.07,0.9060,42.50,35
+1331,2022,2022-07-03,GWS Giants,Hawthorn,Sydney Showground,0.6062,7.40,0.6440,11.90,22
+1332,2022,2022-07-03,Fremantle,Port Adelaide,Perth Stadium,0.5243,1.58,0.6660,13.80,8
+1333,2022,2022-07-07,Geelong,Melbourne,Kardinia Park,0.5040,0.26,0.5570,4.60,28
+1334,2022,2022-07-08,Sydney,Western Bulldogs,SCG,0.6087,7.60,0.5790,6.30,53
+1335,2022,2022-07-09,Collingwood,North Melbourne,MCG,0.8468,32.26,0.9370,48.70,7
+1336,2022,2022-07-09,Gold Coast,Richmond,Carrara,0.4740,-1.69,0.5490,4.00,2
+1337,2022,2022-07-09,St Kilda,Fremantle,Marvel Stadium,0.5788,5.37,0.5180,1.40,-41
+1338,2022,2022-07-09,Port Adelaide,GWS Giants,Adelaide Oval,0.7360,18.77,0.6770,14.70,55
+1339,2022,2022-07-10,Brisbane Lions,Essendon,Gabba,0.7375,18.92,0.7520,21.60,-10
+1340,2022,2022-07-10,Hawthorn,Adelaide,Marvel Stadium,0.5407,2.68,0.5310,2.50,32
+1341,2022,2022-07-10,West Coast,Carlton,Perth Stadium,0.2793,-17.25,0.2650,-20.00,-63
+1342,2022,2022-07-15,Western Bulldogs,St Kilda,Marvel Stadium,0.6032,7.18,0.6950,16.40,28
+1343,2022,2022-07-16,Adelaide,Collingwood,Adelaide Oval,0.4295,-4.77,0.4870,-1.00,-5
+1344,2022,2022-07-16,GWS Giants,Brisbane Lions,Manuka Oval,0.4169,-5.68,0.4790,-1.70,-40
+1345,2022,2022-07-16,North Melbourne,Richmond,Marvel Stadium,0.2267,-22.76,0.0980,-41.70,4
+1346,2022,2022-07-16,Carlton,Geelong,MCG,0.3547,-10.51,0.3310,-14.10,-30
+1347,2022,2022-07-16,Fremantle,Sydney,Perth Stadium,0.5639,4.30,0.5530,4.30,-17
+1348,2022,2022-07-17,Hawthorn,West Coast,MCG,0.7114,16.35,0.8610,35.00,25
+1349,2022,2022-07-17,Melbourne,Port Adelaide,Traeger Park,0.6442,10.42,0.6230,10.10,14
+1350,2022,2022-07-17,Essendon,Gold Coast,Marvel Stadium,0.5645,4.34,0.5510,4.20,48
+1351,2022,2022-07-22,Richmond,Fremantle,Marvel Stadium,0.5225,1.46,0.5770,6.20,0
+1352,2022,2022-07-23,Sydney,Adelaide,SCG,0.8290,29.70,0.8680,35.90,33
+1353,2022,2022-07-23,North Melbourne,Hawthorn,Ninja Stadium,0.4338,-4.46,0.2330,-23.40,-46
+1354,2022,2022-07-23,Port Adelaide,Geelong,Adelaide Oval,0.4345,-4.41,0.3760,-10.10,-12
+1355,2022,2022-07-23,Brisbane Lions,Gold Coast,Gabba,0.8256,29.23,0.8180,29.20,17
+1356,2022,2022-07-23,Western Bulldogs,Melbourne,Marvel Stadium,0.4361,-4.29,0.4610,-3.10,10
+1357,2022,2022-07-24,Carlton,GWS Giants,Marvel Stadium,0.7439,19.58,0.7690,23.60,36
+1358,2022,2022-07-24,Collingwood,Essendon,MCG,0.6421,10.24,0.5500,4.00,4
+1359,2022,2022-07-24,West Coast,St Kilda,Perth Stadium,0.2672,-18.45,0.2540,-21.30,-28
+1360,2022,2022-07-29,Fremantle,Melbourne,Perth Stadium,0.4270,-4.95,0.4900,-0.80,-46
+1361,2022,2022-07-30,Collingwood,Port Adelaide,MCG,0.6291,9.19,0.6140,9.20,6
+1362,2022,2022-07-30,Sydney,GWS Giants,SCG,0.8198,28.45,0.7510,21.70,73
+1363,2022,2022-07-30,St Kilda,Hawthorn,Marvel Stadium,0.6704,12.63,0.5470,3.80,12
+1364,2022,2022-07-30,Geelong,Western Bulldogs,Kardinia Park,0.7274,17.91,0.7360,20.10,28
+1365,2022,2022-07-30,Adelaide,Carlton,Adelaide Oval,0.3598,-10.09,0.3660,-10.90,29
+1366,2022,2022-07-31,Gold Coast,West Coast,Carrara,0.7449,19.68,0.8050,27.50,3
+1367,2022,2022-07-31,Richmond,Brisbane Lions,MCG,0.4036,-6.66,0.5670,5.40,7
+1368,2022,2022-07-31,Essendon,North Melbourne,Marvel Stadium,0.8222,28.77,0.8940,40.00,48
+1369,2022,2022-08-05,Melbourne,Collingwood,MCG,0.7461,19.81,0.6980,16.60,-7
+1370,2022,2022-08-06,Hawthorn,Gold Coast,UTAS Stadium,0.5153,0.99,0.5620,5.00,7
+1371,2022,2022-08-06,GWS Giants,Essendon,Sydney Showground,0.4197,-5.48,0.4730,-2.10,27
+1372,2022,2022-08-06,Western Bulldogs,Fremantle,Marvel Stadium,0.6358,9.73,0.7420,20.80,-17
+1373,2022,2022-08-06,Geelong,St Kilda,Kardinia Park,0.7461,19.81,0.8190,29.20,45
+1374,2022,2022-08-06,Port Adelaide,Richmond,Adelaide Oval,0.5704,4.76,0.5850,6.90,-38
+1375,2022,2022-08-07,North Melbourne,Sydney,Marvel Stadium,0.1621,-30.96,0.0780,-45.40,-38
+1376,2022,2022-08-07,Brisbane Lions,Carlton,Gabba,0.8117,27.39,0.7890,25.60,33
+1377,2022,2022-08-07,West Coast,Adelaide,Perth Stadium,0.4129,-5.97,0.4420,-4.70,-16
+1378,2022,2022-08-12,St Kilda,Brisbane Lions,Marvel Stadium,0.3984,-7.05,0.3290,-14.20,-15
+1379,2022,2022-08-13,Western Bulldogs,GWS Giants,Marvel Stadium,0.7707,22.46,0.8250,29.90,5
+1380,2022,2022-08-13,Adelaide,North Melbourne,Adelaide Oval,0.7530,20.54,0.8550,33.80,29
+1381,2022,2022-08-13,Gold Coast,Geelong,Carrara,0.2171,-23.86,0.2230,-24.40,-60
+1382,2022,2022-08-13,Melbourne,Carlton,MCG,0.8458,32.11,0.7830,25.10,5
+1383,2022,2022-08-13,Fremantle,West Coast,Perth Stadium,0.8866,38.90,0.8890,39.10,24
+1384,2022,2022-08-14,Richmond,Hawthorn,MCG,0.7809,23.63,0.7420,20.80,61
+1385,2022,2022-08-14,Sydney,Collingwood,SCG,0.6966,14.97,0.7850,25.20,27
+1386,2022,2022-08-14,Essendon,Port Adelaide,Marvel Stadium,0.5373,2.45,0.5920,7.40,-84
+1387,2022,2022-08-19,Brisbane Lions,Melbourne,Gabba,0.5556,3.71,0.5860,7.00,-58
+1388,2022,2022-08-20,GWS Giants,Fremantle,Manuka Oval,0.3819,-8.33,0.3770,-10.10,-20
+1389,2022,2022-08-20,North Melbourne,Gold Coast,Marvel Stadium,0.3303,-12.57,0.3030,-16.70,-67
+1390,2022,2022-08-20,Geelong,West Coast,Kardinia Park,0.9451,53.08,0.9770,64.30,85
+1391,2022,2022-08-20,Essendon,Richmond,MCG,0.4090,-6.26,0.3460,-12.80,-66
+1392,2022,2022-08-20,Port Adelaide,Adelaide,Adelaide Oval,0.7563,20.89,0.6880,15.80,56
+1393,2022,2022-08-21,Hawthorn,Western Bulldogs,UTAS Stadium,0.3141,-14.00,0.2950,-17.40,-23
+1394,2022,2022-08-21,Carlton,Collingwood,MCG,0.3713,-9.16,0.5140,1.10,-1
+1395,2022,2022-08-21,St Kilda,Sydney,Marvel Stadium,0.2939,-15.85,0.2510,-21.70,-14
+1396,2022,2022-09-01,Brisbane Lions,Richmond,Gabba,0.5734,4.98,0.4980,-0.20,2
+1397,2022,2022-09-02,Melbourne,Sydney,MCG,0.6443,10.42,0.5800,6.50,-22
+1398,2022,2022-09-03,Geelong,Collingwood,MCG,0.7530,20.54,0.7720,24.10,6
+1399,2022,2022-09-03,Fremantle,Western Bulldogs,Perth Stadium,0.5929,6.41,0.5910,7.50,13
+1400,2022,2022-09-09,Melbourne,Brisbane Lions,MCG,0.7495,20.16,0.7470,21.50,-13
+1401,2022,2022-09-10,Collingwood,Fremantle,MCG,0.5749,5.08,0.5500,4.10,20
+1402,2022,2022-09-16,Geelong,Brisbane Lions,MCG,0.7241,17.58,0.7960,26.80,71
+1403,2022,2022-09-17,Sydney,Collingwood,SCG,0.7237,17.55,0.7340,20.20,1
+1404,2022,2022-09-24,Geelong,Sydney,MCG,0.6533,11.17,0.6630,13.60,81
+1405,2023,2023-03-16,Richmond,Carlton,MCG,0.6963,14.94,0.6030,8.50,0
+1406,2023,2023-03-17,Geelong,Collingwood,MCG,0.7128,16.49,0.6410,11.70,-22
+1407,2023,2023-03-18,North Melbourne,West Coast,Marvel Stadium,0.5276,1.80,0.4860,-1.20,5
+1408,2023,2023-03-18,Port Adelaide,Brisbane Lions,Adelaide Oval,0.4474,-3.50,0.6100,9.10,54
+1409,2023,2023-03-18,Melbourne,Western Bulldogs,MCG,0.6080,7.54,0.4930,-0.50,50
+1410,2023,2023-03-18,Gold Coast,Sydney,Carrara,0.2879,-16.42,0.4290,-5.80,-49
+1411,2023,2023-03-19,GWS Giants,Adelaide,Sydney Showground,0.5836,5.72,0.5850,7.00,16
+1412,2023,2023-03-19,Hawthorn,Essendon,MCG,0.5823,5.62,0.4950,-0.40,-59
+1413,2023,2023-03-19,St Kilda,Fremantle,Marvel Stadium,0.3993,-6.98,0.4330,-5.50,15
+1414,2023,2023-03-23,Carlton,Geelong,MCG,0.3518,-10.75,0.4140,-7.00,8
+1415,2023,2023-03-24,Brisbane Lions,Melbourne,Gabba,0.5561,3.74,0.4030,-7.90,11
+1416,2023,2023-03-25,Collingwood,Port Adelaide,MCG,0.6921,14.56,0.5410,3.30,71
+1417,2023,2023-03-25,Adelaide,Richmond,Adelaide Oval,0.3150,-13.91,0.4720,-2.30,-32
+1418,2023,2023-03-25,Western Bulldogs,St Kilda,Marvel Stadium,0.5790,5.38,0.6100,9.00,-51
+1419,2023,2023-03-25,Fremantle,North Melbourne,Perth Stadium,0.8766,37.08,0.8760,37.10,-1
+1420,2023,2023-03-26,Sydney,Hawthorn,SCG,0.8800,37.69,0.8410,32.20,81
+1421,2023,2023-03-26,Essendon,Gold Coast,Marvel Stadium,0.6031,7.17,0.7040,17.20,28
+1422,2023,2023-03-26,West Coast,GWS Giants,Perth Stadium,0.3999,-6.94,0.4920,-0.70,19
+1423,2023,2023-03-30,Western Bulldogs,Brisbane Lions,Marvel Stadium,0.4324,-4.55,0.5960,7.90,14
+1424,2023,2023-03-31,Collingwood,Richmond,MCG,0.6870,14.09,0.6670,14.00,14
+1425,2023,2023-04-01,Hawthorn,North Melbourne,UTAS Stadium,0.7538,20.62,0.6220,10.10,19
+1426,2023,2023-04-01,GWS Giants,Carlton,Sydney Showground,0.3787,-8.58,0.4080,-7.60,-10
+1427,2023,2023-04-01,St Kilda,Essendon,MCG,0.6263,8.97,0.4450,-4.40,18
+1428,2023,2023-04-01,Port Adelaide,Adelaide,Adelaide Oval,0.7623,21.54,0.7190,18.80,-31
+1429,2023,2023-04-02,Gold Coast,Geelong,Carrara,0.2795,-17.23,0.3100,-16.10,19
+1430,2023,2023-04-02,Melbourne,Sydney,MCG,0.3979,-7.09,0.5090,0.70,50
+1431,2023,2023-04-02,Fremantle,West Coast,Perth Stadium,0.8330,30.26,0.7170,18.60,41
+1432,2023,2023-04-06,Brisbane Lions,Collingwood,Gabba,0.4469,-3.54,0.4750,-2.00,33
+1433,2023,2023-04-07,North Melbourne,Carlton,Marvel Stadium,0.2641,-18.76,0.1960,-27.70,-23
+1434,2023,2023-04-08,Adelaide,Fremantle,Adelaide Oval,0.4482,-3.45,0.6260,10.40,39
+1435,2023,2023-04-08,Richmond,Western Bulldogs,MCG,0.6302,9.28,0.6020,8.40,-5
+1436,2023,2023-04-08,Sydney,Port Adelaide,SCG,0.7870,24.34,0.6640,13.70,-2
+1437,2023,2023-04-08,St Kilda,Gold Coast,Marvel Stadium,0.7079,16.02,0.6500,12.50,53
+1438,2023,2023-04-09,Essendon,GWS Giants,Marvel Stadium,0.6745,12.99,0.6800,15.10,13
+1439,2023,2023-04-09,West Coast,Melbourne,Perth Stadium,0.1394,-34.39,0.1370,-35.40,-63
+1440,2023,2023-04-10,Geelong,Hawthorn,MCG,0.8434,31.75,0.8130,28.70,82
+1441,2023,2023-04-13,Adelaide,Carlton,Adelaide Oval,0.4808,-1.25,0.5110,0.90,56
+1442,2023,2023-04-14,Fremantle,Gold Coast,Norwood Oval,0.7074,15.97,0.5910,7.40,10
+1443,2023,2023-04-14,Richmond,Sydney,Adelaide Oval,0.4246,-5.12,0.4570,-3.50,-44
+1444,2023,2023-04-15,Brisbane Lions,North Melbourne,Barossa Park,0.8919,39.91,0.7990,27.00,75
+1445,2023,2023-04-15,Essendon,Melbourne,Adelaide Oval,0.3875,-7.89,0.3140,-15.60,27
+1446,2023,2023-04-15,Port Adelaide,Western Bulldogs,Adelaide Oval,0.5945,6.52,0.6770,14.80,14
+1447,2023,2023-04-16,Geelong,West Coast,Adelaide Oval,0.9440,52.72,0.9440,51.00,47
+1448,2023,2023-04-16,GWS Giants,Hawthorn,Norwood Oval,0.6320,9.42,0.5920,7.50,2
+1449,2023,2023-04-16,Collingwood,St Kilda,Adelaide Oval,0.6696,12.55,0.6300,10.70,6
+1450,2023,2023-04-21,Fremantle,Western Bulldogs,Perth Stadium,0.6139,8.00,0.5620,5.00,-49
+1451,2023,2023-04-22,Port Adelaide,West Coast,Adelaide Oval,0.8746,36.74,0.9250,45.90,40
+1452,2023,2023-04-22,GWS Giants,Brisbane Lions,Manuka Oval,0.2515,-20.06,0.2860,-18.00,-21
+1453,2023,2023-04-22,Geelong,Sydney,Kardinia Park,0.5717,4.85,0.6840,15.30,93
+1454,2023,2023-04-23,Hawthorn,Adelaide,UTAS Stadium,0.3650,-9.67,0.2450,-22.10,-3
+1455,2023,2023-04-23,Carlton,St Kilda,Marvel Stadium,0.4793,-1.34,0.4040,-7.70,-22
+1456,2023,2023-04-23,Gold Coast,North Melbourne,Carrara,0.8176,28.16,0.7730,23.90,43
+1457,2023,2023-04-24,Melbourne,Richmond,MCG,0.7153,16.73,0.7290,19.40,18
+1458,2023,2023-04-25,Collingwood,Essendon,MCG,0.7286,18.03,0.6710,14.20,13
+1459,2023,2023-04-28,St Kilda,Port Adelaide,Marvel Stadium,0.6884,14.22,0.6380,11.30,-7
+1460,2023,2023-04-29,Brisbane Lions,Fremantle,Gabba,0.7291,18.08,0.8360,31.30,48
+1461,2023,2023-04-29,Sydney,GWS Giants,SCG,0.8453,32.03,0.7230,19.00,-1
+1462,2023,2023-04-29,Western Bulldogs,Hawthorn,Marvel Stadium,0.7730,22.73,0.7440,21.00,29
+1463,2023,2023-04-29,Melbourne,North Melbourne,MCG,0.9059,42.76,0.9350,48.30,90
+1464,2023,2023-04-29,West Coast,Carlton,Perth Stadium,0.2298,-22.42,0.2280,-23.90,-108
+1465,2023,2023-04-30,Essendon,Geelong,MCG,0.3968,-7.17,0.3700,-10.60,-28
+1466,2023,2023-04-30,Richmond,Gold Coast,Marvel Stadium,0.6460,10.56,0.6950,16.30,-24
+1467,2023,2023-04-30,Adelaide,Collingwood,Adelaide Oval,0.4443,-3.72,0.5840,6.80,-1
+1468,2023,2023-05-05,Carlton,Brisbane Lions,Marvel Stadium,0.4518,-3.20,0.5960,7.80,-26
+1469,2023,2023-05-06,Richmond,West Coast,MCG,0.8488,32.55,0.9170,44.60,46
+1470,2023,2023-05-06,Geelong,Adelaide,Kardinia Park,0.7185,17.03,0.7440,21.10,26
+1471,2023,2023-05-06,Gold Coast,Melbourne,Carrara,0.3109,-14.28,0.1660,-31.30,-5
+1472,2023,2023-05-06,GWS Giants,Western Bulldogs,Manuka Oval,0.2770,-17.47,0.3170,-15.30,-15
+1473,2023,2023-05-06,Fremantle,Hawthorn,Perth Stadium,0.7283,18.00,0.7220,18.90,69
+1474,2023,2023-05-07,Port Adelaide,Essendon,Adelaide Oval,0.6588,11.63,0.6410,11.70,5
+1475,2023,2023-05-07,Collingwood,Sydney,MCG,0.6238,8.77,0.6740,14.50,29
+1476,2023,2023-05-07,North Melbourne,St Kilda,Marvel Stadium,0.1947,-26.57,0.1450,-34.10,-30
+1477,2023,2023-05-12,Richmond,Geelong,MCG,0.4460,-3.60,0.3980,-8.30,24
+1478,2023,2023-05-12,West Coast,Gold Coast,Perth Stadium,0.3079,-14.56,0.3680,-10.80,-70
+1479,2023,2023-05-13,Sydney,Fremantle,SCG,0.6989,15.18,0.7520,21.90,-17
+1480,2023,2023-05-13,North Melbourne,Port Adelaide,Ninja Stadium,0.2292,-22.48,0.2110,-25.80,-70
+1481,2023,2023-05-13,Hawthorn,Melbourne,MCG,0.1969,-26.30,0.0910,-42.80,-54
+1482,2023,2023-05-13,Brisbane Lions,Essendon,Gabba,0.7929,25.05,0.7990,26.90,42
+1483,2023,2023-05-13,Carlton,Western Bulldogs,Marvel Stadium,0.4953,-0.30,0.5670,5.40,-20
+1484,2023,2023-05-14,Adelaide,St Kilda,Adelaide Oval,0.4930,-0.45,0.5320,2.60,52
+1485,2023,2023-05-14,Collingwood,GWS Giants,MCG,0.8789,37.48,0.8620,34.90,65
+1486,2023,2023-05-19,Port Adelaide,Melbourne,Adelaide Oval,0.4370,-4.23,0.3960,-8.60,4
+1487,2023,2023-05-20,North Melbourne,Sydney,Marvel Stadium,0.1724,-29.50,0.1980,-27.40,-3
+1488,2023,2023-05-20,Western Bulldogs,Adelaide,Mars Stadium,0.6985,15.14,0.6220,10.00,45
+1489,2023,2023-05-20,Fremantle,Geelong,Perth Stadium,0.5199,1.29,0.3990,-8.30,29
+1490,2023,2023-05-20,Brisbane Lions,Gold Coast,Gabba,0.7833,23.90,0.8170,29.20,43
+1491,2023,2023-05-20,Essendon,Richmond,MCG,0.4093,-6.24,0.3450,-12.90,1
+1492,2023,2023-05-21,Hawthorn,West Coast,UTAS Stadium,0.7620,21.51,0.8410,32.20,116
+1493,2023,2023-05-21,Carlton,Collingwood,MCG,0.3268,-12.87,0.3770,-10.10,-28
+1494,2023,2023-05-21,GWS Giants,St Kilda,Sydney Showground,0.2897,-16.25,0.3550,-12.00,-12
+1495,2023,2023-05-26,Sydney,Carlton,SCG,0.6573,11.50,0.5430,3.50,26
+1496,2023,2023-05-27,St Kilda,Hawthorn,Marvel Stadium,0.8129,27.55,0.7610,23.10,-10
+1497,2023,2023-05-27,Melbourne,Fremantle,MCG,0.6604,11.77,0.7860,25.70,-7
+1498,2023,2023-05-27,Geelong,GWS Giants,Kardinia Park,0.8586,34.07,0.8940,40.50,-7
+1499,2023,2023-05-27,Gold Coast,Western Bulldogs,TIO Stadium,0.3617,-9.93,0.3960,-8.60,7
+1500,2023,2023-05-27,West Coast,Essendon,Perth Stadium,0.2484,-20.39,0.1930,-28.10,-50
+1501,2023,2023-05-28,Richmond,Port Adelaide,MCG,0.5727,4.92,0.5370,3.00,-10
+1502,2023,2023-05-28,Collingwood,North Melbourne,Marvel Stadium,0.9514,55.28,0.9030,42.20,35
+1503,2023,2023-05-28,Adelaide,Brisbane Lions,Adelaide Oval,0.3507,-10.83,0.4350,-5.30,17
+1504,2023,2023-06-02,Melbourne,Carlton,MCG,0.7317,18.33,0.6490,12.40,17
+1505,2023,2023-06-03,Port Adelaide,Hawthorn,Adelaide Oval,0.8116,27.38,0.8240,30.10,55
+1506,2023,2023-06-03,West Coast,Collingwood,Perth Stadium,0.0759,-47.04,0.0590,-50.70,-63
+1507,2023,2023-06-03,Western Bulldogs,Geelong,Marvel Stadium,0.6812,13.58,0.5720,5.90,-22
+1508,2023,2023-06-03,Gold Coast,Adelaide,TIO Stadium,0.4539,-3.05,0.4050,-7.80,25
+1509,2023,2023-06-04,GWS Giants,Richmond,Sydney Showground,0.3321,-12.41,0.3920,-8.90,-6
+1510,2023,2023-06-04,Essendon,North Melbourne,Marvel Stadium,0.8467,32.25,0.7880,26.00,6
+1511,2023,2023-06-08,Sydney,St Kilda,SCG,0.5458,3.03,0.5870,7.10,-14
+1512,2023,2023-06-09,Western Bulldogs,Port Adelaide,Marvel Stadium,0.5318,2.08,0.4460,-4.40,-22
+1513,2023,2023-06-10,Hawthorn,Brisbane Lions,MCG,0.2557,-19.63,0.2970,-17.20,25
+1514,2023,2023-06-10,Adelaide,West Coast,Adelaide Oval,0.9176,45.43,0.9580,55.80,122
+1515,2023,2023-06-10,Fremantle,Richmond,Perth Stadium,0.5592,3.96,0.4920,-0.60,-15
+1516,2023,2023-06-11,North Melbourne,GWS Giants,Ninja Stadium,0.3996,-6.96,0.3850,-9.40,-28
+1517,2023,2023-06-11,Carlton,Essendon,MCG,0.5339,2.22,0.5960,7.80,-34
+1518,2023,2023-06-12,Melbourne,Collingwood,MCG,0.4842,-1.02,0.5750,6.10,4
+1519,2023,2023-06-15,Port Adelaide,Geelong,Adelaide Oval,0.5687,4.64,0.6010,8.30,38
+1520,2023,2023-06-16,Brisbane Lions,Sydney,Gabba,0.6520,11.06,0.7320,20.00,16
+1521,2023,2023-06-17,GWS Giants,Fremantle,Sydney Showground,0.4035,-6.67,0.6680,14.10,70
+1522,2023,2023-06-17,Richmond,St Kilda,MCG,0.5796,5.42,0.5930,7.60,20
+1523,2023,2023-06-18,Carlton,Gold Coast,MCG,0.4441,-3.73,0.6690,14.20,59
+1524,2023,2023-06-18,North Melbourne,Western Bulldogs,Marvel Stadium,0.1941,-26.65,0.1940,-28.00,-21
+1525,2023,2023-06-22,Geelong,Melbourne,Kardinia Park,0.5884,6.07,0.5250,2.00,15
+1526,2023,2023-06-23,St Kilda,Brisbane Lions,Marvel Stadium,0.5250,1.63,0.3980,-8.30,-28
+1527,2023,2023-06-24,Sydney,West Coast,SCG,0.9041,42.38,0.9690,59.90,171
+1528,2023,2023-06-24,Fremantle,Essendon,Perth Stadium,0.5957,6.61,0.5710,5.70,32
+1529,2023,2023-06-25,Collingwood,Adelaide,MCG,0.7234,17.51,0.6880,15.80,2
+1530,2023,2023-06-25,Gold Coast,Hawthorn,Carrara,0.6763,13.14,0.7350,20.30,67
+1531,2023,2023-06-29,Brisbane Lions,Richmond,Gabba,0.6438,10.38,0.7190,18.80,81
+1532,2023,2023-06-30,Sydney,Geelong,SCG,0.4514,-3.22,0.5170,1.40,0
+1533,2023,2023-07-01,Adelaide,North Melbourne,Adelaide Oval,0.8723,36.34,0.8740,37.10,66
+1534,2023,2023-07-01,Western Bulldogs,Fremantle,Marvel Stadium,0.5848,5.81,0.6470,12.20,29
+1535,2023,2023-07-01,Gold Coast,Collingwood,Carrara,0.3318,-12.43,0.5280,2.30,-78
+1536,2023,2023-07-01,Essendon,Port Adelaide,MCG,0.3969,-7.17,0.3460,-12.80,-4
+1537,2023,2023-07-02,Hawthorn,Carlton,MCG,0.4749,-1.63,0.3200,-15.20,-60
+1538,2023,2023-07-02,Melbourne,GWS Giants,Traeger Park,0.7623,21.54,0.7380,20.60,-2
+1539,2023,2023-07-02,West Coast,St Kilda,Perth Stadium,0.1457,-33.40,0.0740,-46.80,-8
+1540,2023,2023-07-06,Richmond,Sydney,MCG,0.5834,5.70,0.4860,-1.10,13
+1541,2023,2023-07-07,Western Bulldogs,Collingwood,Marvel Stadium,0.4105,-6.15,0.4240,-6.20,-12
+1542,2023,2023-07-08,Brisbane Lions,West Coast,Gabba,0.9289,48.28,0.9920,77.90,81
+1543,2023,2023-07-08,GWS Giants,Hawthorn,Sydney Showground,0.7235,17.53,0.8270,30.70,13
+1544,2023,2023-07-08,St Kilda,Melbourne,Marvel Stadium,0.4834,-1.07,0.3410,-13.40,-21
+1545,2023,2023-07-08,Port Adelaide,Gold Coast,Adelaide Oval,0.7634,21.66,0.8040,27.80,33
+1546,2023,2023-07-09,Geelong,North Melbourne,Kardinia Park,0.9108,43.84,0.9180,45.20,62
+1547,2023,2023-07-09,Essendon,Adelaide,Marvel Stadium,0.5045,0.29,0.4800,-1.60,18
+1548,2023,2023-07-09,Fremantle,Carlton,Perth Stadium,0.6098,7.68,0.5110,0.90,-53
+1549,2023,2023-07-13,Sydney,Western Bulldogs,SCG,0.5744,5.05,0.6440,12.00,2
+1550,2023,2023-07-14,Melbourne,Brisbane Lions,MCG,0.4863,-0.88,0.5150,1.20,1
+1551,2023,2023-07-15,Collingwood,Fremantle,MCG,0.8747,36.75,0.9020,41.90,46
+1552,2023,2023-07-15,Gold Coast,St Kilda,Carrara,0.5844,5.77,0.6300,10.70,26
+1553,2023,2023-07-15,Carlton,Port Adelaide,Marvel Stadium,0.4011,-6.85,0.4910,-0.80,50
+1554,2023,2023-07-15,Geelong,Essendon,Kardinia Park,0.7359,18.77,0.7170,18.60,77
+1555,2023,2023-07-15,Adelaide,GWS Giants,Adelaide Oval,0.7098,16.20,0.7140,18.30,-14
+1556,2023,2023-07-16,North Melbourne,Hawthorn,Marvel Stadium,0.2938,-15.86,0.2820,-18.70,-48
+1557,2023,2023-07-16,West Coast,Richmond,Perth Stadium,0.1641,-30.67,0.0910,-43.20,-38
+1558,2023,2023-07-21,Essendon,Western Bulldogs,Marvel Stadium,0.4981,-0.12,0.3980,-8.40,-41
+1559,2023,2023-07-22,Richmond,Hawthorn,MCG,0.7518,20.41,0.6430,11.90,1
+1560,2023,2023-07-22,Carlton,West Coast,Marvel Stadium,0.8773,37.21,0.9680,60.00,71
+1561,2023,2023-07-22,Brisbane Lions,Geelong,Gabba,0.5428,2.83,0.6180,9.80,11
+1562,2023,2023-07-22,Port Adelaide,Collingwood,Adelaide Oval,0.4104,-6.16,0.5380,3.10,-2
+1563,2023,2023-07-22,Fremantle,Sydney,Perth Stadium,0.3516,-10.76,0.3480,-12.60,-29
+1564,2023,2023-07-23,GWS Giants,Gold Coast,Manuka Oval,0.5441,2.92,0.6150,9.50,40
+1565,2023,2023-07-23,Melbourne,Adelaide,MCG,0.7328,18.44,0.7130,18.20,4
+1566,2023,2023-07-23,St Kilda,North Melbourne,Marvel Stadium,0.8706,36.04,0.8270,30.50,8
+1567,2023,2023-07-28,Collingwood,Carlton,MCG,0.8332,30.28,0.6780,14.90,-17
+1568,2023,2023-07-29,Western Bulldogs,GWS Giants,Mars Stadium,0.6870,14.10,0.6730,14.40,-5
+1569,2023,2023-07-29,Geelong,Fremantle,Kardinia Park,0.8431,31.70,0.9090,42.90,-7
+1570,2023,2023-07-29,Gold Coast,Brisbane Lions,Carrara,0.3828,-8.26,0.3760,-10.20,41
+1571,2023,2023-07-29,Essendon,Sydney,Marvel Stadium,0.3560,-10.40,0.3340,-13.70,-2
+1572,2023,2023-07-29,Adelaide,Port Adelaide,Adelaide Oval,0.3676,-9.46,0.4350,-5.30,47
+1573,2023,2023-07-30,Hawthorn,St Kilda,Marvel Stadium,0.4441,-3.73,0.4810,-1.50,-29
+1574,2023,2023-07-30,Richmond,Melbourne,MCG,0.5488,3.24,0.4830,-1.40,-32
+1575,2023,2023-07-30,West Coast,North Melbourne,Perth Stadium,0.5415,2.73,0.3010,-16.70,5
+1576,2023,2023-08-04,Western Bulldogs,Richmond,Marvel Stadium,0.6431,10.32,0.6470,12.10,55
+1577,2023,2023-08-05,Essendon,West Coast,Marvel Stadium,0.8483,32.49,0.9490,52.20,1
+1578,2023,2023-08-05,Adelaide,Gold Coast,Adelaide Oval,0.5968,6.70,0.7570,22.30,28
+1579,2023,2023-08-05,Hawthorn,Collingwood,MCG,0.1813,-28.31,0.1740,-30.00,32
+1580,2023,2023-08-05,Geelong,Port Adelaide,Kardinia Park,0.6685,12.46,0.7920,26.00,12
+1581,2023,2023-08-05,GWS Giants,Sydney,Sydney Showground,0.5297,1.94,0.5760,6.20,-11
+1582,2023,2023-08-06,North Melbourne,Melbourne,Ninja Stadium,0.1141,-38.77,0.1130,-38.70,-32
+1583,2023,2023-08-06,St Kilda,Carlton,Marvel Stadium,0.5821,5.60,0.4450,-4.40,-19
+1584,2023,2023-08-06,Fremantle,Brisbane Lions,Perth Stadium,0.4030,-6.71,0.4270,-5.90,-3
+1585,2023,2023-08-11,Collingwood,Geelong,MCG,0.6483,10.75,0.5370,3.00,8
+1586,2023,2023-08-12,North Melbourne,Essendon,Marvel Stadium,0.2769,-17.49,0.3040,-16.40,-9
+1587,2023,2023-08-12,Sydney,Gold Coast,SCG,0.7095,16.17,0.6820,15.20,24
+1588,2023,2023-08-12,Brisbane Lions,Adelaide,Gabba,0.7187,17.05,0.6980,16.70,6
+1589,2023,2023-08-12,Carlton,Melbourne,MCG,0.4049,-6.57,0.3730,-10.40,4
+1590,2023,2023-08-12,West Coast,Fremantle,Perth Stadium,0.2205,-23.46,0.1000,-41.20,-101
+1591,2023,2023-08-13,Hawthorn,Western Bulldogs,UTAS Stadium,0.3567,-10.34,0.3830,-9.60,3
+1592,2023,2023-08-13,St Kilda,Richmond,Marvel Stadium,0.5809,5.52,0.4770,-1.90,36
+1593,2023,2023-08-13,Port Adelaide,GWS Giants,Adelaide Oval,0.6551,11.32,0.6000,8.20,51
+1594,2023,2023-08-18,Collingwood,Brisbane Lions,Marvel Stadium,0.5445,2.94,0.4540,-3.80,-24
+1595,2023,2023-08-19,Richmond,North Melbourne,MCG,0.9020,41.94,0.8570,34.20,29
+1596,2023,2023-08-19,Gold Coast,Carlton,Carrara,0.4501,-3.31,0.5140,1.10,-4
+1597,2023,2023-08-19,GWS Giants,Essendon,Sydney Showground,0.6148,8.06,0.7270,19.30,126
+1598,2023,2023-08-19,St Kilda,Geelong,Marvel Stadium,0.5092,0.59,0.4240,-6.20,33
+1599,2023,2023-08-19,Adelaide,Sydney,Adelaide Oval,0.4546,-3.00,0.6880,15.80,-1
+1600,2023,2023-08-20,Western Bulldogs,West Coast,Marvel Stadium,0.9197,45.94,0.9730,61.70,-7
+1601,2023,2023-08-20,Melbourne,Hawthorn,MCG,0.8317,30.07,0.7790,24.60,27
+1602,2023,2023-08-20,Fremantle,Port Adelaide,Perth Stadium,0.3920,-7.54,0.5000,0.00,-16
+1603,2023,2023-08-25,Essendon,Collingwood,MCG,0.3007,-15.21,0.2250,-24.10,-70
+1604,2023,2023-08-26,Hawthorn,Fremantle,MCG,0.5623,4.18,0.5800,6.40,-37
+1605,2023,2023-08-26,North Melbourne,Gold Coast,Ninja Stadium,0.2039,-25.43,0.2420,-22.30,35
+1606,2023,2023-08-26,Brisbane Lions,St Kilda,Gabba,0.7179,16.98,0.7530,21.80,12
+1607,2023,2023-08-26,Geelong,Western Bulldogs,Kardinia Park,0.5054,0.35,0.5070,0.50,-25
+1608,2023,2023-08-26,West Coast,Adelaide,Perth Stadium,0.2161,-23.97,0.0890,-42.90,-45
+1609,2023,2023-08-27,Port Adelaide,Richmond,Adelaide Oval,0.7479,20.00,0.7490,21.40,31
+1610,2023,2023-08-27,Sydney,Melbourne,SCG,0.5179,1.16,0.5350,2.80,-21
+1611,2023,2023-08-27,Carlton,GWS Giants,Marvel Stadium,0.6362,9.76,0.5530,4.30,-32
+1612,2023,2023-09-07,Collingwood,Melbourne,MCG,0.5497,3.30,0.4740,-2.00,7
+1613,2023,2023-09-08,Carlton,Sydney,MCG,0.5264,1.72,0.5490,3.90,6
+1614,2023,2023-09-09,St Kilda,GWS Giants,MCG,0.5787,5.35,0.3830,-9.50,-24
+1615,2023,2023-09-09,Brisbane Lions,Port Adelaide,Gabba,0.6437,10.37,0.6820,15.10,48
+1616,2023,2023-09-15,Melbourne,Carlton,MCG,0.6610,11.82,0.5690,5.50,-2
+1617,2023,2023-09-16,Port Adelaide,GWS Giants,Adelaide Oval,0.6021,7.10,0.5270,2.20,-23
+1618,2023,2023-09-22,Collingwood,GWS Giants,MCG,0.6311,9.35,0.5210,1.70,1
+1619,2023,2023-09-23,Brisbane Lions,Carlton,Gabba,0.6786,13.34,0.7460,21.20,16
+1620,2023,2023-09-30,Collingwood,Brisbane Lions,MCG,0.5592,3.96,0.5570,4.60,4
+1621,2024,2024-03-07,Sydney,Melbourne,SCG,0.5600,4.02,0.6010,8.10,22
+1622,2024,2024-03-08,Brisbane Lions,Carlton,Gabba,0.7263,17.80,0.7180,18.30,-1
+1623,2024,2024-03-09,Gold Coast,Richmond,Carrara,0.5636,4.27,0.6740,14.30,39
+1624,2024,2024-03-09,GWS Giants,Collingwood,Sydney Showground,0.4899,-0.65,0.5550,4.40,32
+1625,2024,2024-03-14,Carlton,Richmond,MCG,0.6584,11.60,0.5750,6.00,5
+1626,2024,2024-03-15,Collingwood,Sydney,MCG,0.6078,7.53,0.6490,12.00,-33
+1627,2024,2024-03-16,Essendon,Hawthorn,MCG,0.5844,5.77,0.4260,-5.90,24
+1628,2024,2024-03-16,GWS Giants,North Melbourne,Sydney Showground,0.9274,47.89,0.9620,55.90,39
+1629,2024,2024-03-16,Geelong,St Kilda,Kardinia Park,0.6315,9.38,0.7560,21.80,8
+1630,2024,2024-03-16,Gold Coast,Adelaide,Carrara,0.5171,1.11,0.6220,9.80,6
+1631,2024,2024-03-17,Melbourne,Western Bulldogs,MCG,0.6410,10.15,0.5690,5.50,45
+1632,2024,2024-03-17,Port Adelaide,West Coast,Adelaide Oval,0.8923,39.98,0.9520,52.30,50
+1633,2024,2024-03-17,Fremantle,Brisbane Lions,Perth Stadium,0.3920,-7.55,0.5080,0.60,23
+1634,2024,2024-03-21,St Kilda,Collingwood,MCG,0.4342,-4.43,0.3420,-12.70,15
+1635,2024,2024-03-22,Adelaide,Geelong,Adelaide Oval,0.6493,10.83,0.6340,10.70,-19
+1636,2024,2024-03-23,North Melbourne,Fremantle,Marvel Stadium,0.2464,-20.60,0.2350,-22.50,-26
+1637,2024,2024-03-23,Hawthorn,Melbourne,MCG,0.3088,-14.47,0.2900,-17.30,-55
+1638,2024,2024-03-23,Sydney,Essendon,SCG,0.7803,23.56,0.7600,22.10,30
+1639,2024,2024-03-24,Western Bulldogs,Gold Coast,Mars Stadium,0.6722,12.78,0.6350,10.80,48
+1640,2024,2024-03-24,Richmond,Port Adelaide,MCG,0.3564,-10.36,0.2230,-23.80,-30
+1641,2024,2024-03-24,West Coast,GWS Giants,Perth Stadium,0.1153,-38.54,0.0990,-40.20,-65
+1642,2024,2024-03-28,Brisbane Lions,Collingwood,Gabba,0.6244,8.82,0.6670,13.40,-20
+1643,2024,2024-03-29,North Melbourne,Carlton,Marvel Stadium,0.2197,-23.56,0.1140,-37.50,-56
+1644,2024,2024-03-29,Fremantle,Adelaide,Perth Stadium,0.5877,6.02,0.4980,-0.10,35
+1645,2024,2024-03-30,Essendon,St Kilda,Marvel Stadium,0.5503,3.34,0.5550,4.30,4
+1646,2024,2024-03-30,Port Adelaide,Melbourne,Adelaide Oval,0.5771,5.24,0.6180,9.40,-7
+1647,2024,2024-03-31,Western Bulldogs,West Coast,Marvel Stadium,0.8909,39.72,0.9420,48.80,76
+1648,2024,2024-03-31,Richmond,Sydney,MCG,0.2718,-17.99,0.2730,-18.80,5
+1649,2024,2024-04-01,Hawthorn,Geelong,MCG,0.3985,-7.05,0.3830,-9.20,-36
+1650,2024,2024-04-04,Adelaide,Melbourne,Adelaide Oval,0.3244,-13.08,0.3620,-10.90,-15
+1651,2024,2024-04-05,Brisbane Lions,North Melbourne,Norwood Oval,0.8842,38.44,0.9070,41.00,70
+1652,2024,2024-04-05,Port Adelaide,Essendon,Adelaide Oval,0.6891,14.28,0.7840,24.40,69
+1653,2024,2024-04-06,West Coast,Sydney,Barossa Park,0.1185,-37.95,0.0410,-54.00,-26
+1654,2024,2024-04-06,Fremantle,Carlton,Adelaide Oval,0.5453,3.00,0.3480,-12.10,-10
+1655,2024,2024-04-06,Western Bulldogs,Geelong,Adelaide Oval,0.5977,6.76,0.4760,-1.90,-4
+1656,2024,2024-04-07,Gold Coast,GWS Giants,Barossa Park,0.3215,-13.34,0.2330,-22.60,-28
+1657,2024,2024-04-07,Richmond,St Kilda,Norwood Oval,0.4399,-4.03,0.3480,-12.10,-7
+1658,2024,2024-04-07,Collingwood,Hawthorn,Adelaide Oval,0.8734,36.53,0.7750,23.40,5
+1659,2024,2024-04-11,Melbourne,Brisbane Lions,MCG,0.6301,9.27,0.6430,11.10,-22
+1660,2024,2024-04-12,Western Bulldogs,Essendon,Marvel Stadium,0.6971,15.01,0.7180,17.60,-29
+1661,2024,2024-04-13,GWS Giants,St Kilda,Manuka Oval,0.7447,19.66,0.7200,17.80,1
+1662,2024,2024-04-13,Carlton,Adelaide,Marvel Stadium,0.7266,17.83,0.7580,21.30,-2
+1663,2024,2024-04-13,Port Adelaide,Fremantle,Adelaide Oval,0.6743,12.97,0.8100,26.80,3
+1664,2024,2024-04-13,Gold Coast,Hawthorn,Carrara,0.7239,17.56,0.7610,21.60,53
+1665,2024,2024-04-14,Geelong,North Melbourne,Kardinia Park,0.8889,39.33,0.9620,54.20,75
+1666,2024,2024-04-14,West Coast,Richmond,Perth Stadium,0.3772,-8.69,0.3400,-12.60,39
+1667,2024,2024-04-18,St Kilda,Western Bulldogs,Marvel Stadium,0.6622,11.92,0.4340,-5.00,-60
+1668,2024,2024-04-19,Adelaide,Essendon,Adelaide Oval,0.5455,3.01,0.6410,11.00,-3
+1669,2024,2024-04-20,Collingwood,Port Adelaide,MCG,0.6466,10.61,0.5820,6.30,42
+1670,2024,2024-04-20,Carlton,GWS Giants,Marvel Stadium,0.4235,-5.20,0.5540,4.20,19
+1671,2024,2024-04-20,Brisbane Lions,Geelong,Gabba,0.6130,7.93,0.5740,5.70,-26
+1672,2024,2024-04-20,West Coast,Fremantle,Perth Stadium,0.2629,-18.88,0.1840,-27.40,37
+1673,2024,2024-04-21,Sydney,Gold Coast,SCG,0.7770,23.18,0.7430,19.90,53
+1674,2024,2024-04-21,North Melbourne,Hawthorn,Marvel Stadium,0.4336,-4.47,0.2010,-25.50,-45
+1675,2024,2024-04-24,Richmond,Melbourne,MCG,0.2559,-19.60,0.1950,-26.50,-43
+1676,2024,2024-04-25,Essendon,Collingwood,MCG,0.3743,-8.92,0.2880,-17.20,0
+1677,2024,2024-04-25,GWS Giants,Brisbane Lions,Manuka Oval,0.6376,9.88,0.4710,-2.20,54
+1678,2024,2024-04-26,Port Adelaide,St Kilda,Adelaide Oval,0.6893,14.30,0.7780,23.50,10
+1679,2024,2024-04-27,North Melbourne,Adelaide,Ninja Stadium,0.2770,-17.48,0.1600,-30.60,-57
+1680,2024,2024-04-27,Geelong,Carlton,MCG,0.6611,11.82,0.6220,9.50,13
+1681,2024,2024-04-27,Fremantle,Western Bulldogs,Perth Stadium,0.5097,0.62,0.4440,-4.30,24
+1682,2024,2024-04-28,Gold Coast,West Coast,Carrara,0.7790,23.41,0.8830,36.50,37
+1683,2024,2024-04-28,Hawthorn,Sydney,MCG,0.2369,-21.62,0.2880,-17.20,-76
+1684,2024,2024-05-02,Adelaide,Port Adelaide,Adelaide Oval,0.4553,-2.96,0.3770,-9.70,30
+1685,2024,2024-05-03,Carlton,Collingwood,MCG,0.5103,0.66,0.5830,6.50,-6
+1686,2024,2024-05-04,Sydney,GWS Giants,SCG,0.6069,7.46,0.5520,4.00,29
+1687,2024,2024-05-04,St Kilda,North Melbourne,Marvel Stadium,0.8318,30.09,0.8950,38.70,38
+1688,2024,2024-05-04,Melbourne,Geelong,MCG,0.5760,5.16,0.5010,0.10,8
+1689,2024,2024-05-04,West Coast,Essendon,Perth Stadium,0.2899,-16.23,0.3380,-12.90,-6
+1690,2024,2024-05-05,Richmond,Fremantle,MCG,0.3421,-11.55,0.4090,-7.10,-54
+1691,2024,2024-05-05,Western Bulldogs,Hawthorn,Marvel Stadium,0.7302,18.18,0.7340,19.30,-7
+1692,2024,2024-05-05,Brisbane Lions,Gold Coast,Gabba,0.6990,15.19,0.6150,9.10,34
+1693,2024,2024-05-09,Carlton,Melbourne,MCG,0.4763,-1.54,0.4230,-6.00,1
+1694,2024,2024-05-10,Geelong,Port Adelaide,Kardinia Park,0.6644,12.11,0.6860,14.80,-6
+1695,2024,2024-05-10,Fremantle,Sydney,Perth Stadium,0.3796,-8.51,0.4470,-4.10,-48
+1696,2024,2024-05-11,Hawthorn,St Kilda,UTAS Stadium,0.4859,-0.91,0.4200,-6.20,5
+1697,2024,2024-05-11,Essendon,GWS Giants,Marvel Stadium,0.3969,-7.17,0.3350,-13.00,20
+1698,2024,2024-05-11,Richmond,Western Bulldogs,MCG,0.3780,-8.63,0.3680,-10.30,-91
+1699,2024,2024-05-11,Gold Coast,North Melbourne,TIO Stadium,0.8026,26.24,0.8880,37.10,68
+1700,2024,2024-05-12,Collingwood,West Coast,Marvel Stadium,0.8508,32.86,0.8950,38.40,66
+1701,2024,2024-05-12,Adelaide,Brisbane Lions,Adelaide Oval,0.5022,0.14,0.5670,5.20,0
+1702,2024,2024-05-16,Gold Coast,Geelong,TIO Stadium,0.4101,-6.18,0.4650,-2.70,64
+1703,2024,2024-05-17,Sydney,Carlton,SCG,0.7630,21.62,0.6780,14.20,52
+1704,2024,2024-05-18,Collingwood,Adelaide,MCG,0.6894,14.31,0.6930,15.50,4
+1705,2024,2024-05-18,GWS Giants,Western Bulldogs,Sydney Showground,0.6967,14.98,0.5910,7.10,-27
+1706,2024,2024-05-18,St Kilda,Fremantle,Marvel Stadium,0.4649,-2.30,0.5490,3.80,-17
+1707,2024,2024-05-18,Brisbane Lions,Richmond,Gabba,0.8618,34.60,0.8910,38.00,119
+1708,2024,2024-05-19,Essendon,North Melbourne,Marvel Stadium,0.8729,36.43,0.9290,45.30,40
+1709,2024,2024-05-19,Port Adelaide,Hawthorn,Adelaide Oval,0.7620,21.50,0.8160,27.80,1
+1710,2024,2024-05-19,West Coast,Melbourne,Perth Stadium,0.1825,-28.15,0.0930,-40.70,35
+1711,2024,2024-05-23,Western Bulldogs,Sydney,Marvel Stadium,0.3446,-11.34,0.5470,3.70,-14
+1712,2024,2024-05-24,Fremantle,Collingwood,Perth Stadium,0.5042,0.27,0.6760,14.40,0
+1713,2024,2024-05-25,Carlton,Gold Coast,Marvel Stadium,0.6850,13.92,0.6420,11.40,29
+1714,2024,2024-05-25,North Melbourne,Port Adelaide,Ninja Stadium,0.1549,-32.01,0.0640,-47.70,-59
+1715,2024,2024-05-25,Geelong,GWS Giants,Kardinia Park,0.6006,6.98,0.7130,17.60,-4
+1716,2024,2024-05-25,Richmond,Essendon,MCG,0.2822,-16.97,0.2550,-20.70,-12
+1717,2024,2024-05-26,Hawthorn,Brisbane Lions,Marvel Stadium,0.3592,-10.14,0.4210,-6.30,25
+1718,2024,2024-05-26,Melbourne,St Kilda,MCG,0.7352,18.69,0.6870,15.30,38
+1719,2024,2024-05-26,Adelaide,West Coast,Adelaide Oval,0.7351,18.68,0.7760,23.80,99
+1720,2024,2024-05-30,Port Adelaide,Carlton,Adelaide Oval,0.6023,7.11,0.6570,12.70,-36
+1721,2024,2024-05-31,Collingwood,Western Bulldogs,Marvel Stadium,0.6480,10.73,0.3760,-10.00,-18
+1722,2024,2024-06-01,Hawthorn,Adelaide,MCG,0.5117,0.75,0.5590,4.70,27
+1723,2024,2024-06-01,West Coast,St Kilda,Perth Stadium,0.3445,-11.35,0.3820,-9.40,-14
+1724,2024,2024-06-01,Geelong,Richmond,Kardinia Park,0.8435,31.76,0.9310,46.60,30
+1725,2024,2024-06-02,Melbourne,Fremantle,Traeger Park,0.6347,9.64,0.6620,13.10,-92
+1726,2024,2024-06-02,Gold Coast,Essendon,Carrara,0.5084,0.54,0.5700,5.50,11
+1727,2024,2024-06-06,Adelaide,Richmond,Adelaide Oval,0.7267,17.84,0.6950,16.20,-8
+1728,2024,2024-06-07,Western Bulldogs,Brisbane Lions,Marvel Stadium,0.5135,0.87,0.5790,6.30,-43
+1729,2024,2024-06-08,Hawthorn,GWS Giants,UTAS Stadium,0.5073,0.47,0.5900,7.20,6
+1730,2024,2024-06-08,West Coast,North Melbourne,Perth Stadium,0.6476,10.70,0.7850,25.10,-9
+1731,2024,2024-06-08,St Kilda,Gold Coast,Marvel Stadium,0.5799,5.44,0.6320,10.80,3
+1732,2024,2024-06-09,Sydney,Geelong,SCG,0.8030,26.29,0.7530,21.80,30
+1733,2024,2024-06-09,Essendon,Carlton,MCG,0.4639,-2.37,0.4190,-6.50,-26
+1734,2024,2024-06-10,Collingwood,Melbourne,MCG,0.5621,4.17,0.5100,0.80,38
+1735,2024,2024-06-14,Brisbane Lions,St Kilda,Gabba,0.7845,24.05,0.8120,28.20,20
+1736,2024,2024-06-15,Western Bulldogs,Fremantle,Marvel Stadium,0.5015,0.09,0.6000,8.10,67
+1737,2024,2024-06-15,Richmond,Hawthorn,MCG,0.3426,-11.51,0.2700,-19.60,-48
+1738,2024,2024-06-15,Adelaide,Sydney,Adelaide Oval,0.1859,-27.69,0.2950,-17.10,-42
+1739,2024,2024-06-16,North Melbourne,Collingwood,Marvel Stadium,0.2092,-24.79,0.1310,-35.70,-1
+1740,2024,2024-06-16,GWS Giants,Port Adelaide,Sydney Showground,0.6230,8.71,0.6780,14.70,22
+1741,2024,2024-06-21,Carlton,Geelong,MCG,0.6608,11.81,0.4860,-1.10,63
+1742,2024,2024-06-22,Port Adelaide,Brisbane Lions,Adelaide Oval,0.3867,-7.95,0.3830,-9.50,-79
+1743,2024,2024-06-22,GWS Giants,Sydney,Sydney Showground,0.3285,-12.72,0.3260,-14.30,-27
+1744,2024,2024-06-22,Melbourne,North Melbourne,MCG,0.8335,30.33,0.8520,33.20,3
+1745,2024,2024-06-23,Essendon,West Coast,Marvel Stadium,0.8046,26.49,0.8640,34.90,30
+1746,2024,2024-06-23,Fremantle,Gold Coast,Perth Stadium,0.6824,13.68,0.6860,15.40,20
+1747,2024,2024-06-28,Brisbane Lions,Melbourne,Gabba,0.7664,21.98,0.8580,34.30,5
+1748,2024,2024-06-29,North Melbourne,Western Bulldogs,Marvel Stadium,0.1769,-28.90,0.0550,-51.10,-17
+1749,2024,2024-06-29,Sydney,Fremantle,SCG,0.7928,25.03,0.8310,30.70,-1
+1750,2024,2024-06-29,Gold Coast,Collingwood,Carrara,0.4391,-4.08,0.5030,0.30,11
+1751,2024,2024-06-29,Adelaide,GWS Giants,Adelaide Oval,0.3776,-8.66,0.4910,-0.70,16
+1752,2024,2024-06-29,Geelong,Essendon,MCG,0.5506,3.36,0.4600,-3.20,45
+1753,2024,2024-06-30,St Kilda,Port Adelaide,Marvel Stadium,0.5714,4.83,0.6300,10.70,-2
+1754,2024,2024-06-30,Richmond,Carlton,MCG,0.2051,-25.29,0.1570,-32.30,-61
+1755,2024,2024-06-30,West Coast,Hawthorn,Perth Stadium,0.3087,-14.48,0.3710,-10.60,-61
+1756,2024,2024-07-05,Collingwood,Essendon,MCG,0.6741,12.95,0.6550,12.90,-12
+1757,2024,2024-07-06,Port Adelaide,Western Bulldogs,Adelaide Oval,0.4819,-1.17,0.4330,-5.40,48
+1758,2024,2024-07-06,North Melbourne,Gold Coast,Marvel Stadium,0.2620,-18.97,0.2060,-26.40,4
+1759,2024,2024-07-06,Geelong,Hawthorn,Kardinia Park,0.6110,7.77,0.5700,5.70,51
+1760,2024,2024-07-06,GWS Giants,Carlton,Sydney Showground,0.4048,-6.57,0.3740,-10.40,12
+1761,2024,2024-07-06,Fremantle,Richmond,Perth Stadium,0.8648,35.08,0.9140,44.10,51
+1762,2024,2024-07-07,Melbourne,West Coast,MCG,0.8033,26.32,0.7880,25.80,54
+1763,2024,2024-07-07,St Kilda,Sydney,Marvel Stadium,0.2087,-24.86,0.2380,-23.00,2
+1764,2024,2024-07-07,Brisbane Lions,Adelaide,Gabba,0.8006,25.99,0.8360,31.60,11
+1765,2024,2024-07-12,Collingwood,Geelong,MCG,0.5639,4.30,0.4390,-4.90,-20
+1766,2024,2024-07-13,Hawthorn,Fremantle,UTAS Stadium,0.4862,-0.89,0.5790,6.50,13
+1767,2024,2024-07-13,Sydney,North Melbourne,SCG,0.9362,50.32,0.9620,57.70,79
+1768,2024,2024-07-13,Western Bulldogs,Carlton,Marvel Stadium,0.4054,-6.53,0.4730,-2.20,14
+1769,2024,2024-07-13,Adelaide,St Kilda,Adelaide Oval,0.5609,4.08,0.5830,6.80,32
+1770,2024,2024-07-13,Melbourne,Essendon,MCG,0.5276,1.80,0.4050,-7.80,17
+1771,2024,2024-07-14,Gold Coast,Port Adelaide,Carrara,0.4412,-3.94,0.4930,-0.60,14
+1772,2024,2024-07-14,Richmond,GWS Giants,MCG,0.2508,-20.14,0.3030,-16.80,-24
+1773,2024,2024-07-14,West Coast,Brisbane Lions,Perth Stadium,0.1396,-34.36,0.1490,-33.80,-13
+1774,2024,2024-07-19,Essendon,Adelaide,Marvel Stadium,0.6701,12.60,0.6650,13.80,-2
+1775,2024,2024-07-20,St Kilda,West Coast,Marvel Stadium,0.8318,30.09,0.8920,40.00,72
+1776,2024,2024-07-20,GWS Giants,Gold Coast,Sydney Showground,0.7162,16.81,0.6170,9.60,39
+1777,2024,2024-07-20,Hawthorn,Collingwood,MCG,0.6158,8.14,0.5360,2.90,66
+1778,2024,2024-07-20,Geelong,Western Bulldogs,Kardinia Park,0.5726,4.91,0.5490,4.00,-47
+1779,2024,2024-07-20,Port Adelaide,Richmond,Adelaide Oval,0.8206,28.56,0.9110,43.60,41
+1780,2024,2024-07-21,Brisbane Lions,Sydney,Gabba,0.4882,-0.76,0.5370,3.00,2
+1781,2024,2024-07-21,Fremantle,Melbourne,Perth Stadium,0.6923,14.57,0.7820,25.20,50
+1782,2024,2024-07-21,Carlton,North Melbourne,Marvel Stadium,0.8734,36.53,0.8940,40.30,19
+1783,2024,2024-07-26,Carlton,Port Adelaide,Marvel Stadium,0.6329,9.50,0.5360,2.90,-14
+1784,2024,2024-07-27,North Melbourne,Geelong,Ninja Stadium,0.2627,-18.90,0.1680,-31.20,-40
+1785,2024,2024-07-27,St Kilda,Essendon,Marvel Stadium,0.5137,0.88,0.4460,-4.40,53
+1786,2024,2024-07-27,Gold Coast,Brisbane Lions,Carrara,0.3291,-12.67,0.4780,-1.80,-28
+1787,2024,2024-07-27,Melbourne,GWS Giants,MCG,0.4716,-1.85,0.4960,-0.30,-2
+1788,2024,2024-07-27,Fremantle,West Coast,Perth Stadium,0.8938,40.28,0.9060,42.90,35
+1789,2024,2024-07-28,Collingwood,Richmond,MCG,0.8123,27.47,0.7750,24.60,26
+1790,2024,2024-07-28,Sydney,Western Bulldogs,SCG,0.6856,13.97,0.5260,2.10,-39
+1791,2024,2024-07-28,Adelaide,Hawthorn,Adelaide Oval,0.4069,-6.42,0.4240,-6.20,-66
+1792,2024,2024-08-02,Western Bulldogs,Melbourne,Marvel Stadium,0.7346,18.63,0.8590,34.50,51
+1793,2024,2024-08-02,West Coast,Gold Coast,Perth Stadium,0.3152,-13.90,0.2960,-17.30,10
+1794,2024,2024-08-03,North Melbourne,Richmond,Marvel Stadium,0.5069,0.44,0.3250,-14.60,13
+1795,2024,2024-08-03,Geelong,Adelaide,Kardinia Park,0.7093,16.15,0.7600,22.70,5
+1796,2024,2024-08-03,Collingwood,Carlton,MCG,0.5268,1.75,0.3510,-12.30,3
+1797,2024,2024-08-03,Port Adelaide,Sydney,Adelaide Oval,0.4428,-3.82,0.5350,2.80,112
+1798,2024,2024-08-04,GWS Giants,Hawthorn,Manuka Oval,0.5435,2.87,0.3910,-8.90,2
+1799,2024,2024-08-04,Essendon,Fremantle,MCG,0.3985,-7.05,0.4300,-5.70,1
+1800,2024,2024-08-04,St Kilda,Brisbane Lions,Marvel Stadium,0.3460,-11.23,0.3690,-10.80,-85
+1801,2024,2024-08-09,Sydney,Collingwood,SCG,0.7176,16.95,0.7320,20.30,3
+1802,2024,2024-08-10,North Melbourne,West Coast,Ninja Stadium,0.5452,2.99,0.5560,4.60,-5
+1803,2024,2024-08-10,Brisbane Lions,GWS Giants,Gabba,0.7248,17.65,0.8060,28.30,-18
+1804,2024,2024-08-10,Fremantle,Geelong,Perth Stadium,0.5530,3.53,0.5110,0.90,-11
+1805,2024,2024-08-10,Essendon,Gold Coast,Marvel Stadium,0.6531,11.15,0.5790,6.50,-1
+1806,2024,2024-08-10,Melbourne,Port Adelaide,MCG,0.4207,-5.40,0.2520,-21.90,-2
+1807,2024,2024-08-11,Carlton,Hawthorn,MCG,0.5307,2.01,0.5010,0.10,-74
+1808,2024,2024-08-11,Richmond,St Kilda,Marvel Stadium,0.3130,-14.09,0.2590,-21.20,-48
+1809,2024,2024-08-11,Adelaide,Western Bulldogs,Adelaide Oval,0.3322,-12.40,0.2760,-19.50,39
+1810,2024,2024-08-16,Essendon,Sydney,Marvel Stadium,0.3863,-7.98,0.4810,-1.60,-39
+1811,2024,2024-08-17,GWS Giants,Fremantle,Sydney Showground,0.6976,15.06,0.7810,25.40,9
+1812,2024,2024-08-17,Gold Coast,Melbourne,Carrara,0.5326,2.14,0.6790,15.20,-54
+1813,2024,2024-08-17,Collingwood,Brisbane Lions,MCG,0.3857,-8.03,0.3090,-16.30,1
+1814,2024,2024-08-17,Port Adelaide,Adelaide,Adelaide Oval,0.7217,17.35,0.7300,20.10,22
+1815,2024,2024-08-17,St Kilda,Geelong,Marvel Stadium,0.4857,-0.92,0.4250,-6.20,18
+1816,2024,2024-08-18,Western Bulldogs,North Melbourne,Marvel Stadium,0.8987,41.27,0.9590,57.00,96
+1817,2024,2024-08-18,Hawthorn,Richmond,MCG,0.9083,43.30,0.9000,42.00,63
+1818,2024,2024-08-18,West Coast,Carlton,Perth Stadium,0.4084,-6.30,0.4800,-1.60,-65
+1819,2024,2024-08-23,Melbourne,Collingwood,MCG,0.4856,-0.93,0.3900,-9.10,-46
+1820,2024,2024-08-24,Hawthorn,North Melbourne,UTAS Stadium,0.9080,43.23,0.9640,58.60,124
+1821,2024,2024-08-24,Geelong,West Coast,Kardinia Park,0.8635,34.86,0.9680,60.70,93
+1822,2024,2024-08-24,Richmond,Gold Coast,MCG,0.3963,-7.21,0.4110,-7.30,-28
+1823,2024,2024-08-24,Brisbane Lions,Essendon,Gabba,0.7915,24.88,0.8130,29.00,20
+1824,2024,2024-08-24,Sydney,Adelaide,SCG,0.7607,21.36,0.6960,16.80,31
+1825,2024,2024-08-25,Western Bulldogs,GWS Giants,Mars Stadium,0.6155,8.12,0.7850,25.70,37
+1826,2024,2024-08-25,Carlton,St Kilda,Marvel Stadium,0.4825,-1.13,0.4420,-4.80,-2
+1827,2024,2024-08-25,Fremantle,Port Adelaide,Perth Stadium,0.5092,0.59,0.4480,-4.30,-20
+1828,2024,2024-09-05,Port Adelaide,Geelong,Adelaide Oval,0.6295,9.23,0.6250,10.40,-84
+1829,2024,2024-09-06,Western Bulldogs,Hawthorn,MCG,0.6213,8.58,0.5920,7.70,-37
+1830,2024,2024-09-07,Sydney,GWS Giants,SCG,0.6713,12.71,0.6100,9.10,6
+1831,2024,2024-09-07,Brisbane Lions,Carlton,Gabba,0.7723,22.65,0.7470,21.80,28
+1832,2024,2024-09-13,Port Adelaide,Hawthorn,Adelaide Oval,0.4032,-6.70,0.3270,-14.80,3
+1833,2024,2024-09-14,GWS Giants,Brisbane Lions,Sydney Showground,0.4805,-1.26,0.4530,-3.90,-5
+1834,2024,2024-09-20,Sydney,Port Adelaide,SCG,0.7541,20.65,0.6830,15.60,36
+1835,2024,2024-09-21,Geelong,Brisbane Lions,MCG,0.4307,-4.68,0.5380,3.10,-10
+1836,2024,2024-09-28,Sydney,Brisbane Lions,MCG,0.6117,7.83,0.4390,-5.00,-60
+1837,2025,2025-03-07,Sydney,Hawthorn,SCG,0.4109,-6.12,0.2760,-19.60,-20
+1838,2025,2025-03-09,GWS Giants,Collingwood,Sydney Showground,0.5265,1.73,0.4470,-4.40,52
+1839,2025,2025-03-13,Richmond,Carlton,MCG,0.2416,-21.11,0.1500,-34.20,13
+1840,2025,2025-03-14,Hawthorn,Essendon,MCG,0.8719,36.26,0.8560,35.10,26
+1841,2025,2025-03-15,Geelong,Fremantle,Kardinia Park,0.6488,10.79,0.7850,26.00,78
+1842,2025,2025-03-15,Sydney,Brisbane Lions,SCG,0.3963,-7.21,0.3370,-13.80,-4
+1843,2025,2025-03-15,Collingwood,Port Adelaide,MCG,0.6186,8.37,0.6260,10.60,91
+1844,2025,2025-03-15,Western Bulldogs,North Melbourne,Marvel Stadium,0.8045,26.48,0.7700,24.40,16
+1845,2025,2025-03-16,Adelaide,St Kilda,Adelaide Oval,0.6540,11.23,0.7810,25.60,63
+1846,2025,2025-03-16,Melbourne,GWS Giants,MCG,0.4742,-1.68,0.4130,-7.20,-3
+1847,2025,2025-03-16,West Coast,Gold Coast,Perth Stadium,0.3568,-10.34,0.4230,-6.40,-87
+1848,2025,2025-03-20,Carlton,Hawthorn,MCG,0.2482,-20.41,0.3400,-13.70,-20
+1849,2025,2025-03-21,Western Bulldogs,Collingwood,MCG,0.4646,-2.32,0.3080,-16.60,-6
+1850,2025,2025-03-22,Essendon,Adelaide,MCG,0.3637,-9.77,0.3030,-17.20,-61
+1851,2025,2025-03-22,Port Adelaide,Richmond,Adelaide Oval,0.8589,34.13,0.8650,36.60,72
+1852,2025,2025-03-22,St Kilda,Geelong,Marvel Stadium,0.4246,-5.12,0.2960,-17.80,7
+1853,2025,2025-03-23,Brisbane Lions,West Coast,Gabba,0.9238,46.96,0.9560,56.60,19
+1854,2025,2025-03-23,North Melbourne,Melbourne,Marvel Stadium,0.3931,-7.46,0.4240,-6.30,59
+1855,2025,2025-03-23,Fremantle,Sydney,Perth Stadium,0.4853,-0.95,0.5710,6.00,-3
+1856,2025,2025-03-27,Essendon,Port Adelaide,Marvel Stadium,0.3582,-10.22,0.4120,-7.40,12
+1857,2025,2025-03-28,Carlton,Western Bulldogs,Marvel Stadium,0.4491,-3.38,0.5610,5.10,-8
+1858,2025,2025-03-29,Melbourne,Gold Coast,MCG,0.4775,-1.46,0.4050,-8.00,-58
+1859,2025,2025-03-29,St Kilda,Richmond,Marvel Stadium,0.8133,27.59,0.7560,23.10,82
+1860,2025,2025-03-29,Brisbane Lions,Geelong,Gabba,0.7405,19.23,0.6420,12.10,9
+1861,2025,2025-03-29,Hawthorn,GWS Giants,UTAS Stadium,0.6714,12.71,0.6230,10.40,12
+1862,2025,2025-03-30,Adelaide,North Melbourne,Adelaide Oval,0.7951,25.31,0.8700,37.40,36
+1863,2025,2025-03-30,West Coast,Fremantle,Perth Stadium,0.3391,-11.81,0.3230,-15.30,-38
+1864,2025,2025-04-03,Collingwood,Carlton,MCG,0.8081,26.93,0.6840,16.00,17
+1865,2025,2025-04-04,Geelong,Melbourne,Kardinia Park,0.7484,20.05,0.8050,28.80,39
+1866,2025,2025-04-05,Gold Coast,Adelaide,Carrara,0.5616,4.13,0.5830,7.00,1
+1867,2025,2025-04-05,Richmond,Brisbane Lions,MCG,0.0879,-44.14,0.1010,-42.60,-28
+1868,2025,2025-04-05,North Melbourne,Sydney,Marvel Stadium,0.3132,-14.07,0.4100,-7.60,-65
+1869,2025,2025-04-06,GWS Giants,West Coast,Sydney Showground,0.9062,42.84,0.9750,65.70,81
+1870,2025,2025-04-06,Port Adelaide,St Kilda,Adelaide Oval,0.6345,9.62,0.6220,10.30,-17
+1871,2025,2025-04-06,Fremantle,Western Bulldogs,Perth Stadium,0.5180,1.17,0.5210,1.80,16
+1872,2025,2025-04-10,Adelaide,Geelong,Adelaide Oval,0.5963,6.66,0.5580,4.80,-19
+1873,2025,2025-04-11,Collingwood,Sydney,Adelaide Oval,0.6068,7.45,0.6330,11.30,31
+1874,2025,2025-04-12,North Melbourne,Gold Coast,Barossa Park,0.2972,-15.54,0.1360,-36.50,-52
+1875,2025,2025-04-12,Carlton,West Coast,Adelaide Oval,0.7672,22.08,0.9090,44.40,71
+1876,2025,2025-04-12,Western Bulldogs,Brisbane Lions,Norwood Oval,0.3090,-14.46,0.3580,-12.10,-21
+1877,2025,2025-04-12,Melbourne,Essendon,Adelaide Oval,0.6416,10.20,0.5530,4.40,-39
+1878,2025,2025-04-13,Richmond,Fremantle,Barossa Park,0.1927,-26.83,0.1320,-37.10,-61
+1879,2025,2025-04-13,St Kilda,GWS Giants,Norwood Oval,0.4580,-2.77,0.4250,-6.30,-28
+1880,2025,2025-04-13,Port Adelaide,Hawthorn,Adelaide Oval,0.2780,-17.38,0.2700,-20.30,30
+1881,2025,2025-04-17,Brisbane Lions,Collingwood,Gabba,0.7162,16.82,0.5810,6.80,-52
+1882,2025,2025-04-18,North Melbourne,Carlton,Marvel Stadium,0.4442,-3.73,0.2670,-20.60,-82
+1883,2025,2025-04-18,West Coast,Essendon,Perth Stadium,0.3765,-8.75,0.3890,-9.40,-2
+1884,2025,2025-04-19,Melbourne,Fremantle,MCG,0.3022,-15.08,0.3510,-12.60,10
+1885,2025,2025-04-19,Adelaide,GWS Giants,Adelaide Oval,0.4454,-3.64,0.6560,13.30,18
+1886,2025,2025-04-19,Richmond,Gold Coast,Marvel Stadium,0.1900,-27.17,0.1140,-40.00,11
+1887,2025,2025-04-20,Sydney,Port Adelaide,SCG,0.6317,9.40,0.5870,7.20,-8
+1888,2025,2025-04-20,Western Bulldogs,St Kilda,Marvel Stadium,0.6354,9.69,0.6270,10.70,71
+1889,2025,2025-04-21,Geelong,Hawthorn,MCG,0.4551,-2.97,0.4990,-0.10,7
+1890,2025,2025-04-24,Melbourne,Richmond,MCG,0.7382,19.00,0.8010,28.30,20
+1891,2025,2025-04-25,Collingwood,Essendon,MCG,0.8417,31.51,0.7860,26.40,41
+1892,2025,2025-04-25,Fremantle,Adelaide,Perth Stadium,0.5200,1.30,0.4930,-0.60,18
+1893,2025,2025-04-26,St Kilda,Brisbane Lions,Marvel Stadium,0.3373,-11.96,0.3740,-10.80,-45
+1894,2025,2025-04-26,Port Adelaide,North Melbourne,Adelaide Oval,0.8284,29.62,0.8550,35.30,9
+1895,2025,2025-04-26,GWS Giants,Western Bulldogs,Manuka Oval,0.6826,13.70,0.5950,8.10,-32
+1896,2025,2025-04-27,Gold Coast,Sydney,Carrara,0.5910,6.26,0.6660,14.30,38
+1897,2025,2025-04-27,Carlton,Geelong,MCG,0.4180,-5.60,0.4770,-2.00,18
+1898,2025,2025-04-27,Hawthorn,West Coast,Marvel Stadium,0.9216,46.39,0.9430,52.80,50
+1899,2025,2025-05-01,Essendon,North Melbourne,Marvel Stadium,0.7234,17.51,0.7510,22.40,3
+1900,2025,2025-05-02,St Kilda,Fremantle,Marvel Stadium,0.4482,-3.44,0.3050,-16.90,61
+1901,2025,2025-05-03,Western Bulldogs,Port Adelaide,Mars Stadium,0.6552,11.33,0.8170,29.90,90
+1902,2025,2025-05-03,Adelaide,Carlton,Adelaide Oval,0.6347,9.65,0.6390,11.80,60
+1903,2025,2025-05-03,Collingwood,Geelong,MCG,0.7309,18.26,0.6520,12.90,-3
+1904,2025,2025-05-03,West Coast,Melbourne,Perth Stadium,0.3948,-7.33,0.3580,-12.10,-32
+1905,2025,2025-05-04,Sydney,GWS Giants,SCG,0.5435,2.88,0.5070,0.60,14
+1906,2025,2025-05-04,Hawthorn,Richmond,MCG,0.8901,39.56,0.9110,44.60,65
+1907,2025,2025-05-04,Brisbane Lions,Gold Coast,Gabba,0.7517,20.39,0.6140,9.60,17
+1908,2025,2025-05-08,Fremantle,Collingwood,Perth Stadium,0.3915,-7.58,0.4140,-7.30,-14
+1909,2025,2025-05-09,St Kilda,Carlton,MCG,0.6123,7.88,0.3270,-15.00,-15
+1910,2025,2025-05-10,Melbourne,Hawthorn,MCG,0.2810,-17.09,0.2620,-21.40,-35
+1911,2025,2025-05-10,Essendon,Sydney,Marvel Stadium,0.4066,-6.44,0.3780,-10.40,8
+1912,2025,2025-05-10,Gold Coast,Western Bulldogs,TIO Stadium,0.5162,1.05,0.5160,1.40,10
+1913,2025,2025-05-10,Port Adelaide,Adelaide,Adelaide Oval,0.4733,-1.74,0.2490,-22.70,-5
+1914,2025,2025-05-11,Richmond,West Coast,MCG,0.5939,6.48,0.6170,9.90,2
+1915,2025,2025-05-11,Geelong,GWS Giants,Kardinia Park,0.6255,8.90,0.7150,19.10,-4
+1916,2025,2025-05-11,North Melbourne,Brisbane Lions,Ninja Stadium,0.1420,-33.99,0.1310,-37.60,0
+1917,2025,2025-05-15,Gold Coast,Hawthorn,TIO Stadium,0.4947,-0.34,0.5620,5.20,8
+1918,2025,2025-05-16,Sydney,Carlton,SCG,0.6671,12.34,0.5810,6.90,16
+1919,2025,2025-05-17,Collingwood,Adelaide,MCG,0.6763,13.15,0.5810,6.80,10
+1920,2025,2025-05-17,GWS Giants,Fremantle,Sydney Showground,0.6690,12.51,0.7080,18.30,-34
+1921,2025,2025-05-17,Port Adelaide,Geelong,Adelaide Oval,0.4422,-3.86,0.3830,-9.90,-76
+1922,2025,2025-05-17,Western Bulldogs,Essendon,Marvel Stadium,0.7536,20.60,0.8140,29.80,91
+1923,2025,2025-05-18,Richmond,North Melbourne,MCG,0.5046,0.29,0.3990,-8.50,-4
+1924,2025,2025-05-18,Brisbane Lions,Melbourne,Gabba,0.8276,29.50,0.8100,29.30,-11
+1925,2025,2025-05-18,West Coast,St Kilda,Perth Stadium,0.2927,-15.96,0.3230,-15.30,28
+1926,2025,2025-05-22,Geelong,Western Bulldogs,Kardinia Park,0.5622,4.17,0.5160,1.40,14
+1927,2025,2025-05-23,Essendon,Richmond,MCG,0.8143,27.73,0.7930,27.40,23
+1928,2025,2025-05-24,Carlton,GWS Giants,Marvel Stadium,0.5469,3.11,0.6340,11.50,-28
+1929,2025,2025-05-24,Hawthorn,Brisbane Lions,MCG,0.6343,9.61,0.7120,18.80,-33
+1930,2025,2025-05-24,North Melbourne,Collingwood,Marvel Stadium,0.2571,-19.48,0.2320,-24.60,-45
+1931,2025,2025-05-24,Fremantle,Port Adelaide,Perth Stadium,0.7164,16.84,0.6850,16.20,49
+1932,2025,2025-05-25,Adelaide,West Coast,Adelaide Oval,0.8626,34.72,0.9550,57.00,66
+1933,2025,2025-05-25,Melbourne,Sydney,MCG,0.4410,-3.95,0.4820,-1.50,53
+1934,2025,2025-05-25,St Kilda,Gold Coast,Marvel Stadium,0.3688,-9.36,0.3150,-16.20,-19
+1935,2025,2025-05-29,Brisbane Lions,Essendon,Gabba,0.8355,30.61,0.8970,42.00,18
+1936,2025,2025-05-30,Collingwood,Hawthorn,MCG,0.6115,7.81,0.5760,6.30,51
+1937,2025,2025-05-31,Gold Coast,Fremantle,Carrara,0.6402,10.09,0.7220,19.60,-11
+1938,2025,2025-05-31,GWS Giants,Richmond,Sydney Showground,0.8691,35.80,0.8950,41.60,3
+1939,2025,2025-05-31,Sydney,Adelaide,SCG,0.4887,-0.73,0.3940,-8.90,-90
+1940,2025,2025-06-01,Melbourne,St Kilda,Traeger Park,0.6566,11.44,0.6490,12.70,-28
+1941,2025,2025-06-01,West Coast,Geelong,Perth Stadium,0.1574,-31.63,0.1030,-42.00,-43
+1942,2025,2025-06-05,Western Bulldogs,Hawthorn,Marvel Stadium,0.6282,9.12,0.8150,29.90,-22
+1943,2025,2025-06-06,Adelaide,Brisbane Lions,Adelaide Oval,0.5080,0.51,0.7230,19.70,5
+1944,2025,2025-06-07,Richmond,Sydney,MCG,0.3022,-15.08,0.3260,-15.10,-44
+1945,2025,2025-06-07,Geelong,Gold Coast,Kardinia Park,0.6152,8.10,0.7700,24.60,24
+1946,2025,2025-06-07,GWS Giants,Port Adelaide,Manuka Oval,0.6812,13.58,0.6780,15.40,-16
+1947,2025,2025-06-08,North Melbourne,West Coast,Hands Oval,0.6654,12.20,0.6050,8.90,10
+1948,2025,2025-06-08,Carlton,Essendon,MCG,0.6326,9.47,0.7930,27.20,8
+1949,2025,2025-06-09,Melbourne,Collingwood,MCG,0.2949,-15.76,0.3160,-15.90,-1
+1950,2025,2025-06-12,St Kilda,Western Bulldogs,Marvel Stadium,0.3849,-8.09,0.1960,-28.60,-72
+1951,2025,2025-06-13,Hawthorn,Adelaide,UTAS Stadium,0.5371,2.44,0.3880,-9.50,3
+1952,2025,2025-06-14,Brisbane Lions,GWS Giants,Gabba,0.7926,25.02,0.8280,31.70,-11
+1953,2025,2025-06-14,Essendon,Geelong,MCG,0.2472,-20.52,0.0670,-50.10,-95
+1954,2025,2025-06-14,North Melbourne,Fremantle,Perth Stadium,0.2529,-19.91,0.1620,-32.90,-6
+1955,2025,2025-06-15,Port Adelaide,Melbourne,Adelaide Oval,0.6161,8.17,0.4390,-5.20,25
+1956,2025,2025-06-15,West Coast,Carlton,Perth Stadium,0.3298,-12.61,0.2130,-26.60,-34
+1957,2025,2025-06-19,Fremantle,Essendon,Perth Stadium,0.8113,27.34,0.9100,44.90,41
+1958,2025,2025-06-20,Geelong,Brisbane Lions,Kardinia Park,0.6241,8.79,0.7750,25.20,-41
+1959,2025,2025-06-21,Carlton,North Melbourne,MCG,0.7171,16.90,0.8060,28.90,-11
+1960,2025,2025-06-21,Port Adelaide,Sydney,Adelaide Oval,0.5523,3.48,0.4330,-5.60,-19
+1961,2025,2025-06-21,Collingwood,St Kilda,Marvel Stadium,0.8223,28.78,0.7970,27.80,34
+1962,2025,2025-06-22,GWS Giants,Gold Coast,Sydney Showground,0.4971,-0.18,0.3990,-8.60,7
+1963,2025,2025-06-22,Western Bulldogs,Richmond,Marvel Stadium,0.9083,43.30,0.9610,58.90,79
+1964,2025,2025-06-26,Port Adelaide,Carlton,Adelaide Oval,0.6371,9.83,0.4740,-2.20,50
+1965,2025,2025-06-27,Sydney,Western Bulldogs,SCG,0.4531,-3.11,0.3760,-10.60,-9
+1966,2025,2025-06-28,Gold Coast,Melbourne,Carrara,0.7333,18.50,0.6710,14.90,19
+1967,2025,2025-06-28,Hawthorn,North Melbourne,UTAS Stadium,0.8357,30.64,0.7870,26.70,85
+1968,2025,2025-06-28,Collingwood,West Coast,Marvel Stadium,0.9188,45.72,0.9580,58.10,29
+1969,2025,2025-06-29,Richmond,Adelaide,MCG,0.1433,-33.77,0.1000,-43.10,-68
+1970,2025,2025-06-29,Fremantle,St Kilda,Perth Stadium,0.7516,20.39,0.7470,22.30,12
+1971,2025,2025-07-03,North Melbourne,Western Bulldogs,Marvel Stadium,0.2070,-25.06,0.0530,-54.20,-49
+1972,2025,2025-07-04,Carlton,Collingwood,MCG,0.2584,-19.34,0.3000,-17.60,-56
+1973,2025,2025-07-04,West Coast,GWS Giants,Perth Stadium,0.2373,-21.58,0.3600,-12.00,-59
+1974,2025,2025-07-05,Essendon,Gold Coast,Marvel Stadium,0.3731,-9.02,0.2810,-19.40,-41
+1975,2025,2025-07-05,Geelong,Richmond,Kardinia Park,0.8988,41.28,0.9530,56.00,72
+1976,2025,2025-07-05,Brisbane Lions,Port Adelaide,Gabba,0.7666,22.01,0.7580,23.50,28
+1977,2025,2025-07-05,St Kilda,Hawthorn,Marvel Stadium,0.2929,-15.95,0.3240,-15.30,-20
+1978,2025,2025-07-06,Sydney,Fremantle,SCG,0.4896,-0.67,0.6040,8.80,11
+1979,2025,2025-07-06,Adelaide,Melbourne,Adelaide Oval,0.7912,24.84,0.7700,24.80,13
+1980,2025,2025-07-10,Carlton,Brisbane Lions,Marvel Stadium,0.1834,-28.03,0.2620,-21.20,-37
+1981,2025,2025-07-11,Gold Coast,Collingwood,Carrara,0.4577,-2.79,0.4720,-2.30,6
+1982,2025,2025-07-12,Western Bulldogs,Adelaide,Marvel Stadium,0.5808,5.51,0.6590,13.60,-11
+1983,2025,2025-07-12,GWS Giants,Geelong,Sydney Showground,0.5111,0.71,0.3650,-11.40,26
+1984,2025,2025-07-12,Richmond,Essendon,MCG,0.4229,-5.24,0.3940,-8.90,9
+1985,2025,2025-07-12,Fremantle,Hawthorn,Perth Stadium,0.4398,-4.03,0.5400,3.40,13
+1986,2025,2025-07-13,Melbourne,North Melbourne,MCG,0.7655,21.89,0.8690,37.20,36
+1987,2025,2025-07-13,St Kilda,Sydney,Marvel Stadium,0.4064,-6.46,0.4940,-0.50,-5
+1988,2025,2025-07-13,Port Adelaide,West Coast,Adelaide Oval,0.8607,34.41,0.9150,45.50,26
+1989,2025,2025-07-17,Essendon,GWS Giants,Marvel Stadium,0.2544,-19.75,0.2130,-26.50,-48
+1990,2025,2025-07-18,Brisbane Lions,Western Bulldogs,Gabba,0.6600,11.73,0.4550,-3.80,10
+1991,2025,2025-07-19,Hawthorn,Port Adelaide,UTAS Stadium,0.7960,25.42,0.8300,31.70,38
+1992,2025,2025-07-19,Sydney,North Melbourne,SCG,0.8549,33.50,0.8630,36.40,31
+1993,2025,2025-07-19,Carlton,Melbourne,MCG,0.4270,-4.94,0.3340,-14.30,8
+1994,2025,2025-07-19,West Coast,Richmond,Perth Stadium,0.5447,2.95,0.5990,8.40,-49
+1995,2025,2025-07-20,Geelong,St Kilda,Kardinia Park,0.8011,26.05,0.8520,34.70,31
+1996,2025,2025-07-20,Collingwood,Fremantle,MCG,0.6213,8.58,0.6950,17.00,-1
+1997,2025,2025-07-20,Adelaide,Gold Coast,Adelaide Oval,0.6793,13.40,0.8580,35.60,61
+1998,2025,2025-07-24,Hawthorn,Carlton,MCG,0.8235,28.94,0.7600,23.10,24
+1999,2025,2025-07-25,Essendon,Western Bulldogs,Marvel Stadium,0.2008,-25.81,0.0590,-51.30,-93
+2000,2025,2025-07-25,GWS Giants,Sydney,Sydney Showground,0.6649,12.15,0.6800,15.30,44
+2001,2025,2025-07-26,Gold Coast,Brisbane Lions,Carrara,0.3496,-10.93,0.3250,-14.80,66
+2002,2025,2025-07-26,Fremantle,West Coast,Perth Stadium,0.9143,44.65,0.9170,45.40,49
+2003,2025,2025-07-26,North Melbourne,Geelong,Marvel Stadium,0.1625,-30.90,0.0600,-50.90,-101
+2004,2025,2025-07-26,Adelaide,Port Adelaide,Adelaide Oval,0.7849,24.09,0.8510,34.00,98
+2005,2025,2025-07-27,Richmond,Collingwood,MCG,0.1578,-31.58,0.0610,-50.60,-36
+2006,2025,2025-07-27,St Kilda,Melbourne,Marvel Stadium,0.4973,-0.17,0.4390,-5.00,6
+2007,2025,2025-07-31,Western Bulldogs,GWS Giants,Marvel Stadium,0.6467,10.62,0.7850,25.80,88
+2008,2025,2025-08-01,Adelaide,Hawthorn,Adelaide Oval,0.5451,2.99,0.6360,11.40,14
+2009,2025,2025-08-02,Melbourne,West Coast,Marvel Stadium,0.8539,33.33,0.9430,51.80,83
+2010,2025,2025-08-02,Gold Coast,Richmond,Carrara,0.8903,39.61,0.9430,51.80,84
+2011,2025,2025-08-02,Sydney,Essendon,SCG,0.8173,28.12,0.8870,39.60,14
+2012,2025,2025-08-02,Collingwood,Brisbane Lions,MCG,0.6254,8.90,0.6920,16.40,-27
+2013,2025,2025-08-03,St Kilda,North Melbourne,Marvel Stadium,0.7529,20.53,0.8180,29.80,9
+2014,2025,2025-08-03,Geelong,Port Adelaide,Kardinia Park,0.8477,32.39,0.9650,59.40,88
+2015,2025,2025-08-03,Fremantle,Carlton,Perth Stadium,0.8286,29.64,0.8230,30.40,27
+2016,2025,2025-08-07,Hawthorn,Collingwood,MCG,0.5475,3.15,0.4690,-2.60,64
+2017,2025,2025-08-08,Geelong,Essendon,Kardinia Park,0.8957,40.65,0.9700,62.20,44
+2018,2025,2025-08-09,Richmond,St Kilda,MCG,0.3814,-8.36,0.3040,-16.90,-4
+2019,2025,2025-08-09,Brisbane Lions,Sydney,Gabba,0.6775,13.25,0.6820,15.60,-2
+2020,2025,2025-08-09,Carlton,Gold Coast,Marvel Stadium,0.2697,-18.19,0.2390,-23.40,-19
+2021,2025,2025-08-09,Port Adelaide,Fremantle,Adelaide Oval,0.3157,-13.85,0.2350,-23.90,-6
+2022,2025,2025-08-10,GWS Giants,North Melbourne,Manuka Oval,0.8513,32.94,0.8770,38.20,54
+2023,2025,2025-08-10,Melbourne,Western Bulldogs,MCG,0.3239,-13.13,0.2680,-20.40,-6
+2024,2025,2025-08-10,West Coast,Adelaide,Perth Stadium,0.1011,-41.30,0.0400,-57.70,-9
+2025,2025,2025-08-15,Essendon,St Kilda,Marvel Stadium,0.3430,-11.48,0.1640,-32.50,-2
+2026,2025,2025-08-15,Fremantle,Brisbane Lions,Perth Stadium,0.5647,4.35,0.6530,13.00,-57
+2027,2025,2025-08-16,Gold Coast,GWS Giants,Carrara,0.6543,11.26,0.7260,19.90,-35
+2028,2025,2025-08-16,Carlton,Port Adelaide,Marvel Stadium,0.5155,1.00,0.6870,16.20,54
+2029,2025,2025-08-16,Hawthorn,Melbourne,MCG,0.7963,25.45,0.6590,13.60,36
+2030,2025,2025-08-16,Adelaide,Collingwood,Adelaide Oval,0.6028,7.15,0.6650,14.20,3
+2031,2025,2025-08-17,North Melbourne,Richmond,Ninja Stadium,0.6262,8.97,0.5550,4.60,48
+2032,2025,2025-08-17,Sydney,Geelong,SCG,0.3591,-10.15,0.1870,-29.50,-43
+2033,2025,2025-08-17,Western Bulldogs,West Coast,Marvel Stadium,0.9497,54.67,0.9920,80.70,94
+2034,2025,2025-08-21,Essendon,Carlton,MCG,0.4124,-6.01,0.3280,-14.90,-34
+2035,2025,2025-08-22,Collingwood,Melbourne,MCG,0.7874,24.39,0.6350,11.60,6
+2036,2025,2025-08-22,Port Adelaide,Gold Coast,Adelaide Oval,0.2957,-15.68,0.2120,-26.80,4
+2037,2025,2025-08-23,North Melbourne,Adelaide,Marvel Stadium,0.1953,-26.49,0.1530,-34.30,-13
+2038,2025,2025-08-23,Richmond,Geelong,MCG,0.1344,-35.20,0.0360,-60.50,-39
+2039,2025,2025-08-23,West Coast,Sydney,Perth Stadium,0.1458,-33.39,0.1210,-39.20,-67
+2040,2025,2025-08-24,GWS Giants,St Kilda,Sydney Showground,0.7486,20.07,0.7110,18.70,11
+2041,2025,2025-08-24,Western Bulldogs,Fremantle,Marvel Stadium,0.6303,9.29,0.8060,29.00,-15
+2042,2025,2025-08-24,Brisbane Lions,Hawthorn,Gabba,0.5235,1.53,0.6290,11.00,10
+2043,2025,2025-08-27,Gold Coast,Essendon,Carrara,0.8848,38.57,0.9300,49.40,95
+2044,2025,2025-09-04,Adelaide,Collingwood,Adelaide Oval,0.6234,8.74,0.6040,8.80,-24
+2045,2025,2025-09-05,Geelong,Brisbane Lions,MCG,0.5648,4.36,0.7240,19.90,38
+2046,2025,2025-09-06,GWS Giants,Hawthorn,Sydney Showground,0.5249,1.62,0.5020,0.20,-19
+2047,2025,2025-09-06,Fremantle,Gold Coast,Perth Stadium,0.6012,7.03,0.5460,3.80,-1
+2048,2025,2025-09-12,Adelaide,Hawthorn,Adelaide Oval,0.5088,0.57,0.5390,3.30,-34
+2049,2025,2025-09-13,Brisbane Lions,Gold Coast,Gabba,0.6509,10.97,0.5330,2.80,53
+2050,2025,2025-09-19,Geelong,Hawthorn,MCG,0.5475,3.15,0.6320,11.40,30
+2051,2025,2025-09-20,Collingwood,Brisbane Lions,MCG,0.5891,6.12,0.6260,10.80,-29
+2052,2025,2025-09-27,Geelong,Brisbane Lions,MCG,0.5865,5.93,0.6996,17.60,-47
+10977,2026,2026-03-05,Sydney,Carlton,SCG,0.7528,20.51,0.6678,14.60,63
+10978,2026,2026-03-06,Gold Coast,Geelong,Carrara,0.4717,-1.85,0.5225,1.90,56
+10979,2026,2026-03-07,GWS Giants,Hawthorn,Sydney Showground,0.3912,-7.61,0.3564,-12.40,27
+10980,2026,2026-03-07,Brisbane Lions,Western Bulldogs,Gabba,0.6784,13.33,0.6893,16.60,-5
+10981,2026,2026-03-08,St Kilda,Collingwood,MCG,0.4408,-3.96,0.4693,-2.60,-12
+20312,2026,2026-03-12,Carlton,Richmond,MCG,0.7137,16.57,0.6682,14.80,4
+20313,2026,2026-03-13,Essendon,Hawthorn,MCG,0.1573,-31.64,0.1137,-40.90,-62
+20314,2026,2026-03-14,Western Bulldogs,GWS Giants,Marvel Stadium,0.7216,17.34,0.7984,28.40,81
+20315,2026,2026-03-14,Geelong,Fremantle,Kardinia Park,0.6902,14.38,0.7117,18.90,10
+20316,2026,2026-03-14,Sydney,Brisbane Lions,SCG,0.5040,0.26,0.6368,11.90,44
+20317,2026,2026-03-14,Collingwood,Adelaide,MCG,0.6584,11.60,0.6825,16.10,-14
+20318,2026,2026-03-15,North Melbourne,Port Adelaide,Marvel Stadium,0.5764,5.19,0.6087,9.40,46
+20319,2026,2026-03-15,Melbourne,St Kilda,MCG,0.4671,-2.15,0.4287,-6.10,13
+20320,2026,2026-03-15,Gold Coast,West Coast,Carrara,0.9384,50.99,0.9682,62.90,59
+20321,2026,2026-03-19,Hawthorn,Sydney,MCG,0.7200,17.18,0.7192,19.60,17
+26309,2026,2026-03-20,Adelaide,Western Bulldogs,Adelaide Oval,0.4541,-3.04,0.4331,-5.70,-6
+42388,2026,2026-03-21,Richmond,Gold Coast,MCG,0.1984,-26.11,0.2540,-22.40,-68
+42389,2026,2026-03-21,GWS Giants,St Kilda,Sydney Showground,0.6774,13.24,0.4887,-1.00,-4
+42390,2026,2026-03-21,Fremantle,Melbourne,Perth Stadium,0.7811,23.65,0.7080,18.50,48
+42391,2026,2026-03-22,Port Adelaide,Essendon,Adelaide Oval,0.6972,15.02,0.7188,19.60,63
+42392,2026,2026-03-22,West Coast,North Melbourne,Perth Stadium,0.2544,-19.76,0.3646,-11.70,17
+42393,2026,2026-03-26,Geelong,Adelaide,Kardinia Park,0.7247,17.64,0.7523,22.90,8
+42394,2026,2026-03-27,Collingwood,GWS Giants,Marvel Stadium,0.7197,17.15,0.7526,23.00,33
+42395,2026,2026-03-28,St Kilda,Brisbane Lions,Marvel Stadium,0.3786,-8.59,0.4418,-4.90,-33
+42396,2026,2026-03-28,Fremantle,Richmond,Perth Stadium,0.9056,42.71,0.9507,55.50,60
+42397,2026,2026-03-28,Essendon,North Melbourne,Marvel Stadium,0.3979,-7.09,0.2838,-19.20,-12
+42398,2026,2026-03-29,Port Adelaide,West Coast,Adelaide Oval,0.7773,23.22,0.7616,23.90,-2
+42399,2026,2026-03-29,Carlton,Melbourne,MCG,0.5463,3.07,0.4781,-1.90,-23
+42400,2026,2026-04-02,Brisbane Lions,Collingwood,Gabba,0.6519,11.05,0.7904,27.10,54
+42401,2026,2026-04-03,North Melbourne,Carlton,Marvel Stadium,0.6157,8.14,0.4956,-0.40,10
+42402,2026,2026-04-03,Adelaide,Fremantle,Adelaide Oval,0.4750,-1.63,0.4655,-2.90,-2
+42434,2026,2026-04-04,Richmond,Port Adelaide,MCG,0.3771,-8.70,0.3400,-13.80,-42
+42691,2026,2026-04-04,West Coast,Sydney,Perth Stadium,0.1607,-31.15,0.1602,-33.30,-128
+43385,2026,2026-04-05,Melbourne,Gold Coast,MCG,0.3258,-12.96,0.3629,-11.80,20
+43556,2026,2026-04-05,Western Bulldogs,Essendon,Marvel Stadium,0.9215,46.37,0.9475,54.40,34
+44257,2026,2026-04-06,Hawthorn,Geelong,MCG,0.5565,3.78,0.5572,4.80,1
+46994,2026,2026-04-09,Adelaide,Carlton,Adelaide Oval,0.8375,30.89,0.8441,34.10,28
+47883,2026,2026-04-10,Collingwood,Fremantle,Adelaide Oval,0.5624,4.19,0.3827,-10.10,-6
+48568,2026,2026-04-11,North Melbourne,Brisbane Lions,Barossa Park,0.2014,-25.74,0.1119,-41.04,-26
+48647,2026,2026-04-11,Essendon,Melbourne,Adelaide Oval,0.2634,-18.83,0.2040,-27.92,45
+48768,2026,2026-04-11,Sydney,Gold Coast,Norwood Oval,0.5692,4.67,0.5214,1.81,32
+48892,2026,2026-04-11,Hawthorn,Western Bulldogs,Adelaide Oval,0.6294,9.22,0.6331,11.47,40
+49607,2026,2026-04-12,Geelong,West Coast,Norwood Oval,0.9373,50.64,0.9351,51.11,46
+49780,2026,2026-04-12,GWS Giants,Richmond,Barossa Park,0.8517,33.00,0.8324,32.51,56
+49957,2026,2026-04-12,Port Adelaide,St Kilda,Adelaide Oval,0.4971,-0.19,0.3907,-9.36,-14
+54278,2026,2026-04-16,Carlton,Collingwood,MCG,0.2956,-15.69,0.4187,-6.93,-5
+55429,2026,2026-04-17,Geelong,Western Bulldogs,Kardinia Park,0.5687,4.64,0.5892,7.61,75
+55524,2026,2026-04-17,Sydney,GWS Giants,SCG,0.6929,14.63,0.7782,25.86,41
+56341,2026,2026-04-18,Gold Coast,Essendon,Carrara,0.8752,36.83,0.8983,42.94,9
+56538,2026,2026-04-18,Hawthorn,Port Adelaide,Marvel Stadium,0.8363,30.73,0.8465,34.49,3
+56689,2026,2026-04-18,Adelaide,St Kilda,Adelaide Oval,0.6051,7.32,0.5196,1.66,1
+57608,2026,2026-04-19,North Melbourne,Richmond,Marvel Stadium,0.7822,23.78,0.8082,29.41,75
+57765,2026,2026-04-19,Melbourne,Brisbane Lions,MCG,0.2394,-21.35,0.1654,-32.83,2
+57872,2026,2026-04-19,West Coast,Fremantle,Perth Stadium,0.1176,-38.13,0.0831,-46.73,-56
+63165,2026,2026-04-23,Western Bulldogs,Sydney,Marvel Stadium,0.5120,0.77,0.4735,-2.23,-66
+64541,2026,2026-04-24,Richmond,Melbourne,MCG,0.2942,-15.82,0.2245,-25.39,-54
+65550,2026,2026-04-25,Hawthorn,Gold Coast,UTAS Stadium,0.6241,8.80,0.6027,8.73,49
+65779,2026,2026-04-25,Essendon,Collingwood,MCG,0.2020,-25.67,0.1868,-29.84,-77
+65954,2026,2026-04-25,Port Adelaide,Geelong,Adelaide Oval,0.2165,-23.93,0.1851,-30.05,30
+66073,2026,2026-04-25,Fremantle,Carlton,Perth Stadium,0.8784,37.41,0.9022,43.40,14
+67094,2026,2026-04-26,St Kilda,West Coast,Marvel Stadium,0.8711,36.13,0.9111,45.19,101
+67278,2026,2026-04-26,Brisbane Lions,Adelaide,Gabba,0.6825,13.69,0.8358,32.78,52
+67341,2026,2026-04-26,GWS Giants,North Melbourne,Manuka Oval,0.6498,10.88,0.6247,10.66,7
+73332,2026,2026-04-30,Collingwood,Hawthorn,MCG,0.4316,-4.62,0.2440,-23.32,0
+72823,2026,2026-05-01,Western Bulldogs,Fremantle,Marvel Stadium,0.3937,-7.41,0.4015,-8.39,-12
+72824,2026,2026-05-01,Adelaide,Port Adelaide,Adelaide Oval,0.6979,15.09,0.5604,5.11,1
+72825,2026,2026-05-02,Essendon,Brisbane Lions,Marvel Stadium,0.1364,-34.88,0.0403,-58.75,-64
+72826,2026,2026-05-02,West Coast,Richmond,Perth Stadium,0.5952,6.57,0.7235,19.95,-11
+72827,2026,2026-05-02,Geelong,North Melbourne,Kardinia Park,0.7862,24.25,0.7950,27.70,49
+72828,2026,2026-05-02,Carlton,St Kilda,Marvel Stadium,0.3980,-7.09,0.4336,-5.62,-39
+72829,2026,2026-05-03,Sydney,Melbourne,SCG,0.8129,27.54,0.8800,39.51,17
+72830,2026,2026-05-03,Gold Coast,GWS Giants,Carrara,0.6535,11.19,0.6411,12.15,20
+72831,2026,2026-05-07,Fremantle,Hawthorn,Perth Stadium,0.5891,6.12,0.5397,3.33,15
+72832,2026,2026-05-08,Brisbane Lions,Carlton,Gabba,0.8773,37.21,0.8686,37.37,11
+72833,2026,2026-05-08,Port Adelaide,Western Bulldogs,Adelaide Oval,0.4837,-1.05,0.5723,6.08,-2
+72834,2026,2026-05-09,North Melbourne,Sydney,Marvel Stadium,0.2876,-16.45,0.3208,-15.54,-8
+72835,2026,2026-05-09,GWS Giants,Essendon,Sydney Showground,0.8248,29.12,0.8980,42.40,14
+72836,2026,2026-05-09,Gold Coast,St Kilda,TIO Stadium,0.6539,11.22,0.6979,17.30,29
+72837,2026,2026-05-09,Geelong,Collingwood,MCG,0.6206,8.52,0.6182,10.04,54
+72838,2026,2026-05-10,Melbourne,West Coast,Marvel Stadium,0.8246,29.10,0.8186,30.38,32
+72839,2026,2026-05-10,Richmond,Adelaide,MCG,0.1864,-27.63,0.1337,-37.01,-37
+72840,2026,2026-05-14,Brisbane Lions,Geelong,Gabba,0.5385,2.53,0.6012,8.44,-41
+72841,2026,2026-05-15,Sydney,Collingwood,SCG,0.7345,18.62,0.8369,32.33,6
+72842,2026,2026-05-15,Gold Coast,Port Adelaide,TIO Stadium,0.7829,23.87,0.7874,26.25,25
+72843,2026,2026-05-16,Adelaide,North Melbourne,Adelaide Oval,0.7337,18.54,0.6294,10.87,68
+72844,2026,2026-05-16,Melbourne,Hawthorn,MCG,0.3511,-10.80,0.3064,-16.66,39
+72845,2026,2026-05-16,Carlton,Western Bulldogs,Marvel Stadium,0.3470,-11.15,0.4435,-4.68,12
+72846,2026,2026-05-17,Essendon,Fremantle,MCG,0.1477,-33.10,0.1999,-27.72,-43
+72847,2026,2026-05-17,St Kilda,Richmond,Marvel Stadium,0.8325,30.18,0.9130,44.77,36
+72848,2026,2026-05-17,West Coast,GWS Giants,Perth Stadium,0.1988,-26.06,0.2446,-22.77,17
+72849,2026,2026-05-21,Hawthorn,Adelaide,UTAS Stadium,0.6170,8.24,0.5534,4.39,9
+72850,2026,2026-05-22,Richmond,Essendon,MCG,0.5218,1.42,0.2964,-17.50,18
+72851,2026,2026-05-22,Fremantle,St Kilda,Perth Stadium,0.7759,23.06,0.7125,18.35,30
+72852,2026,2026-05-23,North Melbourne,Gold Coast,Marvel Stadium,0.3079,-14.56,0.3754,-10.39,6
+72853,2026,2026-05-23,Geelong,Sydney,Kardinia Park,0.6566,11.44,0.6635,13.81,27
+72854,2026,2026-05-23,Collingwood,West Coast,MCG,0.9024,42.03,0.9417,51.37,10
+72855,2026,2026-05-23,Port Adelaide,Carlton,Adelaide Oval,0.6954,14.85,0.6850,15.77,-34
+72856,2026,2026-05-24,GWS Giants,Brisbane Lions,Sydney Showground,0.3933,-7.45,0.4403,-4.92,78
+72857,2026,2026-05-24,Western Bulldogs,Melbourne,Marvel Stadium,0.5704,4.76,0.5404,3.32,3
+72858,2026,2026-05-28,St Kilda,Hawthorn,Marvel Stadium,0.3794,-8.52,0.2532,-21.96,-52
+72859,2026,2026-05-29,Carlton,Geelong,MCG,0.1813,-28.30,0.2100,-26.65,4
+72860,2026,2026-05-30,Sydney,Richmond,SCG,0.8862,38.81,0.9489,54.01,114
+72861,2026,2026-05-30,Brisbane Lions,Fremantle,Gabba,0.4626,-2.46,0.6825,15.69,-25
+72862,2026,2026-05-30,Western Bulldogs,Collingwood,Marvel Stadium,0.5015,0.10,0.5197,1.63,4
+72863,2026,2026-05-31,Melbourne,GWS Giants,Traeger Park,0.5687,4.63,0.4288,-5.93,-49
+72864,2026,2026-05-31,West Coast,Essendon,Perth Stadium,0.6248,8.85,0.6073,9.00,30
+72865,2026,2026-06-04,Adelaide,Geelong,Adelaide Oval,0.3733,-9.00,0.3475,-12.95,1
+72866,2026,2026-06-05,Hawthorn,Western Bulldogs,MCG,0.6902,14.39,0.6306,11.01,-6
+72867,2026,2026-06-06,North Melbourne,Fremantle,Hands Oval,0.2562,-19.57,0.2608,-21.16,-124
+72868,2026,2026-06-06,Gold Coast,Brisbane Lions,Carrara,0.6741,12.95,0.6551,13.18,-31
+72869,2026,2026-06-06,West Coast,Port Adelaide,Perth Stadium,0.3929,-7.48,0.3351,-14.06,-6
+72870,2026,2026-06-07,Sydney,St Kilda,SCG,0.7462,19.82,0.7891,26.52,2
+72871,2026,2026-06-07,Essendon,Carlton,MCG,0.2962,-15.63,0.1901,-28.97,-5
+72872,2026,2026-06-08,Collingwood,Melbourne,MCG,0.6708,12.66,0.5099,0.82,-8
+72873,2026,2026-06-11,Western Bulldogs,Adelaide,Marvel Stadium,0.5726,4.92,0.5728,6.13,-57
+72874,2026,2026-06-12,Geelong,Gold Coast,Kardinia Park,0.7474,19.94,0.7763,25.38,45
