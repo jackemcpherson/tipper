@@ -67,3 +67,11 @@ Follow `TYPESCRIPT_STYLE_GUIDE.md` for full conventions. Key points:
 - Zod validates at boundaries (config load, API responses); trust types internally
 - Pure core / effectful shell: engine functions take all data as arguments, never touch DB
 - Use Web Standard APIs only (no Bun-specific APIs) — code deploys to Cloudflare Workers V8 runtime
+
+## Ecosystem doc
+
+The public ecosystem doc (homepage repo: `public/docs/afl-data-ecosystem.md`,
+served at jackemcpherson.com/docs/afl-data-ecosystem.md) describes this
+project's public surface. If a change alters that surface — exported
+functions/types, data sources or coverage, endpoints, DB schema, CLI
+commands, cron behavior — update the doc in the same sitting.
