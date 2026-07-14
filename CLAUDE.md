@@ -40,7 +40,7 @@ CLI (Commander) → D1 REST API → D1 Database (afl-stats)
 - `harness.ts` — Walk-forward orchestrator: predict-then-update per match in chronological order
 - `metrics.ts` — Aggregate metrics (tip %, MAE, RMSE, log loss, Brier, calibration)
 
-**Data layer (`src/data/`)** — All SQL queries, typed row interfaces. Single source of truth for DB access. The engine never constructs SQL.
+**Data layer (`src/data/`)** — All SQL queries, typed row interfaces. Single source of truth for DB access. The engine never constructs SQL. Reads live in `queries.ts`; `publish.ts` is the sole write path (upserts into `match_predictions`).
 
 **Config layer (`src/config/`)** — Zod-validated configs stored as JSON files under `configs/`. Content-hashed (SHA-256 minus id/notes) for identity. Promotion guardrails require a backtest with matching hash before a config can become `_current.json`.
 
@@ -48,7 +48,7 @@ CLI (Commander) → D1 REST API → D1 Database (afl-stats)
 
 **D1 REST client (`src/data/d1-rest.ts`)** — `D1Database`-compatible shim that calls the Cloudflare D1 HTTP API, used by the CLI.
 
-**CLI (`src/cli/`)** — Commander-based. Reads configs from disk, calls orchestration functions directly via the D1 REST shim, formats output. Commands: `config {list,show,current,promote,diff,create}`, `backtest`, `predict`, `compare`.
+**CLI (`src/cli/`)** — Commander-based. Reads configs from disk, calls orchestration functions directly via the D1 REST shim, formats output. Commands: `config {list,show,current,promote,diff,create}`, `backtest`, `predict`, `compare`, `publish` (writes the round's predictions to the `match_predictions` D1 table; also run by the Thursday cron in `.github/workflows/publish-predictions.yml`).
 
 ## Key Design Decisions
 
