@@ -26,7 +26,7 @@ If `wrangler login` isn't available, set `CLOUDFLARE_API_TOKEN` instead.
 
 | Variable                   | Purpose                                                          |
 | -------------------------- | ---------------------------------------------------------------- |
-| `CLOUDFLARE_API_TOKEN`     | API token with D1 read access (takes precedence over wrangler's OAuth token) |
+| `CLOUDFLARE_API_TOKEN`     | API token with D1 access — read for predictions, write for `publish` (takes precedence over wrangler's OAuth token) |
 | `CLOUDFLARE_ACCOUNT_ID`    | Overrides the default Cloudflare account ID                      |
 | `CLOUDFLARE_D1_DATABASE_ID`| Overrides the default D1 database ID                             |
 | `TIPPER_NO_CACHE`          | Set to disable the local season-data cache                       |
@@ -46,6 +46,12 @@ tipper backtest --config predha-080
 # Predict upcoming matches
 tipper predict --season 2026 --round 15
 
+# Publish the current round's predictions to the match_predictions D1 table
+tipper publish
+
+# Publish a specific round (season defaults to the current year)
+tipper publish --season 2026 --round 15 --comp AFLW
+
 # Bootstrap-compare two configs
 tipper compare --config-a predha-080 --config-b od-w100-k008
 
@@ -64,6 +70,16 @@ Historical season data (matches, lineups, player stats) is cached under
 `~/.cache/tipper/` after the first fetch. Past seasons are append-only, so
 the cache never goes stale; the current season is always fetched live.
 Pass `--no-cache` (or set `TIPPER_NO_CACHE=1`) to bypass it.
+
+### Scheduled publishing
+
+`.github/workflows/publish-predictions.yml` runs `tipper publish` for AFLM
+and AFLW every Thursday at 07:30 UTC (17:30 Melbourne in AEST; 18:30 during
+AEDT), upserting the current round's predictions into the `match_predictions`
+D1 table for downstream consumers (footyBot's round preview, MCP analysts).
+Manual runs can override season/round/competition via workflow dispatch.
+The workflow authenticates with the `CLOUDFLARE_API_TOKEN` repository
+secret, which needs D1 write access.
 
 ## Development
 

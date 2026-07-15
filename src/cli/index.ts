@@ -7,6 +7,7 @@ import { calibrateCommand } from "./commands/calibrate.js";
 import { compareCommand } from "./commands/compare.js";
 import { configCommand } from "./commands/config/index.js";
 import { predictCommand } from "./commands/predict.js";
+import { publishCommand } from "./commands/publish.js";
 
 // Single source of truth for the version: package.json sits two levels
 // above this file both in src/cli/ and in the compiled dist/cli/.
@@ -22,6 +23,7 @@ program.addCommand(backtestCommand);
 program.addCommand(calibrateCommand);
 program.addCommand(compareCommand);
 program.addCommand(predictCommand);
+program.addCommand(publishCommand);
 
 try {
   await program.parseAsync(process.argv);

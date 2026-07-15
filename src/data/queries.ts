@@ -254,3 +254,28 @@ export async function fetchLatestMatchDate(
     .first<{ max_date: string | null }>();
   return result?.max_date ?? null;
 }
+
+/**
+ * Fetch the next unplayed round number for a competition season.
+ *
+ * "Current round" for a scheduled publish run: the smallest round_number
+ * in the season with at least one match that has no final score yet.
+ * Returns null when the season doesn't exist or is fully played.
+ */
+export async function fetchNextUnplayedRound(
+  db: D1Database,
+  seasonYear: number,
+  competition: CompetitionCode,
+): Promise<number | null> {
+  const result = await db
+    .prepare(
+      `SELECT MIN(m.round_number) as next_round
+       FROM matches m
+       JOIN seasons s ON m.season_id = s.id
+       JOIN competitions c ON s.competition_id = c.id
+       WHERE c.code = ? AND s.year = ? AND m.home_points IS NULL`,
+    )
+    .bind(competition, seasonYear)
+    .first<{ next_round: number | null }>();
+  return result?.next_round ?? null;
+}
