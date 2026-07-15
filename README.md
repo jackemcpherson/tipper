@@ -73,13 +73,35 @@ Pass `--no-cache` (or set `TIPPER_NO_CACHE=1`) to bypass it.
 
 ### Scheduled publishing
 
-`.github/workflows/publish-predictions.yml` runs `tipper publish` for AFLM
-and AFLW every Thursday at 07:30 UTC (17:30 Melbourne in AEST; 18:30 during
-AEDT), upserting the current round's predictions into the `match_predictions`
-D1 table for downstream consumers (footyBot's round preview, MCP analysts).
-Manual runs can override season/round/competition via workflow dispatch.
-The workflow authenticates with the `CLOUDFLARE_API_TOKEN` repository
-secret, which needs D1 write access.
+A Cloudflare Worker (`src/worker/`) publishes predictions into the
+`match_predictions` D1 table for downstream consumers (footyBot's round
+preview, MCP analysts). The cron fires every 15 minutes and a pure
+in-code gate (`publishPlan`) decides what actually needs writing, per
+competition (AFLM and AFLW):
+
+- Rounds with unplayed matches whose first match starts within 7 days
+  are candidates.
+- Refresh cadence steps with context: daily as a baseline, hourly when
+  the competition has a match that day, and every 15 minutes during the
+  Thursday 17:00–21:00 Melbourne team-announcement window — so published
+  rows pick up announced lineups minutes after AFL-MCP syncs them.
+- A round freezes once its first match kicks off: its rows become
+  immutable history ("prediction as at round start").
+- The gate reads the Melbourne clock via `Intl` with the IANA zone, so
+  behaviour doesn't drift an hour at AEST/AEDT transitions.
+
+The Worker holds a native D1 binding (no API token) and the promoted
+config baked at build time (`src/worker/baked-config.ts`, regenerated
+with `bun run bake-config` after every promotion and committed), so the
+deployed model version is auditable from the pinned SHA alone.
+`GET /health` returns 200/503 derived from `match_predictions` freshness
+against the fixture window; every other path 404s.
+
+Deployment is GitOps: merging to main publishes the bundle to R2
+(`.github/workflows/publish-artifact.yml` →
+`worker-artifacts/tipper/<sha>.js`) and the cloudflare-infra repo pins
+and promotes it. `tipper publish` (CLI) remains the manual/break-glass
+path, e.g. for republishing a frozen round with `--round`.
 
 ## Development
 

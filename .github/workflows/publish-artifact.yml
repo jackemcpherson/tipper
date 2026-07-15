@@ -1,0 +1,66 @@
+name: Publish artifact
+
+# tipper does not self-deploy. On merge to main this builds the Worker
+# bundle and publishes it to R2 (worker-artifacts/tipper/<sha>.js).
+# Deployment happens from the cloudflare-infra repo by bumping the tipper
+# version pin to this SHA and running the gated promote-worker/apply-prod
+# flow. No migrations step: the afl-stats schema is owned by AFL-MCP.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "configs/**"
+      - "wrangler.jsonc"
+      - "package.json"
+      - "bun.lock"
+      - ".github/workflows/publish-artifact.yml"
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: CI checks
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    name: Publish to R2
+    needs: ci
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: "1.3"
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Worker bundle
+        # dist-worker, not dist — dist is the tsc CLI build output.
+        run: bunx wrangler deploy --dry-run --outdir dist-worker
+
+      - name: Publish artifact to R2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          ARTIFACT_DIGEST="$(sha256sum dist-worker/index.js | cut -d' ' -f1)"
+          echo "Publishing tipper/${GITHUB_SHA}.js"
+          bunx wrangler r2 object put "worker-artifacts/tipper/${GITHUB_SHA}.js" \
+            --file dist-worker/index.js --remote
+          {
+            echo "### Published Worker artifact"
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- \`tipper/${GITHUB_SHA}.js\`: \`${ARTIFACT_DIGEST}\`"
+          } >> "${GITHUB_STEP_SUMMARY}"

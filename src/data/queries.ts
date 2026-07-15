@@ -256,6 +256,75 @@ export async function fetchLatestMatchDate(
 }
 
 /**
+ * One row of the Worker publish-tick state query (tipper#30): a
+ * (competition, season, round) with at least one unplayed match whose
+ * earliest match starts within the publish window.
+ */
+export interface PublishRoundStateRow {
+  readonly competition: CompetitionCode;
+  readonly season: number;
+  readonly round_number: number;
+  /**
+   * Melbourne wall-clock "YYYY-MM-DDTHH:MM:SS" of the round's earliest
+   * match (matches.date + local_time; local_time is Melbourne wall time,
+   * NULL coalesced to 00:00:00 so unknown kickoffs freeze conservatively).
+   */
+  readonly first_kickoff: string;
+  /** 1 when the competition has any match on the given Melbourne date. */
+  readonly has_match_today: number;
+  /** MAX(generated_at) over the round's match_predictions rows, or null. */
+  readonly last_generated_at: string | null;
+}
+
+/**
+ * Fetch candidate rounds for the Worker publisher in ONE query per tick.
+ *
+ * For AFLM and AFLW: every round with at least one unplayed match whose
+ * earliest match (over all the round's matches — a round in progress must
+ * read as started) kicks off at or before `windowEndWall`. Kickoffs are
+ * compared as Melbourne wall-clock strings; the caller derives both
+ * parameters from the current instant via `Intl` with the IANA zone.
+ *
+ * @param db - The database (Worker binding or REST shim).
+ * @param melbourneToday - Melbourne calendar date "YYYY-MM-DD" of now.
+ * @param windowEndWall - Melbourne wall clock "YYYY-MM-DDTHH:MM:SS" of the
+ *   window's leading edge (now + 7 days).
+ */
+export async function fetchPublishRoundStates(
+  db: D1Database,
+  melbourneToday: string,
+  windowEndWall: string,
+): Promise<PublishRoundStateRow[]> {
+  const sql = `
+    SELECT
+      c.code AS competition,
+      s.year AS season,
+      m.round_number AS round_number,
+      MIN(m.date || 'T' || COALESCE(m.local_time, '00:00:00')) AS first_kickoff,
+      EXISTS (
+        SELECT 1 FROM matches mt
+        JOIN seasons st ON mt.season_id = st.id
+        WHERE st.competition_id = s.competition_id AND mt.date = ?
+      ) AS has_match_today,
+      MAX(mp.generated_at) AS last_generated_at
+    FROM matches m
+    JOIN seasons s ON m.season_id = s.id
+    JOIN competitions c ON s.competition_id = c.id
+    LEFT JOIN match_predictions mp ON mp.match_id = m.id
+    WHERE c.code IN ('AFLM', 'AFLW') AND m.round_number IS NOT NULL
+    GROUP BY s.competition_id, c.code, s.year, m.round_number
+    HAVING SUM(CASE WHEN m.home_points IS NULL THEN 1 ELSE 0 END) > 0
+      AND MIN(m.date || 'T' || COALESCE(m.local_time, '00:00:00')) <= ?
+    ORDER BY c.code, s.year, m.round_number
+  `;
+  const result = await db
+    .prepare(sql)
+    .bind(melbourneToday, windowEndWall)
+    .all<PublishRoundStateRow>();
+  return result.results;
+}
+
+/**
  * Fetch the next unplayed round number for a competition season.
  *
  * "Current round" for a scheduled publish run: the smallest round_number

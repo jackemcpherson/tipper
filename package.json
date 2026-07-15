@@ -29,6 +29,7 @@
     "access": "public"
   },
   "scripts": {
+    "bake-config": "bun scripts/bake-config.ts",
     "build": "tsc",
     "test": "vitest",
     "check": "biome check .",
