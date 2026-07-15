@@ -6,7 +6,9 @@
  * (either the Worker binding or the REST shim) as their first argument.
  */
 
+import { shortHash } from "./config/hash.js";
 import type { Config } from "./config/schema.js";
+import { formatModelVersion, toPredictionRow, upsertPredictions } from "./data/publish.js";
 import {
   fetchLatestMatchDate,
   fetchLineupsForMatches,
@@ -30,6 +32,7 @@ import type { HarnessData } from "./engine/harness.js";
 import { runHarness, runPredict } from "./engine/harness.js";
 import { bootstrapCompare, computeCalibration, computeMetrics } from "./engine/metrics.js";
 import { deriveVenueHA } from "./engine/venue.js";
+import type { MatchPrediction } from "./types.js";
 
 /** Resolve season years to a Set of season IDs via a year→id map. */
 function resolveSeasonIds(years: number[], yearToId: Map<number, number>): Set<number> {
@@ -292,6 +295,75 @@ export async function runPrediction(
     data_through: latestDate,
     predictions: result.predictions,
     skipped_matches: result.skippedMatches.length,
+  };
+}
+
+/** Outcome of a publishRound call. */
+export interface PublishRoundResult {
+  readonly data_through: string | null;
+  readonly predictions: readonly MatchPrediction[];
+  /** Rows upserted into match_predictions (0 when the engine yielded none). */
+  readonly written: number;
+  /** Identity string stamped on every row, e.g. "predha-080 (2641f46f)". */
+  readonly model_version: string;
+  readonly generated_at: string;
+}
+
+/**
+ * Predict a round and upsert the results into match_predictions — the
+ * single publish pipeline shared by the CLI `publish` command and the
+ * Worker cron tick (tipper#30), so a scheduled publish and a manual
+ * publish of the same round produce identical rows.
+ *
+ * The config's test_seasons are overridden to the target season before
+ * prediction. When the engine yields no predictions, nothing is written
+ * (`written: 0`) and the caller decides how to report that.
+ *
+ * @param db - The database (Worker binding or REST shim).
+ * @param config - The model config to run.
+ * @param configId - Config identity for the model_version string.
+ * @param configHash - Full content hash of `config` (computeConfigHash).
+ * @param generatedAt - ISO-8601 instant stamped on every row.
+ * @param cache - Optional per-season data cache (CLI only).
+ * @param predict - Prediction runner, injectable for tests.
+ */
+export async function publishRound(
+  db: D1Database,
+  config: Config,
+  configId: string,
+  configHash: string,
+  season: number,
+  roundNumber: number,
+  competition: CompetitionCode,
+  generatedAt: string,
+  cache?: SeasonDataCache,
+  predict: typeof runPrediction = runPrediction,
+): Promise<PublishRoundResult> {
+  const predictConfig = {
+    ...config,
+    backtest: { ...config.backtest, test_seasons: [season] },
+  };
+  const result = await predict(db, predictConfig, season, roundNumber, competition, cache);
+  const modelVersion = formatModelVersion(configId, shortHash(configHash));
+
+  if (result.predictions.length === 0) {
+    return {
+      data_through: result.data_through,
+      predictions: [],
+      written: 0,
+      model_version: modelVersion,
+      generated_at: generatedAt,
+    };
+  }
+
+  const rows = result.predictions.map((p) => toPredictionRow(p, modelVersion, generatedAt));
+  const written = await upsertPredictions(db, rows);
+  return {
+    data_through: result.data_through,
+    predictions: result.predictions,
+    written,
+    model_version: modelVersion,
+    generated_at: generatedAt,
   };
 }
 

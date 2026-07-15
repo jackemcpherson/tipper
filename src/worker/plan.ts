@@ -15,14 +15,18 @@
 
 import type { CompetitionCode } from "../data/types.js";
 
+/** Identity of a round across competitions and seasons. */
+export interface RoundKey {
+  readonly competition: CompetitionCode;
+  readonly season: number;
+  readonly roundNumber: number;
+}
+
 /**
  * One candidate round: a (competition, season, round) with at least one
  * unplayed match, plus everything the gate needs to decide on it.
  */
-export interface RoundState {
-  readonly competition: CompetitionCode;
-  readonly season: number;
-  readonly roundNumber: number;
+export interface RoundState extends RoundKey {
   /**
    * Melbourne wall-clock datetime "YYYY-MM-DDTHH:MM:SS" of the round's
    * earliest match (over ALL its matches, played or not — a round in
@@ -98,8 +102,13 @@ export interface MelbourneClock {
 /** Project a UTC instant onto the Melbourne wall clock via Intl (DST-correct). */
 export function melbourneClock(instant: Date): MelbourneClock {
   const parts = MELBOURNE_FORMAT.formatToParts(instant);
-  const get = (type: Intl.DateTimeFormatPartTypes): string =>
-    parts.find((p) => p.type === type)?.value ?? "";
+  const get = (type: Intl.DateTimeFormatPartTypes): string => {
+    const value = parts.find((p) => p.type === type)?.value;
+    if (value === undefined) {
+      throw new Error(`Intl produced no "${type}" part for the Melbourne clock projection.`);
+    }
+    return value;
+  };
   const date = `${get("year")}-${get("month")}-${get("day")}`;
   const hour = get("hour");
   const minute = get("minute");
@@ -111,14 +120,43 @@ export function melbourneClock(instant: Date): MelbourneClock {
   };
 }
 
+/**
+ * Melbourne wall clock of the 7-day window's leading edge (now + 7 days).
+ * The single home for this computation — buildContext and the state-query
+ * parameter derivation in tick.ts both call it.
+ */
+export function publishWindowEndWall(now: Date): string {
+  return melbourneClock(new Date(now.getTime() + PUBLISH_WINDOW_MS)).wall;
+}
+
+/**
+ * Convert a Melbourne wall-clock datetime to an epoch instant by
+ * fixed-point iteration on the Intl projection — no offset tables, so it
+ * stays DST-correct by construction. Ambiguous fall-back times resolve
+ * to one of their two instants deterministically; wall times inside the
+ * spring-forward gap (which never host kickoffs) resolve to a nearby
+ * instant on the other side of the gap.
+ */
+function melbourneWallToEpochMs(wall: string): number {
+  const target = Date.parse(`${wall}Z`);
+  if (Number.isNaN(target)) {
+    throw new Error(`Invalid Melbourne wall-clock datetime: ${wall}`);
+  }
+  let instant = target;
+  for (let i = 0; i < 3; i++) {
+    const projected = Date.parse(`${melbourneClock(new Date(instant)).wall}Z`);
+    if (projected === target) break;
+    instant += target - projected;
+  }
+  return instant;
+}
+
 /** Everything about `now` the per-round assessment needs, computed once. */
 interface TickContext {
   readonly nowMs: number;
   readonly nowWall: string;
   /** Melbourne wall clock of now + 7 days: the window's leading edge. */
   readonly windowEndWall: string;
-  /** Leading edge minus the health grace, for never-published overdue checks. */
-  readonly windowEndMinusGraceWall: string;
   /** True during Thursday 17:00–21:00 Melbourne. */
   readonly announcementWindow: boolean;
 }
@@ -128,10 +166,7 @@ function buildContext(now: Date): TickContext {
   return {
     nowMs: now.getTime(),
     nowWall: clock.wall,
-    windowEndWall: melbourneClock(new Date(now.getTime() + PUBLISH_WINDOW_MS)).wall,
-    windowEndMinusGraceWall: melbourneClock(
-      new Date(now.getTime() + PUBLISH_WINDOW_MS - HEALTH_GRACE_MS),
-    ).wall,
+    windowEndWall: publishWindowEndWall(now),
     announcementWindow:
       clock.weekday === "Thu" &&
       clock.minutesOfDay >= ANNOUNCEMENT_START_MIN &&
@@ -177,9 +212,11 @@ function assessRound(ctx: TickContext, state: RoundState): RoundAssessment {
 
   if (state.lastGeneratedAt === null) {
     // Never published: due immediately on window entry. Overdue once the
-    // entry was more than the grace period ago, i.e. the kickoff is
-    // already closer than (window − grace).
-    return { due: true, overdue: state.firstKickoff <= ctx.windowEndMinusGraceWall };
+    // entry (kickoff − 7d) was more than the grace period ago. Pure
+    // instant arithmetic like the published path below — a wall-clock
+    // projection here would be non-monotonic across DST transitions.
+    const kickoffMs = melbourneWallToEpochMs(state.firstKickoff);
+    return { due: true, overdue: kickoffMs <= ctx.nowMs + PUBLISH_WINDOW_MS - HEALTH_GRACE_MS };
   }
 
   const ageMs = ctx.nowMs - Date.parse(state.lastGeneratedAt);

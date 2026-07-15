@@ -1,10 +1,9 @@
 import { Command } from "commander";
 import { computeConfigHash, shortHash } from "../../config/hash.js";
 import { loadConfig, loadCurrentPointer } from "../../config/store.js";
-import { formatModelVersion, toPredictionRow, upsertPredictions } from "../../data/publish.js";
 import { fetchNextUnplayedRound } from "../../data/queries.js";
 import type { CompetitionCode } from "../../data/types.js";
-import { runPrediction } from "../../orchestration.js";
+import { publishRound } from "../../orchestration.js";
 import { resolveSeasonDataCache } from "../cache.js";
 import { getDatabase } from "../db.js";
 import { compOption, configOption, noCacheOption, roundOption, seasonOption } from "../flags.js";
@@ -62,16 +61,20 @@ export const publishCommand = new Command("publish")
         round = nextRound;
       }
 
-      const predictConfig = {
-        ...config,
-        backtest: {
-          ...config.backtest,
-          test_seasons: [targetYear],
-        },
-      };
-
       const cache = resolveSeasonDataCache(opts.comp, opts.cache);
-      const result = await runPrediction(db, predictConfig, targetYear, round, opts.comp, cache);
+      // Shared pipeline with the Worker cron tick (test_seasons override,
+      // model_version stamp, upsert) — see publishRound in orchestration.ts.
+      const result = await publishRound(
+        db,
+        config,
+        configId,
+        configHash,
+        targetYear,
+        round,
+        opts.comp,
+        new Date().toISOString(),
+        cache,
+      );
 
       if (result.predictions.length === 0) {
         console.error(
@@ -80,13 +83,6 @@ export const publishCommand = new Command("publish")
         process.exit(1);
       }
 
-      // Same identity string as the CLI header, e.g. "predha-080 (2641f46f)".
-      const modelVersion = formatModelVersion(configId, shortHash(configHash));
-      const generatedAt = new Date().toISOString();
-      const rows = result.predictions.map((p) => toPredictionRow(p, modelVersion, generatedAt));
-
-      const written = await upsertPredictions(db, rows);
-
       const dataThrough = result.data_through ?? "unknown";
       const scope = `Round ${round}, ${targetYear} (${opts.comp}) — publishing to match_predictions`;
       console.log(formatHeader(configId, shortHash(configHash), dataThrough, scope));
@@ -94,8 +90,8 @@ export const publishCommand = new Command("publish")
         console.log(formatPrediction(p));
       }
       console.log(
-        `\nUpserted ${written} prediction${written === 1 ? "" : "s"} ` +
-          `(model_version: ${modelVersion}, generated_at: ${generatedAt}).`,
+        `\nUpserted ${result.written} prediction${result.written === 1 ? "" : "s"} ` +
+          `(model_version: ${result.model_version}, generated_at: ${result.generated_at}).`,
       );
     },
   );

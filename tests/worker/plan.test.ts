@@ -259,6 +259,27 @@ describe("healthStatus", () => {
     expect(healthStatus(now, [lingering]).healthy).toBe(false);
   });
 
+  it("never-published grace across the spring-forward day (2026-10-04) is real elapsed time", () => {
+    // Kickoff Sunday 2026-10-04 10:00 AEDT — hours after the 02:00→03:00
+    // jump — i.e. instant 2026-10-03T23:00:00Z. Window entry is kickoff
+    // − 7d = 2026-09-26T23:00:00Z; the intervening week is 167 wall-clock
+    // hours, but the 30-minute grace is measured in instants: healthy at
+    // entry + 29m59s, overdue at entry + 30m exactly.
+    const state = makeState({ firstKickoff: "2026-10-04T10:00:00" });
+    expect(healthStatus(new Date("2026-09-26T23:29:59Z"), [state]).healthy).toBe(true);
+    expect(healthStatus(new Date("2026-09-26T23:30:00Z"), [state]).healthy).toBe(false);
+  });
+
+  it("never-published grace across the fall-back day (2026-04-05) does not double-count the repeated hour", () => {
+    // Kickoff Sunday 2026-04-05 13:10 AEST — after the 03:00→02:00 repeat
+    // — i.e. instant 2026-04-05T03:10:00Z. The week back from it is 169
+    // wall-clock hours; overdue flips exactly at entry + 30m
+    // (2026-03-29T03:40:00Z), not an hour early or late.
+    const state = makeState({ firstKickoff: "2026-04-05T13:10:00" });
+    expect(healthStatus(new Date("2026-03-29T03:39:59Z"), [state]).healthy).toBe(true);
+    expect(healthStatus(new Date("2026-03-29T03:40:00Z"), [state]).healthy).toBe(false);
+  });
+
   it("ignores frozen rounds no matter how stale their rows are", () => {
     const frozen = makeState({
       firstKickoff: "2026-07-10T19:30:00", // kicked off days ago

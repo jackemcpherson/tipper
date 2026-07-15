@@ -1,20 +1,15 @@
 name: Publish artifact
 
-# tipper does not self-deploy. On merge to main this builds the Worker
-# bundle and publishes it to R2 (worker-artifacts/tipper/<sha>.js).
-# Deployment happens from the cloudflare-infra repo by bumping the tipper
-# version pin to this SHA and running the gated promote-worker/apply-prod
-# flow. No migrations step: the afl-stats schema is owned by AFL-MCP.
+# tipper does not self-deploy. On EVERY push to main (no paths filter, so
+# every main SHA has an artifact and the cloudflare-infra version pin can
+# never point at a missing object) this builds the Worker bundle and
+# publishes it to R2 (worker-artifacts/tipper/<sha>.js). Deployment
+# happens from the cloudflare-infra repo by bumping the tipper version
+# pin to this SHA and running the gated promote-worker/apply-prod flow.
+# No migrations step: the afl-stats schema is owned by AFL-MCP.
 on:
   push:
     branches: [main]
-    paths:
-      - "src/**"
-      - "configs/**"
-      - "wrangler.jsonc"
-      - "package.json"
-      - "bun.lock"
-      - ".github/workflows/publish-artifact.yml"
 
 concurrency:
   group: publish
