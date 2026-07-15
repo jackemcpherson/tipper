@@ -1,0 +1,26 @@
+// LOCAL DEV ONLY (`bunx wrangler dev`). The production Worker's identity,
+// cron trigger, D1 binding, and version pinning are owned by the
+// cloudflare-infra repo (GitOps): merging to main publishes the bundle to
+// R2 (worker-artifacts/tipper/<sha>.js) and cloudflare-infra promotes it.
+// `wrangler deploy` by hand is break-glass only.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tipper",
+  "main": "src/worker/index.ts",
+  "compatibility_date": "2026-07-01",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true
+  },
+  "triggers": {
+    "crons": ["*/15 * * * *"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "afl-stats",
+      "database_id": "fe1c1a89-805f-481d-9ba0-b9f8dee04a36"
+    }
+  ]
+}

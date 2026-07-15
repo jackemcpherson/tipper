@@ -32,7 +32,7 @@
   },
   "overrides": [
     {
-      "includes": ["*.config.ts", "src/worker.ts"],
+      "includes": ["*.config.ts", "src/worker/index.ts"],
       "linter": {
         "rules": {
           "style": {
