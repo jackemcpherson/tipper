@@ -43,8 +43,6 @@ function makeMatch(overrides: Partial<MatchRow> = {}): MatchRow {
     away_points: 54,
     margin: 14,
     attendance: null,
-    weather_temp_c: null,
-    weather_type: null,
     external_afl_id: null,
     ...overrides,
   };

@@ -103,7 +103,7 @@ export async function fetchMatchesForSeasons(
       home_team_id, away_team_id,
       home_goals, home_behinds, home_points,
       away_goals, away_behinds, away_points,
-      margin, attendance, weather_temp_c, weather_type,
+      margin, attendance,
       external_afl_id
     FROM matches
     WHERE season_id IN (${placeholders})

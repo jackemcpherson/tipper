@@ -46,8 +46,6 @@ export interface MatchRow {
   readonly away_points: number | null;
   readonly margin: number | null;
   readonly attendance: number | null;
-  readonly weather_temp_c: number | null;
-  readonly weather_type: string | null;
   readonly external_afl_id: string | null;
 }
 

@@ -54,8 +54,6 @@ function matchRow(overrides: Partial<MatchRow> & Pick<MatchRow, "id">): MatchRow
     away_points: 10,
     margin: 60,
     attendance: null,
-    weather_temp_c: null,
-    weather_type: null,
     external_afl_id: null,
     ...overrides,
   };
