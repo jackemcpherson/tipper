@@ -196,10 +196,10 @@ describe("upsertPredictions", () => {
 
     expect(written).toBe(17);
     expect(spy).toHaveBeenCalledTimes(2);
-    const firstBody = JSON.parse((spy.mock.calls[0]?.[1] as RequestInit).body as string) as {
+    const firstBody = JSON.parse((spy.mock.calls[0]![1] as RequestInit).body as string) as {
       params: unknown[];
     };
-    const secondBody = JSON.parse((spy.mock.calls[1]?.[1] as RequestInit).body as string) as {
+    const secondBody = JSON.parse((spy.mock.calls[1]![1] as RequestInit).body as string) as {
       params: unknown[];
     };
     expect(firstBody.params).toHaveLength(80);
