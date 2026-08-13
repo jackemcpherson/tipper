@@ -26,7 +26,7 @@ describe("fetchNextUnplayedRound", () => {
     const round = await fetchNextUnplayedRound(db, 2026, "AFLW");
 
     expect(round).toBe(18);
-    const body = JSON.parse((spy.mock.calls[0]?.[1] as RequestInit).body as string) as {
+    const body = JSON.parse((spy.mock.calls[0]![1] as RequestInit).body as string) as {
       sql: string;
       params: unknown[];
     };
