@@ -389,6 +389,25 @@ C6's 20 pseudo-pairs use each age cell's mean prior zone PAV on both sides,
 so the shrinkage has the same units as the pooled numerator and denominator.
 Missing next-year player rows count as zero, including exits.
 
+### Rating-points and team-venue clarification, before first results
+
+C7 normalises across the observed team roster, not just today's selected
+lineup. Normalising across today's lineup would leave its total unchanged
+and could not test the hypothesis. The roster is players seen last season
+or earlier this season, assigned to their most recently observed team,
+plus today's named players. Each player's non-negative rating-points mean
+uses last season and current past appearances, with five pseudo-appearances
+at the previous season's league mean. The roster's blended PAV total is
+redistributed by these rates. The selected shares become the team PAV
+input, divided equally across zones. Missing historical ratings leave
+the original PAV input unchanged.
+
+A5 uses canonical venue IDs for sponsor aliases. Each appearance increments
+the team-venue count by one, with half the home-oriented pre-correction
+residual credited to the home team and its negative to the away team.
+The denominator is appearances plus 32. Both sums and counts carry at 0.5
+across a season boundary.
+
 - [x] Read the complete supplied campaign instructions.
 - [x] Create `research/adversarial-campaign-2026-09` from current HEAD.
 - [x] Reproduce the four specified historical baselines.

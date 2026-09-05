@@ -63,6 +63,7 @@ export const ConfigSchema = z.object({
     position_weight: z.number().min(0).max(1).optional(),
     tog_weight: z.number().min(0).max(1).optional(),
     position_prior_k: z.number().nonnegative().optional(),
+    rating_points: z.boolean().optional(),
     // Optional (not defaulted): the hash covers the parsed config, so a
     // .default() here would change every existing config's hash and
     // invalidate their results files. Absent means 0 (off).
@@ -111,6 +112,9 @@ export const ConfigSchema = z.object({
     prediction_ha_mode: z.enum(["neutral", "bucket", "geographic"]).optional(),
     prediction_ha_table: z.record(z.string(), z.number()).optional(),
     finals_home_advantage: z.number().optional(),
+    team_venue: z
+      .object({ k: z.number().positive(), season_carry: z.number().min(0).max(1) })
+      .optional(),
     // Walk-forward per-team performance offsets (margin points) applied at
     // prediction time and learned from residuals: offset = sum/(n+k), shrunk
     // toward 0; evidence decays by season_carry at each season boundary.

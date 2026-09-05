@@ -3,6 +3,7 @@ export interface VenueGeo {
   latitude: number | null;
   longitude: number | null;
   timezone: string | null;
+  canonical_venue_id?: number | null;
 }
 
 export const TEAM_STATE: Readonly<Record<string, string>> = {

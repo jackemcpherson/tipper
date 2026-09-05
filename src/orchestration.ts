@@ -170,6 +170,7 @@ export async function fetchHarnessData(
         v.id,
         {
           latitude: v.latitude ?? null,
+          canonical_venue_id: v.canonical_venue_id ?? null,
           longitude: v.longitude ?? null,
           timezone: v.timezone ?? null,
         },

@@ -4,6 +4,7 @@ import { ConfigSchema } from "../../src/config/schema.js";
 import type { MatchLineupRow, MatchRow, PlayerMatchStatsRow } from "../../src/data/types.js";
 import type { HarnessData } from "../../src/engine/harness.js";
 import { adjustLineupPav, createLineupContext, positionRole } from "../../src/engine/lineup.js";
+import { ratingPointsLineupTotal } from "../../src/engine/rating-points.js";
 
 function match(id: number, year: number): MatchRow {
   return {
@@ -69,6 +70,46 @@ const player: MatchLineupRow = {
 };
 
 describe("prior-only lineup experiments", () => {
+  it("redistributes roster PAV using shrunk rating means without today's ratings", () => {
+    const target = match(2, 2025);
+    const data: HarnessData = {
+      matches: [match(1, 2024), target],
+      lineupsByMatch: new Map([[2, [player]]]),
+      statsByMatch: new Map([
+        [
+          1,
+          [
+            { ...stats(1, 1, 80), rating_points: 10 },
+            { ...stats(1, 2, 80), rating_points: 20 },
+          ],
+        ],
+        [2, [{ ...stats(2, 1, 80), rating_points: 999 }]],
+      ]),
+      priorPavBySeason: new Map(),
+      teamNames: new Map(),
+      venueNames: new Map(),
+      dobByPlayerId: new Map(),
+      seasonYearById: new Map([
+        [2024, 2024],
+        [2025, 2025],
+      ]),
+    };
+    const rosterPav = (ids: number[]) => {
+      expect(ids).toEqual([1, 2]);
+      return 60;
+    };
+    expect(ratingPointsLineupTotal(data, target, 1, [player], rosterPav)).toBeCloseTo(
+      (60 * 85) / 180,
+      12,
+    );
+    data.statsByMatch.set(2, [{ ...stats(2, 1, 80), rating_points: -999 }]);
+    expect(ratingPointsLineupTotal(data, target, 1, [player], rosterPav)).toBeCloseTo(
+      (60 * 85) / 180,
+      12,
+    );
+    data.statsByMatch.set(1, [stats(1, 1, 80)]);
+    expect(ratingPointsLineupTotal(data, target, 1, [player], rosterPav)).toBeUndefined();
+  });
   it("maps named positions and leaves bench/unknown roles neutral", () => {
     expect(positionRole("FF")).toBe("forward");
     expect(positionRole("HBFL")).toBe("defender");

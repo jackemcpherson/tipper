@@ -26,6 +26,7 @@ export interface VenueRow {
   readonly id: number;
   readonly name: string;
   readonly latitude?: number | null;
+  readonly canonical_venue_id?: number | null;
   readonly longitude?: number | null;
   readonly timezone?: string | null;
 }
@@ -104,6 +105,7 @@ export interface PlayerMatchStatsRow {
   readonly score_involvements?: number | null;
   readonly intercepts?: number | null;
   readonly pressure_acts?: number | null;
+  readonly rating_points?: number | null;
 }
 
 export interface MatchLineupRow {

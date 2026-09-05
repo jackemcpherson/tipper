@@ -80,7 +80,7 @@ export async function fetchTeams(db: D1Database, competition: CompetitionCode): 
 /** Fetch all venues. */
 export async function fetchVenues(db: D1Database): Promise<VenueRow[]> {
   const result = await db
-    .prepare("SELECT id, name, latitude, longitude, timezone FROM venues")
+    .prepare("SELECT id, name, latitude, longitude, timezone, canonical_venue_id FROM venues")
     .all<VenueRow>();
   return result.results;
 }
@@ -170,7 +170,7 @@ export async function fetchPlayerStatsForMatches(
              goals, behinds, goal_assists,
              marks_inside_fifty, free_kicks_for, free_kicks_against,
              hitouts, inside_fifties, rebounds, clearances,
-             metres_gained, shots_at_goal, score_involvements, intercepts, pressure_acts
+             metres_gained, shots_at_goal, score_involvements, intercepts, pressure_acts, rating_points
       FROM player_match_stats
       WHERE match_id IN (${placeholders})
     `;

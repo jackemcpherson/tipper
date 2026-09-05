@@ -46,6 +46,13 @@ import {
 } from "./pav.js";
 import { computeWinProbability, predictMargin } from "./predict.js";
 import { applyAgeCurve, blendWithPrior, buildPriorPavMap, type PriorPavMap } from "./prior.js";
+import { ratingPointsLineupTotal } from "./rating-points.js";
+import {
+  decayTeamVenue,
+  type TeamVenueState,
+  teamVenueAdjustment,
+  updateTeamVenue,
+} from "./team-venue.js";
 import {
   createVenueHaPredState,
   getVenueHaPred,
@@ -212,6 +219,8 @@ export function runHarness(
   const odState: OdState = createOdState();
   const venueHaConfig = config.output.prediction_home_advantage_per_venue;
   const venueHaState: VenueHaPredState = createVenueHaPredState();
+  const teamVenueConfig = config.output.team_venue;
+  const teamVenueState: TeamVenueState = new Map();
 
   for (const match of data.matches) {
     // Season boundary detection
@@ -219,6 +228,7 @@ export function runHarness(
       const isFirstSeason = currentSeasonId === null;
       if (!isFirstSeason) {
         // Save league averages from completed season for R1 prior
+        if (teamVenueConfig) decayTeamVenue(teamVenueState, teamVenueConfig.season_carry);
         priorLeague = getLeagueAccumulator(pavState);
         if (offsetConfig) {
           decayTeamOffsets(offsetState, offsetConfig.season_carry);
@@ -300,7 +310,10 @@ export function runHarness(
     // team offsets or per-venue HGA enabled, non-train seasons also generate
     // (unrecorded) predictions so those states can learn from their
     // residuals.
-    if ((isTest || ((offsetConfig || venueHaConfig) && !isTrain)) && isCompleted) {
+    if (
+      (isTest || ((offsetConfig || venueHaConfig || teamVenueConfig) && !isTrain)) &&
+      isCompleted
+    ) {
       const offsetAdjust = offsetConfig
         ? getTeamOffset(offsetState, match.home_team_id, offsetConfig.k) -
           getTeamOffset(offsetState, match.away_team_id, offsetConfig.k)
@@ -308,7 +321,18 @@ export function runHarness(
       const venueHaAdjust = venueHaConfig
         ? getVenueHaPred(venueHaState, match.venue_id, venueHaConfig.alpha, venueHaConfig.min_n)
         : 0;
-      const marginAdjust = offsetAdjust + venueHaAdjust;
+      const canonicalVenue =
+        data.venueGeoById?.get(match.venue_id)?.canonical_venue_id ?? match.venue_id;
+      const teamVenueAdjust = teamVenueConfig
+        ? teamVenueAdjustment(
+            teamVenueState,
+            canonicalVenue,
+            match.home_team_id,
+            match.away_team_id,
+            teamVenueConfig.k,
+          )
+        : 0;
+      const marginAdjust = offsetAdjust + venueHaAdjust + teamVenueAdjust;
       const prediction = generatePrediction(
         match,
         eloState,
@@ -328,6 +352,14 @@ export function runHarness(
       }
       if (prediction && prediction.actualMargin !== undefined) {
         const residual = prediction.actualMargin - prediction.predictedMargin;
+        if (teamVenueConfig)
+          updateTeamVenue(
+            teamVenueState,
+            canonicalVenue,
+            match.home_team_id,
+            match.away_team_id,
+            residual + teamVenueAdjust,
+          );
         if (offsetConfig) {
           updateTeamOffsets(offsetState, match.home_team_id, match.away_team_id, residual);
         }
@@ -406,6 +438,8 @@ export function runPredict(
   const odState: OdState = createOdState();
   const venueHaConfig = config.output.prediction_home_advantage_per_venue;
   const venueHaState: VenueHaPredState = createVenueHaPredState();
+  const teamVenueConfig = config.output.team_venue;
+  const teamVenueState: TeamVenueState = new Map();
 
   for (const match of data.matches) {
     // Season boundary detection
@@ -413,6 +447,7 @@ export function runPredict(
       const isFirstSeason = currentSeasonId === null;
       if (!isFirstSeason) {
         priorLeague = getLeagueAccumulator(pavState);
+        if (teamVenueConfig) decayTeamVenue(teamVenueState, teamVenueConfig.season_carry);
         if (offsetConfig) {
           decayTeamOffsets(offsetState, offsetConfig.season_carry);
         }
@@ -488,7 +523,18 @@ export function runPredict(
     const venueHaAdjust = venueHaConfig
       ? getVenueHaPred(venueHaState, match.venue_id, venueHaConfig.alpha, venueHaConfig.min_n)
       : 0;
-    const marginAdjust = offsetAdjust + venueHaAdjust;
+    const canonicalVenue =
+      data.venueGeoById?.get(match.venue_id)?.canonical_venue_id ?? match.venue_id;
+    const teamVenueAdjust = teamVenueConfig
+      ? teamVenueAdjustment(
+          teamVenueState,
+          canonicalVenue,
+          match.home_team_id,
+          match.away_team_id,
+          teamVenueConfig.k,
+        )
+      : 0;
+    const marginAdjust = offsetAdjust + venueHaAdjust + teamVenueAdjust;
 
     if (isTargetRound && !isCompleted) {
       // This is an unplayed match in the target round — predict it
@@ -512,7 +558,7 @@ export function runPredict(
       // With team offsets or per-venue HGA enabled, every completed match
       // contributes a (possibly unrecorded) prediction so those states stay
       // warm — the same rule the backtest harness uses for non-train seasons.
-      if (isTargetRound || (!isTrain && (offsetConfig || venueHaConfig))) {
+      if (isTargetRound || (!isTrain && (offsetConfig || venueHaConfig || teamVenueConfig))) {
         const prediction = generatePrediction(
           match,
           eloState,
@@ -528,6 +574,14 @@ export function runPredict(
         }
         if (prediction && prediction.actualMargin !== undefined) {
           const residual = prediction.actualMargin - prediction.predictedMargin;
+          if (teamVenueConfig)
+            updateTeamVenue(
+              teamVenueState,
+              canonicalVenue,
+              match.home_team_id,
+              match.away_team_id,
+              residual + teamVenueAdjust,
+            );
           if (offsetConfig) {
             updateTeamOffsets(offsetState, match.home_team_id, match.away_team_id, residual);
           }
@@ -623,6 +677,35 @@ function generatePrediction(
       : undefined;
   const homePav = sumTeamPav(homeLineup, pavState, priorPavMap, homeGamesPlayed, config, context);
   const awayPav = sumTeamPav(awayLineup, pavState, priorPavMap, awayGamesPlayed, config, context);
+  if (config.pav.rating_points) {
+    for (const [team, named, pav, games] of [
+      [match.home_team_id, homeLineup, homePav, homeGamesPlayed],
+      [match.away_team_id, awayLineup, awayPav, awayGamesPlayed],
+    ] as const) {
+      const template = named[0];
+      if (!template) continue;
+      const total = ratingPointsLineupTotal(
+        data,
+        match,
+        team,
+        named,
+        (ids) =>
+          sumTeamPav(
+            ids.map((id) => ({ ...template, player_id: id })),
+            pavState,
+            priorPavMap,
+            games,
+            config,
+          ).total,
+      );
+      if (total !== undefined) {
+        pav.total = total;
+        pav.off = total / 3;
+        pav.mid = total / 3;
+        pav.def = total / 3;
+      }
+    }
+  }
   if (config.pav.signal === "lineup_delta" && context) {
     for (const [teamId, pav, games] of [
       [match.home_team_id, homePav, homeGamesPlayed],

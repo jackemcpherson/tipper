@@ -103,6 +103,9 @@ export function candidates(): Candidate[] {
     c.output.prediction_ha_mode = "geographic";
   });
   add("t40-venue-static", "A", baseline);
+  add("t40-venue-team", "A", baseline, (c) => {
+    c.output.team_venue = { k: 32, season_carry: 0.5 };
+  });
   add("t40-cdf", "F", baseline, (c) => {
     c.output.probability_model = "standard_normal";
   });
@@ -162,6 +165,9 @@ export function candidates(): Candidate[] {
   });
   add("t40-position-prior", "C", baseline, (c) => {
     c.pav.position_prior_k = 5;
+  });
+  add("t40-rating-points", "C", baseline, (c) => {
+    c.pav.rating_points = true;
   });
   for (const mode of ["current", "normalized", "corrected"] as const) {
     add(`t40-pav-${mode}`, "F", baseline, (c) => {
