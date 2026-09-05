@@ -32,8 +32,8 @@ memory includes Bun, imported modules and fixture construction.
 | Heap after repeated rebuilds, MiB |         18.6 |              4.6 |        22.5 |            11.6 |
 | Peak process resident memory, MiB |        105.5 |             75.7 |       110.5 |            85.6 |
 
-The Worker bundle fell from 650.02 KiB to 589.54 KiB before compression.
-Compressed size fell from 106.99 KiB to 91.35 KiB. Both builds use the
+The Worker bundle fell from 650.02 KiB to 590.36 KiB before compression.
+Compressed size fell from 106.99 KiB to 91.49 KiB. Both builds use the
 repository's pinned Wrangler.
 
 These are synthetic local measurements, not production CPU or isolate-memory
