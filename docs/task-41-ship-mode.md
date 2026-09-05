@@ -3,6 +3,41 @@
 This report records work toward the prospective 2027 trial and Squiggle entry.
 The release is incomplete. The primary model remains `predha-080`.
 
+## Publish and Archive
+
+A due tick publishes the primary row first. It then captures the field and
+appends the prediction's consumed inputs. At-lock selection uses the latest
+capture strictly before both archived deadlines. A late capture cannot stand
+in for a missing earlier prediction.
+
+<!-- diagram:tick -->
+
+## Shadow Data Path
+
+The primary upserts `match_predictions` and appends an archive capture.
+`t40-od` calls the read-only predictor and appends only to the archive.
+Each model retains its own consumed lineups. Neither model's archive failure
+can turn a successful primary publication into a failure.
+
+<!-- diagram:shadows -->
+
+## Frozen Adjudication
+
+Pair exact match ids from the two frozen model versions. Score the common
+close band and the incumbent's archived field. The 30-tip floor applies before
+either promotion rule. Retrospective and incomplete evidence remain PARK.
+
+<!-- diagram:adjudication -->
+
+## Squiggle Pull Path
+
+After Jack separately authorises entry, SquiggleBot can pull the agreed URL.
+The endpoint reads only the primary table and resolves canonical game ids
+through the cached games API. Its shared formatter also drives `export-tips`.
+No contact or submission has occurred.
+
+<!-- diagram:pull -->
+
 ## Execution Log
 
 Each entry records completed work or a concrete blocker.

@@ -132,6 +132,16 @@ describe("append-only capture", () => {
     },
   );
 
+  it("normalises minute-only kickoff values for strict at-lock parsing", () => {
+    const row = buildArchiveRows(
+      [prediction],
+      inputs,
+      { ...context, firstKickoff: "2027-03-18T19:30" },
+      null,
+    )[0];
+    expect(row?.round_first_kickoff).toBe("2027-03-18T19:30:00");
+  });
+
   it("distinguishes unavailable field from a known empty field and requires captured fixtures", () => {
     expect(buildArchiveRows([prediction], inputs, context, null)[0]?.field_json).toBeNull();
     expect(

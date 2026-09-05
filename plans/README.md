@@ -25,9 +25,9 @@ which add CLI/analysis code but never touch the model.
 | 004 | Port the weekly comp monitor's scoring core into the typed CLI | P3 | M | — | INTEGRATED LOCALLY 2026-09-05; PR publishing awaits approval |
 | 005 | Land the four approved advisor branches onto main | P1 | S | — | IN PROGRESS; four commits cherry-picked, CI/merge await publishing approval |
 | 006 | Pre-register A2 October bundle + one-button eval harness | P1 | M | 005 | SUPERSEDED by Task 40 campaign; historical research closed |
-| 007 | 2027 comp entry: gameid resolver, tips-endpoint skeleton, contact checklist | P2 | M | 005 | TODO |
+| 007 | 2027 comp entry: gameid resolver, tips-endpoint skeleton, contact checklist | P2 | M | 005 | IMPLEMENTED 2026-09-05; ordered PRs in progress, contact and submission remain manual |
 | 008 | Travel-distance/timezone univariate probe (D5 resurrection) | P3 | S–M | — | SUPERSEDED by Task 40 campaign; historical research closed |
-| 009 | Weekly comp monitor as GitHub Actions cron | P3 | S | 005 | TODO |
+| 009 | Weekly comp monitor as GitHub Actions cron | P3 | S | 005 | IMPLEMENTED 2026-09-05; local checks pass, ordered PR pending |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (one-line reason) | REJECTED (one-line rationale)
 

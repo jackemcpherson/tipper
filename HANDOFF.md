@@ -258,3 +258,31 @@ pre-deadline model. The entry points now exclude later first lineups from
 the season-start target, with no change to any campaign configuration.
 Weather's limited run completed, but promotion-quality
 testing is blocked by absent historical forecasts.
+
+## Task 41 Handover, 2026-09-05
+
+Task 41 prepares release 3.5.0. The primary stays `predha-080`, hash
+`2641f46f`. Task 40 found no promotion candidate. Its independent review and
+frozen replay proofs live in `docs/task-41-ship-mode.md`.
+
+The Worker appends completed captures with consumed lineups, rating inputs,
+and the available Squiggle field. `t40-od` writes only to the archive.
+`GET /tips` serves primary rows with canonical Squiggle ids when available.
+The typed monitor runs Monday 22:00 UTC and retains its CSV evidence before
+failing on a genuine market alert.
+
+The frozen 2027 bar is in `docs/trial-2027-adjudication.md`. Use
+`tipper trial --season 2027` on a complete prospective season. Promotion
+requires at least 30 extra non-draw tips and the primary CI rule or its fixed
+fallback cuts. Historical reconstructions never qualify.
+
+AFL-MCP PR #183 owns additive migration `0021`. The infrastructure PR pins
+the released main artefact and reuses the existing public hostname.
+Homepage's sibling PR documents the changed interfaces. Leave sibling merges
+and production migration or apply steps to Jack.
+
+Follow `docs/comp-entry-checklist.md` for the token secret, deployment checks,
+rehearsal calendar, and copyable contact draft. Jack explicitly prohibited
+Squiggle contact and submissions until he says so. GitHub pushes, PRs, tipper
+merges, and releases have separate approval. No Squiggle contact, submission,
+production publishing command, migration, or deployment ran in this task.
