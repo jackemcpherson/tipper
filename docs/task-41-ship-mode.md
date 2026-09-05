@@ -112,3 +112,46 @@ and published-row gate passed again after the comparison fix.
 The generator emits double-quoted JSON, while the committed file uses
 Biome's formatted string. Running Biome restores byte identity. The primary
 config and content hash never changed.
+
+## Adviser Integration, 2026-09-05
+
+All four commits now exist on local `chore/land-advisor-branches`.
+The cherry-picks are `0b87f3d`, `089f1c2`, `56e5d6f`, and `148e9ca`.
+Both CLI conflicts retain every command. The Worker directory remains intact.
+The historical Task 39 spike has a dated correction for the restored Worker.
+
+The monitor's log path originally resolved above the repository. The corrected
+path points to tipper's `analysis/monitor-log.csv`. Both `export-tips` and
+`monitor` appear in the built CLI help. README usage lists both commands.
+The homepage worktree at `/private/tmp/tipper-ship-homepage` documents them.
+
+`bun analysis/task41-monitor-golden.ts` passes against the original Python
+scoring functions for 422 frozen 2026 predictions. The combined model-specific
+close bands contain 171 non-draw predictions, with 104 correct signs.
+This checks each model's own close band. The live command uses v3's common
+close band for cross-model comparison.
+
+`bun src/cli/index.ts monitor --season 2026` also succeeds against live D1
+and Squiggle. On 211 completed games, comp totals are v3 155, OD 156, v4 149,
+and Punters 156. V3's common close band has 83 games, with correct signs
+of 52 for v3, 53 for OD, 46 for v4, and 53 for Punters. The market gap is -1.
+No log flag or prediction write command ran.
+
+The independent follow-up review confirmed both Task 40 repairs. Standard
+normal error peaks at 4.44e-16 across all 8,001 reference points. The Python
+fixture also passed independent regeneration. Legacy output remains exact.
+
+The frozen 2025 R10 replay has nine changed margins versus original main.
+The maximum change is 0.0225728046 points, with no winner changes. Its maximum
+home probability change is 0.0002764122. Original Task 40 and repaired Task 40
+produce identical objects for all nine matches.
+
+AFL-MCP already has migrations through `0020_drop_legacy_weather_columns.sql`.
+The archive must use `0021`, rather than the prompt's stale `0016` number.
+
+The full Python monitor also ran with frozen campaign results, live Squiggle
+reads, refresh disabled, and its CSV redirected to `/private/tmp/`.
+Its tips, ranks, common close-band scores, field percentage, and market gap
+match the typed live command. The Python CSV is
+`/private/tmp/tipper-monitor-python.csv`. Integration validation passes:
+26 test files, 259 tests, typecheck, Biome, and build.

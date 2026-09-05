@@ -18,15 +18,15 @@ which add CLI/analysis code but never touch the model.
 
 | Plan | Title | Priority | Effort | Depends on | Status |
 |------|-------|----------|--------|------------|--------|
-| 001 | OD-split (v5) October promotion-gate harness | P1 | M | — | DONE ✅ (APPROVED; gate 4 PASS, +1 marginal; branch worktree-agent-a14d6e4965c6feee1) |
+| 001 | OD-split (v5) October promotion-gate harness | P1 | M | — | INTEGRATED LOCALLY 2026-09-05; PR publishing awaits approval |
 | 002a | Audit/enrich weather data upstream (AFL-MCP / fitzRoy-ts) | P2 | S–M | — | DONE ✅ (APPROVED; NO-ENRICH; 100% AFLM weather coverage 2010–2025; findings doc in AFL-MCP/docs/weather-coverage-audit.md) |
-| 002b | Pre-registered univariate test of weather signal (tipper) | P2 | S–M | 002a | DONE ✅ (APPROVED; verdict NO-GO — weather within noise, residual sign reverses across windows; → documented-negatives; branch worktree-agent-a33f0dc9c432b9bf6) |
-| 003 | Spike Squiggle submission channel + tip-export command | P2 | S–M | — | DONE ✅ (APPROVED; spike: Squiggle is pull-based/no push API → dry-run `export-tips` formatter, 15 tests; commit 8ad4a54; branch worktree-agent-a4df7bb01c76f9b1d) |
-| 004 | Port the weekly comp monitor's scoring core into the typed CLI | P3 | M | — | DONE ✅ (APPROVED; golden check matches weekly-monitor.py EXACTLY on 2026 data; pure tested score.ts, no subprocess; commit f100083; branch worktree-agent-a5791a21dc788c9c6) |
-| 005 | Land the four approved advisor branches onto main | P1 | S | — | TODO |
-| 006 | Pre-register A2 October bundle + one-button eval harness | P1 | M | 005 | TODO |
+| 002b | Pre-registered univariate test of weather signal (tipper) | P2 | S–M | 002a | INTEGRATED LOCALLY 2026-09-05; PR publishing awaits approval |
+| 003 | Spike Squiggle submission channel + tip-export command | P2 | S–M | — | INTEGRATED LOCALLY 2026-09-05; PR publishing awaits approval |
+| 004 | Port the weekly comp monitor's scoring core into the typed CLI | P3 | M | — | INTEGRATED LOCALLY 2026-09-05; PR publishing awaits approval |
+| 005 | Land the four approved advisor branches onto main | P1 | S | — | IN PROGRESS; four commits cherry-picked, CI/merge await publishing approval |
+| 006 | Pre-register A2 October bundle + one-button eval harness | P1 | M | 005 | SUPERSEDED by Task 40 campaign; historical research closed |
 | 007 | 2027 comp entry: gameid resolver, tips-endpoint skeleton, contact checklist | P2 | M | 005 | TODO |
-| 008 | Travel-distance/timezone univariate probe (D5 resurrection) | P3 | S–M | — | TODO |
+| 008 | Travel-distance/timezone univariate probe (D5 resurrection) | P3 | S–M | — | SUPERSEDED by Task 40 campaign; historical research closed |
 | 009 | Weekly comp monitor as GitHub Actions cron | P3 | S | 005 | TODO |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (one-line reason) | REJECTED (one-line rationale)
@@ -92,3 +92,10 @@ pipeline than in tipper. Resolved by splitting the original plan 002:
   `analysis/od-consensus-gate-verdict.md` (on the 001 branch), `HANDOFF.md`,
   `src/engine/metrics.ts`, `.github/workflows/ci.yml`, `docs/task-26-rest-travel.md`.
   Correctness/security/tests/perf/deps still un-audited across both rounds.
+
+## Task 41 addendum, 2026-09-05
+
+The ship-mode prompt supersedes plan 005's stale base and merge instructions.
+Four single commits were cherry-picked, preserving the Worker. The two CLI
+registration conflicts retain publish, export-tips, and monitor. Publication
+awaits explicit approval after automatic review rejected the GitHub push.

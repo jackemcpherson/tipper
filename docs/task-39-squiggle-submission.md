@@ -104,3 +104,10 @@ a live feed, the export command would need to call `api.squiggle.com.au/?q=games
 round=R` and match by `(hteam, ateam)` — using the name map — to resolve the `gameid`
 for each game before serving the endpoint. This lookup is straightforward but adds a
 Squiggle API dependency that belongs in the live-feed follow-up plan.
+
+## Addendum, 2026-09-05
+
+The Worker returned in tipper PR 30 and now publishes primary predictions
+on a schedule. Task 41 extends that Worker with an archive, shadow capture,
+and a public tips endpoint. The retirement statement above records the
+June spike's context. Squiggle acceptance and format agreement remain manual.

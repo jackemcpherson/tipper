@@ -31,7 +31,7 @@ import type { SquiggleGame, SquiggleTip } from "../monitor/squiggle.js";
 import { fetchSquiggleField } from "../monitor/squiggle.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = resolve(__dirname, "..", "..", "..", "..");
+const REPO_ROOT = resolve(__dirname, "..", "..", "..");
 const LOG_PATH = join(REPO_ROOT, "analysis", "monitor-log.csv");
 
 const LOG_COLUMNS = [
