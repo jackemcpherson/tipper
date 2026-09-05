@@ -297,5 +297,5 @@ passes 293 tests in 31 files, typecheck, Biome, and build.
 
 Infra already enables the Worker's public hostname. The intended URL is
 `https://tipper.jackemcpherson.workers.dev/tips`. The prompt's statement that
-the Worker has no public hostname is stale. No new DNS resource is needed.
+the Worker has no public hostname is stale. The endpoint needs no new DNS resource.
 The sibling change must pin the new artefact after a green main build.
