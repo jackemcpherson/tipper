@@ -1,6 +1,7 @@
 /** Execute the committed registration. Config/result writes are create-only. */
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { computeConfigHash } from "../src/config/hash.js";
 import { type Config, ConfigSchema } from "../src/config/schema.js";
@@ -108,6 +109,17 @@ export function candidates(): Candidate[] {
   add("t40-finals-ha", "E", baseline, (c) => {
     c.output.finals_home_advantage = 0;
   });
+  for (const feature of ["involvement", "intercepts", "pressure", "shots"] as const) {
+    add(`t40-rich-${feature}`, "C", baseline, (c) => {
+      c.pav.involvement_feature = feature;
+    });
+  }
+  for (const mode of ["current", "normalized", "corrected"] as const) {
+    add(`t40-pav-${mode}`, "F", baseline, (c) => {
+      if (mode !== "normalized") c.pav.league_average = "current_season";
+      if (mode !== "current") c.pav.normalize_zone_pools = true;
+    });
+  }
   return entries;
 }
 
@@ -130,7 +142,23 @@ if (import.meta.main) {
   const ids = idIndex < 0 ? undefined : process.argv[idIndex + 1]?.split(",");
   const data = loadSnapshot();
   const extra = JSON.parse(readFileSync("/tmp/tipper-task40-extra.json", "utf8"));
+  const extraHash = createHash("sha256")
+    .update(readFileSync("/tmp/tipper-task40-extra.json"))
+    .digest("hex");
+  const newConfigs: string[] = [];
   data.venueGeoById = new Map(extra.venues.map((v: { id: number }) => [v.id, v]));
+  const richStats = new Map(
+    extra.stats.map((s: { match_id: number; player_id: number }) => [
+      `${s.match_id}:${s.player_id}`,
+      s,
+    ]),
+  );
+  data.statsByMatch = new Map(
+    [...data.statsByMatch].map(([id, rows]) => [
+      id,
+      rows.map((row) => ({ ...row, ...(richStats.get(`${id}:${row.player_id}`) ?? {}) })),
+    ]),
+  );
   const engineCommit = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
   const entries = candidates().filter(
     (entry) =>
@@ -186,7 +214,10 @@ if (import.meta.main) {
       mkdirSync(directory, { recursive: true });
       const configPath = `${directory}/config.json`;
       if (existsSync(configPath)) assert.deepEqual(readConfig(config.id), config);
-      else writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`, { flag: "wx" });
+      else {
+        writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`, { flag: "wx" });
+        newConfigs.push(configPath);
+      }
       if (existsSync(resultPath)) {
         console.log(`Already frozen: ${config.id}`);
         continue;
@@ -225,6 +256,7 @@ if (import.meta.main) {
               engineCommit,
               snapshot: "705f3d2bed9f5db50d726718adf41ef732d56f590255041590f77a6849bbdd17",
               completeWarmupPriors: true,
+              extraSnapshot: extraHash,
             },
           },
           null,
@@ -237,4 +269,5 @@ if (import.meta.main) {
       );
     }
   }
+  if (newConfigs.length) execFileSync("bunx", ["biome", "format", "--write", ...newConfigs]);
 }

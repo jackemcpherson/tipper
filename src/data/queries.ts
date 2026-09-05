@@ -165,7 +165,7 @@ export async function fetchPlayerStatsForMatches(
              goals, behinds, goal_assists,
              marks_inside_fifty, free_kicks_for, free_kicks_against,
              hitouts, inside_fifties, rebounds, clearances,
-             metres_gained
+             metres_gained, shots_at_goal, score_involvements, intercepts, pressure_acts
       FROM player_match_stats
       WHERE match_id IN (${placeholders})
     `;

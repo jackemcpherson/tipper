@@ -182,7 +182,8 @@ baseline predictions and reports its covered subset separately.
 
 Run a family with `bun analysis/task40-campaign.ts --family A`, replacing
 the letter with B, C, D, E or F. Run all with
-`bun analysis/task40-campaign.ts`. Score with
+`bun analysis/task40-campaign.ts`. `--ids` accepts comma-separated base IDs
+to resume a subset without changing its registration. Score with
 `bun analysis/task40-score.ts`. The runner writes validated config JSON and
 hash-matched results under each new directory, refusing any overwrite.
 The analysis scripts are the authoritative commands for fitted tables and
@@ -408,6 +409,26 @@ Fetched supplementary inputs read-only to `/tmp/tipper-task40-extra.json`:
 107 venues, 3,475 matches, 3,532 weather rows and player-stat rows by season.
 No new model candidate results have been computed yet. F1/F2 are registered
 above; the remaining candidate matrix follows the completed ledger review.
+
+Completed the first 39 variants, each on all three windows, at engine commit
+`c115982`. Stored results include the frozen source hash and full config hash.
+`analysis/task40-score-stage1.json` contains exact metric checks, historical
+and extended paired CIs, round-block CIs, both probability heads, every
+season, team and venue, and the consensus guards. No historical results were
+overwritten. Source snapshots contain no 2016 field tips; the consensus gate
+uses its registered primary/full-2026 scope, not fabricated early coverage.
+
+V3 has 152 tips in 211 scored 2026 matches. OD has 153, full-dose shot Elo
+150, and v4 146. T38c's registered full-season kill is met. OD's historical
+pooled LL delta is -0.005433 with CI [-0.011012,0.000785]; adding R14+
+gives -0.005543 with CI [-0.011347,0.000400]. More data did not resolve
+its uncertainty. The early-selected reverse-grid variant is k=0.12,
+RTM=0.4, but it loses two consensus-wrong tips and fails that guard.
+
+One first-batch variant clears all incumbent numerical gates,
+`t40-od-shot-075`. Its corrected-head and prospective status must remain
+separate from that fact. Other registered candidate families are unfinished;
+this is not a final recommendation.
 
 ## Appendix: commands and provenance
 

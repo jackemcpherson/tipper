@@ -52,6 +52,9 @@ export const ConfigSchema = z.object({
     prior_weight_k: z.number().nonnegative(),
     prior_source: z.enum(["previous_season_final"]),
     missing_player_default: z.number(),
+    league_average: z.literal("current_season").optional(),
+    normalize_zone_pools: z.boolean().optional(),
+    involvement_feature: z.enum(["involvement", "intercepts", "pressure", "shots"]).optional(),
     // Optional (not defaulted): the hash covers the parsed config, so a
     // .default() here would change every existing config's hash and
     // invalidate their results files. Absent means 0 (off).

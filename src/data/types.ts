@@ -78,6 +78,10 @@ export interface PlayerMatchStatsRow {
   readonly rebounds: number | null;
   readonly clearances: number | null;
   readonly metres_gained: number | null;
+  readonly shots_at_goal?: number | null;
+  readonly score_involvements?: number | null;
+  readonly intercepts?: number | null;
+  readonly pressure_acts?: number | null;
 }
 
 export interface MatchLineupRow {

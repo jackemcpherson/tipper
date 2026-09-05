@@ -3,6 +3,7 @@ import type { Config } from "../../src/config/schema.js";
 import type { MatchRow, PlayerMatchStatsRow } from "../../src/data/types.js";
 import {
   computeDefScore,
+  computeInvolvementScores,
   computeMidScore,
   computeOffScore,
   computePlayerPav,
@@ -67,6 +68,51 @@ function makeMatch(overrides: Partial<MatchRow> = {}): MatchRow {
     ...overrides,
   };
 }
+
+describe("registered PAV accounting and involvement variants", () => {
+  it("falls back exactly for missing rich stats and changes only the selected zone", () => {
+    const stats = makePlayerStats();
+    const legacy = computeInvolvementScores(stats);
+    expect(computeInvolvementScores(stats, "shots")).toEqual(legacy);
+    expect(computeInvolvementScores(stats, "pressure")).toEqual(legacy);
+    expect(computeInvolvementScores({ ...stats, score_involvements: 4 }, "involvement")).toEqual({
+      ...legacy,
+      offScore: legacy.offScore + 12,
+    });
+    expect(computeInvolvementScores({ ...stats, intercepts: 3 }, "intercepts")).toEqual({
+      ...legacy,
+      defScore: legacy.defScore + 36,
+    });
+    expect(computeInvolvementScores({ ...stats, pressure_acts: 10 }, "pressure")).toEqual({
+      ...legacy,
+      midScore: legacy.midScore + 30,
+    });
+    expect(computeInvolvementScores({ ...stats, shots_at_goal: 4 }, "shots").offScore).toBeCloseTo(
+      legacy.offScore + 4 * 3.64 - 13,
+      12,
+    );
+  });
+
+  it("normalises zone pools and applies rich credit to both numerator and denominator", () => {
+    const state = createPavSeasonState(2);
+    const home = makePlayerStats({ player_id: 1, team_id: 100, score_involvements: 10 });
+    const away = makePlayerStats({
+      player_id: 2,
+      team_id: 200,
+      inside_fifties: 10,
+      score_involvements: 5,
+    });
+    updatePavState(state, makeMatch(), [home, away], undefined, "involvement");
+    expect(state.playerInvolvement.get(1)?.offScore).toBe(computeOffScore(home) + 30);
+    expect(state.teamInvolvement.get(100)?.offTotal).toBe(computeOffScore(home) + 30);
+    const h = computePlayerPav(state, 1, 100, 0, true);
+    const a = computePlayerPav(state, 2, 200, 0, true);
+    expect(h.offPav + a.offPav).toBeCloseTo(200, 10);
+    expect(h.midPav + a.midPav).toBeCloseTo(200, 10);
+    expect(h.defPav + a.defPav).toBeCloseTo(200, 10);
+    expect(computePlayerPav(state, 1, 100, 0, false)).toEqual(computePlayerPav(state, 1, 100));
+  });
+});
 
 describe("computeOffScore", () => {
   it("computes offensive involvement correctly", () => {

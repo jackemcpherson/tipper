@@ -270,7 +270,7 @@ export function runHarness(
       if (isTrain) {
         // Train seasons: Elo-only, no PAV needed
         pavState = createPavSeasonState(numTeams);
-      } else if (priorLeague) {
+      } else if (priorLeague && config.pav.league_average !== "current_season") {
         pavState = createPavSeasonStateWithPriorLeague(numTeams, priorLeague);
       } else {
         pavState = createPavSeasonState(numTeams);
@@ -340,10 +340,16 @@ export function runHarness(
       // PAV only updates in test seasons (train is Elo-only)
       if (!isTrain) {
         const matchStats = data.statsByMatch.get(match.id) ?? [];
-        updatePavState(pavState, match, matchStats, {
-          home: (awayEloPre - config.elo.initial_rating) / 400,
-          away: (homeEloPre - config.elo.initial_rating) / 400,
-        });
+        updatePavState(
+          pavState,
+          match,
+          matchStats,
+          {
+            home: (awayEloPre - config.elo.initial_rating) / 400,
+            away: (homeEloPre - config.elo.initial_rating) / 400,
+          },
+          config.pav.involvement_feature,
+        );
       }
     }
   }
@@ -433,7 +439,7 @@ export function runPredict(
 
       if (config.backtest.train_seasons.includes(currentYear ?? -1)) {
         pavState = createPavSeasonState(numTeams);
-      } else if (priorLeague) {
+      } else if (priorLeague && config.pav.league_average !== "current_season") {
         pavState = createPavSeasonStateWithPriorLeague(numTeams, priorLeague);
       } else {
         pavState = createPavSeasonState(numTeams);
@@ -511,10 +517,16 @@ export function runPredict(
       }
       if (!isTrain) {
         const matchStats = data.statsByMatch.get(match.id) ?? [];
-        updatePavState(pavState, match, matchStats, {
-          home: (awayEloPre - config.elo.initial_rating) / 400,
-          away: (homeEloPre - config.elo.initial_rating) / 400,
-        });
+        updatePavState(
+          pavState,
+          match,
+          matchStats,
+          {
+            home: (awayEloPre - config.elo.initial_rating) / 400,
+            away: (homeEloPre - config.elo.initial_rating) / 400,
+          },
+          config.pav.involvement_feature,
+        );
       }
     }
   }
@@ -705,6 +717,7 @@ function sumTeamPav(
       player.player_id,
       player.team_id,
       config.pav.opponent_adjustment_alpha ?? 0,
+      config.pav.normalize_zone_pools ?? false,
     );
     const blended = blendWithPrior(
       currentPav,
