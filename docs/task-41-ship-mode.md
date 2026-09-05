@@ -333,7 +333,8 @@ verification continue locally. No remote write has occurred during this task.
 
 ## GitHub Authorization Clarified, 2026-09-05
 
-The maintainer clarified that pushes, PRs, merges, and releases on the owned
-GitHub repositories are authorised. The hold applies to Squiggle contact and
-submissions. Tipper PRs may merge after green CI. Sibling PRs remain unmerged.
+The maintainer authorised pushes, PRs, merges, and releases on the owned
+GitHub repositories. The hold applies to Squiggle contact and submissions.
+Tipper PRs may merge after green CI. Sibling PRs remain open for the maintainer
+to merge.
 Deployment and production migrations remain manual under the original scope.
