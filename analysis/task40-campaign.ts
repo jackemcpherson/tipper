@@ -32,6 +32,9 @@ export function candidates(): Candidate[] {
     entries.push({ id, family, config: ConfigSchema.parse(config) });
   };
   add("t40-baseline", "control", baseline);
+  add("t40-travel-probe", "D", baseline, (c) => {
+    c.notes = "Task 40 Plan 008 diagnostic only; see analysis/task40-travel-results.json.";
+  });
   add("t40-od", "A", od);
   for (const [label, weight] of [
     ["025", 0.25],
@@ -114,6 +117,18 @@ export function candidates(): Candidate[] {
       c.pav.involvement_feature = feature;
     });
   }
+  add("t40-lineup-delta", "C", baseline, (c) => {
+    c.pav.signal = "lineup_delta";
+  });
+  add("t40-position", "C", baseline, (c) => {
+    c.pav.position_weight = 1;
+  });
+  add("t40-tog", "C", baseline, (c) => {
+    c.pav.tog_weight = 1;
+  });
+  add("t40-position-prior", "C", baseline, (c) => {
+    c.pav.position_prior_k = 5;
+  });
   for (const mode of ["current", "normalized", "corrected"] as const) {
     add(`t40-pav-${mode}`, "F", baseline, (c) => {
       if (mode !== "normalized") c.pav.league_average = "current_season";

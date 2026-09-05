@@ -20,6 +20,7 @@ import type { MatchPrediction } from "../types.js";
 import { calibratePav, computeTeamRating, type TeamPavSums } from "./blend.js";
 import { applyRegression, type EloHistory, type EloState, getRating, updateElo } from "./elo.js";
 import { homeAdvantageBucket, travelFeatures, type VenueGeo } from "./geography.js";
+import { adjustLineupPav, createLineupContext, type LineupContext } from "./lineup.js";
 import {
   applyOdRegression,
   createOdState,
@@ -588,8 +589,41 @@ function generatePrediction(
   const homeGamesPlayed = homeTeamStats?.gamesPlayed ?? 0;
   const awayGamesPlayed = awayTeamStats?.gamesPlayed ?? 0;
 
-  const homePav = sumTeamPav(homeLineup, pavState, priorPavMap, homeGamesPlayed, config);
-  const awayPav = sumTeamPav(awayLineup, pavState, priorPavMap, awayGamesPlayed, config);
+  const context =
+    config.pav.signal || config.pav.tog_weight || config.pav.position_prior_k
+      ? createLineupContext(data, match, priorPavMap, config.pav.position_prior_k)
+      : undefined;
+  const homePav = sumTeamPav(homeLineup, pavState, priorPavMap, homeGamesPlayed, config, context);
+  const awayPav = sumTeamPav(awayLineup, pavState, priorPavMap, awayGamesPlayed, config, context);
+  if (config.pav.signal === "lineup_delta" && context) {
+    for (const [teamId, pav, games] of [
+      [match.home_team_id, homePav, homeGamesPlayed],
+      [match.away_team_id, awayPav, awayGamesPlayed],
+    ] as const) {
+      const previous = context.previousLineups.get(teamId) ?? [];
+      if (!previous.length) {
+        pav.off = 0;
+        pav.mid = 0;
+        pav.def = 0;
+        pav.total = 0;
+        continue;
+      }
+      for (const named of previous) {
+        const typical = sumTeamPav(
+          filterLineup(named, teamId, config.pav.include),
+          pavState,
+          priorPavMap,
+          games,
+          config,
+          context,
+        );
+        pav.off -= typical.off / previous.length;
+        pav.mid -= typical.mid / previous.length;
+        pav.def -= typical.def / previous.length;
+      }
+      pav.total = pav.off + pav.mid + pav.def;
+    }
+  }
 
   const homeTeamRating = computeTeamRating(homeEloUsed, homePav, config.blend);
   const awayTeamRating = computeTeamRating(awayEloUsed, awayPav, config.blend);
@@ -707,6 +741,7 @@ function sumTeamPav(
   priorPavMap: PriorPavMap,
   teamGamesPlayed: number,
   config: Config,
+  context?: LineupContext,
 ): TeamPavSums {
   let off = 0;
   let mid = 0;
@@ -719,12 +754,15 @@ function sumTeamPav(
       config.pav.opponent_adjustment_alpha ?? 0,
       config.pav.normalize_zone_pools ?? false,
     );
-    const blended = blendWithPrior(
+    let blended = blendWithPrior(
       currentPav,
-      priorPavMap.get(player.player_id),
+      context?.priorOverrides.get(player.player_id) ?? priorPavMap.get(player.player_id),
       teamGamesPlayed,
       config.pav,
     );
+    if (config.pav.position_weight || config.pav.tog_weight) {
+      blended = adjustLineupPav(blended, player, config.pav, context);
+    }
     off += blended.offPav;
     mid += blended.midPav;
     def += blended.defPav;

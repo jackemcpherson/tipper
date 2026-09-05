@@ -430,6 +430,33 @@ One first-batch variant clears all incumbent numerical gates,
 separate from that fact. Other registered candidate families are unfinished;
 this is not a final recommendation.
 
+The corrected normal head reduces OD-shot0.75's primary LL improvement
+from 0.006891 to 0.003810. Its historical pooled corrected-head CI is
+[-0.008939,0.001898]. It therefore fails the corrected numerical bar as
+well as lacking prospective confirmation. The incumbent numerical pass is
+real under its frozen definition; it is not a validated promotion.
+
+Ran rich-involvement and PAV-accounting variants at `858b0bf`. Primary
+LL changes are small, from -0.000089 for pressure to +0.000070 for
+score involvements. Neither a direct rich statistic nor exact zone pools
+has yet shown a promotion-sized effect. Full guards remain to be scored.
+
+`bun analysis/task40-travel.ts` completed Plan 008, recorded in
+`analysis/task40-travel-results.json`. All 20 primary and 22 early venues
+map, and the historical binary counts exactly reproduce 1115 away-only,
+17 home-only, 165 both-travelled and 593 both-local matches. Primary
+residual slope is 1.066 points/1000km, CI [-0.935,3.001], and 4.121
+points/timezone hour, CI [1.652,6.851]. The early timezone slope has the
+same sign. Close-game high-travel accuracy is 5.50pp lower in primary
+but 2.32pp higher in early, so both the weak and strong Plan 008 rules
+return NO-GO. This kills the registered probe, not all travel modelling.
+
+Remaining execution includes lineup signal shape, position/TOG/shrinkage,
+age variants, rating points, team-venue interactions, quarter/minutes,
+weather/roof, rushed behinds, derived/scalar gains and finals gain. The
+power/selection audit, complete result figures, final report and handoff
+are also unfinished. Do not infer campaign completion from these checkpoints.
+
 ## Appendix: commands and provenance
 
 ```sh

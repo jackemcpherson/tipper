@@ -5,7 +5,7 @@ export interface VenueGeo {
   timezone: string | null;
 }
 
-const TEAM_STATE: Record<string, string> = {
+export const TEAM_STATE: Readonly<Record<string, string>> = {
   Carlton: "VIC",
   Collingwood: "VIC",
   Essendon: "VIC",
@@ -25,7 +25,7 @@ const TEAM_STATE: Record<string, string> = {
   Sydney: "NSW",
   "GWS Giants": "NSW",
 };
-const VENUE_STATE: Record<string, string> = {
+export const VENUE_STATE: Readonly<Record<string, string>> = {
   MCG: "VIC",
   "Marvel Stadium": "VIC",
   "Kardinia Park": "VIC",
