@@ -73,7 +73,7 @@ export function buildArchiveRows(
       competition: context.competition,
       season_year: context.season,
       round_number: context.roundNumber,
-      round_first_kickoff: context.firstKickoff,
+      round_first_kickoff: context.firstKickoff.padEnd(19, ":00"),
       match_kickoff: `${match.date}T${match.local_time ? match.local_time.padEnd(8, ":00") : "00:00:00"}`,
       is_primary: Number(context.isPrimary),
       home_win_prob: published.home_win_prob,
