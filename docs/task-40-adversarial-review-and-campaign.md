@@ -378,6 +378,17 @@ repairs require separate accounting because they cannot change winner signs.
 
 ## Completion checklist
 
+### Training-fit implementation clarification, before C6/E1 results
+
+E1 subtracts the existing OD update HA of 10 points from home margins and
+negates that value for away observations. R uses pooled within-team-season
+residual sums of squares divided by observations minus team-season cells.
+Adjacent-season sampling variance is R/n1+R/n2; the regression has an
+intercept. Both members of every fitted pair are within 2010-2014.
+C6's 20 pseudo-pairs use each age cell's mean prior zone PAV on both sides,
+so the shrinkage has the same units as the pooled numerator and denominator.
+Missing next-year player rows count as zero, including exits.
+
 - [x] Read the complete supplied campaign instructions.
 - [x] Create `research/adversarial-campaign-2026-09` from current HEAD.
 - [x] Reproduce the four specified historical baselines.

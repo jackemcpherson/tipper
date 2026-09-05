@@ -204,6 +204,7 @@ export function runHarness(
   // Placeholder — replaced at the first season boundary below.
   let pavState: PavSeasonState = createPavSeasonState(0);
   let priorPavMap: PriorPavMap = new Map();
+  let unadjustedPriorPavMap: PriorPavMap = new Map();
   let priorLeague: LeagueAccumulator | null = null;
   const offsetConfig = config.output.team_offset;
   const offsetState: TeamOffsetState = createTeamOffsetState();
@@ -249,8 +250,15 @@ export function runHarness(
       // of the current season; its date proxies R1. No-op when weight is absent
       // (bit-identical to v3) or 0.
       const ageCurveWeight = config.pav.age_curve_weight ?? 0;
+      unadjustedPriorPavMap = priorPavMap;
       if (ageCurveWeight > 0 && data.dobByPlayerId.size > 0) {
-        priorPavMap = applyAgeCurve(priorPavMap, data.dobByPlayerId, match.date, ageCurveWeight);
+        priorPavMap = applyAgeCurve(
+          priorPavMap,
+          data.dobByPlayerId,
+          match.date,
+          ageCurveWeight,
+          config.pav.age_zone_ratios,
+        );
       }
 
       // Apply Elo regression at season boundary (after the prior PAV map
@@ -279,6 +287,12 @@ export function runHarness(
     }
 
     const isTrain = trainSeasonIds.has(match.season_id);
+    if (
+      config.pav.age_curve_max_round !== undefined &&
+      match.round_number > config.pav.age_curve_max_round
+    ) {
+      priorPavMap = unadjustedPriorPavMap;
+    }
     const isTest = testSeasonIds.has(match.season_id);
     const isCompleted = match.home_points !== null && match.away_points !== null;
 
@@ -384,6 +398,7 @@ export function runPredict(
   // Placeholder — replaced at the first season boundary below.
   let pavState: PavSeasonState = createPavSeasonState(0);
   let priorPavMap: PriorPavMap = new Map();
+  let unadjustedPriorPavMap: PriorPavMap = new Map();
   let priorLeague: LeagueAccumulator | null = null;
   const offsetConfig = config.output.team_offset;
   const offsetState: TeamOffsetState = createTeamOffsetState();
@@ -423,8 +438,15 @@ export function runPredict(
       }
 
       const ageCurveWeight = config.pav.age_curve_weight ?? 0;
+      unadjustedPriorPavMap = priorPavMap;
       if (ageCurveWeight > 0 && data.dobByPlayerId.size > 0) {
-        priorPavMap = applyAgeCurve(priorPavMap, data.dobByPlayerId, match.date, ageCurveWeight);
+        priorPavMap = applyAgeCurve(
+          priorPavMap,
+          data.dobByPlayerId,
+          match.date,
+          ageCurveWeight,
+          config.pav.age_zone_ratios,
+        );
       }
 
       if (!isFirstSeason) {
@@ -449,6 +471,12 @@ export function runPredict(
 
     const isCompleted = match.home_points !== null && match.away_points !== null;
     const isTargetRound = match.season_id === targetSeasonId && match.round_number === targetRound;
+    if (
+      config.pav.age_curve_max_round !== undefined &&
+      match.round_number > config.pav.age_curve_max_round
+    ) {
+      priorPavMap = unadjustedPriorPavMap;
+    }
     const isTrain = config.backtest.train_seasons.includes(
       data.seasonYearById.get(match.season_id) ?? -1,
     );

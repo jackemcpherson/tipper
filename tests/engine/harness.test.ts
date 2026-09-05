@@ -87,6 +87,47 @@ const TEST_SEASON = new Set([2]);
 const TRAIN_SEASON = new Set([1]);
 
 describe("campaign boundary repairs", () => {
+  it("restores the unadjusted age prior after R4 in both entry points", () => {
+    const cfg = eloOnlyConfig();
+    cfg.blend.weight_elo = 0;
+    cfg.pav.age_curve_weight = 0.5;
+    cfg.pav.age_curve_max_round = 4;
+    const data = harnessData([
+      matchRow({ id: 1, round_number: 4 }),
+      matchRow({ id: 2, round_number: 5, date: "2025-03-22" }),
+    ]);
+    data.dobByPlayerId.set(11, "2005-01-01");
+    data.priorPavBySeason.set(1, [
+      {
+        id: 1,
+        season_id: 1,
+        player_id: 11,
+        team_id: 1,
+        off_pav: 10,
+        mid_pav: 10,
+        def_pav: 10,
+        total_pav: 30,
+      },
+    ]);
+    for (const m of data.matches)
+      data.lineupsByMatch.set(m.id, [
+        {
+          match_id: m.id,
+          team_id: 1,
+          player_id: 11,
+          position: "C",
+          is_emergency: 0,
+          is_substitute: 0,
+        },
+      ]);
+    const adjusted = runHarness(data, cfg, TRAIN_SEASON, TEST_SEASON).predictions;
+    const control = structuredClone(cfg);
+    delete control.pav.age_curve_weight;
+    const unadjusted = runHarness(data, control, TRAIN_SEASON, TEST_SEASON).predictions;
+    expect(adjusted[0]?.predictedMargin).not.toBe(unadjusted[0]?.predictedMargin);
+    expect(adjusted[1]).toEqual(unadjusted[1]);
+    expect(runPredict(data, cfg, 5, 2).predictions).toEqual([unadjusted[1]]);
+  });
   it("leaves close margins untouched and caps tail offsets before a sign flip", () => {
     const cfg = eloOnlyConfig();
     cfg.elo.k = 1e-9;

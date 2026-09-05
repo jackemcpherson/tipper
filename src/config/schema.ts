@@ -74,6 +74,13 @@ export const ConfigSchema = z.object({
     // Absent = off (bit-identical to v3). Optional (not defaulted) to keep existing
     // config hashes stable.
     age_curve_weight: z.number().min(0).max(1).optional(),
+    age_curve_max_round: z.number().int().nonnegative().optional(),
+    age_zone_ratios: z
+      .array(
+        z.tuple([z.number().nonnegative(), z.number().nonnegative(), z.number().nonnegative()]),
+      )
+      .length(4)
+      .optional(),
     include: z.enum([
       "named_lineup_excl_emerg",
       "named_lineup_incl_emerg",

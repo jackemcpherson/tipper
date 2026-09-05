@@ -10,6 +10,7 @@ import { computeCalibration, computeMetrics } from "../src/engine/metrics.js";
 import { deriveVenueHA } from "../src/engine/venue.js";
 import type { OverallMetrics } from "../src/types.js";
 import { loadSnapshot, seasonIds, selectData } from "./task40-data.js";
+import { fitAgeZones, fitGain } from "./task40-fit.js";
 
 export interface Candidate {
   id: string;
@@ -123,6 +124,17 @@ export function candidates(): Candidate[] {
     c.elo.points_residual_k = 0.04;
     c.elo.home_advantage = 10 / 0.07;
     c.elo.regression_to_mean = 0.2;
+  });
+  add("t40-derived", "E", od);
+  for (const variant of ["r4", "zone", "k30"] as const) {
+    add(`t40-age-${variant}`, "C", baseline, (c) => {
+      c.pav.age_curve_weight = 0.5;
+      if (variant === "r4") c.pav.age_curve_max_round = 4;
+      if (variant === "k30") c.pav.prior_weight_k = 30;
+    });
+  }
+  add("t40-prior-k30", "C", baseline, (c) => {
+    c.pav.prior_weight_k = 30;
   });
   for (const target of ["quarter", "minutes", "rushed"] as const) {
     add(`t40-${target}`, "D", od, (c) => {
@@ -263,6 +275,17 @@ if (import.meta.main) {
       (!ids || ids.includes(entry.id) || entry.family === "control"),
   );
   for (const entry of entries) {
+    if (entry.id === "t40-derived" || entry.id === "t40-age-zone") {
+      const fit = entry.id === "t40-derived" ? fitGain(data) : fitAgeZones(data);
+      const path = `analysis/${entry.id}-fit.json`;
+      if (existsSync(path)) assert.deepEqual(JSON.parse(readFileSync(path, "utf8")), fit);
+      else writeFileSync(path, `${JSON.stringify(fit, null, 2)}\n`, { flag: "wx" });
+      if ("gain" in fit) {
+        assert(entry.config.elo.od);
+        entry.config.elo.od.k = 2 * fit.gain;
+        entry.config.elo.od.regression_to_mean = fit.rtm;
+      } else entry.config.pav.age_zone_ratios = fit.ratios;
+    }
     if (entry.id === "t40-venue-static") {
       const fitConfig = structuredClone(baseline);
       fitConfig.backtest = {
