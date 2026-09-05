@@ -112,3 +112,95 @@ and published-row gate passed again after the comparison fix.
 The generator emits double-quoted JSON, while the committed file uses
 Biome's formatted string. Running Biome restores byte identity. The primary
 config and content hash never changed.
+
+## Adviser Integration, 2026-09-05
+
+All four commits now exist on local `chore/land-advisor-branches`.
+The cherry-picks are `0b87f3d`, `089f1c2`, `56e5d6f`, and `148e9ca`.
+Both CLI conflicts retain every command. The Worker directory remains intact.
+The historical Task 39 spike has a dated correction for the restored Worker.
+
+The monitor's log path originally resolved above the repository. The corrected
+path points to tipper's `analysis/monitor-log.csv`. Both `export-tips` and
+`monitor` appear in the built CLI help. README usage lists both commands.
+The homepage worktree at `/private/tmp/tipper-ship-homepage` documents them.
+
+`bun analysis/task41-monitor-golden.ts` passes against the original Python
+scoring functions for 422 frozen 2026 predictions. The combined model-specific
+close bands contain 171 non-draw predictions, with 104 correct signs.
+This checks each model's own close band. The live command uses v3's common
+close band for cross-model comparison.
+
+`bun src/cli/index.ts monitor --season 2026` also succeeds against live D1
+and Squiggle. On 211 completed games, comp totals are v3 155, OD 156, v4 149,
+and Punters 156. V3's common close band has 83 games, with correct signs
+of 52 for v3, 53 for OD, 46 for v4, and 53 for Punters. The market gap is -1.
+No log flag or prediction write command ran.
+
+The independent follow-up review confirmed both Task 40 repairs. Standard
+normal error peaks at 4.44e-16 across all 8,001 reference points. The Python
+fixture also passed independent regeneration. Legacy output remains exact.
+
+The frozen 2025 R10 replay has nine changed margins versus original main.
+The maximum change is 0.0225728046 points, with no winner changes. Its maximum
+home probability change is 0.0002764122. Original Task 40 and repaired Task 40
+produce identical objects for all nine matches.
+
+AFL-MCP already has migrations through `0020_drop_legacy_weather_columns.sql`.
+The archive must use `0021`, rather than the prompt's stale `0016` number.
+
+The full Python monitor also ran with frozen campaign results, live Squiggle
+reads, refresh disabled, and its CSV redirected to `/private/tmp/`.
+Its tips, ranks, common close-band scores, field percentage, and market gap
+match the typed live command. The Python CSV is
+`/private/tmp/tipper-monitor-python.csv`. Integration validation passes:
+26 test files, 259 tests, typecheck, Biome, and build.
+
+## Archive Contract, 2026-09-05
+
+The draft migration lives in `/private/tmp/tipper-ship-afl-mcp` on
+`feat/prediction-archive`, based on AFL-MCP main `c3f964c`.
+It adds one table, `prediction_archive`, with one match/model/capture key.
+The writer will use inserts only. The key prevents duplicate captures from
+replacing earlier evidence. Each row stores the game's subset of a round's
+Squiggle response, including all available sources. This avoids repeating
+the complete round response in every match row.
+
+```text
+publish tick
+  primary prediction reads named lineups
+  primary upserts match_predictions
+  capture field for round
+  append primary outputs + exact consumed lineups + rating inputs
+  run shadow with its own consumed lineups
+  append shadow outputs + inputs only
+
+at lock
+  captured_at in Melbourne < round_first_kickoff
+  captured_at in Melbourne < match_kickoff
+  select latest eligible row per match and model
+  pair models on match_id
+```
+
+The capture instant follows prediction completion. Captures that finish after
+kickoff cannot become at-lock evidence. The archive retains both kickoff
+values in Melbourne wall time. Unknown kickoff times use midnight, matching
+the existing publisher's conservative freeze. The implementation must retain
+lineups from the prediction fetch, without a second lineup query.
+
+AFL-MCP's schema SQL, MCP schema output, coverage contract, integration setup,
+and schema document include the new table. The migration tests exercise
+multiple captures, duplicate rejection, home orientation, unchanged primary
+rows, probability bounds, and JSON validity. No production migration ran.
+
+The sibling typecheck and Biome checks pass. Its full test suite requires
+Miniflare to bind `localhost`, which the sandbox initially denied. The retry
+uses permission for local test execution. Existing sibling documentation has
+75 Vale errors. New sections receive a separate prose check.
+
+AFL-MCP's local retry passed all 34 test files and 265 tests, including the
+new migration tests. Its PR description is ready at
+`/private/tmp/tipper-afl-pr.md`. Opening the PR still awaits publishing
+approval. The tests only applied migrations to Miniflare's local D1 database.
+
+The local AFL-MCP migration commit is `4231484`.

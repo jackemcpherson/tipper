@@ -6,6 +6,8 @@ import { backtestCommand } from "./commands/backtest.js";
 import { calibrateCommand } from "./commands/calibrate.js";
 import { compareCommand } from "./commands/compare.js";
 import { configCommand } from "./commands/config/index.js";
+import { exportTipsCommand } from "./commands/export-tips.js";
+import { monitorCommand } from "./commands/monitor.js";
 import { predictCommand } from "./commands/predict.js";
 import { publishCommand } from "./commands/publish.js";
 
@@ -22,8 +24,10 @@ program.addCommand(configCommand);
 program.addCommand(backtestCommand);
 program.addCommand(calibrateCommand);
 program.addCommand(compareCommand);
+program.addCommand(monitorCommand);
 program.addCommand(predictCommand);
 program.addCommand(publishCommand);
+program.addCommand(exportTipsCommand);
 
 try {
   await program.parseAsync(process.argv);
