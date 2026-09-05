@@ -1,56 +1,56 @@
 # TypeScript Development Style Guide
 
-Project conventions, tech stack, and design principles for TypeScript development.
-Informed by the Google TypeScript Style Guide, the Astral (uv/ruff) philosophy of
-fast single-purpose tooling, and FastAPI patterns adapted for the TypeScript ecosystem.
+Project conventions, tech stack, and design principles for TypeScript
+development. Informed by the Google TypeScript Style Guide, the Astral (uv/ruff)
+philosophy of fast single-purpose tooling, and FastAPI patterns adapted for the
+TypeScript ecosystem.
 
 ---
 
 ## Tech Stack
 
+Use this toolchain for project development, validation, and deployment.
+
 ### Core
 
-| Tool | Role | Why |
-|------|------|-----|
-| **TypeScript** | Language | Strict mode, always |
-| **Hono** | Web framework | Lightweight, Workers-native, typed routes — the FastAPI of TS |
-| **Zod** | Runtime validation | Pydantic equivalent — define once, get types + validation |
-| **D1** | Database | Cloudflare's SQLite — co-located with Workers |
-| **Drizzle ORM** | Database ORM | Type-safe SQL, D1-native, schema as code |
+| Tool            | Role               | Why                                                          |
+| --------------- | ------------------ | ------------------------------------------------------------ |
+| **TypeScript**  | Language           | Strict mode, always                                          |
+| **Hono**        | Web framework      | Lightweight, Workers-native, typed routes: the FastAPI of TS |
+| **Zod**         | Runtime validation | Pydantic equivalent: define once, get types + validation     |
+| **D1**          | Database           | Cloudflare's SQLite: co-located with Workers                 |
+| **Drizzle ORM** | Database ORM       | Type-safe SQL, D1-native, schema as code                     |
 
 ### Tooling
 
-| Tool | Role | Python equivalent |
-|------|------|-------------------|
-| **Bun** | Package manager + script runner + bundler | uv |
-| **Biome** | Lint + format (single tool) | ruff |
-| **Vitest** | Test runner | pytest |
-| **wrangler** | Dev server + deploy CLI | uvicorn + deployment |
-| **tsc** | Type checker | mypy |
+| Tool         | Role                                      | Python equivalent    |
+| ------------ | ----------------------------------------- | -------------------- |
+| **Bun**      | Package manager + script runner + bundler | uv                   |
+| **Biome**    | Lint + format (single tool)               | ruff                 |
+| **Vitest**   | Test runner                               | pytest               |
+| **wrangler** | Dev server + deploy CLI                   | uvicorn + deployment |
+| **tsc**      | Type checker                              | mypy                 |
 
-**Why Bun over pnpm/npm:** Bun is the closest analogue to uv — a single
-Rust/Zig binary that handles package management, script running, and
-bundling. `bun install` is significantly faster than npm/pnpm. Bun also
-includes a built-in test runner (`bun test`), but we use Vitest for
-Workers-specific tests because of its Miniflare integration for testing
-D1, KV, and other Cloudflare bindings locally.
+**Why Bun over pnpm/npm:** Bun resembles uv as one Rust/Zig binary. It handles
+package management, script execution, and bundling. `bun install` runs faster
+than npm or pnpm. Bun also includes a built-in test runner (`bun test`). We use
+Vitest because Miniflare can test D1, KV, and other Cloudflare bindings locally.
 
-**Important:** Bun is used as the package manager and local runner, but
-the code still deploys to Cloudflare Workers (which uses the V8 runtime,
-not Bun's runtime). Don't rely on Bun-specific APIs (`Bun.file()`,
-`Bun.serve()`, etc.) in application code — stick to Web Standard APIs
-(`fetch`, `Request`, `Response`, `crypto`) which work in both Bun and
-Workers. This keeps the codebase portable.
+**Important:** The project uses Bun as its package manager and local runner.
+However, the code deploys to the Cloudflare Workers V8 runtime. Do not use
+Bun-specific APIs such as `Bun.file()` or `Bun.serve()` in application code. Use
+Web Standard APIs such as `fetch`, `Request`, `Response`, and `crypto`. These
+APIs work in Bun and Workers, which keeps the codebase portable.
 
 ### Infrastructure (Cloudflare)
 
-| Service | Role |
-|---------|------|
-| **Workers** | Compute (HTTP handlers + cron triggers) |
-| **D1** | SQLite database |
-| **Vectorize** | Vector search index |
-| **Workers AI** | Embedding generation |
-| **Dynamic Workers** | Sandboxed code execution (Code Mode) |
+| Service             | Role                                    |
+| ------------------- | --------------------------------------- |
+| **Workers**         | Compute (HTTP handlers + cron triggers) |
+| **D1**              | SQLite database                         |
+| **Vectorize**       | Vector search index                     |
+| **Workers AI**      | Embedding generation                    |
+| **Dynamic Workers** | Sandboxed code execution (Code Mode)    |
 
 ### Package Scripts
 
@@ -67,8 +67,9 @@ Workers. This keeps the codebase portable.
 }
 ```
 
-All scripts are invoked via `bun run <name>` (e.g., `bun run dev`, `bun run test`).
-For one-off commands, use `bunx` (equivalent to `uvx`): `bunx wrangler deploy`.
+Invoke all scripts through `bun run <name>` (for example, `bun run dev`,
+`bun run test`). For one-off commands, use `bunx` (equivalent to `uvx`):
+`bunx wrangler deploy`.
 
 ### Project Setup
 
@@ -91,8 +92,8 @@ bunx @biomejs/biome init
 bun run dev
 ```
 
-**Lock file:** Bun uses `bun.lockb` (binary format). Commit it to version control
-— it's the equivalent of `uv.lock`.
+**Lock file:** Bun uses `bun.lockb` (binary format). Commit it to version
+control: it is the equivalent of `uv.lock`.
 
 ---
 
@@ -108,22 +109,24 @@ Always use strict mode. No exceptions.
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "bundler",
-    "noUncheckedIndexedAccess": true,   // forces handling undefined on array/object access
+    "noUncheckedIndexedAccess": true, // forces handling undefined on array/object access
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "types": ["@cloudflare/workers-types"]
-  }
+    "types": ["@cloudflare/workers-types"],
+  },
 }
 ```
 
 ### Key Compiler Flags
 
-- **`strict: true`** — enables all strict checks. Non-negotiable.
-- **`noUncheckedIndexedAccess: true`** — `array[0]` returns `T | undefined`, not `T`. Forces you to handle missing data from API responses.
-- **`exactOptionalPropertyTypes: true`** — distinguishes between `undefined` and "missing". Catches real bugs in config objects.
+- `strict: true`: enables all strict checks. Non-negotiable.
+- `noUncheckedIndexedAccess: true`: `array[0]` returns `T | undefined`, not `T`.
+  Forces you to handle missing data from API responses.
+- `exactOptionalPropertyTypes: true`: distinguishes between `undefined` and
+  "missing". Catches real bugs in config objects.
 
 ---
 
@@ -137,23 +140,23 @@ Always use strict mode. No exceptions.
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noExplicitAny": "error"    // ban `any` — use `unknown` instead
+        "noExplicitAny": "error", // ban `any` — use `unknown` instead
       },
       "style": {
-        "useConst": "error",         // prefer const over let
-        "noNonNullAssertion": "warn" // discourage `!` postfix
-      }
-    }
+        "useConst": "error", // prefer const over let
+        "noNonNullAssertion": "warn", // discourage `!` postfix
+      },
+    },
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 100
+    "lineWidth": 100,
   },
   "organizeImports": {
-    "enabled": true
-  }
+    "enabled": true,
+  },
 }
 ```
 
@@ -163,28 +166,35 @@ Always use strict mode. No exceptions.
 
 Follow the Google TypeScript Style Guide naming rules.
 
-| Construct | Convention | Example |
-|-----------|-----------|---------|
-| Variables, functions, methods | `camelCase` | `fetchMatchResults`, `seasonId` |
-| Types, interfaces, classes | `PascalCase` | `Match`, `PlayerMatchStats`, `AflApiClient` |
-| Constants (true constants) | `SCREAMING_SNAKE` | `MAX_RETRY_COUNT`, `DEFAULT_PAGE_SIZE` |
-| Enum-like unions | `PascalCase` values | `type RoundType = "HomeAndAway" \| "Finals"` |
-| File names | `kebab-case` | `afl-api.ts`, `player-stats.ts` |
-| Test files | `*.test.ts` | `afl-api.test.ts` |
-| Type-only files | `*.types.ts` or `types.ts` | `types.ts` |
-| Private class members | `private` keyword | No underscore prefix — use the language |
+| Construct                     | Convention                 | Example                                      |
+| ----------------------------- | -------------------------- | -------------------------------------------- |
+| Variables, functions, methods | `camelCase`                | `fetchMatchResults`, `seasonId`              |
+| Types, interfaces, classes    | `PascalCase`               | `Match`, `PlayerMatchStats`, `AflApiClient`  |
+| Constants (true constants)    | `SCREAMING_SNAKE`          | `MAX_RETRY_COUNT`, `DEFAULT_PAGE_SIZE`       |
+| Enum-like unions              | `PascalCase` values        | `type RoundType = "HomeAndAway" \| "Finals"` |
+| File names                    | `kebab-case`               | `afl-api.ts`, `player-stats.ts`              |
+| Test files                    | `*.test.ts`                | `afl-api.test.ts`                            |
+| Type-only files               | `*.types.ts` or `types.ts` | `types.ts`                                   |
+| Private class members         | `private` keyword          | No underscore prefix: use the language       |
 
 ### Naming Principles
 
-- **Be descriptive.** `fetchMatchResultsForRound` over `getResults`. `seasonId` over `sid`.
-- **Boolean variables** start with `is`, `has`, `should`, `can`: `isStale`, `hasNewData`.
-- **Collections** are plural: `matches`, `playerStats`, `rounds`.
-- **Functions that return promises** don't need an `async` suffix — the return type says it.
-- **Abbreviations** follow Google style: treat as words, not acronyms. `AflApi`, not `AFLApi`. `HttpClient`, not `HTTPClient`. Exception: two-letter acronyms stay uppercase in PascalCase (`ID`, `IO`).
+- Be descriptive. `fetchMatchResultsForRound` over `getResults`. `seasonId` over
+  `sid`.
+- Boolean variables start with `is`, `has`, `should`, `can`: `isStale`,
+  `hasNewData`.
+- Collections are plural: `matches`, `playerStats`, `rounds`.
+- Functions that return promises do not need an `async` suffix: the return type
+  says it.
+- Abbreviations follow Google style: treat as words, not acronyms. `AflApi`, not
+  `AFLApi`. `HttpClient`, not `HTTPClient`. Exception: two-letter acronyms stay
+  uppercase in PascalCase (`ID`, `IO`).
 
 ---
 
 ## Type System
+
+Use explicit types to make domain rules and data boundaries visible.
 
 ### Prefer `interface` for Object Shapes
 
@@ -222,7 +232,8 @@ type WeatherType = "RAIN" | "FINE" | "OVERCAST";
 ```
 
 Enums generate runtime code, have surprising behaviour with reverse mappings,
-and don't tree-shake well. Union types are pure type-level and disappear at runtime.
+and do not tree-shake well. Union types are pure type-level and disappear at
+runtime.
 
 ### Ban `any`, Use `unknown`
 
@@ -252,10 +263,14 @@ const AflMatchResponseSchema = z.object({
   "homeTeamScore.matchScore.totalScore": z.number(),
   "homeTeamScore.matchScore.goals": z.number(),
   "homeTeamScore.matchScore.behinds": z.number(),
-  "homeTeamScore.periodScore": z.array(z.object({
-    "score.goals": z.number(),
-    "score.behinds": z.number(),
-  })).optional(),
+  "homeTeamScore.periodScore": z
+    .array(
+      z.object({
+        "score.goals": z.number(),
+        "score.behinds": z.number(),
+      }),
+    )
+    .optional(),
   "awayTeamScore.matchScore.totalScore": z.number(),
   "awayTeamScore.matchScore.goals": z.number(),
   "awayTeamScore.matchScore.behinds": z.number(),
@@ -266,10 +281,10 @@ type AflMatchResponse = z.infer<typeof AflMatchResponseSchema>;
 
 // Validate at the boundary
 const raw = await res.json();
-const match = AflMatchResponseSchema.parse(raw);  // throws ZodError if invalid
+const match = AflMatchResponseSchema.parse(raw); // throws ZodError if invalid
 ```
 
-### Prefer `readonly` for Data That Shouldn't Change
+### Prefer `readonly` for Data That Should Not Change
 
 ```typescript
 interface LadderEntry {
@@ -309,9 +324,9 @@ type SearchResult = MatchResult | PlayerSeasonResult;
 function formatResult(result: SearchResult): string {
   switch (result.type) {
     case "match":
-      return `${result.homeTeam} vs ${result.awayTeam}`;  // TS knows this is MatchResult
+      return `${result.homeTeam} vs ${result.awayTeam}`; // TS knows this is MatchResult
     case "player_season":
-      return `${result.playerName} (${result.year})`;      // TS knows this is PlayerSeasonResult
+      return `${result.playerName} (${result.year})`; // TS knows this is PlayerSeasonResult
   }
 }
 ```
@@ -321,12 +336,12 @@ function formatResult(result: SearchResult): string {
 ## Documentation (TSDoc)
 
 Follow Google Python style docstring conventions, adapted to TSDoc syntax.
-Document all public functions, interfaces, and types. Internal helpers
-get a single-line `/** comment */` if their purpose isn't obvious from the name.
+Document all public functions, interfaces, and types. Internal helpers get a
+single-line `/** comment */` if their purpose is not obvious from the name.
 
 ### Function Documentation
 
-```typescript
+````typescript
 /**
  * Fetch AFL match results for a given season from the official API.
  *
@@ -350,7 +365,7 @@ async function fetchMatchResults(
   season: number,
   roundNumber?: number,
 ): Promise<Match[]> {
-```
+````
 
 ### Interface Documentation
 
@@ -393,9 +408,10 @@ interface PlayerMatchStats {
 
 ### When to Document
 
-- **Always:** Public functions, exported interfaces/types, module-level constants.
-- **Sometimes:** Private methods with non-obvious logic. Complex type transformations.
-- **Never:** Self-explanatory one-liners. Getters/setters with obvious names.
+- Always: Public functions, exported interfaces/types, module-level constants.
+- Sometimes: Private methods with non-obvious logic. Complex type
+  transformations.
+- Never: Self-explanatory one-liners. Getters/setters with obvious names.
 
 ```typescript
 // No doc needed — name says everything
@@ -424,6 +440,8 @@ function calculatePav(
 ---
 
 ## Error Handling
+
+Represent expected failures consistently and preserve useful diagnostic context.
 
 ### Use Custom Error Classes
 
@@ -454,13 +472,12 @@ class StaleDataError extends Error {
 
 ### Use `Result` Pattern for Expected Failures
 
-For operations that can fail in expected ways (not exceptional errors),
-return a discriminated union instead of throwing.
+For operations that can fail in expected ways (not exceptional errors), return a
+discriminated union instead of throwing.
 
 ```typescript
 type Result<T, E = Error> =
-  | { success: true; data: T }
-  | { success: false; error: E };
+  { success: true; data: T } | { success: false; error: E };
 
 async function fetchWithFallback(season: number): Promise<Result<Match[]>> {
   const aflResult = await fetchFromAflApi(season);
@@ -499,7 +516,7 @@ try {
 
 ## Project Structure
 
-```
+```text
 src/
   types.ts              # All shared types — define these first
   worker.ts             # Entry point: Hono app + scheduled handler
@@ -538,21 +555,24 @@ package.json
 
 ### Principles
 
-- **`types.ts` is written first.** Before any fetch logic, define Match, Player,
-  PlayerMatchStats, etc. The compiler guides everything from there.
-- **One file per data source.** `afl-api.ts`, `footywire.ts` — each owns its HTTP
+- Write `types.ts` first. Before any fetch logic, define Match, Player,
+  PlayerMatchStats, and similar items The compiler guides everything from there.
+- One file per data source. `afl-api.ts`, `footywire.ts`: each owns its HTTP
   calls, response parsing, and Zod validation.
-- **`transforms.ts` is pure functions.** No I/O, no side effects. Takes raw API
+- `transforms.ts` is pure functions. No I/O, no side effects. Takes raw API
   shapes, returns domain types. Easy to unit test.
-- **`pipeline.ts` is the orchestrator.** Calls sources in priority order, handles
-  fallback logic, coordinates loading and embedding. This is the cron handler's
-  entry point.
-- **Tests mirror src structure.** Test files live in `test/` and mirror the `src/`
+- `pipeline.ts` is the orchestrator. Calls sources in priority order, handles
+  fallback logic, coordinates loading and embedding. This result is the cron
+  handler's entry point.
+- Tests mirror src structure. Test files live in `test/` and mirror the `src/`
   directory tree.
 
 ---
 
 ## Code Patterns
+
+Apply these patterns consistently throughout application and infrastructure
+code.
 
 ### Async/Await Everywhere
 
@@ -607,9 +627,9 @@ function processMatchResults(raw: AflMatchResponse[]): Match[] {
 // Bad — mutating in place
 function processMatchResults(raw: AflMatchResponse[]): void {
   for (const m of raw) {
-    m.homeTeam = normaliseTeamName(m.homeTeam);  // mutation
+    m.homeTeam = normaliseTeamName(m.homeTeam); // mutation
   }
-  raw.sort(/* ... */);  // mutation
+  raw.sort(/* ... */); // mutation
 }
 ```
 
@@ -641,8 +661,8 @@ interface Env {
   DB: D1Database;
   AI: Ai;
   VECTORIZE: VectorizeIndex;
-  LOADER: DynamicWorkerLoader;  // for Code Mode
-  AFL_API_CACHE: KVNamespace;   // optional: cache token
+  LOADER: DynamicWorkerLoader; // for Code Mode
+  AFL_API_CACHE: KVNamespace; // optional: cache token
 }
 
 // Hono gives you typed access
@@ -661,8 +681,8 @@ app.get("/api/ladder/:year", async (c) => {
 
 ### Drizzle ORM (Database Layer)
 
-Drizzle is the database ORM for all D1 interactions. Define schema in TypeScript,
-get type-safe queries, and generate migrations from schema changes.
+Drizzle is the database ORM for all D1 interactions. Define schema in
+TypeScript, get type-safe queries, and generate migrations from schema changes.
 
 **Schema definition (`src/db/schema.ts`):**
 
@@ -684,14 +704,20 @@ export const teams = sqliteTable("teams", {
 
 export const matches = sqliteTable("matches", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  seasonId: integer("season_id").notNull().references(() => seasons.id),
+  seasonId: integer("season_id")
+    .notNull()
+    .references(() => seasons.id),
   round: text("round").notNull(),
   roundNumber: integer("round_number").notNull(),
   roundType: text("round_type").notNull(),
   date: text("date").notNull(),
   venueId: integer("venue_id").notNull(),
-  homeTeamId: integer("home_team_id").notNull().references(() => teams.id),
-  awayTeamId: integer("away_team_id").notNull().references(() => teams.id),
+  homeTeamId: integer("home_team_id")
+    .notNull()
+    .references(() => teams.id),
+  awayTeamId: integer("away_team_id")
+    .notNull()
+    .references(() => teams.id),
   homeGoals: integer("home_goals"),
   homeBehinds: integer("home_behinds"),
   homePoints: integer("home_points"),
@@ -706,9 +732,13 @@ export const matches = sqliteTable("matches", {
 
 export const playerMatchStats = sqliteTable("player_match_stats", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  matchId: integer("match_id").notNull().references(() => matches.id),
+  matchId: integer("match_id")
+    .notNull()
+    .references(() => matches.id),
   playerId: integer("player_id").notNull(),
-  teamId: integer("team_id").notNull().references(() => teams.id),
+  teamId: integer("team_id")
+    .notNull()
+    .references(() => teams.id),
   kicks: integer("kicks"),
   handballs: integer("handballs"),
   disposals: integer("disposals"),
@@ -742,10 +772,12 @@ const match = await db
 const recentMatches = await db
   .select()
   .from(schema.matches)
-  .where(and(
-    eq(schema.matches.seasonId, seasonId),
-    gt(schema.matches.roundNumber, lastLoadedRound),
-  ))
+  .where(
+    and(
+      eq(schema.matches.seasonId, seasonId),
+      gt(schema.matches.roundNumber, lastLoadedRound),
+    ),
+  )
   .orderBy(desc(schema.matches.date));
 
 // Join
@@ -757,7 +789,10 @@ const statsWithPlayer = await db
     goals: schema.playerMatchStats.goals,
   })
   .from(schema.playerMatchStats)
-  .innerJoin(schema.players, eq(schema.playerMatchStats.playerId, schema.players.id))
+  .innerJoin(
+    schema.players,
+    eq(schema.playerMatchStats.playerId, schema.players.id),
+  )
   .innerJoin(schema.teams, eq(schema.playerMatchStats.teamId, schema.teams.id))
   .where(eq(schema.playerMatchStats.matchId, matchId))
   .orderBy(desc(schema.playerMatchStats.disposals));
@@ -766,7 +801,8 @@ const statsWithPlayer = await db
 await db.insert(schema.matches).values(newMatches);
 
 // Upsert
-await db.insert(schema.matches)
+await db
+  .insert(schema.matches)
   .values(newMatch)
   .onConflictDoUpdate({
     target: schema.matches.id,
@@ -800,16 +836,21 @@ export default defineConfig({
 ```
 
 **Principles:**
-- Schema is the single source of truth — all table definitions live in `src/db/schema.ts`.
-- Use Drizzle's query builder for all application queries. Raw SQL via `db.run(sql`...`)`
-  is acceptable for complex aggregations or when the query builder is awkward.
-- The `execute_sql` MCP tool still accepts raw SQL strings from agents — those bypass
-  Drizzle and go directly to D1 (read-only, validated).
+
+- Schema is the single source of truth: all table definitions live in
+  `src/db/schema.ts`.
+- Use Drizzle's query builder for all application queries. Raw SQL via
+  `db.run(sql`...`)` is acceptable for complex aggregations or when the query
+  builder is awkward.
+- The `execute_sql` MCP tool still accepts raw SQL strings from agents: those
+  bypass Drizzle and go directly to D1 (read-only, validated).
 - Generate migrations from schema diffs, never write migration SQL by hand.
 
 ---
 
 ## Testing
+
+Use focused tests to verify behaviour without relying on live services.
 
 ### Use Vitest
 
@@ -820,14 +861,14 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     globals: true,
-    environment: "miniflare",  // Cloudflare Workers test environment
+    environment: "miniflare", // Cloudflare Workers test environment
   },
 });
 ```
 
 Run tests via `bun run test` (which invokes Vitest) or `bun run test -- --watch`
-for watch mode during development. For quick one-off tests that don't need
-Cloudflare bindings, `bun test` (Bun's built-in runner) also works — it's
+for watch mode during development. For quick one-off tests that do not need
+Cloudflare bindings, `bun test` (Bun's built-in runner) also works: it is
 Jest-compatible and faster for pure function tests.
 
 ### Test Structure
@@ -861,54 +902,57 @@ describe("flattenMatchScores", () => {
 
     const result = flattenMatchScores(input);
 
-    expect(result.homePoints).toBe(95);  // total still present
+    expect(result.homePoints).toBe(95); // total still present
   });
 });
 ```
 
 ### Test Principles
 
-- **Snapshot API responses** into `test/fixtures/`. Never hit real APIs in tests.
-- **Test transforms thoroughly** — they're pure functions, easy to cover.
-- **Test Zod schemas** against both valid and invalid payloads.
-- **Integration tests** use Miniflare (local Workers simulator) for D1 and KV.
-- **Name tests as sentences** — `it("handles missing periodScore gracefully")`.
+- Snapshot API responses into `test/fixtures/`. Never hit real APIs in tests.
+- Test transforms thoroughly: they are pure functions, easy to cover.
+- Test Zod schemas against both valid and invalid payloads.
+- Integration tests use Miniflare (local Workers simulator) for D1 and KV.
+- Name tests as sentences: `it("handles missing periodScore gracefully")`.
 
 ---
 
 ## Design Principles
 
+These principles guide implementation choices across the codebase.
+
 ### 1. Types First, Code Second
 
-Define your domain types before writing any logic. Let the type system
-guide the implementation.
+Define your domain types before writing any logic. Let the type system guide the
+implementation.
 
 ### 2. Validate at Boundaries, Trust Internally
 
 Use Zod to validate all external data (API responses, user input). Once
-validated, trust the types — no defensive null checks deep inside business logic.
+validated, trust the types: no defensive null checks deep inside business logic.
 
 ### 3. Pure Core, Effectful Shell
 
 Keep business logic (transforms, calculations, validation) as pure functions.
-Push I/O (fetch, database, logging) to the edges. This makes the core
-trivially testable.
+Push I/O (fetch, database, logging) to the edges. This makes the core trivially
+testable.
 
 ### 4. Fail Loudly, Recover Gracefully
 
 Throw meaningful errors with context. Catch them at the appropriate level
-(usually the route handler or pipeline orchestrator). Never swallow errors silently.
+(usually the route handler or pipeline orchestrator). Never swallow errors
+silently.
 
 ### 5. Prefer Composition Over Inheritance
 
 Use functions, interfaces, and composition. Classes are fine for stateful things
-(API clients with cached tokens), but don't build deep inheritance hierarchies.
+(API clients with cached tokens), but do not build deep inheritance hierarchies.
 
 ### 6. Minimise Dependencies
 
 Every dependency is a maintenance burden. Prefer the platform (Web APIs, Workers
-runtime) over libraries. Use libraries for genuine complexity (Zod, Hono, Drizzle),
-not for things you can write in 10 lines.
+runtime) over libraries. Use libraries for genuine complexity (Zod, Hono,
+Drizzle), not for things you can write in 10 lines.
 
 ### 7. Single Responsibility Files
 
@@ -920,11 +964,11 @@ things, split it.
 
 ## References
 
-**Important:** Before setting up project standards, tooling, or writing application
-code, read through all of the documentation linked below. Each link uses the
-`defuddle.md` prefix which returns clean, agent-readable markdown. Read the full
-documentation — not just the getting started pages — to understand the conventions,
-APIs, and patterns available in each tool.
+**Important:** Before setting up project standards, tooling, or writing
+application code, read through all of the documentation linked below. Each link
+uses the `defuddle.md` prefix which returns clean, agent-readable markdown. Read
+the full documentation: not just the getting started pages: to understand the
+conventions, APIs, and patterns available in each tool.
 
 - [Google TypeScript Style Guide](https://defuddle.md/google.github.io/styleguide/tsguide.html)
 - [TSDoc specification](https://defuddle.md/tsdoc.org/)
