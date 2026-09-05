@@ -155,3 +155,52 @@ Its tips, ranks, common close-band scores, field percentage, and market gap
 match the typed live command. The Python CSV is
 `/private/tmp/tipper-monitor-python.csv`. Integration validation passes:
 26 test files, 259 tests, typecheck, Biome, and build.
+
+## Archive Contract, 2026-09-05
+
+The draft migration lives in `/private/tmp/tipper-ship-afl-mcp` on
+`feat/prediction-archive`, based on AFL-MCP main `c3f964c`.
+It adds one table, `prediction_archive`, with one match/model/capture key.
+The writer will use inserts only. The key prevents duplicate captures from
+replacing earlier evidence. Each row stores the game's subset of a round's
+Squiggle response, including all available sources. This avoids repeating
+the complete round response in every match row.
+
+```text
+publish tick
+  primary prediction reads named lineups
+  primary upserts match_predictions
+  capture field for round
+  append primary outputs + exact consumed lineups + rating inputs
+  run shadow with its own consumed lineups
+  append shadow outputs + inputs only
+
+at lock
+  captured_at in Melbourne < round_first_kickoff
+  captured_at in Melbourne < match_kickoff
+  select latest eligible row per match and model
+  pair models on match_id
+```
+
+The capture instant follows prediction completion. Captures that finish after
+kickoff cannot become at-lock evidence. The archive retains both kickoff
+values in Melbourne wall time. Unknown kickoff times use midnight, matching
+the existing publisher's conservative freeze. The implementation must retain
+lineups from the prediction fetch, without a second lineup query.
+
+AFL-MCP's schema SQL, MCP schema output, coverage contract, integration setup,
+and schema document include the new table. The migration tests exercise
+multiple captures, duplicate rejection, home orientation, unchanged primary
+rows, probability bounds, and JSON validity. No production migration ran.
+
+The sibling typecheck and Biome checks pass. Its full test suite requires
+Miniflare to bind `localhost`, which the sandbox initially denied. The retry
+uses permission for local test execution. Existing sibling documentation has
+75 Vale errors. New sections receive a separate prose check.
+
+AFL-MCP's local retry passed all 34 test files and 265 tests, including the
+new migration tests. Its PR description is ready at
+`/private/tmp/tipper-afl-pr.md`. Opening the PR still awaits publishing
+approval. The tests only applied migrations to Miniflare's local D1 database.
+
+The local AFL-MCP migration commit is `4231484`.
