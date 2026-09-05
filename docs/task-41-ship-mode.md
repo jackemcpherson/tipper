@@ -299,3 +299,41 @@ Infra already enables the Worker's public hostname. The intended URL is
 `https://tipper.jackemcpherson.workers.dev/tips`. The prompt's statement that
 the Worker has no public hostname is stale. The endpoint needs no new DNS resource.
 The sibling change must pin the new artefact after a green main build.
+
+## Weekly Monitor, 2026-09-05
+
+The workflow runs Monday at 22:00 UTC or by manual dispatch from main.
+It derives the current season unless the maintainer supplies one year.
+Credential failures use exit 3, Squiggle failures use exit 4, and genuine
+market-gap alerts retain exit 2. Other failures remain exit 1.
+
+The scoring job has read permission and receives the D1 token only in the
+steps that need it. A separate job merges one CSV row into the latest log
+with repository write permission. It commits alert evidence before failing
+the run. The workflow caches season data with the season in its key.
+
+`actionlint` 1.7.12 passes. Its downloaded binary matched the official checksum.
+The log merge passed local checks for history preservation, same-date retries,
+and header-drift rejection. The permission review found no hard violations.
+It follows GitHub's documented
+[job permission scope](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idpermissions)
+and uses full commit pins for every action.
+
+The live typed monitor still reports 211 paired games, v3 155, Punters 156,
+and market gap -1. It wrote the local 2026-09-05 CSV row. The Python golden
+check passes. Full validation passes 301 tests in 32 files, typecheck, Biome,
+and build. No GitHub workflow ran during local preparation.
+
+## Maintainer Hold, 2026-09-05
+
+The maintainer explicitly asked for no Squiggle contact or submission of any
+changes until further instruction. All pushes, PR creation, merges, release
+publishing, deployment, and external contact remain on hold. Preparation and
+verification continue locally. No remote write has occurred during this task.
+
+## GitHub Authorization Clarified, 2026-09-05
+
+The maintainer clarified that pushes, PRs, merges, and releases on the owned
+GitHub repositories are authorised. The hold applies to Squiggle contact and
+submissions. Tipper PRs may merge after green CI. Sibling PRs remain unmerged.
+Deployment and production migrations remain manual under the original scope.
