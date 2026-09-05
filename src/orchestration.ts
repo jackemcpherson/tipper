@@ -501,12 +501,14 @@ export async function runCompare(
       ...seasonRange(trainMax + 1, testMax),
     ]),
   ].sort((a, b) => a - b);
-  const priorYears = [
-    ...new Set([
-      ...configA.backtest.test_seasons.map((y) => y - 1),
-      ...configB.backtest.test_seasons.map((y) => y - 1),
-    ]),
-  ];
+  // Either model can learn residuals in non-training warmup seasons.
+  const priorYears = allSeasonYears
+    .filter(
+      (year) =>
+        !configA.backtest.train_seasons.includes(year) ||
+        !configB.backtest.train_seasons.includes(year),
+    )
+    .map((year) => year - 1);
 
   const { harnessData, seasonYearToId } = await fetchHarnessData(
     db,
