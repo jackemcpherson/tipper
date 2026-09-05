@@ -82,7 +82,7 @@ The v1.5 decision to bench PAV was wrong. The 100x defence bug was masking real
 signal by making PAV essentially a "defensive involvement + noise" metric. With
 the corrected formula:
 
-- PAV's signal is balanced across offence, midfield, and defence zones.
+- PAV contributes similar signal across offence, midfield, and defence zones.
 - The calibration slope (6.986) is in the physically meaningful range.
 - The blend optimum is weight_elo=0.6, not 0.9 or 1.0.
 - The improvement is statistically significant (first in the project).

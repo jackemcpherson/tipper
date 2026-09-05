@@ -185,11 +185,10 @@ current marginal result. The 2026 R1-R14 trend favours the first outcome.
 
 ## 10. What This Means for Open Items on the Rethink Doc
 
-- D2 status moves from "open: the last untested structural idea" to **"prototype
-  built, comp-passing, awaiting 2026 R14+ power"**. The only remaining
-  structural idea is exhausted as a research question. What is left is data
-  accrual.
-- The "v3's existing information set is exhausted from three directions" claim
+- D2 status moves from "open: the last untested structural idea" to
+  **"prototype built, comp-passing, awaiting 2026 R14+ power"**. The research
+  has tested the only remaining structural idea. What is left is data accrual.
+- The "three directions have exhausted v3's existing information set" claim
   (T33-35) needs qualification: **structural moves still found juice**. OD
   reaches information T33 (field triangulation), T34 (market), and T35
   (stacking) could not, because it changes what the model _is_, not what it

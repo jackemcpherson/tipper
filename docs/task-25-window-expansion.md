@@ -73,10 +73,10 @@ Floating-point note: `buildDelta` has no epsilon, so a degenerate CI of [1e-15,
 | Implied PAV calibration slope (OLS pavDiff to margin ÷ mprp) | 7.512   | 7.291                | 6.986  |
 | Implied prediction HA (80 + bias/0.07)                       | 90      | 80 (by construction) | 80     |
 
-- The PAV slope is era-sensitive at ~0.2 scale (early era favours a slightly
-  hotter PAV signal), but both eras' implied slopes sit _above_ the config
-  value, so 6.986 is conservative in both: no action. Re-fit only if the blend
-  architecture changes (D1).
+- The PAV slope varies by ~0.2 across eras. The early era favours a slightly
+  hotter PAV signal. Both implied slopes exceed the config value. Keep 6.986,
+  which is conservative in both eras. Re-fit only if the blend architecture
+  changes (D1).
 - Early-window home bias is +0.67 pts/match to implied HA 90 vs config 80.
   Combined with T22's 2018-19-only implied 65, this result is era noise around
   80, confirming the fixed value.

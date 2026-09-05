@@ -555,7 +555,7 @@ package.json
 
 ### Principles
 
-- `types.ts` is written first. Before any fetch logic, define Match, Player,
+- Write `types.ts` first. Before any fetch logic, define Match, Player,
   PlayerMatchStats, and similar items The compiler guides everything from there.
 - One file per data source. `afl-api.ts`, `footywire.ts`: each owns its HTTP
   calls, response parsing, and Zod validation.

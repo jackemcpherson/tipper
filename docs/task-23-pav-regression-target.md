@@ -22,11 +22,11 @@ they should be, not toward average.
 At each season boundary, after the prior-season PAV map is rebuilt for the
 incoming season:
 
-1. For each team, take its **first named lineup** of the new season (same
-   `pav.include` filter as prediction) and sum prior-season PAV per player,
+1. For each team, take its **first named lineup** of the new season with the
+   prediction `pav.include` filter. Sum prior-season PAV per player, using
    `missing_player_default` for players without a prior. This result is exactly
    the R1 list-quality signal: at 0 games played, `blendWithPrior` returns the
-   prior, so no new signal was invented.
+   prior, so this adds no new signal.
 2. Calibrate onto the Elo scale with the existing blend slope (`calibratePav`).
    Mean-centre across teams: `target = 1500 + w × (pav_implied − mean)`.
 3. `applyRegression` pulls each team toward its target by `regression_to_mean`

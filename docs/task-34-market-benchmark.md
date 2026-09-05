@@ -70,13 +70,13 @@ T32 expectation.
 - The 23 mirror games (v3 right, ≥65% of field wrong): the market was wrong on
   17 (74%). V3's against-the-field edge is also an against-the-market edge. It
   is genuine independent signal, and the strongest argument for staying
-  market-independent: in an ensemble, exactly these calls would be dragged back
-  toward the consensus.
+  market-independent: an ensemble would pull exactly these calls back toward the
+  consensus.
 
 ## Conclusions
 
 1. The benchmark validates the product decision. D4-ii's expected value at
-   today's v3 is ~+1-2 tips/season: sub-luck for comp placings: and it would
+   today's v3 is ~+1-2 tips/season, smaller than comp-placement luck. It would
    dilute the mirror-game edge that earned v3 its 2024 2nd place.
 2. The market's superiority is calibration, not signs. LogLoss −0.015 to −0.035
    is real and stable, but the comp scores tips. (If a bits-scored comp ever

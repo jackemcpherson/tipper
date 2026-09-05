@@ -1,7 +1,7 @@
 # Tipper: AFL Match Prediction CLI
 
 > **For implementation by Claude Code.** This result is a v1 plan. Decisions
-> documented here are locked unless explicitly revisited. Open questions are
+> documented here stay fixed unless explicitly revisited. Open questions are
 > flagged in [§14](#14-open-questions-deferred-to-v2).
 
 ---
@@ -115,7 +115,7 @@ tipper/
   globals. The CLI layer is responsible for assembling inputs and calling engine
   functions. This result is what makes unit testing straightforward and makes
   the eventual Worker port a simple wiring exercise.
-- `configs/` lives in the repository and is committed. Git provides the version
+- Commit `configs/` to the repository. Git provides the version
   history.
 
 ---
@@ -284,8 +284,8 @@ configs/
 1. The config does not exist in `configs/`.
 2. The config has zero results files.
 3. The most recent results file's `config_hash` does not match the current
-   config's content hash (means the config was edited after backtesting. Results
-   are stale).
+   config's content hash (means someone edited the config after backtesting.
+   Results are stale).
 4. The `--reason` flag is missing or empty.
 
 Rationale: we never want a "current" model without tests in its current state.
@@ -709,7 +709,7 @@ work does not forget them.
 1. Opponent-strength adjustment in PAV updates. A/B test against the v1
    baseline. Likely lifts predictive accuracy modestly.
 2. **Auto-fit of `margin_per_elo_point` and `sigma`.** Currently config-level
-   tunables. Could be fitted from the training set automatically.
+   tunables. Fit them from the training set automatically.
 3. Ground-specific home advantage. AFL home advantage varies dramatically by
    venue (Geelong at Kardinia, WCE/Fremantle at Optus). Single global value is a
    simplification.

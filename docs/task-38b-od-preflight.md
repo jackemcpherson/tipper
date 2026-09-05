@@ -48,11 +48,10 @@ The picture is uniformly stronger than the T36 doc:
 
 - The 2026 R1-R14 evidence reinforces OD's edge (Δtips +1, ΔLL −0.0183: the
   largest per-window ΔLL in OD's record).
-- Wheelo's per-team residual halving on the _same_ teams (WCE, North, Geelong,
-  Carlton) externally validates the OD update mechanic: Wheelo's Attack/Def
-  split is the same shape and we now know it is the load-bearing piece of his
-  model (T38 §B.2). Adds non-trivial prior weight that this result is not
-  sample-specific.
+- Wheelo's residuals halve on the same teams, WCE, North, Geelong, and Carlton.
+  This provides external support for the OD update mechanic. His Attack/Def
+  split has the same shape and drives his model's performance, per T38 §B.2.
+  Adds non-trivial prior weight that this result is not sample-specific.
 - T38c's 2026 reversal (the cautionary tale) does NOT replicate for OD: OD goes
   _better_ in 2026, not worse. The "v4 failure mode" (old eras good, recent bad)
   does not apply.
@@ -131,16 +130,14 @@ Per the T38 roadmap §3:
 
 1. Consensus-wrong cut ΔTips ≥ 0: not yet run for OD. The relevant cut needs
    Squiggle field tips + per-match prediction alignment for OD across 2021-25
-   (same machinery as `analysis/wheelo-headhead.py`). **Action item before
-   October re-eval:** clone `wheelo-headhead.py` to compare OD against v3 on the
-   256 consensus-wrong games and check that OD does not erode v3's +14/256
-   contrarian edge.
-2. Per-team residual non-degradation: T36 doc shows OD **halves** v3's per-team
-   biases on WCE / North / Geelong / Carlton: independently corroborated by
-   Wheelo's same residual pattern (T38 review). Pre-October re-check should
-   re-tabulate post-2026 to confirm.
-3. Per-venue residual monitor: not yet run. Should be added to the October
-   check.
+   (same machinery as `analysis/wheelo-headhead.py`). Before October
+   re-evaluation, clone `wheelo-headhead.py` to compare OD against v3 on the 256
+   consensus-wrong games. Check that OD preserves v3's +14/256 contrarian edge.
+2. Per-team residual non-degradation: T36 shows OD **halves** v3's biases on
+   WCE, North, Geelong, and Carlton. Wheelo's residual pattern independently
+   corroborates this, per T38. Pre-October re-check should re-tabulate post-2026
+   to confirm.
+3. Per-venue residual monitor: not yet run. Add it to the October check.
 
 T38c parked similarly with deferred guards. Both task re-evals share the October
 A2 bundle window.

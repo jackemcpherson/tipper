@@ -131,6 +131,6 @@ HA bias reduces the 50-60% bucket's overconfidence to noise level.
 
 - New configs + results: `predha-bw-040/065/080/100/130`, fresh `v2-backwards`
   results file.
-- Bucket classification maps (team to state, venue to state, secondary homes,
-  shared venues) are reproduced in this doc's diagnostics section and in the
-  HANDOFF re-test note.
+- This doc's diagnostics section and the HANDOFF re-test note contain the bucket
+  classification maps. They cover team states, venue states, secondary homes,
+  and shared venues.

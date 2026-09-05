@@ -21,14 +21,14 @@ DOB data exists almost exclusively for recently active players (the rethink's
 
 ## Why This Blocks Both Halves of the Idea
 
-1. Fitting: the clean fit window (pre-2015, untouched by both scored windows)
-   has ~0-10% DOB coverage: the year-over-year PAV ratio sample collapses to 92
-   pairs, nearly all young recent players (heavy survivor bias: old players with
-   DOB recorded are disproportionately ones still playing in the 2020s).
-2. Applying: in the windows themselves, an age multiplier could be applied to
-   only 19% (2016) / 52% (2021) of lineup priors, silently treating most of each
-   lineup as age-neutral. That is not a model of ageing. It is a model of
-   database coverage.
+1. Fitting: Neither scored window uses pre-2015, but those years have ~0-10% DOB
+   coverage. The year-over-year PAV ratio sample collapses to 92 pairs, nearly
+   all young recent players. Older players with DOB records disproportionately
+   still played in the 2020s, creating heavy survivor bias.
+2. Applying: DOB coverage allows an age multiplier for only 19% of 2016 lineup
+   priors and 52% of 2021 priors. Most lineup priors would silently stay
+   age-neutral. That is not a model of ageing. It is a model of database
+   coverage.
 
 ## Resurrection Condition
 

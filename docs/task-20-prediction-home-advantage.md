@@ -89,9 +89,9 @@ number also beats the 0.8029 that ranked 1st of 29 Squiggle sources in Task 18
 - 2021-2025 home edge (5.9 pts) is below the long-run historical figure. If home
   advantage regimes shift, `prediction_home_advantage` should be re-checked
   seasonally (cheap sweep).
-- A venue- or travel-aware prediction HA is now a meaningful research direction
-  (Task 17 rejected venue HA in the _update_ equation: the prediction side was
-  never tested because it did not exist).
+- Venue- or travel-aware prediction HA warrants research. Task 17 rejected venue
+  HA in the _update_ equation. The prediction side did not exist then, so Task
+  17 never tested it.
 - The backwards 2018-2019 validation window was not re-run today. Worth doing
   before any further HA refinement since the historical home edge was larger.
 

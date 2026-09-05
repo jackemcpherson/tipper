@@ -65,15 +65,13 @@ K=35 to 0.8457 (worse). K stays 25. No hidden power there.
   plausible-looking −0.003 does not ship on vibes. W=1.0 is also a boundary
   optimum (v1.5 RTM lesson), though the early window replicating at both tested
   weights mitigates this.
-- Against rejection: unlike every rejected candidate since v2, this one has (a)
-  the right sign in two independent eras, (b) monotone dose-response, (c) strong
-  theory and AFL-analytics literature precedent, (d) corroborating
-  Brier/MAE/tips.
+- Against rejection: this candidate has the right sign in two independent eras
+  and a monotone dose-response. Theory, AFL-analytics literature, and
+  Brier/MAE/tips also support it.
 - Decision: park. Add to the A2 end-of-2026 bundle. ~210 further matches only
-  narrows the CI ~5%, so if it re-tests at a similar point estimate the call
-  will be a judgement one: flagged for Jack: does the promotion bar evolve to
-  "pooled Δ > 0.005 + pooled CI" now that the two-window procedure exists? That
-  choice should be made _before_ seeing the 2026-inclusive numbers, not after.
+  narrow the CI ~5%. A similar point estimate will require judgement. Jack must
+  decide whether the two-window procedure warrants a bar of "pooled Δ > 0.005 +
+  pooled CI". Make that choice _before_ seeing the 2026-inclusive numbers.
 
 ## Artefacts
 

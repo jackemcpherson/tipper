@@ -12,10 +12,9 @@ Re-running T28's standalone `shotelo-w100` (`elo.shot_margin_weight: 1`, no
 team-offset bundle) against the amended T32 bar reproduces T28's headline
 numbers bit-identically and adds:
 
-- Tips criterion (T32 amendment) passes on both training windows: +5 pooled on
-  primary (2021-25), +6 on early (2016-19), **+11 pooled** across the two
-  windows that already informed the T28 decision. Recent-3 (2023-25) tied at
-  439-439.
+- The T32 tips criterion passes on both training windows. Primary 2021-25 gains
+  +5, and early 2016-19 gains +6. The **+11 pooled** gain uses the same windows
+  that informed T28. Recent-3 (2023-25) tied at 439-439.
 - 2026 R1-R14 OOS evidence reverses direction: ΔTips **−2**, ΔLL **+0.0069**
   (shotelo regresses).
 - Sliding recent-3 (2024-26): ΔTips **−4** vs v3. Under T32's comp-facing rule a
@@ -129,19 +128,19 @@ was directionally clean but sub-bar. The new evidence does not flip that call
 cleanly in either direction:
 
 - Against kill: both training windows still show positive tips (+5 / +6) and
-  right-direction LL. The mechanism (luck-adjusted scoring-shot Elo) has
-  theoretical support: Wheelo's update target is xScore-style (T38 review §B.4),
-  an external corroboration the T28 doc did not have. A single half-season's
-  worth of OOS data (n=121) tipping the wrong way is not statistically decisive:
-  a season-average tip rate at 71.9% vs 73.6% is well inside per-round variance.
+  right-direction LL. Luck-adjusted scoring-shot Elo has theoretical support.
+  Wheelo's xScore-style update target provides external corroboration, per T38
+  §B.4. T28 did not have that evidence. A half-season of OOS data, n=121,
+  tipping the wrong way is not statistically decisive. Season-average tip rates
+  of 71.9% versus 73.6% sit within per-round variance.
 - Against promote: the LL bar was already not cleared and adding 2026 R1-R14
   weakens it further. Recent-three-seasons shows a −2 to −4 tip deficit
   depending on window definition: the comp-facing v4 failure mode. The T32
   amendment treats that as disqualifying.
-- Decision: keep parked. End-of-2026 re-test (A2 bundle) is the natural decision
-  point: full 2026 doubles the OOS sample, and the recent-3 window then becomes
-  2024 + 2025 + 2026 (full), which closes the partial-season hand-wave. **If
-  full-2026 also goes against shotelo, this becomes a kill, not a re-park.**
+- Decision: keep parked. The A2 end-of-2026 re-test is the decision point. Full
+  2026 doubles the OOS sample and makes the recent-3 window cover complete 2024,
+  2025, and 2026 seasons. **If full-2026 also goes against shotelo, this becomes
+  a kill, not a re-park.**
 
 ## Regression Guards (Deferred to A2 Re-Test)
 

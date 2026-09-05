@@ -23,7 +23,7 @@ bias against young teams (undershooting) and toward ageing-list teams
 (overshooting). The WCE ageing-list collapse is the canonical case the rethink
 doc and T31 cellar-bias diagnostics both flagged.
 
-The age curve will be **fitted on 1998-2014**: the DOB-coverage-complete window
+Fit the age curve on **1998-2014**: the DOB-coverage-complete window
 with no test-season leakage. (Primary test window is 2021-25. Confirmatory is
 2016-19. Both are outside the curve-fitting window.)
 
@@ -38,9 +38,9 @@ with no test-season leakage. (Primary test window is 2021-25. Confirmatory is
 - `blendWithPrior` applies `prior × (1 − w + w × ageMultiplier(age))` instead of
   `prior`. At `w = 1`, full curve. At `w = 0`, identity (bit-inert).
 - Data layer addition: include `players.date_of_birth` in the player-season-PAV
-  row so the engine can compute age at R1 of the prediction season. DOB lookup
-  is keyed by `player_id`, evaluated once per (player, season) at prior-map
-  build time.
+  row so the engine can compute age at R1 of the prediction season. The DOB
+  lookup uses `player_id` as its key. Evaluate it once per player and season
+  when building the prior map.
 
 ## Acceptance Criteria: Promotion Bar (All Must Hold)
 
@@ -201,14 +201,14 @@ require addressing the survivor-bias structural issue:
 - Selection-corrected curve: model the cut/retain decision explicitly. Impute
   the would-be PAV for cut players from their last-season PAV and an ageing-list
   prior. Larger project: basically a player-level survival model.
-- Per-zone curve: forwards age differently than ruckmen (the data shows the
-  defence/midfield/offence ratios diverge: for example age 33 def 0.91, mid
-  0.85, off 0.95 in the raw cross-section). A per-component multiplier could
-  land where the global one did not. Still constrained by the K-blend lever-arm
-  problem.
+- Per-zone curve: forwards age differently than ruckmen.
+  Defence/midfield/offence ratios diverge in the data. At age 33, the raw ratios
+  are 0.91 for defence, 0.85 for midfield, and 0.95 for offence. A per-component
+  multiplier could land where the global one did not. Still constrained by the
+  K-blend lever-arm problem.
 - Apply earlier in the season only: the lever arm dies after ~R8. An age curve
   that only operates in R1-R4 with a higher dose could matter without messing up
-  late-season predictions. Engineering-light. Could be paired with the A2
+  late-season predictions. Engineering-light. Consider pairing it with the A2
   bundle.
 
 None of these items remain in the next-session queue. The lever-arm finding

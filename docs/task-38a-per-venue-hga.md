@@ -110,8 +110,8 @@ Three plausible reasons:
    team rating. Wheelo's intercept range overstates the pure venue contribution.
    Our walk-forward residual fit also picks up the same conflation, but at the
    smaller-sample-noise scale.
-3. **Self-correcting residuals against full prediction (the team-offset pattern)
-   drift each venue's accumulated mean toward zero in steady state**, so by
+3. Self-correcting residuals against full prediction use the team-offset
+   pattern. Each venue's accumulated mean drifts toward zero in steady state. By
    2024-25 the active correction is small. Combined with sparse early-season
    noise, the net effect is a wash with extra variance.
 
@@ -129,16 +129,14 @@ Resurrection conditions:
   number likely has a hidden team-strength component. Fitting a (team, venue)
   random-effect would isolate the venue piece. Heavier engineering, more data
   needed.
-- Reset semantics: fit per-venue HGA from a stable pre-trained table (for
-  example, 2010-2019 OLS on actual margin vs Elo diff, like the existing
-  `venue.ts`) rather than walk-forward residuals. The static-table approach has
-  lower variance but loses adaptation.
-- A2 bundle inclusion: T38a does not pass standalone, but the per-venue HGA
-  mechanism could feature in the A2 end-of-2026 bucketed-HA bundle alongside the
-  T33 neutral-venue piece. The bucketing collapses many venues into a few
-  buckets (derby ≈20, true-home-vs-interstate ≈110, neutral ≈0, else 80): that
-  is coarser, more sample-efficient, and may avoid the per-venue noise problem
-  T38a hit.
+- Reset semantics: fit per-venue HGA from a stable pre-trained table. For
+  example, use 2010-2019 OLS on actual margin versus Elo difference, like
+  `venue.ts`. The static-table approach has lower variance but loses adaptation.
+- T38a fails standalone. Consider its per-venue HGA mechanism in the A2
+  end-of-2026 bucketed-HA bundle alongside the T33 neutral-venue piece.
+  Bucketing groups venues into derby ≈20, true-home-vs-interstate ≈110, neutral
+  ≈0, and else 80. These coarser groups use samples more efficiently and may
+  avoid T38a's per-venue noise.
 
 ## Engine Machinery (Ships Inert)
 

@@ -20,9 +20,9 @@ Rest difference comes from the schedule and clips at ±10.
 - M2 L2 logistic on home win. Secondary.
 - Stack-lite ridge over v3's own two features {Elo diff, PAV total diff}:
   framework sanity check.
-- M3 _(post-hoc steelman, declared before running)_: ridge on v3's residuals,
-  all coefficients penalised, so λ to ∞ recovers v3 exactly: shrinkage toward
-  the incumbent rather than toward zero, grid extended to 3000.
+- M3, a post-hoc steelman declared before running, fits ridge on v3's residuals.
+  Penalising every coefficient makes λ to ∞ recover v3 exactly. Shrinkage
+  targets the incumbent. The grid extends to 3000.
 
 The protocol uses an expanding per-round refit within 2016-19 and 2021-26 era
 pools. It requires 200 training matches and uses exact v3 before that point. The
@@ -34,10 +34,10 @@ training stats.
 level per T29, so it cannot rescue the result). Scoring: engine `metrics.ts` +
 `bootstrapCompareStratified` (seed 42/1000) via `analysis/task35-stack-eval.ts`.
 
-**Sanity:** The stack-lite model recovers v3's margins with correlations of 0.992
-early and 0.997 recently. Mean absolute differences are 5.7 and 2.8 points. The
-walk-forward framework can find the incumbent when the incumbent is the truth.
-The failures below are not framework artefacts.
+**Sanity:** The stack-lite model recovers v3's margins with correlations of
+0.992 early and 0.997 recently. Mean absolute differences are 5.7 and 2.8
+points. The walk-forward framework can find the incumbent when the incumbent is
+the truth. The failures below are not framework artefacts.
 
 ## Results (Candidate − V3)
 
@@ -73,18 +73,18 @@ noise with a positive price).
    model that chases recent residuals: same mechanism as v4's tips failure
    (T32).
 3. The fairness caveat cuts the right way. V3's params are in-sample for
-   2021-25, but the early window: where v3's coefficients were transported, not
-   tuned: is the stack's _worst_ window. The incumbent's structure generalises.
-   The stack does not.
+   2021-25, but the early window is the stack's _worst_ window. V3 uses its
+   existing coefficients there without tuning them again. The incumbent's
+   structure generalises. The stack does not.
 4. 2026's small LogLoss gains (−0.002…−0.008) come with −4/−5 tips on 49 close
    games: the v4 trade again, in miniature.
 
 ## Disposition
 
 - Documented negative. Do not re-propose a learned head over the _existing_
-  feature set. Resurrection condition: a new feature that first survives a
-  univariate pre-registered test (the standing bar): for example DOB/age priors
-  after the afl-stats backfill (T30), or a genuinely new data feed. A stack is a
+  feature set. Resurrection requires a new feature that first survives a
+  univariate pre-registered test, the standing bar. Examples include DOB/age
+  priors after the T30 afl-stats backfill or a new data feed. A stack is a
   combiner, not a source.
 - The 2027 comp position is after T34: v3-class skill + variance. Remaining live
   modelling work = **A2 end-of-2026 bundle** (incl. Neutral≈0) and the **v4

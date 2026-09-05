@@ -503,8 +503,8 @@ Three parameters drove essentially all of the v1 improvement:
    signal. AFL team quality is persistent enough year-to-year that discarding
    accumulated Elo signal is wasteful.
 
-2. Blend weight. Shifting from 60/40 to 90/10 Elo/PAV (-0.0061 LogLoss from
-   blended-v1 to blend-weight-09) reflects that Elo carries the majority of the
+2. Blend weight. Shifting from 60/40 to 90/10 Elo/PAV improves LogLoss by
+   0.0061, comparing blended-v1 with blend-weight-09. Elo carries most of the
    predictive signal. PAV's calibrated contribution at 10% is small but
    non-negative.
 
@@ -526,9 +526,8 @@ Two categories of parameter proved insensitive:
 2. All PAV internal parameters. Both `prior_weight_k` (range 0.0015) and
    `missing_player_default` (range 0.0001) are insensitive. At 10% blend weight,
    PAV's internal tuning simply does not register in the overall output. This
-   result is a robustness finding: PAV cannot hurt the model even if its
-   internal knobs are set poorly, but it also cannot help much with fine-tuning
-   at this blend level.
+   result shows robustness. Poor internal PAV settings cannot hurt the model
+   much. Fine-tuning also adds little at this blend level.
 
 ### The Tip% Versus LogLoss Tension
 
@@ -562,8 +561,7 @@ Based on the findings, the recommended priority order for v2 work is:
 
 1. Sigma sweep. The most direct path to fixing the remaining calibration gap. A
    sweep from 28 to 36 should reveal whether the current value is too
-   conservative. This result is a parameter tuning task, not an architectural
-   change, and could be completed in a single experiment.
+   conservative. One parameter-tuning experiment can test this.
 
 2. Ground-specific home advantage. The flat HA parameter's insensitivity
    combined with its clear directional trend suggests that the real signal is in
@@ -574,14 +572,14 @@ Based on the findings, the recommended priority order for v2 work is:
    effects.
 
 3. Opponent-adjusted PAV. Currently PAV measures absolute player quality without
-   regard to opponent strength. Adjusting PAV for opponent would improve the
-   signal, but at 10% blend weight, the impact would be attenuated. This result
-   is lower priority unless a future experiment increases PAV's blend weight.
+   regard to opponent strength. Opponent adjustment would improve PAV's signal.
+   The 10% blend weight would limit its impact. This result is lower priority
+   unless a future experiment increases PAV's blend weight.
 
 4. Zone-specific blending. Allowing different Elo/PAV weights for different
-   field zones (offensive, midfield, defensive). This result is the most complex
-   architectural change and should be deferred until PAV's overall contribution
-   is validated at a higher blend weight.
+   field zones (offensive, midfield, defensive). Defer this complex
+   architectural change until experiments validate PAV's contribution at a
+   higher blend weight.
 
 ---
 

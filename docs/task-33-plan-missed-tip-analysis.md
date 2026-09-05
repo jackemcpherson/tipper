@@ -47,9 +47,9 @@ control: patterns must be over-represented among misses, not just present).
 
 For each v3 miss, from the Squiggle tips data (full-coverage sources only):
 
-- Field split: fraction of sources that tipped it correctly, and the field's
-  mean confidence on the true winner (`hconfidence` per source is in the API
-  payload).
+- Field split: record the fraction of sources that tipped correctly and the
+  field's mean confidence on the true winner. Use each source's API
+  `hconfidence`.
 - Classify: **consensus miss** (≤35% of field correct: nobody's information
   helped) vs **tipper-specific miss** (≥65% of field correct: we were the
   outlier) vs grey zone.
@@ -71,11 +71,10 @@ Expected n ≈ 60-90. Small. Approach accordingly:
   reviewed with domain eyes (Jack): at this n, named human-legible segments beat
   algorithmic clusters.
 - Secondary: hierarchical clustering on standardised features as a suggestion
-  engine only. Never report a cluster that cannot be restated as a
-  plain-language rule ("interstate dogs off a bye", "team X at venue Y
-  early-season").
+  engine only. Only report clusters that have a plain-language rule ("interstate
+  dogs off a bye", "team X at venue Y early-season").
 - Replication gate: a cluster only graduates if it appears in ≥2 seasons (or
-  both the 2023-25 block and 2026). Single-season clusters are noted and parked.
+  both the 2023-25 block and 2026). Note and park single-season clusters.
 
 ## Phase 4: Clusters to Candidates
 

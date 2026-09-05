@@ -22,10 +22,10 @@ than v3 signal tweaks.
   `hconfidence` on the true winner.
 - Classification: **consensus miss** ≤35% of field correct. **tipper-specific
   (TS) miss** ≥65%. Grey between.
-- Tags per game (misses _and_ correctly-tipped control): closeness band on |pred
-  margin|, T22 venue/travel bucket, round phase, post-bye, rest diff (Squiggle
-  schedule), weather (D1, 2023-25 only), team identities, upset direction vs
-  field.
+- Tag misses and correctly-tipped controls alike. Record closeness band on |pred
+  margin|, T22 venue/travel bucket, round phase, post-bye, and rest difference
+  from the Squiggle schedule. Add D1 weather for 2023-25, team identities, and
+  upset direction versus the field.
 - Scripts: `analysis/missed-tip-analysis-2023-2026.py` (phases 1-3, writes the
   tagged dataset. Misses persisted in `analysis/task33-misses-tagged.csv`),
   `analysis/task33-neutral-ha-test.ts` (phase 4, offline-exact via engine
@@ -80,17 +80,16 @@ them (verified: no mirror game flips).
 | Wet weather                                  | 9/121  | 7.4%    | 1.2×     | Not available    | Flat (T26 re-confirmed)                  |
 | Round phase, rest diff, post-bye, upset side |        |         | 0.7-1.3× | Not available    | Flat                                     |
 
-- The neutral cluster is sharp: all 5 are "v3 tipped the designated home at a
-  venue where nobody is home (Gather Round ×4, 2024 GF), home lost, field tipped
-  away". Raw binomial p ≈ 0.001. Survives ~40-cell multiplicity at ~0.04.
-  Replicated in three seasons. T22 independently found derbies/neutrals want ≈0
-  HA. Mechanism: v3 grants a flat 5.6-pt prediction HA that is venue-conferred
-  in reality, not fixture-conferred.
-- The St Kilda cluster is directionally pure (6/6 "we tipped StK, they lost")
-  but team-identity fixes are precedent-rejected: T24/T25 showed team residuals
-  follow list state, and the structural answer (v4 walk-forward offsets) loses
-  tips (T32). Carry as a diagnostic into the season-end v4 re-eval and the D1
-  feature set, not a model tweak.
+- The neutral cluster contains five games, four at Gather Round and the 2024 GF.
+  V3 tipped the designated home team at a neutral venue. The home team lost, and
+  the field tipped away. Raw binomial p ≈ 0.001. Survives ~40-cell multiplicity
+  at ~0.04. Replicated in three seasons. T22 independently found
+  derbies/neutrals want ≈0 HA. Mechanism: v3 grants a flat 5.6-pt prediction HA
+  that is venue-conferred in reality, not fixture-conferred.
+- All six St Kilda misses tipped St Kilda. T24/T25 rejected team-identity fixes
+  because team residuals follow list state. V4 walk-forward offsets, the
+  structural answer, lose tips under T32. Carry as a diagnostic into the
+  season-end v4 re-eval and the D1 feature set, not a model tweak.
 
 ## Phase 4: Candidate N0 (Pre-Registered Before Running)
 

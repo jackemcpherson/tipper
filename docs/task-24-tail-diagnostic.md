@@ -130,9 +130,8 @@ implementation would clear the promotion bar.
    - Cross-era replication required before believing it (2018-19 cellar teams:
      Gold Coast, Carlton): naturally falls out of A1's window expansion. Risk
      remains residual-chasing.
-3. The Task 23 reframe is sharpened further: not "margins against bad teams are
-   not extreme enough" in general, but "two specific teams persistently
-   underperform their ratings". Candidate causal stories (list management,
+3. Task 23 now has a more specific explanation. Two teams persistently
+   underperform their ratings. Candidate causal stories (list management,
    tanking-era effort, mass personnel churn) are team-level states, which is
    what B2 models.
 

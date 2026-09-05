@@ -189,11 +189,11 @@ Out-of-sample (2026, 63 matches):
    (6 years, 1196 matches) was too short. Using 10+ years and hierarchical
    shrinkage could produce stable estimates.
 
-4. Opponent-adjusted PAV: now that PAV's base signal is validated, adjusting for
+4. Opponent-adjusted PAV: validation confirms PAV's base signal. Adjusting for
    opponent strength could increase its contribution beyond the current 40%
    blend weight.
 
-5. Re-calibrate slope periodically: the 6.986 slope was fitted on 2021-2024. As
+5. Re-calibrate slope periodically: 2021-2024 data produced the 6.986 slope. As
    more seasons complete, re-fitting against a wider window will produce a more
    reliable estimate.
 

@@ -205,14 +205,13 @@ LogLoss, and Brier for each sample.
 Key observations:
 
 - All tuned configs have heavily overlapping CIs. The 95% CI width for LogLoss
-  is approximately +/-0.033 (for example, 0.840 to 0.906), while the total
-  improvement from v1 to v1.5 was only 0.009. The signal-to-noise ratio is
-  roughly 1:3.
+  is approximately +/-0.033 in LogLoss. One example has bounds of 0.840 and
+  0.906 in LogLoss. Total improvement from v1 to v1.5 was only 0.009 in LogLoss.
+  The signal-to-noise ratio is roughly 1:3.
 - All models clearly beat the home-team baseline on tip% (gap of ~8pp, well
   outside CIs).
-- The v1.5 model's tip% CI [62.2, 68.3] is consistent with the 65% observed on
-  both out-of-sample windows (2018-2019 and 2026), confirming these are within
-  expected variance.
+- The v1.5 tip% CI [62.2, 68.3] contains the 65% observed in both out-of-sample
+  windows, 2018-2019 and 2026. Both results lie within expected variance.
 
 ### Part B. Decision Robustness (Paired Bootstrap Deltas)
 
@@ -235,9 +234,9 @@ need about 10,000 matches to achieve statistical significance.
 However, additional context beyond in-sample LogLoss informed the decisions:
 
 - Task 5 (PAV): The delta was below a pre-specified 0.005 threshold. The
-  bootstrap confirms this was a close call. The CI touches 0.005 at its upper
-  end. Dropping PAV was a complexity-reduction decision as much as a performance
-  decision.
+  bootstrap confirms the decision was a close call. The CI touches 0.005 at its
+  upper end. Dropping PAV was a complexity-reduction decision as much as a
+  performance decision.
 
 - Task 6 (RTM): The in-sample delta was always trivial. The real evidence was
   the out-of-sample 2026 test, which showed a clearer (though small-sample)
@@ -406,14 +405,14 @@ steps.
 The v1.5 model passes validation broadly:
 
 - External benchmark (Task 9): Case C. Competitive but lagging. 65% tips on 2026
-  vs 73% median in the Squiggle field. The gap is expected for a simple Elo
-  model.
+  vs 73% median in the Squiggle field. A simple Elo model typically has this
+  gap.
 - Cross-era generalisation (Task 10): Strong pass. LogLoss within 0.011 of
   in-sample across 2018-2019.
 - Statistical robustness (Task 11): No individual decision is significant at 95%
-  confidence. The total improvement from original to v1.5 is real (the CI for
-  original vs v1.5 is close to excluding zero) but any single parameter change
-  is within noise.
+  confidence. The CI for original versus v1.5 is close to excluding zero,
+  supporting the total improvement. Any single parameter change remains within
+  noise.
 - Team-level diagnostics (Task 12): Seven teams systematically misrated. Causes
   split between slow Elo adaptation (4 teams) and ground-specific HA (2 teams,
   with 2 more partially explained by venue effects).
@@ -437,21 +436,22 @@ train window to 2026. Recommended fix: automatically include all years between
 Based on the combined v1 + v1.5 + validation findings:
 
 1. **Fix the `--season` CLI bug**. This result is a correctness issue that
-   undermines trust in any single-season evaluation. Should be fixed before any
-   further experimentation.
+   undermines trust in any single-season evaluation. Fix it before further
+   experiments.
 
-2. Ground-specific home advantage. Confirmed as the top architectural priority
-   by both Task 7 (monotonic sweep with no peak) and Task 12 (Geelong and
-   Adelaide showing 15.6-point home underrating). This result is the single
-   change most likely to close the gap with the Squiggle field.
+2. Ground-specific home advantage. Task 7 found a monotonic sweep with no peak.
+   Task 12 found 15.6-point home underrating for Geelong and Adelaide. Both
+   identify ground-specific home advantage as the top architectural priority.
+   This result is the single change most likely to close the gap with the
+   Squiggle field.
 
 3. Contextual K-factor. Task 12 shows 4 teams with era-effect misrating caused
-   by slow Elo adaptation. A K-factor that increases for teams with high list
-   turnover or large recent rating changes would fix the West Coast (+17.7) and
-   North Melbourne (+8.6) overrating.
+   by slow Elo adaptation. Consider increasing K-factor for teams with high list
+   turnover or large recent rating changes. Target West Coast +17.7 and North
+   Melbourne +8.6 overrating.
 
-4. Match-level prediction storage in CI. Now implemented but should be tested
-   and committed. Essential for any future diagnostic work.
+4. Match-level prediction storage in CI. Implementation exists. Test and commit
+   it. Essential for any future diagnostic work.
 
 5. Revisit PAV (conditional). Task 11 showed the PAV decision was a close call
    (CI upper bound at +0.005). If ground-specific HA closes the venue-related

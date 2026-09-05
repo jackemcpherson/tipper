@@ -1,7 +1,14 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.4.13/schema.json",
   "files": {
-    "includes": ["**", "!!**/.wrangler", "!!**/dist", "!!**/configs/**/results-*.json"]
+    "includes": [
+      "**",
+      "!!**/.wrangler",
+      "!!**/.claude",
+      "!!**/.rumdl_cache",
+      "!!**/dist",
+      "!!**/configs/**/results-*.json"
+    ]
   },
   "linter": {
     "enabled": true,

@@ -24,10 +24,10 @@ headline findings:
 2. RTM=0.0 was overfitted to the training window (Task 6). Out-of-sample 2026
    data clearly prefers RTM=0.10, which adds mild season-boundary regression.
 3. Home advantage optimum is above 80 (Task 7). The sweep was monotonic to 200.
-   HA=160 was selected as the value most consistent with published AFL home
-   advantage (~11 points).
-4. Sigma=36 is already optimal (Task 8). The calibration gap identified in Task
-   4 was resolved by the HA increase, not sigma.
+   The sweep selected HA=160 as most consistent with published AFL home
+   advantage, ~11 points.
+4. Sigma=36 is already optimal (Task 8). The HA increase resolved the Task 4
+   calibration gap.
 
 ### Final V1.5 Parameters
 
@@ -360,7 +360,7 @@ Potential v2 approaches:
 - Isotonic calibration: post-processing step that maps predicted probabilities
   to empirically calibrated values.
 - Ground-specific HA: reducing the global HA constant's contribution to games
-  where it is overestimated (Melbourne derbies).
+  where it overestimates home advantage, such as Melbourne derbies.
 - Contextual K-factor: varying Elo responsiveness by match context.
 
 ### Task 8 Decision
@@ -485,12 +485,12 @@ Based on the combined v1 + v1.5 findings:
 
 2. Investigate 2026 model performance: 50% tips through 60 matches is
    concerning. Before any architectural v2 work, confirm the model recovers as
-   the season progresses. If it does not, investigate whether the 2025-2026
-   season boundary had unusual list turnover, whether specific teams are
-   systematically misrated, or whether the training window needs expansion.
+   the season progresses. If it does not, check for unusual list turnover at the
+   2025-2026 season boundary. Check systematic team misrating and whether the
+   training window needs expansion.
 
-3. Match-level prediction storage: Task 6 Part B was blocked because the CLI
-   writes `matches: []`. Adding per-match prediction output enables team-level
+3. Match-level prediction storage: The CLI writes `matches: []`, which blocked
+   Task 6 Part B. Adding per-match prediction output enables team-level
    diagnostics, rebuild-team analysis, and ground-specific performance
    breakdowns. Small engineering task with high diagnostic value.
 

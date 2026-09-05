@@ -59,11 +59,11 @@ Reliable to offset hyperparameters (K=16/c=0.5 and K=32/c=0 give the same pooled
 - `src/engine/offset.ts`: offset state (4 unit tests).
 - `output.team_offset: {k, season_carry}` (`.optional()`, never `.default()`).
 - `harness.ts`: offsets decay at season boundaries. Applied to predicted margins
-  via a `marginAdjust` term. Learned from (possibly unrecorded) predictions for
-  **all completed non-train-season matches**, which keeps `backtest`,
-  `backtest -s`, and live `predict` consistent (the live path generates virtual
-  predictions for completed matches so offset state stays warm: the T19 lesson
-  applied in advance).
+  via a `marginAdjust` term. Offsets learn from predictions for
+  **all completed non-train-season matches**, including unrecorded predictions.
+  This keeps `backtest`, `backtest -s`, and live `predict` consistent. The live
+  path generates virtual predictions for completed matches to keep offset state
+  warm, applying the T19 lesson.
 - Bit-inertness verified: `predha-080` re-run reproduces all predictions
   exactly.
 - Offline↔engine equivalence verified: real backtests reproduce the offline
@@ -95,9 +95,9 @@ MAE improves 26.31 to 25.97 (primary) and 28.79 to 28.45 (early).
 - WCE/North residual: partially absorbed (−16.7 to ~−12.9 by offsets. Shot-Elo
   helps further). Re-run the Task 24 per-team diagnostic on v4 records next
   session: the remaining residual is the new target.
-- 2026 gate is burned. 2026 monitoring continues but is no longer untouched OOS
-  for this candidate family. The next gate is the remainder of 2026 (R14
-  onward).
+- 2026 no longer provides an untouched gate. 2026 monitoring continues but is no
+  longer untouched OOS for this candidate family. The next gate is the remainder
+  of 2026 (R14 onward).
 - A2 end-of-2026 bundle now re-tests against v4 baselines (bucketed HA, sigma,
   flat HA re-sweep, finals HA: all offline-exact from v4 results files).
 - The promotion bar formally becomes: primary Δ > 0.005 + pooled stratified CI

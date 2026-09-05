@@ -101,10 +101,10 @@ T38a (Barossa, Norwood, Traeger map to negative HGA values).
   `output.prediction_home_advantage` with a per-venue lookup. Update side stays
   at `elo.home_advantage: 160` for now (separate decision. Mixing both is a
   v4-class risk).
-- Estimator. Walk-forward leave-one-season-out: for each season Y, fit per-venue
-  HGA from completed matches in training_seasons + (2016..Y−1). Pre-train on
-  2015-2020 (the train_seasons block) so seasons 2016-2025 each have an honest
-  leave-one-out fit. No look-ahead.
+- Estimator. Use walk-forward leave-one-season-out estimation. For each season
+  Y, fit per-venue HGA from completed matches. Use training_seasons plus 2016
+  through Y−1. Pre-train on 2015-2020 (the train_seasons block) so seasons
+  2016-2025 each have an honest leave-one-out fit. No look-ahead.
 - Shrinkage. Empirical Bayes: shrink each venue's HGA toward the global mean by
   weight `α = n_global / (n_global + n_venue)`. Pre-register `α=1` (no
   shrinkage) and `α=0.5` (moderate shrinkage) variants. Pick whichever wins on
@@ -145,8 +145,8 @@ Bumped in priority because the Wheelo review provides external validation:
 - Wheelo's Attack rating loads r=+0.93 on xScore (own offensive expected
   scoring).
 - Wheelo's Defence loads r=−0.94 on opposition TotalPoints.
-- Per-team residual halving in Wheelo's column (WCE −16 to −10, North −11 to −5,
-  Geelong +9 to +4, Carlton +6 to +2) is the OD-split fingerprint.
+- Wheelo's per-team residuals roughly halve, the OD-split fingerprint. WCE moves
+  −16 to −10, North −11 to −5, Geelong +9 to +4, and Carlton +6 to +2.
 
 **Action**: at the end of the 2026 R14+ window, re-run the promotion check. Add
 the latest out-of-sample evidence and the consensus-wrong regression guard. The
@@ -171,9 +171,8 @@ Every candidate must pass these _in addition to_ the amended T32 bar:
    against-the-field edge. Any change that pulls v3 closer to field consensus
    erodes the +14 advantage. Reuse `analysis/wheelo-headhead.py`'s `field_share`
    bucketing.
-2. Per-team residual non-degradation: no team's |bias| in the post-change
-   backtest exceeds v3's by more than 2 pts on any team with n ≥ 50 in the
-   window.
+2. Per-team residual non-degradation applies to teams with n ≥ 50 in the window.
+   No post-change |bias| may exceed v3's by more than 2 pts.
 3. Per-venue residual monitor: report the same per-venue residual table as
    `wheelo-headhead-2026-06-16.md` §A.3. Flag any venue whose post-change bias
    moves > 2 pts away from zero.
@@ -191,8 +190,8 @@ Per Jack's product preference (single-bundle changes get burned, see T31/v4):
    with 38a**: the v4 lesson was that bundling LL-positive changes with
    tips-flat changes loses both.
 3. 38b (T36 R14+) at end of 2026. Scheduled per T36 doc. The Wheelo evidence
-   raises the prior that it'll clear the bar with more 2026 data, but the actual
-   gate is still the same CI test.
+   raises the prior that more 2026 data will clear the bar. The gate remains the
+   same CI test.
 
 Run them as **three separate experiments with three separate promotion
 decisions**. Do not combine into a "v5". The v4 reversion is the cautionary
@@ -206,10 +205,10 @@ These do not get re-litigated as part of the Wheelo work:
 - T26 rest/travel, T27 round-phase, T29 rating-points-in-blend, T30/T37 age
   curves.
 - Hand-rolled positional/closeness rules (T33 close-band MC).
-- Mimicking Wheelo's stat-pipeline directly (forward-half time, and similar
-  items): requires afl-stats schema changes outside this scope and Wheelo's
-  stats inputs are not load-bearing once OD-split is captured (B.4 cross-leak
-  r~0.6 already absorbs most stat variance through team rating).
+- Mimicking Wheelo's stat-pipeline, such as forward-half time, requires
+  afl-stats schema changes outside this scope. OD-split already captures most of
+  those inputs' signal. B.4 cross-leak r~0.6 absorbs most stat variance through
+  team rating.
 
 ## 6. Evidence Anchors (For Future-Claude Reading This Cold)
 

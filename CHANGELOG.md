@@ -27,14 +27,14 @@ onward) in two sittings:
   logistic, residual-shrink) all significantly worse on both metrics. Combiners
   over the existing features are dead until a new feature first survives a
   univariate pre-registered test.
-- Task 36: offence/defence split ratings (D2): pooled Δ LL −0.0054 (CI [−0.0007,
-  +0.0110] just inside zero), close-band signs +18 pooled, recent-3 tips +5 (vs
-  v4 −9, the opposite fingerprint), 2026 R1-R14 Δ LL −0.0182 with tied tips.
-  Comp-passing on every criterion except the strict CI lower bound: **parked**
-  pending end-of-2026 re-pool with R14+ accrued.
-- Task 37: age-curve PAV priors (T30 tipper-side, the first feature run under
-  the pre-registration rule): pooled LL got worse on both training windows at
-  every dose. Survivor-bias in the within-player fit + tiny lever arm at K=15.
+- Task 36: offence/defence split ratings (D2): pooled Δ LL −0.0054, CI [−0.0007,
+  +0.0110] just inside zero. Close-band signs +18 pooled. Recent-3 tips +5
+  versus v4 −9, the opposite fingerprint. 2026 R1-R14 Δ LL −0.0182 with tied
+  tips. Comp-passing on every criterion except the strict CI lower bound:
+  **parked** pending end-of-2026 re-pool with R14+ accrued.
+- Task 37: age-curve PAV priors, T30 tipper-side. First feature under the
+  pre-registration rule. Pooled LL got worse on both training windows at every
+  dose. Survivor-bias in the within-player fit + tiny lever arm at K=15.
   **Killed.**
 
 ### New: A3 Weekly Comp Monitoring
@@ -63,20 +63,20 @@ v4-shadow 82 (13th), OD-shadow 86 (tied 4th), market gap +3: alert fired.
 
 ### Procedure / Bar Changes
 
-- Tips criterion is now part of the promotion bar (added Task 32): no tip
-  regression vs the incumbent on the pooled scored windows, AND a
-  recent-3-seasons (currently 2023-25) tip deficit is disqualifying. This result
-  is what kept v4 reverted, parked T36, and would have killed any age-curve dose
-  even if LogLoss had moved.
-- Pre-registration rule (added Task 35, first applied Task 37): any new feature
-  must survive a univariate test with the hypothesis + acceptance criterion
-  written down BEFORE the backtests run. Combiners over existing features need a
-  _new_ feature to combine first.
+- Task 32 adds a tips criterion to the promotion bar. Require no tip regression
+  versus the incumbent on the pooled scored windows. A recent-3-seasons deficit,
+  currently 2023-25, disqualifies the candidate. This result is what kept v4
+  reverted, parked T36, and would have killed any age-curve dose even if LogLoss
+  had moved.
+- Task 35 adds pre-registration, first applied in Task 37. Write the hypothesis
+  and acceptance criterion before running backtests. Each new feature must
+  survive a univariate test. Combiners over existing features need a _new_
+  feature to combine first.
 - DOB backfill in afl-stats (work in jackemcpherson/AFL-MCP
   `scripts/backfill-dob.mts`): per-AFLM-season DOB coverage went 0-10% to 99%
   for 1998-2014 and 97-100% for 2015-2025. Source: AFL Tables all-time team
-  lists via fitzroy, with a direct-fetch override for Brisbane Lions (fitzroy
-  3.0.1 slug bug: brisbane.html instead of brisbanel.html). Unblocked T30 / T37
+  lists via fitzroy. Brisbane Lions uses a direct-fetch override. Fitzroy 3.0.1
+  has a slug bug, brisbane.html instead of brisbanel.html. Unblocked T30 / T37
   tipper-side. T37's verdict then closed the work for now.
 
 ## [3.3.1] - 2026-06-12
@@ -111,10 +111,10 @@ and 31):
 - Scoring-shot Elo updates (`elo.shot_margin_weight: 1.0`): the Elo update
   margin is the scoring-shot-implied margin (shots × 3.64 league pts/shot),
   removing conversion luck from the update signal.
-- Walk-forward team offsets (`output.team_offset: {k: 32, season_carry: 0.5}`):
-  a heavily-shrunk per-team performance-vs-rating estimate learned from
-  prediction residuals, applied at prediction time (the Task 24 cellar-dweller
-  tail bias, for example West Coast −16.7 pts/match).
+- Walk-forward team offsets, `output.team_offset: {k: 32, season_carry: 0.5}`.
+  Prediction residuals estimate each team's performance versus rating with heavy
+  shrinkage. Prediction-time offsets address Task 24's cellar-dweller tail bias,
+  such as West Coast −16.7 pts/match.
 
 Results: 2021-2025 LogLoss reached 0.8409, or −0.0075 versus v3. The 2016-2019
 confirmatory window reached 0.8454, or −0.0100. The pooled era-stratified
@@ -128,10 +128,10 @@ two-window evaluation procedure.
   confirmatory window (`predha80-early`). 2020 stays train-only.
 - `bootstrapCompareStratified` in `metrics.ts`: era-stratified pooled paired
   bootstrap, now the headline significance test.
-- Five further directions resolved negative with documented evidence: convex
-  margin maps (task 24), rest/travel differentials (task 26), round-phase blend
-  schedules (task 27), rating_points as a second player signal (task 29),
-  age-curve priors (blocked on DOB coverage, task 30).
+- Five further directions have documented negative results or blockers. These
+  cover convex margin maps, rest/travel differentials, round-phase blend
+  schedules, and rating_points as a second player signal. See Tasks 24, 26, 27,
+  and 29. Task 30 age-curve priors lacked DOB coverage.
 
 ## [3.2.0] - 2026-06-12
 
@@ -154,14 +154,14 @@ config fields that are inert when unset.
 
 ### Framework Fixes
 
-- Warm-up gap: `backtest -s`, `predict`, and `compare` now warm up over seasons
-  between the train window and the target: previously a 2026 run jumped from
-  2020 Elo state straight to 2026 (live `predict` was affected too).
+- Warm-up gap: `backtest -s`, `predict`, and `compare` now warm up seasons
+  between the train window and target. Previously, 2026 runs jumped from 2020
+  Elo state straight to 2026. Live `predict` had the same gap.
 - Results filenames include the short config hash so scope-overridden runs
   cannot overwrite same-day promotion-valid results.
 - Promotion guardrail accepts any results file matching the current config hash,
   not just the lexically-latest file.
-- Stale wrangler OAuth tokens are skipped during credential resolution.
+- Credential resolution skips stale wrangler OAuth tokens.
 
 ### V3.2 CLI Improvements
 
@@ -205,7 +205,7 @@ wrangler.
 ### Architecture Changes
 
 - D1 REST client (`src/data/d1-rest.ts`): D1Database-compatible shim that calls
-  the Cloudflare D1 HTTP API. `queries.ts` is unchanged.
+  the Cloudflare D1 HTTP API. `queries.ts` stays unchanged.
 - Shared orchestration (`src/orchestration.ts`): Extracted `fetchHarnessData`,
   `runBacktest`, `runPrediction`, `runCalibration`, `runCompare`, and
   `runDeriveVenueHA` from `worker.ts` into a shared module used by both the CLI
@@ -228,8 +228,8 @@ the first statistically significant improvement in the project's history.
 ### Model Changes
 
 - PAV defence formula fix (Task 13): Removed spurious `100 *` multiplier in
-  `pav.ts` that inflated defensive PAV by 100x. All prior PAV-related decisions
-  were invalidated.
+  `pav.ts` that inflated defensive PAV by 100x. The fix invalidated all prior
+  PAV-related decisions.
 - PAV re-calibration (Task 15A): Re-derived `pav_calibration_slope` from 0.246
   to 6.986 against corrected PAV values.
 - Blend weight restored (Task 15B): Optimal blend moved from weight_elo=1.0
