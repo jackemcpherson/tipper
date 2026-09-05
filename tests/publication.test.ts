@@ -222,6 +222,59 @@ describe("publication evidence and scheduler edges", () => {
     expect(await commitRun(transport, a.id, round, a.s.observedAt, a.p)).toBe(2);
     expect(await counts()).toEqual({ captures: 2, projections: 2, runs: 1 });
   });
+  it("retains an empty first prospective report without inventing coverage or retrying it", async () => {
+    await db
+      .prepare("INSERT INTO tipper_status(id,activated_at) VALUES(1,'2026-09-05T23:32:55.293Z')")
+      .run();
+    await db
+      .prepare(
+        "UPDATE matches SET status='Complete',home_points=90,away_points=60,kickoff_at='2026-09-05T00:00:00.000Z' WHERE id=1",
+      )
+      .run();
+    await db.prepare("UPDATE matches SET kickoff_at='2026-09-11T00:00:00.000Z' WHERE id=2").run();
+    const fetchMock = vi
+      .spyOn(globalThis, "fetch")
+      .mockImplementation(async () => Response.json({ tips: [] }));
+    try {
+      await collectReport(db, 2026, new Date("2026-09-07T22:05:00Z"));
+      const report = await latestReport(db, 2026, new Date("2026-09-07T22:06:00Z"));
+      expect(report.status).toBe("ok");
+      expect(report.stale).toBe(false);
+      expect(report.report).toMatchObject({
+        coverage: { expected: 0, published: 0, missing: [], missingField: [] },
+        accuracy: null,
+        mae: null,
+        logLoss: null,
+        brier: null,
+        marketGap: null,
+        alert: false,
+        comparisons: [],
+        ranking: [],
+        rankingMatchIds: [],
+      });
+      expect(await counts()).toEqual({ captures: 0, projections: 0, runs: 0 });
+      const saved = await db
+        .prepare("SELECT evidence FROM tipper_reports")
+        .first<{ evidence: string }>();
+      expect(JSON.parse(saved?.evidence ?? "{}")).toEqual({ matches: [], field: [] });
+      await collectReport(db, 2026, new Date("2026-09-07T23:06:00Z"));
+      expect(await db.prepare("SELECT COUNT(*) AS n FROM tipper_reports").first()).toEqual({
+        n: 1,
+      });
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+
+      // A later expected match without a capture remains a missed tip.
+      await db
+        .prepare("UPDATE matches SET status='Complete',home_points=70,away_points=60 WHERE id=2")
+        .run();
+      await collectReport(db, 2026, new Date("2026-09-14T22:05:00Z"));
+      const missing = await latestReport(db, 2026, new Date("2026-09-14T22:06:00Z"));
+      expect(missing.status).toBe("partial");
+      expect(missing.report.coverage).toMatchObject({ expected: 1, published: 0, missing: [2] });
+    } finally {
+      fetchMock.mockRestore();
+    }
+  });
   it("retains observations before reporting a collection failure and preserves the previous report", async () => {
     await publishRound(db, round);
     await db
@@ -242,6 +295,7 @@ describe("publication evidence and scheduler edges", () => {
     try {
       await collectReport(db, 2026, new Date("2026-08-24T22:05:00Z"));
       let report = await latestReport(db, 2026, new Date("2026-08-24T22:06:00Z"));
+      expect(report.status).toBe("partial");
       expect(report.report.coverage).toMatchObject({ expected: 2, published: 2 });
       fetchMock.mockRejectedValue(new Error("Squiggle outage"));
       await collectReport(db, 2026, new Date("2026-08-24T23:06:00Z"));

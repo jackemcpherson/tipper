@@ -70,12 +70,16 @@ export function score(matches: readonly ScoringMatch[], field: readonly FieldTip
   });
   const modelTips = covered.filter((m) => correct(m.winner, m.actual_margin)).length;
   const mae = mean(covered.map((m) => Math.abs(m.issued_margin - m.actual_margin)));
-  const ranking = [
-    { source: "Tipper", tips: modelTips, mae },
-    ...comparisons
-      .filter((c) => c.count === covered.length && c.count > 0)
-      .map((c) => ({ ...c, mae: c.marginCount === c.count ? c.mae : null })),
-  ].sort((a, b) => b.tips - a.tips || (a.mae ?? Infinity) - (b.mae ?? Infinity));
+  const ranking = (
+    covered.length
+      ? [
+          { source: "Tipper", tips: modelTips, mae },
+          ...comparisons
+            .filter((c) => c.count === covered.length && c.count > 0)
+            .map((c) => ({ ...c, mae: c.marginCount === c.count ? c.mae : null })),
+        ]
+      : []
+  ).sort((a, b) => b.tips - a.tips || (a.mae ?? Infinity) - (b.mae ?? Infinity));
   const punters = comparisons.find((c) => c.source === "Punters");
   const gap = punters?.count ? punters.modelTips - punters.tips : null;
   return {
@@ -199,10 +203,11 @@ export async function collectReport(
     evidence = { matches: rows.results, field };
     const result = score(rows.results, field);
     const partial =
-      result.coverage.missingField.length > 0 ||
-      !result.comparisons.some(
-        (c) => c.source === "Punters" && c.count === result.coverage.published,
-      );
+      result.coverage.expected > 0 &&
+      (result.coverage.missingField.length > 0 ||
+        !result.comparisons.some(
+          (c) => c.source === "Punters" && c.count === result.coverage.published,
+        ));
     await db
       .prepare(
         "INSERT INTO tipper_reports(season,week,observed_at,status,evidence,result) VALUES(?,?,?,?,?,?)",
