@@ -85,9 +85,10 @@ separate input diagnostic. Reporting staleness does not fail deployment health.
 After Monday 22:00 UTC, score issued captures at their recorded locks. Retain the
 actual outcomes and observed Squiggle field with every report. Failed collection
 attempts remain available. Retry hourly and keep the previous successful report.
+
 A reporting period with no expected prospective matches is a valid empty report.
 It has zero coverage, null performance metrics and no ranking. Reports start at
-the first Monday 22:00 UTC after activation; they are never backdated.
+the first Monday 22:00 UTC after activation. They are never backdated.
 
 The public report includes coverage, missing tips, field comparisons, accuracy,
 draws, MAE, log loss, Brier score and the under-12-point close-band diagnostic.
