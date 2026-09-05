@@ -61,7 +61,7 @@ CLI (Commander) → D1 REST API → D1 Database (afl-stats)
 
 ## Conventions
 
-Follow `TYPESCRIPT_STYLE_GUIDE.md` for full conventions. Key points:
+Follow `typescript-style-guide.md` for full conventions. Key points:
 
 - **Bun** as package manager, **Biome** for lint+format, **Vitest** for tests, **tsc** for type checking
 - Strict TypeScript: `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, no `any`, no enums
