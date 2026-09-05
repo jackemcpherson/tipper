@@ -204,3 +204,22 @@ new migration tests. Its PR description is ready at
 approval. The tests only applied migrations to Miniflare's local D1 database.
 
 The local AFL-MCP migration commit is `4231484`.
+
+## Archive Implementation, 2026-09-05
+
+The local archive branch retains fixtures and named lineups from the
+prediction's own read. Each capture stores published precision, full-precision
+rating inputs, and all available Squiggle sources for that game. It omits
+outcomes. Captures use the completion clock, not the tick's scheduled time.
+
+The primary upsert finishes before the field fetch. Squiggle has a five-second
+timeout. Missing archive tables produce a warning. Other capture failures also
+leave the successful primary result intact. SQL uses inserts with duplicate
+keys ignored, so retries cannot replace evidence.
+
+Tests cover both margin orientations, consumed lineup flags, field outages,
+missing tables, bounded SQL batches, and successful publication despite archive
+failure. The frozen replay still gives hash `2641f46f`, 716 tips, and log loss
+0.848459853. Every stored prediction remains identical. The published R27 row
+also matches exactly. Validation uses stubbed Worker ticks and read-only D1
+replays. No production publishing command ran.

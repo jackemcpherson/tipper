@@ -2,7 +2,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { createD1RestClient } from "../../src/data/d1-rest.js";
 import * as queries from "../../src/data/queries.js";
 import type { MatchRow, PlayerSeasonPavRow } from "../../src/data/types.js";
-import { runBacktest, runCompare, type SeasonData } from "../../src/orchestration.js";
+import {
+  runBacktest,
+  runCompare,
+  runPrediction,
+  type SeasonData,
+} from "../../src/orchestration.js";
 import { BAKED_CONFIG } from "../../src/worker/baked-config.js";
 
 /** One match per season, with a prior-sensitive home lineup. */
@@ -85,5 +90,8 @@ describe("scoped comparison warmup", () => {
     expect(compared.configB.maeMargin).toBe(baseline.overall.mae_margin);
     expect(compared.deltas.tipPct.point).toBe(0);
     expect(prior.mock.calls.map((call) => call[1]).sort()).toEqual([2020, 2021]);
+    const live = await runPrediction(db, config, 2022, 1, "AFLM", cache);
+    expect(live.capture_inputs.lineups).toEqual(seasonData(2022).lineups);
+    expect(live.capture_inputs.matches).toEqual(seasonData(2022).matches);
   });
 });

@@ -210,6 +210,85 @@ describe("runPublishTick", () => {
     expect(upsertCalls(calls)).toEqual([]);
   });
 
+  it.each([false, true])(
+    "archives consumed inputs after publication; storage failure=%s",
+    async (failArchive) => {
+      vi.spyOn(console, "warn").mockImplementation(() => {});
+      const { db, calls } = makeFakeDb([makeRow()]);
+      const capturedAt = new Date("2026-07-16T05:02:00.000Z");
+      const predict: PredictFn = async (...args) => ({
+        ...(await makePredict()(...args)),
+        capture_inputs: {
+          matches: [
+            {
+              id: 9001,
+              season_id: 2026,
+              round: "19",
+              round_number: 19,
+              round_type: "Regular",
+              date: "2026-07-16",
+              local_time: "19:30:00",
+              venue_id: 1,
+              home_team_id: 1,
+              away_team_id: 2,
+              home_goals: null,
+              home_behinds: null,
+              home_points: null,
+              away_goals: null,
+              away_behinds: null,
+              away_points: null,
+              margin: null,
+              attendance: null,
+              external_afl_id: null,
+            },
+          ],
+          lineups: [
+            {
+              id: 4,
+              match_id: 9001,
+              team_id: 2,
+              player_id: 17,
+              position: "SUB",
+              guernsey_number: 17,
+              is_emergency: 0,
+              is_substitute: 1,
+            },
+          ],
+        },
+      });
+      const field = vi.fn(async () => {
+        expect(upsertCalls(calls)).toHaveLength(1);
+        return null;
+      });
+      const append = vi.fn(async () => {
+        if (failArchive) throw new Error("storage offline");
+      });
+      const result = await runPublishTick(db, NOW, predict, {
+        field,
+        append,
+        clock: () => capturedAt,
+      });
+      expect(result.failed).toEqual([]);
+      expect(result.published).toHaveLength(1);
+      expect(append).toHaveBeenCalledWith(db, [
+        expect.objectContaining({
+          match_id: 9001,
+          model_version: EXPECTED_MODEL_VERSION,
+          captured_at: capturedAt.toISOString(),
+          is_primary: 1,
+          predicted_margin: -28.3,
+          home_win_prob: 0.31,
+          field_json: null,
+          lineups_json: JSON.stringify([
+            { player_id: 17, team_id: 2, position: "SUB", is_emergency: 0, is_substitute: 1 },
+          ]),
+        }),
+      ]);
+      expect(upsertCalls(calls)[0]?.params[4]).toBe(NOW.toISOString());
+      expect(field).toHaveBeenCalledTimes(1);
+    },
+  );
+
   it("counts an empty prediction set as a failure and writes nothing", async () => {
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const { db, calls } = makeFakeDb([makeRow()]);
