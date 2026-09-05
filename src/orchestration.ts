@@ -8,6 +8,7 @@
 
 import { shortHash } from "./config/hash.js";
 import type { Config } from "./config/schema.js";
+import type { PredictionCaptureInputs } from "./data/archive.js";
 import { formatModelVersion, toPredictionRow, upsertPredictions } from "./data/publish.js";
 import {
   fetchLatestMatchDate,
@@ -306,15 +307,23 @@ export async function runPrediction(
 
   const result = runPredict(harnessData, config, roundNumber, targetSeasonId);
 
+  const predictedIds = new Set(result.predictions.map((prediction) => prediction.matchId));
+  const captureInputs: PredictionCaptureInputs = {
+    matches: harnessData.matches.filter((match) => predictedIds.has(match.id)),
+    lineups: [...predictedIds].flatMap((id) => harnessData.lineupsByMatch.get(id) ?? []),
+  };
+
   return {
     data_through: latestDate,
     predictions: result.predictions,
+    capture_inputs: captureInputs,
     skipped_matches: result.skippedMatches.length,
   };
 }
 
 /** Outcome of a publishRound call. */
 export interface PublishRoundResult {
+  readonly capture_inputs?: PredictionCaptureInputs;
   readonly data_through: string | null;
   readonly predictions: readonly MatchPrediction[];
   /** Rows upserted into match_predictions (0 when the engine yielded none). */
@@ -376,6 +385,7 @@ export async function publishRound(
   return {
     data_through: result.data_through,
     predictions: result.predictions,
+    ...(result.capture_inputs && { capture_inputs: result.capture_inputs }),
     written,
     model_version: modelVersion,
     generated_at: generatedAt,

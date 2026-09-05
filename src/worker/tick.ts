@@ -8,7 +8,9 @@
  * nothing is due the tick performs no engine runs at all.
  */
 
+import { appendPredictionArchive, buildArchiveRows } from "../data/archive.js";
 import { fetchPublishRoundStates } from "../data/queries.js";
+import { fetchRoundField } from "../data/squiggle-field.js";
 import { publishRound, runPrediction } from "../orchestration.js";
 import { BAKED_CONFIG, BAKED_CONFIG_HASH, BAKED_CONFIG_ID } from "./baked-config.js";
 import {
@@ -51,6 +53,13 @@ function roundKey(state: RoundState): RoundKey {
   return { competition: state.competition, season: state.season, roundNumber: state.roundNumber };
 }
 
+/** Archive I/O and wall-clock seams for deterministic tick tests. */
+export interface ArchiveDependencies {
+  readonly append?: typeof appendPredictionArchive;
+  readonly field?: typeof fetchRoundField;
+  readonly clock?: () => Date;
+}
+
 /**
  * One cron tick: publish every round the plan says is due.
  *
@@ -66,6 +75,7 @@ export async function runPublishTick(
   db: D1Database,
   now: Date,
   predict: PredictFn = runPrediction,
+  archive: ArchiveDependencies = {},
 ): Promise<PublishTickResult> {
   const states = await fetchRoundStates(db, now);
   const due = publishPlan(now, states);
@@ -92,6 +102,37 @@ export async function runPublishTick(
         console.error(`[publish-tick] ${label}: engine returned no predictions; nothing written`);
         failed.push(roundKey(round));
         continue;
+      }
+      // Publication already succeeded. Archive failures must not change its outcome.
+      try {
+        if (result.capture_inputs) {
+          const clock = archive.clock ?? (() => new Date());
+          const field =
+            round.competition === "AFLM"
+              ? await (archive.field ?? fetchRoundField)(round.season, round.roundNumber, clock)
+              : null;
+          const rows = buildArchiveRows(
+            result.predictions,
+            result.capture_inputs,
+            {
+              modelVersion: result.model_version,
+              configHash: BAKED_CONFIG_HASH,
+              config: BAKED_CONFIG,
+              capturedAt: clock().toISOString(),
+              competition: round.competition,
+              season: round.season,
+              roundNumber: round.roundNumber,
+              firstKickoff: round.firstKickoff,
+              isPrimary: true,
+            },
+            field,
+          );
+          await (archive.append ?? appendPredictionArchive)(db, rows);
+        } else {
+          console.warn(`[archive] ${label}: prediction runner supplied no captured inputs`);
+        }
+      } catch (error) {
+        console.warn(`[archive] ${label}: capture failed after primary publication`, error);
       }
       published.push({ ...roundKey(round), rows: result.written });
       console.log(
