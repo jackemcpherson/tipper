@@ -286,3 +286,25 @@ rehearsal calendar, and copyable contact draft. Jack explicitly prohibited
 Squiggle contact and submissions until he says so. GitHub pushes, PRs, tipper
 merges, and releases have separate approval. No Squiggle contact, submission,
 production publishing command, migration, or deployment ran in this task.
+
+## Task 41 Released, 2026-09-05
+
+[Release v3.5.0](https://github.com/jackemcpherson/tipper/releases/tag/v3.5.0)
+and its Release workflow are complete. Main includes all nine implementation
+and release PRs, #58 through #66. Validation passes 302 tests, typecheck,
+Biome, build, rumdl, and Vale. The primary pointer remains unchanged.
+
+The remaining sibling PRs are open for Jack:
+
+- [AFL-MCP #183](https://github.com/jackemcpherson/AFL-MCP/pull/183) adds the
+  archive schema. Apply its migration before the Worker update.
+- [Infrastructure #160](https://github.com/jackemcpherson/cloudflare-infra/pull/160)
+  pins the published release and its verified digest. Merge then separately
+  apply `stacks/prod/workers/tipper` to deploy it.
+- [Homepage #21](https://github.com/jackemcpherson/homepage/pull/21) documents
+  the new archive, endpoint, and commands.
+
+Read [the final report](docs/task-41-ship-mode.md) or
+[its illustrated HTML](docs/task-41-report.html) for the exact bar,
+verification evidence, and numbered manual checklist. No production migration,
+deployment, manual prediction publishing, Squiggle contact, or submission ran.

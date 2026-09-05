@@ -18,16 +18,16 @@ which add CLI/analysis code but never touch the model.
 
 | Plan | Title | Priority | Effort | Depends on | Status |
 |------|-------|----------|--------|------------|--------|
-| 001 | OD-split (v5) October promotion-gate harness | P1 | M | — | INTEGRATED LOCALLY 2026-09-05; PR publishing awaits approval |
+| 001 | OD-split (v5) October promotion-gate harness | P1 | M | — | DONE 2026-09-05; merged in PR #60 |
 | 002a | Audit/enrich weather data upstream (AFL-MCP / fitzRoy-ts) | P2 | S–M | — | DONE ✅ (APPROVED; NO-ENRICH; 100% AFLM weather coverage 2010–2025; findings doc in AFL-MCP/docs/weather-coverage-audit.md) |
-| 002b | Pre-registered univariate test of weather signal (tipper) | P2 | S–M | 002a | INTEGRATED LOCALLY 2026-09-05; PR publishing awaits approval |
-| 003 | Spike Squiggle submission channel + tip-export command | P2 | S–M | — | INTEGRATED LOCALLY 2026-09-05; PR publishing awaits approval |
-| 004 | Port the weekly comp monitor's scoring core into the typed CLI | P3 | M | — | INTEGRATED LOCALLY 2026-09-05; PR publishing awaits approval |
-| 005 | Land the four approved advisor branches onto main | P1 | S | — | IN PROGRESS; four commits cherry-picked, CI/merge await publishing approval |
+| 002b | Pre-registered univariate test of weather signal (tipper) | P2 | S–M | 002a | DONE 2026-09-05; merged in PR #60 |
+| 003 | Spike Squiggle submission channel + tip-export command | P2 | S–M | — | DONE 2026-09-05; merged in PR #60 |
+| 004 | Port the weekly comp monitor's scoring core into the typed CLI | P3 | M | — | DONE 2026-09-05; merged in PR #60 |
+| 005 | Land the four approved advisor branches onto main | P1 | S | — | DONE 2026-09-05; four commits landed in PR #60 |
 | 006 | Pre-register A2 October bundle + one-button eval harness | P1 | M | 005 | SUPERSEDED by Task 40 campaign; historical research closed |
-| 007 | 2027 comp entry: gameid resolver, tips-endpoint skeleton, contact checklist | P2 | M | 005 | IMPLEMENTED 2026-09-05; ordered PRs in progress, contact and submission remain manual |
+| 007 | 2027 comp entry: gameid resolver, tips-endpoint skeleton, contact checklist | P2 | M | 005 | DONE 2026-09-05; PR #64 merged, contact and submission await Jack |
 | 008 | Travel-distance/timezone univariate probe (D5 resurrection) | P3 | S–M | — | SUPERSEDED by Task 40 campaign; historical research closed |
-| 009 | Weekly comp monitor as GitHub Actions cron | P3 | S | 005 | IMPLEMENTED 2026-09-05; local checks pass, ordered PR pending |
+| 009 | Weekly comp monitor as GitHub Actions cron | P3 | S | 005 | DONE 2026-09-05; merged in PR #65 |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (one-line reason) | REJECTED (one-line rationale)
 
@@ -99,3 +99,10 @@ The ship-mode prompt supersedes plan 005's stale base and merge instructions.
 Four single commits were cherry-picked, preserving the Worker. The two CLI
 registration conflicts retain publish, export-tips, and monitor. Publication
 awaits explicit approval after automatic review rejected the GitHub push.
+
+## Task 41 Completion, 2026-09-05
+
+Jack authorised GitHub publishing. PR #60 landed the four adviser commits.
+PR #64 added the competition feed and PR #65 added the scheduled monitor.
+The final report records the release and open sibling PRs. Squiggle contact
+and submissions still require Jack's separate instruction.

@@ -1,375 +1,228 @@
 # Task 41: Ship Mode
 
-This report records work toward the prospective 2027 trial and Squiggle entry.
-The release is incomplete. The primary model remains `predha-080`.
+Tipper now has the prospective 2027 trial and the competition feed. The
+primary remains `predha-080`, hash `2641f46f`. Task 40 found no promotion
+candidate. Plain OD, `t40-od`, runs only as an archived shadow.
+
+[Release v3.5.0](https://github.com/jackemcpherson/tipper/releases/tag/v3.5.0)
+is available. Its [Release workflow](https://github.com/jackemcpherson/tipper/actions/runs/33955699718)
+is green. All implementation PRs have merged to main with green CI.
+
+Jack must review the sibling PRs, apply the migration and Worker release,
+create the monitor secret, and verify the feed. Squiggle contact and submission
+remain prohibited until Jack separately says so. No production deployment,
+migration, manual prediction publishing, contact, or submission occurred.
 
 ## Publish and Archive
 
 A due tick publishes the primary row first. It then captures the field and
 appends the prediction's consumed inputs. At-lock selection uses the latest
-capture strictly before both archived deadlines. A late capture cannot stand
-in for a missing earlier prediction.
+capture strictly before both archived deadlines. Late captures cannot replace
+missing earlier evidence.
 
 <!-- diagram:tick -->
+
+One additive table stores each match, model, and capture. The writer uses
+inserts only and ignores duplicate capture keys. It stores published precision,
+full-precision rating inputs, named lineup flags, and the game's available
+field tips. A five-second field timeout or missing table cannot fail primary
+publication or health.
+
+The round freezes at its first kickoff. Later weekend team changes are outside
+the model's information window. Unknown match times mean midnight. Minute-only
+kickoff values gain seconds before storage. Forecast weather stays separate.
+If a refresh replaced its retained row after lock, analysis marks it unavailable.
 
 ## Shadow Data Path
 
 The primary upserts `match_predictions` and appends an archive capture.
 `t40-od` calls the read-only predictor and appends only to the archive.
-Each model retains its own consumed lineups. Neither model's archive failure
-can turn a successful primary publication into a failure.
+Each model retains its own consumed lineups. Archive and shadow failures
+cannot turn a successful primary publication into a failure.
 
 <!-- diagram:shadows -->
+
+The challenger has the same content hash as `od-w100-k008`, `c8c7b6b7`.
+The baker reads `configs/_shadows.json`, rejects duplicates, and omits the
+promoted id from shadows. Existing promotion and baking commands remain the
+only promotion path. Repeated baking produces identical bytes.
 
 ## Frozen Adjudication
 
 Pair exact match ids from the two frozen model versions. Score the common
-close band and the incumbent's archived field. The 30-tip floor applies before
-either promotion rule. Retrospective and incomplete evidence remain PARK.
+incumbent close band and its archived field. A complete prospective season
+must precede any promotion decision. Historical reconstructions never qualify.
 
 <!-- diagram:adjudication -->
+
+The following bar is verbatim from
+[the frozen adjudication](trial-2027-adjudication.md).
+
+PROMOTE requires a complete prospective 2027 home-and-away season and at least
+30 more correct non-draw tips for the challenger. It also requires either the
+primary rule or the fallback rule below. Every other result is PARK.
+
+The primary rule requires a positive paired tip delta whose paired 95%
+bootstrap interval has a lower bound strictly above zero.
+
+The fallback rule requires a positive paired tip delta. Tip deltas must be
+non-negative in both the incumbent close band and the consensus-wrong cut.
+No team's absolute signed residual bias may worsen by more than 2 points where
+that team has at least 10 paired games. Both cuts must contain at least one
+non-draw game. Missing field data cannot count as a passing empty cut.
+
+A season of about 207 games detects roughly a 30-tip difference at 80% power.
+That Task 40 planning estimate is approximate. The 30-tip promotion floor is
+conservative and fixed. A smaller positive result is PARK, even if its
+bootstrap interval excludes zero. Log loss cannot rescue it.
+
+The command is `tipper trial --season 2027`. It reports tips, paired intervals,
+close and consensus-wrong cuts, team bias, both probability heads, draw totals,
+and missing pairs. The document also fixes source coverage, recent seasons,
+lock times, the September decision date, and the complete-season requirement.
+A test fails if its constants diverge from the scorer.
+
+The 2026 reconstruction reproduces 211 paired games, 152 incumbent tips,
+153 OD tips, and three draws. Competition totals are 155 and 156.
+The common close band has 83 games and an OD gain of one tip.
+Consensus-wrong has 51 games and an OD loss of three tips.
+The frozen non-draw bootstrap interval is -6 to +7 tips.
+
+Legacy log losses match Task 40 within numerical precision. Standard-normal
+losses are 0.7865320726 for v3 and 0.7749803334 for OD. The compressed fixture
+contains synthetic timestamps and empty lineup lists. Its provenance forces
+PARK. It proves scorer agreement, not historical deadline knowledge.
 
 ## Squiggle Pull Path
 
 After Jack separately authorises entry, SquiggleBot can pull the agreed URL.
 The endpoint reads only the primary table and resolves canonical game ids
-through the cached games API. Its shared formatter also drives `export-tips`.
-No contact or submission has occurred.
+through the cached games API. The shared formatter also drives `export-tips`.
 
 <!-- diagram:pull -->
 
-## Execution Log
+The intended URL is `https://tipper.jackemcpherson.workers.dev/tips`.
+It accepts `year` and `round`. Without them, it selects the next published
+round or the most recent one. The existing hostname needs no new DNS resource.
 
-Each entry records completed work or a concrete blocker.
+Open GET CORS, unknown-round 404s, GWS mapping, both margin orientations, and
+one-hour caches have tests. During Squiggle outages, valid primary tips remain
+available without invented ids. Wait for ids before verifying ingestion.
 
-### 2026-09-05
+A read-only smoke test against live D1 and Squiggle returned nine R24 tips
+with nine canonical game ids. That test invoked the exported handler locally.
+It did not deploy the endpoint or submit its response.
 
-- Read the ship-mode prompt and inspected repository state. Task 40 was local
-  without a remote branch. Preserved all initial dirty files in a named Git
-  stash.
-- Fetched remote main at `dd6778f`. Created `chore/docs-lint-2026-09` from
-  main and rebased its docs commits onto the updated remote base.
-- Committed the authorised docs pass, guide rename, plans, and documentation
-  workflow. Fixed 99 remaining Vale errors. Excluded adviser worktrees and
-  generated lint cache from local checks. Docs branch ends at `6199e15`.
-- Local Markdown structure and prose checks pass. Typecheck, Biome, build,
-  and 193 tests pass. Installed the updated lock file after these checks.
-  final validation will use its exact dependencies.
-- BLOCKED: `git push -u origin chore/docs-lint-2026-09`. Automatic approval
-  review rejected public publishing twice. Verified that origin is the
-  public `jackemcpherson/tipper` repository and Jack has ADMIN access.
-  Requested explicit publishing approval. No remote write occurred.
-- Rebased Task 40 locally onto the docs branch while publishing awaits approval.
-  Preserved all 11 research commits. Resolved Vitest and CHANGELOG overlaps.
-  The rebased research tip before review repairs is `3004736`.
-- Independent reviewer inspected original Task 40 commit `07daf343` against
-  original main `8b7ed5b`. Found two defects described below.
-- BLOCKED pending credential refresh: `bun analysis/task41-gate.ts` reports
-  no Cloudflare credentials. The script only reads D1 and writes local
-  evidence. It never publishes predictions or changes existing results.
+## Task 40 Review Findings
 
-## Task 40 Review
+Independent review found and repaired two defects in separate commits.
+The standard-normal approximation missed the 1e-9 gate. Its replacement peaks
+at 4.44e-16 error across 8,001 reference points. The legacy head remains exact
+across 20,001 checked points. Comparisons now fetch the same gap priors as
+separate backtests.
 
-The independent review verified 201 result files containing 140,767 rows.
-All stored overall metrics reproduce exactly. Every file has a matching
-config hash and unique match IDs. All 155 historical configs parse identically.
-New schema fields remain optional without defaults.
+The live training-PAV repair changes the frozen 2025 R10 replay by at most
+0.0225728046 margin points and 0.0002764122 home probability. No winner changes.
+The currently published 2026 R27 row replays exactly. The baseline remains
+hash `2641f46f`, 716 tips, and log loss 0.848459853. All 1,062 stored predictions
+match. No engine mode gained a schema default.
 
-Legacy probabilities match original main at 20,001 grid points. Bootstrap
-validation rejects duplicate IDs, mismatched outcomes, overlapping strata,
-and invalid draw counts. A valid reordered 211-match comparison succeeds.
-Optional engine branches have configuration guards.
+The review also checked optional evaluation guards, bootstrap duplicate and
+strata rejection, config compatibility, and 201 campaign result files covering
+140,767 rows. The original research commit trail and cited evidence remain.
+The four adviser changes landed by cherry-pick, preserving the existing Worker.
 
-The optional standard-normal head missed the required 1e-9 accuracy.
-Its largest measured error was 6.96874e-8 at z=0.064. The replacement uses
-an integral series. A Python `math.erf` fixture checks 8,001 grid points.
-The legacy expression remains unchanged.
+## Landed Changes and Sibling Reviews
 
-`runCompare` omitted PAV priors for gap years. The reviewer reproduced all 211
-margins differing for `t40-offset-v4-2026`. Comparison LL was 0.7706779281 in
-the comparison. Standalone backtest LL was 0.7723277863. Repair now fetches
-priors for every non-training warm-up season. A regression test failed before
-the fix and passes after it.
+| Change                      | PR                                                                                 | Merge commit                                                                                          |
+| --------------------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Documentation lint          | [#58](https://github.com/jackemcpherson/tipper/pull/58)                            | [`0a520cf`](https://github.com/jackemcpherson/tipper/commit/0a520cff9e662792a256058f4d37ea11caabe436) |
+| Task 40 review and research | [#59](https://github.com/jackemcpherson/tipper/pull/59)                            | [`bfabf5c`](https://github.com/jackemcpherson/tipper/commit/bfabf5ceb664e1b6a3b55ff2a19d754e9541c4d5) |
+| Four adviser changes        | [#60](https://github.com/jackemcpherson/tipper/pull/60)                            | [`6b8e08e`](https://github.com/jackemcpherson/tipper/commit/6b8e08e51c6b8a2fa195009764dd379c1cec720d) |
+| Append-only archive         | [#61](https://github.com/jackemcpherson/tipper/pull/61)                            | [`b9133b7`](https://github.com/jackemcpherson/tipper/commit/b9133b79a0d4c5fbda1439c1fee51a0bb7f12f58) |
+| OD shadow                   | [#62](https://github.com/jackemcpherson/tipper/pull/62)                            | [`d242a0b`](https://github.com/jackemcpherson/tipper/commit/d242a0b90d6d7549737df5545e296322695b3d96) |
+| Frozen trial scorer         | [#63](https://github.com/jackemcpherson/tipper/pull/63)                            | [`d6d0e6e`](https://github.com/jackemcpherson/tipper/commit/d6d0e6e24303e5f585cc1212883a4c7b23d4f852) |
+| Primary tips feed           | [#64](https://github.com/jackemcpherson/tipper/pull/64)                            | [`9612df1`](https://github.com/jackemcpherson/tipper/commit/9612df197d8d4719f1c26e7963fd1a475b5b65d2) |
+| Weekly monitor              | [#65](https://github.com/jackemcpherson/tipper/pull/65)                            | [`8e448a6`](https://github.com/jackemcpherson/tipper/commit/8e448a6f2c9efb0f6fbfd9ca0c709b56e7f6f068) |
+| Release and handover        | [#66](https://github.com/jackemcpherson/tipper/pull/66)                            | [`eb285fe`](https://github.com/jackemcpherson/tipper/commit/eb285feb53c3869f529b6b6eba161ef4300cb205) |
+| Archive migration           | [AFL-MCP #183](https://github.com/jackemcpherson/AFL-MCP/pull/183)                 | Open                                                                                                  |
+| Verified release pin        | [Infrastructure #160](https://github.com/jackemcpherson/cloudflare-infra/pull/160) | Open                                                                                                  |
+| Public ecosystem document   | [Homepage #21](https://github.com/jackemcpherson/homepage/pull/21)                 | Open                                                                                                  |
 
-## Remaining Delivery Gates
+AFL-MCP already had migrations through `0020`, so the additive archive uses
+`0021`. Its isolated Miniflare suite passed 265 tests in 34 files. Its existing
+historical prose errors remain documented in the PR. New sections passed.
+No migration ran against production.
 
-1. Publish and merge the docs PR after green CI.
-2. Repair both Task 40 defects, reproduce the primary baseline, and compare
-   a published 2026 round against D1. Publish and merge the research PR.
-3. Cherry-pick and adapt all four approved adviser commits. Merge after CI.
-4. Open the additive archive migration PR in AFL-MCP without merging it.
-5. Land archive capture, shadow publishing, the trial scorer, its 2026 golden
-   test, and frozen 2027 adjudication in separate PRs.
-6. Land game ID resolution, the tips endpoint, and scheduled monitoring.
-7. Open infrastructure and homepage PRs without merging them.
-8. Write the contact and soak checklist, release notes, and HANDOFF addendum.
-9. Publish v3.5.0 and verify its Release workflow.
-10. Finish this report and its four diagrams. Render the standalone HTML,
-    inspect both themes, open it in the maintainer's browser, and merge it.
+The infrastructure pin names release commit
+`eb285feb53c3869f529b6b6eba161ef4300cb205`. Its
+[artefact workflow](https://github.com/jackemcpherson/tipper/actions/runs/33955697041)
+is green. A read-only R2 download verified SHA-256
+`d81347be1081e3b41e6a8d21f365aec0332adc086a25f775bcb61fffe30185c9`.
+Merging that PR does not apply production. Homepage's
+PR updates the public ecosystem document. Leave all sibling merges to Jack.
+
+## Verification
+
+- Main passes typecheck, Biome, build, and 302 tests in 32 files.
+- Full rumdl and the documentation workflow's exact Vale command pass.
+- The monitor still matches the Python oracle. Its live 2026 run recorded
+  211 games, v3 155, Punters 156, and market gap -1.
+- The Monday 22:00 UTC workflow passes `actionlint` and permission review.
+  Exit 3 means credentials, exit 4 means Squiggle, and exit 2 means an alert.
+  It commits alert evidence before failing. CSV retries preserve history.
+- Package inspection includes the trial CLI and shadow pointer, with no
+  stored result files, tests, or environment files. The Worker bundle builds.
+- All four diagrams passed visual inspection in light and dark themes.
+  Labels fit. The page has no phone-width overflow. The report has no external
+  scripts, style sheets, fonts, or tracking.
 
 ## Maintainer Checklist
 
-The final handover will replace this provisional list with exact commands,
-PR links, and the public URL. Deployment and Squiggle contact remain manual.
+1. Review and merge AFL-MCP PR #183 when ready for its separate migration
+   process. Apply additive migration `0021` through the established pipeline.
+2. Review infrastructure PR #160 and its verified artefact digest. Merge
+   it, then manually apply `stacks/prod/workers/tipper`. The existing route suffices.
+3. Review and merge homepage PR #21 to publish the ecosystem documentation.
+4. Create tipper's `CLOUDFLARE_API_TOKEN` repository secret with D1 read access.
+   Run the monitor once from main and verify its CSV commit.
+5. Check `/health`, a known `/tips` round, canonical ids, and both archive
+   models at the next due tick. Confirm successive captures do not replace
+   earlier evidence. Do not run a manual `tipper publish`.
+6. Use [the contact-and-soak checklist](comp-entry-checklist.md) for the exact
+   draft, curl commands, finals rehearsal, and September to October calendar.
+   Do not contact Squiggle or submit anything until Jack explicitly authorises it.
+7. After separate acceptance and submission permission, verify ingested tips
+   through Squiggle's read API. Confirm the agreed format and lock behaviour.
+8. Before 2027 round 1, confirm both models' captures and the frozen document.
+   After first publication, do not change the bar.
 
-1. Merge and apply the additive AFL-MCP migration after review.
-2. Merge the infrastructure pin and route, then deploy through GitOps.
-3. Configure the monitor token secret.
-4. Contact Squiggle, agree the endpoint format, and complete the soak checks.
+## Command and File Appendix
 
-### Gate Evidence, 2026-09-05
-
-Wrangler refreshed the existing OAuth login. The read-only gate then passed.
-Fresh D1-backed `predha-080` reproduced hash `2641f46f`, 716 tips, and
-LL 0.8484598529648077. All 1,062 serialised prediction rows match the stored
-2026-09-05 result exactly. Existing result files remain unchanged.
-
-The latest published AFLM round is 2026 R27, with one row, match 19707949.
-Its publish timestamp is 2026-09-05T06:31:02.563Z. Replay matches the stored
-0.8-point home margin and home probability exactly. Evidence lives in
-`/tmp/tipper-task41-gate-1788591196169.json`.
-
-The historical Task 40 report records a maximum 0.0226-point live-path
-repair on 2025 R10. That historical figure differs in scope from the zero
-published-row difference verified above.
-
-CDF repair commit: `3ca1bd6`. The optional head now meets 1e-9 accuracy.
-The frozen Task 40 report remains a historical generated artefact. Its
-source is `analysis/task40-report.ts`. Documentation checks exclude that
-file to preserve the original research record, including its stored CDF
-figures. New report prose continues through the normal documentation checks.
-
-The comparison repair is commit `37208b4`. Full validation passes with the
-updated dependencies: 24 test files and 224 tests. The primary baseline
-and published-row gate passed again after the comparison fix.
-
-`bun run bake-config` initially changed only TypeScript string formatting.
-The generator emits double-quoted JSON, while the committed file uses
-Biome's formatted string. Running Biome restores byte identity. The primary
-config and content hash never changed.
-
-## Adviser Integration, 2026-09-05
-
-All four commits now exist on local `chore/land-advisor-branches`.
-The cherry-picks are `0b87f3d`, `089f1c2`, `56e5d6f`, and `148e9ca`.
-Both CLI conflicts retain every command. The Worker directory remains intact.
-The historical Task 39 spike has a dated correction for the restored Worker.
-
-The monitor's log path originally resolved above the repository. The corrected
-path points to tipper's `analysis/monitor-log.csv`. Both `export-tips` and
-`monitor` appear in the built CLI help. README usage lists both commands.
-The homepage worktree at `/private/tmp/tipper-ship-homepage` documents them.
-
-`bun analysis/task41-monitor-golden.ts` passes against the original Python
-scoring functions for 422 frozen 2026 predictions. The combined model-specific
-close bands contain 171 non-draw predictions, with 104 correct signs.
-This checks each model's own close band. The live command uses v3's common
-close band for cross-model comparison.
-
-`bun src/cli/index.ts monitor --season 2026` also succeeds against live D1
-and Squiggle. On 211 completed games, comp totals are v3 155, OD 156, v4 149,
-and Punters 156. V3's common close band has 83 games, with correct signs
-of 52 for v3, 53 for OD, 46 for v4, and 53 for Punters. The market gap is -1.
-No log flag or prediction write command ran.
-
-The independent follow-up review confirmed both Task 40 repairs. Standard
-normal error peaks at 4.44e-16 across all 8,001 reference points. The Python
-fixture also passed independent regeneration. Legacy output remains exact.
-
-The frozen 2025 R10 replay has nine changed margins versus original main.
-The maximum change is 0.0225728046 points, with no winner changes. Its maximum
-home probability change is 0.0002764122. Original Task 40 and repaired Task 40
-produce identical objects for all nine matches.
-
-AFL-MCP already has migrations through `0020_drop_legacy_weather_columns.sql`.
-The archive must use `0021`, rather than the prompt's stale `0016` number.
-
-The full Python monitor also ran with frozen campaign results, live Squiggle
-reads, refresh disabled, and its CSV redirected to `/private/tmp/`.
-Its tips, ranks, common close-band scores, field percentage, and market gap
-match the typed live command. The Python CSV is
-`/private/tmp/tipper-monitor-python.csv`. Integration validation passes:
-26 test files, 259 tests, typecheck, Biome, and build.
-
-## Archive Contract, 2026-09-05
-
-The draft migration lives in `/private/tmp/tipper-ship-afl-mcp` on
-`feat/prediction-archive`, based on AFL-MCP main `c3f964c`.
-It adds one table, `prediction_archive`, with one match/model/capture key.
-The writer will use inserts only. The key prevents duplicate captures from
-replacing earlier evidence. Each row stores the game's subset of a round's
-Squiggle response, including all available sources. This avoids repeating
-the complete round response in every match row.
-
-```text
-publish tick
-  primary prediction reads named lineups
-  primary upserts match_predictions
-  capture field for round
-  append primary outputs + exact consumed lineups + rating inputs
-  run shadow with its own consumed lineups
-  append shadow outputs + inputs only
-
-at lock
-  captured_at in Melbourne < round_first_kickoff
-  captured_at in Melbourne < match_kickoff
-  select latest eligible row per match and model
-  pair models on match_id
+```sh
+bun run typecheck
+bun run check
+bun run test -- --run
+bun run build
+bun run bake-config
+bun analysis/task41-gate.ts
+bun analysis/task41-monitor-golden.ts
+bun analysis/task41-tips-gate.ts
+bun src/cli/index.ts trial --season 2027 --out /tmp/trial-2027.json
+bun src/cli/index.ts export-tips --season 2026 --round 24 --with-gameid
+bun analysis/task41-report.ts
+open docs/task-41-report.html
 ```
 
-The capture instant follows prediction completion. Captures that finish after
-kickoff cannot become at-lock evidence. The archive retains both kickoff
-values in Melbourne wall time. Unknown kickoff times use midnight, matching
-the existing publisher's conservative freeze. The implementation must retain
-lineups from the prediction fetch, without a second lineup query.
+Core files are `src/data/archive.ts`, `src/worker/tick.ts`,
+`src/trial/score.ts`, `src/worker/tips.ts`, `.github/workflows/monitor.yml`,
+and `scripts/bake-config.ts`. The one-off reconstruction lives in
+`analysis/task41-reconstruct.ts`. Its compressed fixture is
+`tests/fixtures/trial-2026.json.gz`.
 
-AFL-MCP's schema SQL, MCP schema output, coverage contract, integration setup,
-and schema document include the new table. The migration tests exercise
-multiple captures, duplicate rejection, home orientation, unchanged primary
-rows, probability bounds, and JSON validity. No production migration ran.
-
-The sibling typecheck and Biome checks pass. Its full test suite requires
-Miniflare to bind `localhost`, which the sandbox initially denied. The retry
-uses permission for local test execution. Existing sibling documentation has
-75 Vale errors. New sections receive a separate prose check.
-
-AFL-MCP's local retry passed all 34 test files and 265 tests, including the
-new migration tests. Its PR description is ready at
-`/private/tmp/tipper-afl-pr.md`. Opening the PR still awaits publishing
-approval. The tests only applied migrations to Miniflare's local D1 database.
-
-The local AFL-MCP migration commit is `4231484`.
-
-## Archive Implementation, 2026-09-05
-
-The local archive branch retains fixtures and named lineups from the
-prediction's own read. Each capture stores published precision, full-precision
-rating inputs, and all available Squiggle sources for that game. It omits
-outcomes. Captures use the completion clock, not the tick's scheduled time.
-
-The primary upsert finishes before the field fetch. Squiggle has a five-second
-timeout. Missing archive tables produce a warning. Other capture failures also
-leave the successful primary result intact. SQL uses inserts with duplicate
-keys ignored, so retries cannot replace evidence.
-
-Tests cover both margin orientations, consumed lineup flags, field outages,
-missing tables, bounded SQL batches, and successful publication despite archive
-failure. The frozen replay still gives hash `2641f46f`, 716 tips, and log loss
-0.848459853. Every stored prediction remains identical. The published R27 row
-also matches exactly. Validation uses stubbed Worker ticks and read-only D1
-replays. No production publishing command ran.
-
-## Shadow Implementation, 2026-09-05
-
-`configs/_shadows.json` freezes `t40-od`, the campaign's plain OD challenger.
-Its content hash matches `od-w100-k008`. The baker validates the list and
-rejects duplicate ids. It omits the promoted id from shadow runs, so the
-existing promotion and baking commands remain sufficient. Its output includes
-both model configs. The primary block remains byte-identical, and a second
-bake produces identical bytes.
-
-Each shadow calls the read-only prediction function directly. It never calls
-the primary publisher. The tick appends shadow captures with `is_primary = 0`.
-A failed primary archive write cannot stop a shadow run. A failed shadow
-cannot change the primary outcome. Both models use the round's single field fetch.
-
-Worker tests use the real SQL builders against a stubbed database. They assert
-one primary upsert, separate archive inserts, opposite prediction orientations,
-and continued primary success when the shadow fails. The full suite passes
-270 tests in 27 files, with typecheck, Biome, and build.
-
-## Frozen Scorer, 2026-09-05
-
-`tipper trial` reads paged archive captures and separately joined final scores.
-It selects the last eligible capture before both deadlines, then pairs exact
-match ids and the two frozen model versions. Missing pairs remain visible.
-Incomplete seasons, retrospective inputs, and finals diagnostics cannot
-produce PROMOTE. The scorer never changes a config pointer.
-
-The 2026 golden fixture has 422 synthetic captures. It reproduces 211 paired
-games, 152 incumbent tips, 153 OD tips, and three draws. Competition totals are
-155 and 156.
-
-The common close band has 83 games and an OD gain of one tip.
-Consensus-wrong has 51 games and an OD loss of three tips. The paired interval
-is -6 to +7 tips. Both legacy losses match Task 40 within numerical precision.
-
-The fixture has explicit retrospective provenance, synthetic capture times,
-and empty lineup lists. It establishes scorer agreement only. It cannot prove
-deadline inputs or qualify for promotion. Gzip keeps the committed fixture
-small. `analysis/task41-reconstruct.ts` rebuilds it from frozen campaign results
-and the retained Squiggle response without replacing existing evidence.
-
-The frozen document specifies the primary CI rule, fallback cuts, 30-tip
-promotion floor, complete-season requirement, and September decision date.
-A drift test compares its constants with the scorer. Tests also exercise
-strict kickoff boundaries across daylight saving, duplicate rejection, field
-coverage, draw treatment, full-precision close margins, and promotion guards.
-Validation passes 279 tests in 29 files, typecheck, Biome, and build.
-
-The weather schema retains one row per match and kind, not every forecast
-refresh. Analysis can join a retained forecast only when its fetch preceded
-lock. A later replacement makes that weather input unavailable. The trial
-document records this limitation and forbids substituting observed weather.
-
-## Competition Endpoint, 2026-09-05
-
-`GET /tips?year=2026&round=24` reads only the baked primary model's published
-rows. Without parameters, it selects the next published round or the most
-recent published round when none is ahead. Unknown rounds return 404.
-Known rounds without predictions return an empty tips array.
-
-The shared formatter includes canonical game and tipped-team ids when
-Squiggle resolves them. It maps GWS and preserves both margin orientations.
-Worker Cache API and CLI disk caching each use one hour. Squiggle outages
-leave valid primary tips available without invented ids. Such a response
-needs a later successful refresh before competition ingestion.
-
-The exported handler passed a read-only smoke test against live D1 and
-Squiggle. It returned all nine 2026 R24 tips with nine distinct canonical
-game ids. `analysis/task41-tips-gate.ts` records the check. The full suite
-passes 293 tests in 31 files, typecheck, Biome, and build.
-
-Infra already enables the Worker's public hostname. The intended URL is
-`https://tipper.jackemcpherson.workers.dev/tips`. The prompt's statement that
-the Worker has no public hostname is stale. The endpoint needs no new DNS resource.
-The sibling change must pin the new artefact after a green main build.
-
-## Weekly Monitor, 2026-09-05
-
-The workflow runs Monday at 22:00 UTC or by manual dispatch from main.
-It derives the current season unless the maintainer supplies one year.
-Credential failures use exit 3, Squiggle failures use exit 4, and genuine
-market-gap alerts retain exit 2. Other failures remain exit 1.
-
-The scoring job has read permission and receives the D1 token only in the
-steps that need it. A separate job merges one CSV row into the latest log
-with repository write permission. It commits alert evidence before failing
-the run. The workflow caches season data with the season in its key.
-
-`actionlint` 1.7.12 passes. Its downloaded binary matched the official checksum.
-The log merge passed local checks for history preservation, same-date retries,
-and header-drift rejection. The permission review found no hard violations.
-It follows GitHub's documented
-[job permission scope](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idpermissions)
-and uses full commit pins for every action.
-
-The live typed monitor still reports 211 paired games, v3 155, Punters 156,
-and market gap -1. It wrote the local 2026-09-05 CSV row. The Python golden
-check passes. Full validation passes 301 tests in 32 files, typecheck, Biome,
-and build. No GitHub workflow ran during local preparation.
-
-## Maintainer Hold, 2026-09-05
-
-The maintainer explicitly asked for no Squiggle contact or submission of any
-changes until further instruction. All pushes, PR creation, merges, release
-publishing, deployment, and external contact remain on hold. Preparation and
-verification continue locally. No remote write has occurred during this task.
-
-## GitHub Authorization Clarified, 2026-09-05
-
-The maintainer authorised pushes, PRs, merges, and releases on the owned
-GitHub repositories. The hold applies to Squiggle contact and submissions.
-Tipper PRs may merge after green CI. Sibling PRs remain open for the maintainer
-to merge.
-Deployment and production migrations remain manual under the original scope.
+The original dirty-work backup remains in the named ship-mode Git stash.
+The two original untracked result files remain untouched. Public publishing
+initially failed automatic approval review twice. Jack then explicitly
+authorised GitHub work and clarified that the prohibition applies to Squiggle
+contact and submissions. The engineering decisions and verification above
+reflect the completed 2026-09-05 work.
