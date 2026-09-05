@@ -5,3 +5,5 @@ dist-worker/
 *.tsbuildinfo
 *.tgz
 .env
+
+.dev.vars

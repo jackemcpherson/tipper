@@ -26,7 +26,7 @@ jobs:
   publish:
     name: Publish to R2
     needs: ci
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     environment: production
     steps:
@@ -42,8 +42,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build Worker bundle
-        # dist-worker, not dist — dist is the tsc CLI build output.
-        run: bunx wrangler deploy --dry-run --outdir dist-worker
+        run: bun run build
 
       - name: Publish artifact to R2
         env:
