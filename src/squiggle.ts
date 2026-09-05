@@ -22,7 +22,9 @@ export const FieldSchema = z.object({
         hteam: z.string(),
         ateam: z.string(),
         tip: z.string(),
-        hmargin: z.coerce.number().nullable().optional(),
+        hmargin: z
+          .preprocess((value) => (value === "" ? null : value), z.coerce.number().nullable())
+          .optional(),
         hconfidence: z.coerce.number().min(0).max(100).nullable().optional(),
       }),
     )
@@ -44,11 +46,15 @@ export async function resolveMappings(db: D1Database, round: Round): Promise<voi
   const { games } = z
     .object({ games: z.array(GameSchema).max(20) })
     .parse(await squiggleJson(`q=games;year=${round.season};round=${round.round}`));
-  if (
-    games.some((g) => g.year !== round.season || g.round !== round.round) ||
-    new Set(games.map((g) => g.id)).size !== games.length
-  )
+  if (games.some((g) => g.year !== round.season || g.round !== round.round))
     throw new Error("Invalid Squiggle round");
+  if (new Set(games.map((g) => g.id)).size !== games.length) {
+    await db
+      .prepare("DELETE FROM tipper_game_ids WHERE year=? AND round=?")
+      .bind(round.season, round.round)
+      .run();
+    throw new Error("Ambiguous Squiggle mapping");
+  }
   const rows = await db
     .prepare(`SELECT m.id,m.home_team_id,m.away_team_id,h.name AS home,a.name AS away
     FROM matches m JOIN seasons s ON s.id=m.season_id JOIN competitions c ON c.id=s.competition_id

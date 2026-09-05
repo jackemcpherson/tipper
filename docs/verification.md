@@ -1,9 +1,9 @@
 # Verification
 
 The production redesign uses the incumbent regression fixture and real local D1
-transactions. The upstream AFL-MCP suite passes 262 tests. Infrastructure's complete CLI suite passes 57 tests. Tipper's replacement suite
-passes 27 tests and covers the
-prediction, publication, stored delivery and scoring interfaces.
+transactions. The upstream AFL-MCP suite passes 262 tests. Infrastructure's
+complete CLI suite passes 57 tests. Tipper's replacement suite passes 27 tests
+and covers prediction, publication, stored delivery and scoring interfaces.
 
 ## Local Workload Measurements
 
