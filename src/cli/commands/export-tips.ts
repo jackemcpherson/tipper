@@ -3,10 +3,12 @@ import { Command, Option } from "commander";
 import { loadConfig, loadCurrentPointer } from "../../config/store.js";
 import type { CompetitionCode } from "../../data/types.js";
 import { runPrediction } from "../../orchestration.js";
+import { resolveGameIds } from "../../squiggle.js";
 import { resolveSeasonDataCache } from "../cache.js";
 import { getDatabase } from "../db.js";
 import { compOption, configOption, noCacheOption, roundOption, seasonOption } from "../flags.js";
 import { formatTipsForComp } from "../format/comp.js";
+import { diskCachedRoundGames } from "../squiggle-games.js";
 
 const outOption = new Option("-o, --out <file>", "Write output to file instead of stdout");
 
@@ -18,6 +20,7 @@ export const exportTipsCommand = new Command("export-tips")
   .addOption(configOption)
   .addOption(noCacheOption)
   .addOption(outOption)
+  .option("--with-gameid", "Resolve canonical Squiggle game and tipped-team ids")
   .action(
     async (opts: {
       season?: number[];
@@ -26,6 +29,7 @@ export const exportTipsCommand = new Command("export-tips")
       config?: string;
       cache: boolean;
       out?: string;
+      withGameid?: boolean;
     }) => {
       if (!opts.season || opts.season.length !== 1) {
         console.error("Error: export-tips requires exactly one --season value.");
@@ -35,6 +39,9 @@ export const exportTipsCommand = new Command("export-tips")
         console.error("Error: export-tips requires --round.");
         process.exit(1);
       }
+
+      if (opts.withGameid && opts.comp !== "AFLM")
+        throw new Error("Squiggle game ids support AFLM only");
 
       const configId = opts.config ?? loadCurrentPointer()?.config_id;
       if (!configId) {
@@ -68,7 +75,9 @@ export const exportTipsCommand = new Command("export-tips")
         cache,
       );
 
-      const payload = formatTipsForComp(result.predictions, targetYear);
+      const games = opts.withGameid ? await diskCachedRoundGames(targetYear, opts.round) : null;
+      const resolved = resolveGameIds(result.predictions, games ?? []);
+      const payload = formatTipsForComp(result.predictions, targetYear, resolved);
 
       if (opts.out) {
         writeFileSync(opts.out, payload, "utf-8");

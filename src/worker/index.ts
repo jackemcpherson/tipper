@@ -7,11 +7,12 @@
  *   in prod, wrangler.jsonc for local dev); the in-code gate decides
  *   whether any round actually needs publishing.
  * - `fetch`: GET /health returns 200/503 derived from match_predictions
- *   freshness against the fixture window; every other path 404s.
+ *   freshness against the fixture window. GET /tips serves primary predictions.
  */
 
 import { healthStatus } from "./plan.js";
 import { fetchRoundStates, runPublishTick } from "./tick.js";
+import { TIPS_HEADERS, tipsResponse } from "./tips.js";
 
 export interface Env {
   /** Read-write D1 binding to the afl-stats database. */
@@ -25,6 +26,15 @@ export default {
 
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    if (url.pathname === "/tips") {
+      if (request.method === "OPTIONS")
+        return new Response(null, { status: 204, headers: TIPS_HEADERS });
+      if (request.method === "GET") return tipsResponse(request, env.DB);
+      return new Response(null, {
+        status: 405,
+        headers: { ...TIPS_HEADERS, Allow: "GET, OPTIONS" },
+      });
+    }
     if (request.method === "GET" && url.pathname === "/health") {
       const now = new Date();
       const states = await fetchRoundStates(env.DB, now);

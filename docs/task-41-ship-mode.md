@@ -276,3 +276,26 @@ The weather schema retains one row per match and kind, not every forecast
 refresh. Analysis can join a retained forecast only when its fetch preceded
 lock. A later replacement makes that weather input unavailable. The trial
 document records this limitation and forbids substituting observed weather.
+
+## Competition Endpoint, 2026-09-05
+
+`GET /tips?year=2026&round=24` reads only the baked primary model's published
+rows. Without parameters, it selects the next published round or the most
+recent published round when none is ahead. Unknown rounds return 404.
+Known rounds without predictions return an empty tips array.
+
+The shared formatter includes canonical game and tipped-team ids when
+Squiggle resolves them. It maps GWS and preserves both margin orientations.
+Worker Cache API and CLI disk caching each use one hour. Squiggle outages
+leave valid primary tips available without invented ids. Such a response
+needs a later successful refresh before competition ingestion.
+
+The exported handler passed a read-only smoke test against live D1 and
+Squiggle. It returned all nine 2026 R24 tips with nine distinct canonical
+game ids. `analysis/task41-tips-gate.ts` records the check. The full suite
+passes 293 tests in 31 files, typecheck, Biome, and build.
+
+Infra already enables the Worker's public hostname. The intended URL is
+`https://tipper.jackemcpherson.workers.dev/tips`. The prompt's statement that
+the Worker has no public hostname is stale. No new DNS resource is needed.
+The sibling change must pin the new artefact after a green main build.

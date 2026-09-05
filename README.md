@@ -53,7 +53,7 @@ tipper publish --season 2026 --round 15 --comp AFLW
 tipper compare --config-a predha-080 --config-b od-w100-k008
 
 # Export a round in Squiggle's read-API shape
-tipper export-tips --season 2026 --round 24
+tipper export-tips --season 2026 --round 24 --with-gameid
 
 # Compare the primary and shadows with the competition field
 tipper monitor --season 2026
