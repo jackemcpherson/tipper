@@ -335,7 +335,7 @@ export function runHarness(
       // OD updates on every completed match (train and test alike) — the
       // signal is points-residual, same as Elo's, so it warms identically.
       if (odConfig) {
-        updateOd(odState, match, odConfig);
+        updateOd(odState, match, odConfig, config.elo.finals_k_multiplier);
       }
 
       // PAV only updates in test seasons (train is Elo-only)
@@ -514,7 +514,7 @@ export function runPredict(
 
       updateElo(eloState, match, config.elo, eloHistory);
       if (odConfig) {
-        updateOd(odState, match, odConfig);
+        updateOd(odState, match, odConfig, config.elo.finals_k_multiplier);
       }
       if (!isTrain) {
         const matchStats = data.statsByMatch.get(match.id) ?? [];

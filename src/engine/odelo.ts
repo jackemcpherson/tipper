@@ -76,6 +76,49 @@ function computeSidePoints(
   return (1 - shotWeight) * points + shotWeight * (goals + behinds) * LEAGUE_POINTS_PER_SHOT;
 }
 
+/** Registered post-match control targets. Null coverage retains the observed margin. */
+export function controlMargin(
+  match: MatchRow,
+  target: NonNullable<Config["elo"]["od"]>["update_target"],
+): number {
+  if (match.home_points === null || match.away_points === null) throw new Error("Missing scores");
+  const actual = match.home_points - match.away_points;
+  if (
+    target === "rushed" &&
+    match.home_rushed_behinds != null &&
+    match.away_rushed_behinds != null
+  ) {
+    return actual - 0.5 * (match.home_rushed_behinds - match.away_rushed_behinds);
+  }
+  if (
+    target === "minutes" &&
+    match.home_minutes_in_front != null &&
+    match.away_minutes_in_front != null
+  ) {
+    const control = Math.max(
+      -36,
+      Math.min(36, (36 * (match.home_minutes_in_front - match.away_minutes_in_front)) / 120),
+    );
+    return 0.5 * actual + 0.5 * control;
+  }
+  if (target === "quarter") {
+    const quarters = [
+      [match.home_q1_goals, match.home_q1_behinds, match.away_q1_goals, match.away_q1_behinds],
+      [match.home_q2_goals, match.home_q2_behinds, match.away_q2_goals, match.away_q2_behinds],
+      [match.home_q3_goals, match.home_q3_behinds, match.away_q3_goals, match.away_q3_behinds],
+      [match.home_q4_goals, match.home_q4_behinds, match.away_q4_goals, match.away_q4_behinds],
+    ];
+    if (quarters.flat().some((value) => value == null)) return actual;
+    const weighted = quarters.reduce(
+      (sum, [hg, hb, ag, ab], index) =>
+        sum + ((hg ?? 0) * 6 + (hb ?? 0) - (ag ?? 0) * 6 - (ab ?? 0)) * (index === 3 ? 0.5 : 1),
+      0,
+    );
+    return 0.5 * actual + (0.5 * 4 * weighted) / 3.5;
+  }
+  return actual;
+}
+
 /**
  * Update split state after a completed match.
  *
@@ -92,6 +135,7 @@ export function updateOd(
   state: OdState,
   match: MatchRow,
   odConfig: NonNullable<Config["elo"]["od"]>,
+  finalsKMultiplier?: number,
 ): void {
   const shotWeight = odConfig.shot_score_weight ?? 0;
   const homePoints = computeSidePoints(
@@ -111,9 +155,18 @@ export function updateOd(
   }
 
   const expected = expectedScores(state, match.home_team_id, match.away_team_id, odConfig);
-  const rHome = homePoints - expected.home;
-  const rAway = awayPoints - expected.away;
-  const k = odConfig.k;
+  const targetCorrection =
+    odConfig.update_target === undefined
+      ? 0
+      : (controlMargin(match, odConfig.update_target) - (homePoints - awayPoints)) / 2;
+  const rHome = homePoints + targetCorrection - expected.home;
+  const rAway = awayPoints - targetCorrection - expected.away;
+  const weatherGain =
+    odConfig.weather_luck_weight === undefined
+      ? 1
+      : Math.max(0.5, 1 / (1 + odConfig.weather_luck_weight * (match.precip_surprise ?? 0)));
+  const k =
+    odConfig.k * (match.round_type !== "Regular" ? (finalsKMultiplier ?? 1) : 1) * weatherGain;
   const initial = odConfig.initial_score;
 
   state.attack.set(

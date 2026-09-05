@@ -3,6 +3,7 @@ import type { Config } from "../../src/config/schema.js";
 import type { MatchRow } from "../../src/data/types.js";
 import {
   applyOdRegression,
+  controlMargin,
   createOdState,
   expectedScores,
   odImpliedRating,
@@ -40,6 +41,55 @@ function match(
 }
 
 describe("OD split ratings", () => {
+  it("uses actual scores when a control target is missing", () => {
+    const row = match({ home_points: 100, away_points: 70 });
+    for (const mode of ["quarter", "minutes", "rushed"] as const) {
+      expect(controlMargin(row, mode)).toBe(30);
+    }
+  });
+  it("computes quarter, minutes and rushed-behind targets", () => {
+    const row = {
+      ...match({ home_points: 24, away_points: 0 }),
+      home_q1_goals: 0,
+      home_q1_behinds: 0,
+      home_q2_goals: 0,
+      home_q2_behinds: 0,
+      home_q3_goals: 0,
+      home_q3_behinds: 0,
+      home_q4_goals: 4,
+      home_q4_behinds: 0,
+      away_q1_goals: 0,
+      away_q1_behinds: 0,
+      away_q2_goals: 0,
+      away_q2_behinds: 0,
+      away_q3_goals: 0,
+      away_q3_behinds: 0,
+      away_q4_goals: 0,
+      away_q4_behinds: 0,
+      home_minutes_in_front: 120,
+      away_minutes_in_front: 0,
+      home_rushed_behinds: 4,
+      away_rushed_behinds: 0,
+    };
+    expect(controlMargin(row, "quarter")).toBeCloseTo(12 + 24 / 3.5, 12);
+    expect(controlMargin(row, "minutes")).toBe(30);
+    expect(controlMargin(row, "rushed")).toBe(22);
+  });
+  it("keeps weather and finals gains inert unless enabled", () => {
+    const row = {
+      ...match({ home_points: 100, away_points: 70 }),
+      round_type: "Final",
+      precip_surprise: 20,
+    };
+    const regular = createOdState();
+    const adjusted = createOdState();
+    updateOd(regular, row, OD);
+    updateOd(adjusted, row, { ...OD, weather_luck_weight: 0.25 }, 1.5);
+    expect((adjusted.attack.get(1) ?? 0) - 85).toBeCloseTo(
+      0.75 * ((regular.attack.get(1) ?? 0) - 85),
+      12,
+    );
+  });
   it("returns the cold-start expected scores for unknown teams", () => {
     const state = createOdState();
     const { home, away } = expectedScores(state, 1, 2, OD);

@@ -31,6 +31,8 @@ export const ConfigSchema = z.object({
     // margin = (1−w)×actual + w×(shot_diff × league pts/shot). Absent means 0
     // (actual margin only). Optional (not defaulted) to keep hashes stable.
     shot_margin_weight: z.number().min(0).max(1).optional(),
+    points_residual_k: z.number().positive().optional(),
+    finals_k_multiplier: z.number().positive().optional(),
     // Task 36 (D2): offence/defence split ratings. Parallel attack/concede
     // state in points space, mixed into the Elo slot at prediction weight
     // `weight`. Absent means off (bit-identical to v3). Optional (not
@@ -43,6 +45,8 @@ export const ConfigSchema = z.object({
         initial_score: z.number().positive(),
         regression_to_mean: z.number().min(0).max(1),
         shot_score_weight: z.number().min(0).max(1).optional(),
+        update_target: z.enum(["quarter", "minutes", "rushed"]).optional(),
+        weather_luck_weight: z.number().nonnegative().optional(),
       })
       .optional(),
   }),

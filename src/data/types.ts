@@ -50,6 +50,28 @@ export interface MatchRow {
   readonly margin: number | null;
   readonly attendance: number | null;
   readonly external_afl_id: string | null;
+  readonly home_q1_goals?: number | null;
+  readonly home_q1_behinds?: number | null;
+  readonly home_q2_goals?: number | null;
+  readonly home_q2_behinds?: number | null;
+  readonly home_q3_goals?: number | null;
+  readonly home_q3_behinds?: number | null;
+  readonly home_q4_goals?: number | null;
+  readonly home_q4_behinds?: number | null;
+  readonly away_q1_goals?: number | null;
+  readonly away_q1_behinds?: number | null;
+  readonly away_q2_goals?: number | null;
+  readonly away_q2_behinds?: number | null;
+  readonly away_q3_goals?: number | null;
+  readonly away_q3_behinds?: number | null;
+  readonly away_q4_goals?: number | null;
+  readonly away_q4_behinds?: number | null;
+  readonly home_minutes_in_front?: number | null;
+  readonly away_minutes_in_front?: number | null;
+  readonly home_rushed_behinds?: number | null;
+  readonly away_rushed_behinds?: number | null;
+  /** Analysis-derived, only from a retained pre-kickoff forecast at an unroofed venue. */
+  readonly precip_surprise?: number;
 }
 
 export interface PlayerMatchStatsRow {

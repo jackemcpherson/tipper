@@ -112,6 +112,28 @@ export function candidates(): Candidate[] {
   add("t40-finals-ha", "E", baseline, (c) => {
     c.output.finals_home_advantage = 0;
   });
+  add("t40-finals-k", "E", baseline, (c) => {
+    c.elo.finals_k_multiplier = 1.5;
+  });
+  add("t40-finals-both", "E", baseline, (c) => {
+    c.elo.finals_k_multiplier = 1.5;
+    c.output.finals_home_advantage = 0;
+  });
+  add("t40-points", "E", baseline, (c) => {
+    c.elo.points_residual_k = 0.04;
+    c.elo.home_advantage = 10 / 0.07;
+    c.elo.regression_to_mean = 0.2;
+  });
+  for (const target of ["quarter", "minutes", "rushed"] as const) {
+    add(`t40-${target}`, "D", od, (c) => {
+      assert(c.elo.od);
+      c.elo.od.update_target = target;
+    });
+  }
+  add("t40-weather", "D", od, (c) => {
+    assert(c.elo.od);
+    c.elo.od.weather_luck_weight = 0.25;
+  });
   for (const feature of ["involvement", "intercepts", "pressure", "shots"] as const) {
     add(`t40-rich-${feature}`, "C", baseline, (c) => {
       c.pav.involvement_feature = feature;
@@ -161,6 +183,66 @@ if (import.meta.main) {
     .update(readFileSync("/tmp/tipper-task40-extra.json"))
     .digest("hex");
   const newConfigs: string[] = [];
+  const extraMatches = new Map(extra.matches.map((m: { id: number }) => [m.id, m]));
+  const rawVenues = new Map<number, { roof: string | null; timezone: string | null }>(
+    extra.venues.map((v: { id: number }) => [v.id, v]),
+  );
+  interface Weather {
+    match_id: number;
+    kind: string;
+    precip_mm: number | null;
+    fetched_at: string;
+  }
+  const weather: Weather[] = extra.weather;
+  const forecasts = new Map(
+    weather.filter((w) => w.kind === "forecast").map((w) => [w.match_id, w]),
+  );
+  const observed = new Map(
+    weather.filter((w) => w.kind === "observed").map((w) => [w.match_id, w]),
+  );
+  data.matches = data.matches.map((match) => {
+    const extraMatch = extraMatches.get(match.id) ?? {};
+    const features = Object.fromEntries(
+      Object.entries(extraMatch).filter(
+        ([key]) =>
+          key.includes("_q") ||
+          key.includes("_minutes_in_front") ||
+          key.includes("_rushed_behinds"),
+      ),
+    );
+    const venue = rawVenues.get(match.venue_id);
+    const forecast = forecasts.get(match.id);
+    const observation = observed.get(match.id);
+    let precipSurprise: number | undefined;
+    if (
+      venue?.roof === "none" &&
+      venue.timezone &&
+      match.local_time &&
+      forecast &&
+      observation &&
+      forecast.precip_mm !== null &&
+      observation.precip_mm !== null
+    ) {
+      const zone = new Intl.DateTimeFormat("en-US", {
+        timeZone: venue.timezone,
+        timeZoneName: "shortOffset",
+      })
+        .formatToParts(new Date(`${match.date}T12:00:00Z`))
+        .find((part) => part.type === "timeZoneName")?.value;
+      const offset = /^GMT([+-])(\d{1,2})(?::(\d{2}))?$/.exec(zone ?? "");
+      assert(offset, `Cannot resolve kickoff offset: ${zone}`);
+      const time = match.local_time.length === 5 ? `${match.local_time}:00` : match.local_time;
+      const kickoff = Date.parse(
+        `${match.date}T${time}${offset[1]}${offset[2]?.padStart(2, "0")}:${offset[3] ?? "00"}`,
+      );
+      assert(Number.isFinite(kickoff));
+      if (Date.parse(forecast.fetched_at) < kickoff)
+        precipSurprise = Math.max(0, observation.precip_mm - forecast.precip_mm);
+    }
+    return precipSurprise === undefined
+      ? { ...match, ...features }
+      : { ...match, ...features, precip_surprise: precipSurprise };
+  });
   data.venueGeoById = new Map(extra.venues.map((v: { id: number }) => [v.id, v]));
   const richStats = new Map(
     extra.stats.map((s: { match_id: number; player_id: number }) => [
@@ -234,6 +316,19 @@ if (import.meta.main) {
         newConfigs.push(configPath);
       }
       if (existsSync(resultPath)) {
+        if (entry.family === "control") {
+          const selected = selectData(data, config, true);
+          const replay = runHarness(
+            selected,
+            config,
+            seasonIds(data, [...train]),
+            seasonIds(data, [...test]),
+          );
+          assert.deepEqual(
+            JSON.parse(JSON.stringify(replay.predictions)),
+            JSON.parse(readFileSync(resultPath, "utf8")).matches,
+          );
+        }
         console.log(`Already frozen: ${config.id}`);
         continue;
       }
@@ -245,6 +340,25 @@ if (import.meta.main) {
         seasonIds(data, [...test]),
       );
       const overall = storedMetrics(computeMetrics(result.predictions));
+      if (entry.id === "t40-points") {
+        const reference = { ...od, backtest: config.backtest };
+        const odResult = runHarness(
+          selected,
+          reference,
+          seasonIds(data, [...train]),
+          seasonIds(data, [...test]),
+        );
+        assert.equal(result.predictions.length, odResult.predictions.length);
+        for (let i = 0; i < result.predictions.length; i++) {
+          assert(
+            Math.abs(
+              (result.predictions[i]?.predictedMargin ?? NaN) -
+                (odResult.predictions[i]?.predictedMargin ?? NaN),
+            ) < 1e-10,
+            "Points/OD prediction identity failed",
+          );
+        }
+      }
       const bySeason = Object.fromEntries(
         test.map((year) => [
           String(year),

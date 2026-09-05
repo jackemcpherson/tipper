@@ -110,6 +110,9 @@ describe("computeMovMultiplier", () => {
     // ratingDiff = -2200 → denominator = -2200*0.001 + 2.2 = 0
     expect(() => computeMovMultiplier(30, -2200)).toThrow("non-finite");
   });
+  it("rejects a finite negative multiplier rather than reversing the update", () => {
+    expect(() => computeMovMultiplier(30, -2300)).toThrow("negative");
+  });
 });
 
 describe("getRating", () => {
@@ -125,6 +128,19 @@ describe("getRating", () => {
 });
 
 describe("updateElo", () => {
+  it("supports a points-residual gain and a finals multiplier", () => {
+    const state: EloState = new Map();
+    const config = {
+      ...DEFAULT_ELO_CONFIG,
+      home_advantage: 10 / 0.07,
+      points_residual_k: 0.04,
+      finals_k_multiplier: 1.5,
+    };
+    const regular = updateElo(state, makeMatch(), config);
+    expect(regular.homeNewRating - 1500).toBeCloseTo((0.04 * (14 - 10)) / 0.07, 10);
+    const finals = updateElo(new Map(), makeMatch({ round_type: "Final" }), config);
+    expect(finals.homeNewRating - 1500).toBeCloseTo(1.5 * (regular.homeNewRating - 1500), 10);
+  });
   let state: EloState;
 
   beforeEach(() => {

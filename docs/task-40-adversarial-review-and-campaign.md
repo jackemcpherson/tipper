@@ -260,6 +260,21 @@ subsequent pre-registered stack. If several I survivors exist, freeze
 pairwise comparisons and additive combinations before running them. Keep
 the single-change recommendation separate from a bundle's performance.
 
+Implementation clarifications frozen before these variants run: E2 expresses
+the 10-point update HA as `elo.home_advantage=10/0.07`, with
+`elo.points_residual_k=0.04` and `elo.regression_to_mean=0.2`. D2/D4 use
+`elo.od.update_target=quarter/minutes/rushed`; D3 uses
+`elo.od.weather_luck_weight=0.25`. A missing quarter, minutes or rushed
+value leaves the observed update target unchanged. Forecast errors are
+constructed only when the retained forecast's timestamp precedes the
+venue-local scheduled kickoff and the roof is `none`.
+
+The CLI's old historical cache omits newly selected stat columns. Use the
+campaign runner and frozen supplementary snapshot for these experiments.
+A fresh CLI rich-stat backtest requires `--no-cache`; the weather surprise
+preprocessing is currently analysis-only. No weather config is ready for
+deployment merely because it can be replayed here.
+
 ## Methodology details
 
 ### Correctness checkpoint and frozen inputs

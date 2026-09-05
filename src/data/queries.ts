@@ -106,7 +106,12 @@ export async function fetchMatchesForSeasons(
       home_goals, home_behinds, home_points,
       away_goals, away_behinds, away_points,
       margin, attendance,
-      external_afl_id
+      external_afl_id,
+      home_q1_goals, home_q1_behinds, home_q2_goals, home_q2_behinds,
+      home_q3_goals, home_q3_behinds, home_q4_goals, home_q4_behinds,
+      away_q1_goals, away_q1_behinds, away_q2_goals, away_q2_behinds,
+      away_q3_goals, away_q3_behinds, away_q4_goals, away_q4_behinds,
+      home_minutes_in_front, away_minutes_in_front, home_rushed_behinds, away_rushed_behinds
     FROM matches
     WHERE season_id IN (${placeholders})
     ORDER BY season_id, date, local_time, id

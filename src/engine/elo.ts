@@ -61,9 +61,9 @@ export function computeExpected(
 export function computeMovMultiplier(margin: number, ratingDiff: number): number {
   const multiplier = (Math.log(Math.abs(margin) + 1) * 2.2) / (ratingDiff * 0.001 + 2.2);
 
-  if (!Number.isFinite(multiplier)) {
+  if (!Number.isFinite(multiplier) || multiplier < 0) {
     throw new Error(
-      `MOV multiplier produced non-finite value. margin=${margin}, ratingDiff=${ratingDiff}`,
+      `MOV multiplier produced non-finite or negative value. margin=${margin}, ratingDiff=${ratingDiff}`,
     );
   }
 
@@ -181,9 +181,11 @@ export function updateElo(
   const ratingDiffForMov = winnerRating - loserRating;
 
   const movMultiplier =
-    eloConfig.mov_multiplier === "538_log"
-      ? computeMovMultiplier(Math.abs(margin), ratingDiffForMov)
-      : computeNoMovMultiplier();
+    eloConfig.points_residual_k !== undefined
+      ? 1
+      : eloConfig.mov_multiplier === "538_log"
+        ? computeMovMultiplier(Math.abs(margin), ratingDiffForMov)
+        : computeNoMovMultiplier();
 
   // Contextual K: per-team K based on recent rating velocity
   let homeK = eloConfig.k;
@@ -205,8 +207,17 @@ export function updateElo(
     );
   }
 
-  const homeChange = homeK * movMultiplier * (homeActual - homeExpected);
-  const awayChange = awayK * movMultiplier * (1 - homeActual - (1 - homeExpected));
+  const finalsGain = match.round_type !== "Regular" ? (eloConfig.finals_k_multiplier ?? 1) : 1;
+  const pointChange =
+    eloConfig.points_residual_k === undefined
+      ? undefined
+      : (eloConfig.points_residual_k * (margin - (homeRating - awayRating + ha) * 0.07)) / 0.07;
+  const homeChange =
+    (pointChange ?? homeK * movMultiplier * (homeActual - homeExpected)) * finalsGain;
+  const awayChange =
+    (pointChange === undefined
+      ? awayK * movMultiplier * (1 - homeActual - (1 - homeExpected))
+      : -pointChange) * finalsGain;
 
   const homeNewRating = homeRating + homeChange;
   const awayNewRating = awayRating + awayChange;
