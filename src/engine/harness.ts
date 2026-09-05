@@ -228,6 +228,7 @@ export function runHarness(
       const numTeams = teamCountBySeason.get(match.season_id) ?? 0;
 
       // Build prior PAV map from previous season
+      priorPavMap = new Map();
       const currentYear = data.seasonYearById.get(match.season_id);
       if (currentYear !== undefined) {
         const priorYear = currentYear - 1;
@@ -399,6 +400,7 @@ export function runPredict(
       currentSeasonId = match.season_id;
       const numTeams = teamCountBySeason.get(match.season_id) ?? 0;
 
+      priorPavMap = new Map();
       const currentYear = data.seasonYearById.get(match.season_id);
       if (currentYear !== undefined) {
         const priorYear = currentYear - 1;
@@ -427,7 +429,9 @@ export function runPredict(
         applyRegression(eloState, config.elo.regression_to_mean, targets);
       }
 
-      if (priorLeague) {
+      if (config.backtest.train_seasons.includes(currentYear ?? -1)) {
+        pavState = createPavSeasonState(numTeams);
+      } else if (priorLeague) {
         pavState = createPavSeasonStateWithPriorLeague(numTeams, priorLeague);
       } else {
         pavState = createPavSeasonState(numTeams);
@@ -436,6 +440,9 @@ export function runPredict(
 
     const isCompleted = match.home_points !== null && match.away_points !== null;
     const isTargetRound = match.season_id === targetSeasonId && match.round_number === targetRound;
+    const isTrain = config.backtest.train_seasons.includes(
+      data.seasonYearById.get(match.season_id) ?? -1,
+    );
 
     const offsetAdjust = offsetConfig
       ? getTeamOffset(offsetState, match.home_team_id, offsetConfig.k) -
@@ -468,7 +475,7 @@ export function runPredict(
       // With team offsets or per-venue HGA enabled, every completed match
       // contributes a (possibly unrecorded) prediction so those states stay
       // warm — the same rule the backtest harness uses for non-train seasons.
-      if (isTargetRound || offsetConfig || venueHaConfig) {
+      if (isTargetRound || (!isTrain && (offsetConfig || venueHaConfig))) {
         const prediction = generatePrediction(
           match,
           eloState,
@@ -500,11 +507,13 @@ export function runPredict(
       if (odConfig) {
         updateOd(odState, match, odConfig);
       }
-      const matchStats = data.statsByMatch.get(match.id) ?? [];
-      updatePavState(pavState, match, matchStats, {
-        home: (awayEloPre - config.elo.initial_rating) / 400,
-        away: (homeEloPre - config.elo.initial_rating) / 400,
-      });
+      if (!isTrain) {
+        const matchStats = data.statsByMatch.get(match.id) ?? [];
+        updatePavState(pavState, match, matchStats, {
+          home: (awayEloPre - config.elo.initial_rating) / 400,
+          away: (homeEloPre - config.elo.initial_rating) / 400,
+        });
+      }
     }
   }
 
@@ -576,7 +585,11 @@ function generatePrediction(
   const predictionHa = config.output.prediction_home_advantage ?? 0;
   const margin =
     predictMargin(homeTeamRating + predictionHa, awayTeamRating, config.output) + marginAdjust;
-  const winProb = computeWinProbability(margin, config.output.sigma);
+  const winProb = computeWinProbability(
+    margin,
+    config.output.sigma,
+    config.output.probability_model,
+  );
 
   // Predicted winner from full-precision margin, never from rounded display
   const predictedWinner = margin >= 0 ? "home" : "away";

@@ -6,6 +6,14 @@ import {
 } from "../../src/engine/venue-ha.js";
 
 describe("per-venue prediction HGA (Task 38a)", () => {
+  it("keeps an unseen venue finite when min_n is zero", () => {
+    const state = createVenueHaPredState();
+    expect(getVenueHaPred(state, 1, 1, 0)).toBe(0);
+    updateVenueHaPred(state, 2, 8);
+    expect(getVenueHaPred(state, 1, 0, 0)).toBe(8);
+    expect(getVenueHaPred(state, 1, 1, 0)).toBe(8);
+  });
+
   it("returns 0 for unknown venues when state is empty", () => {
     const state = createVenueHaPredState();
     expect(getVenueHaPred(state, 1, 1, 5)).toBe(0);

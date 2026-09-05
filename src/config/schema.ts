@@ -83,6 +83,8 @@ export const ConfigSchema = z.object({
   output: z.object({
     margin_per_rating_point: z.number(),
     sigma: z.number().positive(),
+    // Absence preserves the historical non-normal head and config identity.
+    probability_model: z.enum(["legacy", "standard_normal"]).optional(),
     // Rating points added to the home side at prediction time. Distinct from
     // elo.home_advantage, which only shapes the update's expected result —
     // without this the predicted margin contains no home advantage at all.

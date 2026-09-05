@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 import type { Config } from "../../src/config/schema.js";
 import type { MatchLineupRow, MatchRow } from "../../src/data/types.js";
-import { buildRegressionTargets, type HarnessData, runHarness } from "../../src/engine/harness.js";
+import {
+  buildRegressionTargets,
+  type HarnessData,
+  runHarness,
+  runPredict,
+} from "../../src/engine/harness.js";
 
 /**
  * Elo-only config (weight_elo = 1) so the fixture needs no lineups,
@@ -70,6 +75,7 @@ function harnessData(matches: MatchRow[]): HarnessData {
       [2, "Beta"],
     ]),
     venueNames: new Map([[1, "Test Oval"]]),
+    dobByPlayerId: new Map(),
     seasonYearById: new Map([
       [1, 2024],
       [2, 2025],
@@ -79,6 +85,60 @@ function harnessData(matches: MatchRow[]): HarnessData {
 
 const TEST_SEASON = new Set([2]);
 const TRAIN_SEASON = new Set([1]);
+
+describe("campaign boundary repairs", () => {
+  it("clears a stale prior in both prediction entry points", () => {
+    const cfg = eloOnlyConfig();
+    cfg.blend.weight_elo = 0;
+    const matches = [
+      matchRow({ id: 1, season_id: 1, date: "2024-03-15" }),
+      matchRow({ id: 2, season_id: 2 }),
+    ];
+    const data = harnessData(matches);
+    data.seasonYearById.set(0, 2023);
+    data.priorPavBySeason.set(0, [
+      {
+        id: 1,
+        player_id: 10,
+        season_id: 0,
+        team_id: 1,
+        off_pav: 10,
+        mid_pav: 10,
+        def_pav: 10,
+        total_pav: 30,
+      },
+    ]);
+    for (const match of matches)
+      data.lineupsByMatch.set(match.id, [
+        {
+          id: match.id,
+          match_id: match.id,
+          player_id: 10,
+          team_id: 1,
+          guernsey_number: 1,
+          position: "C",
+          is_emergency: 0,
+          is_substitute: 0,
+        },
+      ]);
+    const back = runHarness(data, cfg, new Set(), new Set([1, 2])).predictions;
+    expect(back[0]?.homePavTotal).toBe(30);
+    expect(back[1]?.homePavTotal).toBe(0);
+    expect(runPredict(data, cfg, 1, 2).predictions[0]?.homePavTotal).toBe(0);
+  });
+
+  it("does not learn live offsets from Elo-only training matches", () => {
+    const cfg = eloOnlyConfig();
+    cfg.output.team_offset = { k: 5, season_carry: 1 };
+    cfg.output.prediction_home_advantage_per_venue = { alpha: 1, min_n: 0 };
+    const data = harnessData([
+      matchRow({ id: 1, season_id: 1, date: "2024-03-15" }),
+      matchRow({ id: 2, season_id: 2 }),
+    ]);
+    const back = runHarness(data, cfg, TRAIN_SEASON, TEST_SEASON).predictions;
+    expect(runPredict(data, cfg, 1, 2).predictions).toEqual(back);
+  });
+});
 
 describe("runHarness walk-forward ordering (TST-02)", () => {
   it("predicts each match before ingesting its own result (no leakage)", () => {

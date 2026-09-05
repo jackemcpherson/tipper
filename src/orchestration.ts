@@ -200,7 +200,9 @@ export async function runBacktest(
     ...gapYears,
     ...config.backtest.test_seasons,
   ];
-  const priorYears = config.backtest.test_seasons.map((y) => y - 1);
+  // Residual-learning models predict in gap years too. Their priors must
+  // match an unscoped run, even when those predictions are not scored.
+  const priorYears = [...gapYears, ...config.backtest.test_seasons].map((y) => y - 1);
 
   const { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate } =
     await fetchHarnessData(db, allSeasonYears, priorYears, competition, cache);
@@ -274,7 +276,9 @@ export async function runPrediction(
       ...seasonRange(Math.max(...config.backtest.train_seasons) + 1, season),
     ]),
   ];
-  const priorYears = [season - 1];
+  const priorYears = allYears
+    .filter((year) => !config.backtest.train_seasons.includes(year))
+    .map((year) => year - 1);
 
   const { harnessData, seasonYearToId, latestDate } = await fetchHarnessData(
     db,

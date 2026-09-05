@@ -82,6 +82,89 @@ Initial evidence, pending the complete task-by-task audit:
 
 ## Methodology
 
+### Correctness checkpoint and frozen inputs
+
+`analysis/task40-data.ts` froze 3,475 fixtures from 2010-2026 plus their
+stats, lineups, prior PAV and dimensions. The temporary snapshot is
+`/tmp/tipper-task40-data.json`, SHA-256
+`705f3d2bed9f5db50d726718adf41ef732d56f590255041590f77a6849bbdd17`.
+`bun analysis/task40-audit.ts` reproduced every persisted prediction field
+for all four historical baselines, not merely their rounded metrics.
+Evidence is in `analysis/task40-audit-results.json`.
+
+The probability function is not a normal CDF. At z=0.5 it returns
+0.728328 instead of 0.691462; at z=1 it returns 0.870329 instead of
+0.841345. An independent Simpson integration verifies these reference
+values against the [NIST normal density definition](https://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm).
+Severity: biases comparison and invalidates the claimed meaning of sigma.
+The repair will expose an optional `output.probability_model` value
+`standard_normal`. Absence retains the explicitly labelled legacy head,
+so historical identities remain reproducible. Every campaign candidate
+will be evaluated against an incumbent with the same probability head.
+No probability-only repair earns a tips-based promotion recommendation.
+
+OD reduces to `q=(attack-concede)/2`, with home update
+`q += k/2 * (actualMargin - (qHome-qAway+ha))` and the opposite away update.
+The scalar and split implementations agree within 3.20e-14 points over
+the frozen 2010-2026 fixture set. Separate scoring totals cancel exactly.
+Severity: the ledger's mechanism attribution is wrong; the measured gain
+remains real as a point estimate.
+
+Current data has zero missing local times in every fetched year, including
+2026. The supplied NULL-time premise is stale. The early window has nine
+missing lineups in each of 2017, 2018 and 2019. No row contradicts the
+contract that `is_substitute` covers INT and SUB. The suspected starting-18
+filter bug is withdrawn. Post-change lineups still lack deadline snapshots,
+so historical availability at Thursday lock cannot be established.
+
+The upstream PAV formula normalises each zone to 1,800 across 18 teams.
+The engine approximates each team pool as 100 times its zone strength.
+These are close but not identical units. With current-season league totals,
+2025 engine zone sums are 1789.53, 1805.57 and 1797.81 versus upstream
+1800.17, 1799.98 and 1800.07. Mean absolute player total error is 0.0113.
+There is no factor-of-100 mismatch left. A separate normalisation experiment
+will measure the approximation and accumulated-league effects.
+
+The present train-only calibration method returns slope 10.1867 on 2020,
+not 6.984 or 6.986. Single-season fits are 15.2923 on 2015, 12.8150 on
+2019 and 14.3447 on 2025. They are cold fits without previous-year priors,
+not comparable independent estimates of the promoted joint blend slope.
+The 2025 R10 live path differs from backtest margins by up to 0.0226 points
+because it accumulates training-year PAV. This is an implementation mismatch,
+even though the observed effect is small.
+
+### Repair pre-registration, before repaired results
+
+F1 will compare legacy probabilities with a correct standard normal head,
+sigma 36 unchanged. Use `t40-cdf`, `t40-cdf-early` and `t40-cdf-2026`.
+F2 will compare current-season league totals and exact zone-pool
+normalisation, individually and together, with legacy PAV. Configs will be
+`t40-pav-current`, `t40-pav-normalized`, `t40-pav-corrected`, each with
+`-early` and `-2026` variants. The campaign runner will create these configs
+and score both probability heads. Commands will be
+`bun analysis/task40-campaign.ts --family F` and
+`bun analysis/task40-score.ts`.
+
+F1 cannot change winner signs and is therefore PARK for competition
+promotion regardless of LL. It is a correctness repair, not evidence of a
+better tipping model. F2 uses the incumbent gates below. A non-improving
+primary or early LL, or any tips/bias guard failure, is KILL for promotion;
+improvement without sufficient precision is PARK. Correctness work is not
+undone merely because a wrong implementation scores better on reused data.
+
+Clear missing priors at every boundary, protect the empty venue mean, and
+align live training semantics with backtest. These are bug fixes, not
+selected candidates. Fetch all warm-up priors for residual-learning models.
+Assert v3's historical hash and records after each change. Record changed
+scoped candidate results against newly generated matched baselines.
+
+The corrected promotion standard adds a positive tipping rationale, a
+season/round-block uncertainty sensitivity check, and genuinely prospective
+confirmation to all incumbent gates. September-designed candidates cannot
+be validated prospectively on the already exposed 2026 season. Report
+incumbent-bar success separately, and PARK such survivors pending a frozen
+2027 trial. Never lower a gate after inspecting a candidate result.
+
 Candidate deltas will consistently mean candidate minus incumbent. Negative
 LogLoss deltas improve probability scoring; positive tip deltas improve the
 competition score. Report primary 2021-2025, early 2016-2019, 2026 rounds
@@ -131,6 +214,21 @@ Created the requested local branch. `bun install --frozen-lockfile` and
 `bun run build` pass. Sandbox DNS blocked the first baseline attempts.
 Network-enabled retries succeeded. All four historical baselines reproduce.
 No engine changes or candidate experiments have run yet.
+
+Completed the correctness checkpoint. Added an optional standard-normal
+probability head, cleared stale priors, guarded empty venue estimates and
+aligned live training with backtest. Warm-up priors now cover gap years.
+All four historical result arrays remain exact replicas after each engine
+change. The checked live/backtest difference is now exactly zero.
+`bun run typecheck`, `bun run check` and `bun run test --run` pass, with
+199 tests in 20 files. Lint and test discovery now exclude nested `.claude`
+checkout copies; lint also excludes the unrelated generated `.rumdl_cache`.
+No source, cache or history inside those directories was edited.
+
+Fetched supplementary inputs read-only to `/tmp/tipper-task40-extra.json`:
+107 venues, 3,475 matches, 3,532 weather rows and player-stat rows by season.
+No new model candidate results have been computed yet. F1/F2 are registered
+above; the remaining candidate matrix follows the completed ledger review.
 
 ## Appendix: commands and provenance
 

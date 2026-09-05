@@ -35,7 +35,7 @@ export function getVenueHaPred(
 ): number {
   const globalMean = state.globalN > 0 ? state.globalSum / state.globalN : 0;
   const n = state.n.get(venueId) ?? 0;
-  if (n < minN) return globalMean;
+  if (n === 0 || n < minN) return globalMean;
   const venueMean = (state.sum.get(venueId) ?? 0) / n;
   return alpha * venueMean + (1 - alpha) * globalMean;
 }
