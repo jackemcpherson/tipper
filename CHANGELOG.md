@@ -2,10 +2,59 @@
 
 This changelog records material model, engine, CLI, and deployment changes.
 
-## Unreleased
+## [3.5.0] - 2026-09-05
 
-- Add inert research modes and audit repairs. Task 40 tests 66 variants with
-  no validated promotion candidate and keeps v3 unchanged.
+This release adds the prospective trial and competition entry infrastructure.
+
+### Model
+
+The promoted model remains `predha-080`, hash `2641f46f`. No shadow promotion
+or production deployment forms part of this release.
+
+### Research
+
+Task 40 tested 66 variants and found no validated promotion candidate.
+The campaign closes the historical selection windows.
+Plain OD, `t40-od`, is the frozen challenger for a prospective 2027 trial.
+
+### Engine
+
+- Add optional research modes without schema defaults or primary changes.
+- Repair live-path training PAV accumulation and stale or missing gap priors.
+  The measured historical margin change peaks at 0.0225728046 points, with no
+  winner changes in the frozen 2025 R10 replay.
+- Apply the same gap priors to comparisons and separate backtests.
+- Preserve the legacy non-normal probability head exactly. The optional
+  `standard_normal` head now meets the 1e-9 reference gate.
+- Guard unseen venues, non-finite margin multipliers, duplicate bootstrap
+  pairs, overlapping strata, and regression centres.
+
+### CLI
+
+- Add `export-tips`, canonical Squiggle game-id resolution, and `--with-gameid`.
+- Add the typed competition monitor, current-season defaults, and distinct
+  credential, field-outage, and market-alert exit codes.
+- Add `trial` for paired at-lock tips, common cuts, team bias, and both
+  probability heads. Freeze the 2027 adjudication with a drift test and a
+  retrospective 2026 golden fixture.
+
+### Worker
+
+- Append predictions, consumed named lineups, rating inputs, and the available
+  Squiggle field after primary publication. Skip an absent archive table.
+- Bake and run the OD shadow into the archive only. Shadow and archive failures
+  leave primary publication and health intact.
+- Serve primary predictions through `GET /tips`, with canonical ids, open GET
+  CORS, one-hour game caching, and valid responses during Squiggle outages.
+- Require AFL-MCP migration `0021` for archive storage. The migration and
+  production deployment remain separate maintainer actions.
+
+### CI and Documentation
+
+- Add Markdown and prose checks with the preserved historical evidence rules.
+- Run the monitor Monday at 22:00 UTC, save its CSV row, and retain alert
+  evidence before failing the workflow.
+- Add the competition contact-and-soak checklist and Task 41 handover report.
 
 ## [3.4.0] - 2026-06-13
 
