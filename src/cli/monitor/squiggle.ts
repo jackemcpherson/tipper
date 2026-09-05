@@ -88,7 +88,10 @@ export interface SquiggleField {
 
 async function fetchJson(q: string, year: number): Promise<unknown> {
   const url = `https://api.squiggle.com.au/?q=${q};year=${year}`;
-  const resp = await fetch(url, { headers: { "User-Agent": UA } });
+  const resp = await fetch(url, {
+    headers: { "User-Agent": UA },
+    signal: AbortSignal.timeout(15000),
+  });
   if (!resp.ok) {
     throw new Error(`Squiggle API error: ${resp.status} ${resp.statusText} (${url})`);
   }
@@ -103,33 +106,38 @@ async function fetchJson(q: string, year: number): Promise<unknown> {
  * match the tipper model.
  */
 export async function fetchSquiggleField(year: number): Promise<SquiggleField> {
-  const [gamesRaw, tipsRaw] = await Promise.all([
-    fetchJson("games;complete=100", year),
-    fetchJson("tips", year),
-  ]);
+  try {
+    const [gamesRaw, tipsRaw] = await Promise.all([
+      fetchJson("games;complete=100", year),
+      fetchJson("tips", year),
+    ]);
 
-  const { games: rawGames } = GamesResponseSchema.parse(gamesRaw);
-  const { tips: rawTips } = TipsResponseSchema.parse(tipsRaw);
+    const { games: rawGames } = GamesResponseSchema.parse(gamesRaw);
+    const { tips: rawTips } = TipsResponseSchema.parse(tipsRaw);
 
-  const games: SquiggleGame[] = rawGames
-    .filter((g) => g.hscore !== null && g.ascore !== null)
-    .map((g) => ({
-      id: g.id,
-      date: g.date,
-      hteam: normaliseTeam(g.hteam),
-      ateam: normaliseTeam(g.ateam),
-      hscore: g.hscore ?? 0,
-      ascore: g.ascore ?? 0,
+    const games: SquiggleGame[] = rawGames
+      .filter((g) => g.hscore !== null && g.ascore !== null)
+      .map((g) => ({
+        id: g.id,
+        date: g.date,
+        hteam: normaliseTeam(g.hteam),
+        ateam: normaliseTeam(g.ateam),
+        hscore: g.hscore ?? 0,
+        ascore: g.ascore ?? 0,
+      }));
+
+    const tips: SquiggleTip[] = rawTips.map((t) => ({
+      gameid: t.gameid,
+      source: t.source,
+      correct: t.correct ?? 0,
+      err: t.err !== undefined && t.err !== null ? Number(t.err) : null,
+      hconfidence:
+        t.hconfidence !== undefined && t.hconfidence !== null ? Number(t.hconfidence) : null,
     }));
 
-  const tips: SquiggleTip[] = rawTips.map((t) => ({
-    gameid: t.gameid,
-    source: t.source,
-    correct: t.correct ?? 0,
-    err: t.err !== undefined && t.err !== null ? Number(t.err) : null,
-    hconfidence:
-      t.hconfidence !== undefined && t.hconfidence !== null ? Number(t.hconfidence) : null,
-  }));
-
-  return { games, tips };
+    return { games, tips };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(`Squiggle field unavailable: ${message}`, { cause: error });
+  }
 }

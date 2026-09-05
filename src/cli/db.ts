@@ -69,17 +69,9 @@ export function getDatabase(): D1Database {
   const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID ?? DEFAULT_DATABASE_ID;
 
   if (!apiToken) {
-    console.error(
-      [
-        "Error: No Cloudflare credentials found. Provide a token one of two ways:",
-        "",
-        "  1. Set CLOUDFLARE_API_TOKEN to an API token with D1 read access:",
-        "       export CLOUDFLARE_API_TOKEN=<token>",
-        "  2. Run `wrangler login` — tipper reuses wrangler's OAuth token from",
-        "     its config/default.toml (current and legacy locations are checked).",
-      ].join("\n"),
+    throw new Error(
+      "No Cloudflare credentials found. Set CLOUDFLARE_API_TOKEN with D1 read access or run wrangler login.",
     );
-    process.exit(1);
   }
 
   return createD1RestClient(accountId, databaseId, apiToken);
