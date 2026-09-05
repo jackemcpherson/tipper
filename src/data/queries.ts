@@ -79,7 +79,9 @@ export async function fetchTeams(db: D1Database, competition: CompetitionCode): 
 
 /** Fetch all venues. */
 export async function fetchVenues(db: D1Database): Promise<VenueRow[]> {
-  const result = await db.prepare("SELECT id, name FROM venues").all<VenueRow>();
+  const result = await db
+    .prepare("SELECT id, name, latitude, longitude, timezone FROM venues")
+    .all<VenueRow>();
   return result.results;
 }
 

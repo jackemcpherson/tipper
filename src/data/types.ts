@@ -25,6 +25,9 @@ export interface TeamRow {
 export interface VenueRow {
   readonly id: number;
   readonly name: string;
+  readonly latitude?: number | null;
+  readonly longitude?: number | null;
+  readonly timezone?: string | null;
 }
 
 export interface MatchRow {

@@ -19,6 +19,7 @@ import type {
 import type { MatchPrediction } from "../types.js";
 import { calibratePav, computeTeamRating, type TeamPavSums } from "./blend.js";
 import { applyRegression, type EloHistory, type EloState, getRating, updateElo } from "./elo.js";
+import { homeAdvantageBucket, travelFeatures, type VenueGeo } from "./geography.js";
 import {
   applyOdRegression,
   createOdState,
@@ -59,6 +60,7 @@ export interface HarnessData {
   priorPavBySeason: Map<number, PlayerSeasonPavRow[]>;
   teamNames: Map<number, string>;
   venueNames: Map<number, string>;
+  venueGeoById?: Map<number, VenueGeo>;
   seasonYearById: Map<number, number>;
   /** Task 37: player_id → ISO date_of_birth (or null). Empty map disables the
    * age-curve adjustment even when `pav.age_curve_weight` is set. */
@@ -582,9 +584,40 @@ function generatePrediction(
 
   // Home advantage at prediction time, in rating points (0 when unset);
   // marginAdjust carries the team-offset term in margin points.
-  const predictionHa = config.output.prediction_home_advantage ?? 0;
-  const margin =
-    predictMargin(homeTeamRating + predictionHa, awayTeamRating, config.output) + marginAdjust;
+  let predictionHa =
+    config.output.prediction_ha_table?.[String(match.venue_id)] ??
+    config.output.prediction_home_advantage ??
+    0;
+  const haMode = config.output.prediction_ha_mode;
+  if (haMode) {
+    const home = data.teamNames.get(match.home_team_id) ?? "";
+    const away = data.teamNames.get(match.away_team_id) ?? "";
+    if (haMode === "geographic") {
+      if (!data.venueGeoById) throw new Error("Geographic HA requires venue coordinates");
+      const travel = travelFeatures(home, away, match.venue_id, data.venueGeoById);
+      const homeLocal = travel.homeKm < 150;
+      const awayLocal = travel.awayKm < 150;
+      predictionHa = homeLocal ? (awayLocal ? 20 : 110) : awayLocal ? -30 : 0;
+    } else {
+      const bucket = homeAdvantageBucket(home, away, data.venueNames.get(match.venue_id) ?? "");
+      if (haMode === "bucket") {
+        predictionHa = { neutral: 0, derby: 20, true_home: 110, other: 80 }[bucket];
+      } else if (bucket === "neutral") predictionHa = 0;
+    }
+  }
+  if (match.round_type !== "Regular" && config.output.finals_home_advantage !== undefined) {
+    predictionHa = config.output.finals_home_advantage;
+  }
+  const baseMargin = predictMargin(homeTeamRating + predictionHa, awayTeamRating, config.output);
+  const tailThreshold = config.output.team_offset?.tail_threshold;
+  const adjustment =
+    tailThreshold === undefined
+      ? marginAdjust
+      : Math.abs(baseMargin) <= tailThreshold
+        ? 0
+        : Math.sign(baseMargin) *
+          Math.max(-Math.abs(baseMargin) + 1e-9, Math.sign(baseMargin) * marginAdjust);
+  const margin = baseMargin + adjustment;
   const winProb = computeWinProbability(
     margin,
     config.output.sigma,

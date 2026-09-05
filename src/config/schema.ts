@@ -90,6 +90,9 @@ export const ConfigSchema = z.object({
     // without this the predicted margin contains no home advantage at all.
     // Optional (not defaulted) to keep existing config hashes stable.
     prediction_home_advantage: z.number().optional(),
+    prediction_ha_mode: z.enum(["neutral", "bucket", "geographic"]).optional(),
+    prediction_ha_table: z.record(z.string(), z.number()).optional(),
+    finals_home_advantage: z.number().optional(),
     // Walk-forward per-team performance offsets (margin points) applied at
     // prediction time and learned from residuals: offset = sum/(n+k), shrunk
     // toward 0; evidence decays by season_carry at each season boundary.
@@ -98,6 +101,7 @@ export const ConfigSchema = z.object({
       .object({
         k: z.number().positive(),
         season_carry: z.number().min(0).max(1),
+        tail_threshold: z.number().nonnegative().optional(),
       })
       .optional(),
     // Task 38a: walk-forward per-venue prediction HGA (margin points). Adds

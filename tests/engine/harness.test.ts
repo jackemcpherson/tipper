@@ -87,6 +87,40 @@ const TEST_SEASON = new Set([2]);
 const TRAIN_SEASON = new Set([1]);
 
 describe("campaign boundary repairs", () => {
+  it("leaves close margins untouched and caps tail offsets before a sign flip", () => {
+    const cfg = eloOnlyConfig();
+    cfg.elo.k = 1e-9;
+    cfg.output.prediction_home_advantage = 80;
+    cfg.output.team_offset = { k: 0.1, season_carry: 1, tail_threshold: 24 };
+    const data = harnessData([
+      matchRow({ id: 1, home_points: 0, away_points: 200 }),
+      matchRow({ id: 2, date: "2025-03-22", round_number: 2 }),
+    ]);
+    const tail = runHarness(data, cfg, new Set(), TEST_SEASON).predictions;
+    expect(tail[1]?.predictedMargin).toBeGreaterThan(0);
+    expect(tail[1]?.predictedMargin).toBeLessThan(1e-7);
+    cfg.output.prediction_home_advantage = 10;
+    const close = runHarness(data, cfg, new Set(), TEST_SEASON).predictions;
+    delete cfg.output.team_offset;
+    const control = runHarness(data, cfg, new Set(), TEST_SEASON).predictions;
+    expect(close).toEqual(control);
+  });
+
+  it("applies finals HA only outside regular-season games", () => {
+    const cfg = eloOnlyConfig();
+    cfg.output.prediction_home_advantage = 80;
+    cfg.output.finals_home_advantage = 0;
+    const regular = runHarness(harnessData([matchRow({ id: 1 })]), cfg, new Set(), TEST_SEASON);
+    const finals = runHarness(
+      harnessData([matchRow({ id: 1, round_type: "Final" })]),
+      cfg,
+      new Set(),
+      TEST_SEASON,
+    );
+    expect(regular.predictions[0]?.predictedMargin).toBe(60);
+    expect(finals.predictions[0]?.predictedMargin).toBe(0);
+  });
+
   it("clears a stale prior in both prediction entry points", () => {
     const cfg = eloOnlyConfig();
     cfg.blend.weight_elo = 0;

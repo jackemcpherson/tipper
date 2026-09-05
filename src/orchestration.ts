@@ -165,6 +165,16 @@ export async function fetchHarnessData(
     priorPavBySeason,
     teamNames: new Map(teams.map((t) => [t.id, t.name])),
     venueNames: new Map(venues.map((v) => [v.id, v.name])),
+    venueGeoById: new Map(
+      venues.map((v) => [
+        v.id,
+        {
+          latitude: v.latitude ?? null,
+          longitude: v.longitude ?? null,
+          timezone: v.timezone ?? null,
+        },
+      ]),
+    ),
     seasonYearById: seasonIdToYear,
     dobByPlayerId,
   };
