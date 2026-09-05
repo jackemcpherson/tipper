@@ -38,14 +38,16 @@ const json = JSON.stringify(config);
 const shadowIds = z
   .array(z.string().min(1))
   .parse(JSON.parse(readFileSync(new URL("../configs/_shadows.json", import.meta.url), "utf8")));
-if (new Set(shadowIds).size !== shadowIds.length || shadowIds.includes(pointer.config_id)) {
-  throw new Error("Shadow ids must be unique and exclude the promoted model");
+if (new Set(shadowIds).size !== shadowIds.length) {
+  throw new Error("Shadow ids must be unique");
 }
 const shadows = await Promise.all(
-  shadowIds.map(async (id) => {
-    const shadow = loadConfig(id);
-    return { id, hash: await computeConfigHash(shadow), config: shadow };
-  }),
+  shadowIds
+    .filter((id) => id !== pointer.config_id)
+    .map(async (id) => {
+      const shadow = loadConfig(id);
+      return { id, hash: await computeConfigHash(shadow), config: shadow };
+    }),
 );
 
 const content = `// GENERATED FILE — do not edit by hand.

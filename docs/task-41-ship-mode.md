@@ -228,7 +228,8 @@ replays. No production publishing command ran.
 
 `configs/_shadows.json` freezes `t40-od`, the campaign's plain OD challenger.
 Its content hash matches `od-w100-k008`. The baker validates the list and
-rejects duplicate ids or a primary id in the shadow list. Its output includes
+rejects duplicate ids. It omits the promoted id from shadow runs, so the
+existing promotion and baking commands remain sufficient. Its output includes
 both model configs. The primary block remains byte-identical, and a second
 bake produces identical bytes.
 

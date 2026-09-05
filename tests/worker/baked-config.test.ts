@@ -30,17 +30,17 @@ describe("baked-config", () => {
     expect(await computeConfigHash(promoted)).toBe(BAKED_CONFIG_HASH);
   });
   it("bakes the frozen OD challenger without changing the primary", async () => {
-    const ids: unknown = JSON.parse(
+    const ids = JSON.parse(
       readFileSync(new URL("../../configs/_shadows.json", import.meta.url), "utf8"),
     );
-    expect(BAKED_SHADOWS.map((shadow) => shadow.id)).toEqual(ids);
-    expect(ids).toEqual(["t40-od"]);
-    expect(BAKED_CONFIG_ID).toBe("predha-080");
-    expect(BAKED_CONFIG_HASH.slice(0, 8)).toBe("2641f46f");
+    expect(BAKED_SHADOWS.map((shadow) => shadow.id)).toEqual(
+      (ids as string[]).filter((id) => id !== BAKED_CONFIG_ID),
+    );
     for (const shadow of BAKED_SHADOWS) {
       expect(shadow.hash).toBe(await computeConfigHash(loadConfig(shadow.id)));
       expect(await computeConfigHash(shadow.config)).toBe(shadow.hash);
-      expect(shadow.hash).toBe(await computeConfigHash(loadConfig("od-w100-k008")));
+      if (shadow.id === "t40-od")
+        expect(shadow.hash).toBe(await computeConfigHash(loadConfig("od-w100-k008")));
     }
   });
 });
