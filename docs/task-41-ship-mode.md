@@ -242,3 +242,37 @@ Worker tests use the real SQL builders against a stubbed database. They assert
 one primary upsert, separate archive inserts, opposite prediction orientations,
 and continued primary success when the shadow fails. The full suite passes
 270 tests in 27 files, with typecheck, Biome, and build.
+
+## Frozen Scorer, 2026-09-05
+
+`tipper trial` reads paged archive captures and separately joined final scores.
+It selects the last eligible capture before both deadlines, then pairs exact
+match ids and the two frozen model versions. Missing pairs remain visible.
+Incomplete seasons, retrospective inputs, and finals diagnostics cannot
+produce PROMOTE. The scorer never changes a config pointer.
+
+The 2026 golden fixture has 422 synthetic captures. It reproduces 211 paired
+games, 152 incumbent tips, 153 OD tips, and three draws. Competition totals are
+155 and 156.
+
+The common close band has 83 games and an OD gain of one tip.
+Consensus-wrong has 51 games and an OD loss of three tips. The paired interval
+is -6 to +7 tips. Both legacy losses match Task 40 within numerical precision.
+
+The fixture has explicit retrospective provenance, synthetic capture times,
+and empty lineup lists. It establishes scorer agreement only. It cannot prove
+deadline inputs or qualify for promotion. Gzip keeps the committed fixture
+small. `analysis/task41-reconstruct.ts` rebuilds it from frozen campaign results
+and the retained Squiggle response without replacing existing evidence.
+
+The frozen document specifies the primary CI rule, fallback cuts, 30-tip
+promotion floor, complete-season requirement, and September decision date.
+A drift test compares its constants with the scorer. Tests also exercise
+strict kickoff boundaries across daylight saving, duplicate rejection, field
+coverage, draw treatment, full-precision close margins, and promotion guards.
+Validation passes 279 tests in 29 files, typecheck, Biome, and build.
+
+The weather schema retains one row per match and kind, not every forecast
+refresh. Analysis can join a retained forecast only when its fetch preceded
+lock. A later replacement makes that weather input unavailable. The trial
+document records this limitation and forbids substituting observed weather.
