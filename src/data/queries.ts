@@ -79,7 +79,9 @@ export async function fetchTeams(db: D1Database, competition: CompetitionCode): 
 
 /** Fetch all venues. */
 export async function fetchVenues(db: D1Database): Promise<VenueRow[]> {
-  const result = await db.prepare("SELECT id, name FROM venues").all<VenueRow>();
+  const result = await db
+    .prepare("SELECT id, name, latitude, longitude, timezone, canonical_venue_id FROM venues")
+    .all<VenueRow>();
   return result.results;
 }
 
@@ -104,7 +106,12 @@ export async function fetchMatchesForSeasons(
       home_goals, home_behinds, home_points,
       away_goals, away_behinds, away_points,
       margin, attendance,
-      external_afl_id
+      external_afl_id,
+      home_q1_goals, home_q1_behinds, home_q2_goals, home_q2_behinds,
+      home_q3_goals, home_q3_behinds, home_q4_goals, home_q4_behinds,
+      away_q1_goals, away_q1_behinds, away_q2_goals, away_q2_behinds,
+      away_q3_goals, away_q3_behinds, away_q4_goals, away_q4_behinds,
+      home_minutes_in_front, away_minutes_in_front, home_rushed_behinds, away_rushed_behinds
     FROM matches
     WHERE season_id IN (${placeholders})
     ORDER BY season_id, date, local_time, id
@@ -163,7 +170,7 @@ export async function fetchPlayerStatsForMatches(
              goals, behinds, goal_assists,
              marks_inside_fifty, free_kicks_for, free_kicks_against,
              hitouts, inside_fifties, rebounds, clearances,
-             metres_gained
+             metres_gained, shots_at_goal, score_involvements, intercepts, pressure_acts, rating_points
       FROM player_match_stats
       WHERE match_id IN (${placeholders})
     `;

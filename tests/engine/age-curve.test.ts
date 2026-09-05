@@ -7,6 +7,27 @@ import {
 } from "../../src/engine/prior.js";
 
 describe("age curve", () => {
+  it("applies separate zone ratios and leaves unknown DOB unchanged", () => {
+    const pav = { offPav: 4, midPav: 6, defPav: 10, totalPav: 20 };
+    const result = applyAgeCurve(
+      new Map([
+        [1, pav],
+        [2, pav],
+      ]),
+      new Map([[1, "2005-01-01"]]),
+      "2026-03-01",
+      0.5,
+      [
+        [2, 1, 0],
+        [1, 1, 1],
+        [1, 1, 1],
+        [1, 1, 1],
+      ],
+    );
+    expect(result.get(1)).toEqual({ offPav: 6, midPav: 6, defPav: 5, totalPav: 17 });
+    expect(result.get(2)).toEqual(pav);
+    expect(pav.totalPav).toBe(20);
+  });
   it("returns the fitted ratio for in-range ages", () => {
     expect(getAgeTransitionRatio(27)).toBeCloseTo(1.018, 5);
     expect(getAgeTransitionRatio(33)).toBeCloseTo(0.91, 5);

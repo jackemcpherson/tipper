@@ -9,7 +9,9 @@
  * or match results beyond the box-score primitives.
  */
 
+import type { Config } from "../config/schema.js";
 import type { MatchRow, PlayerMatchStatsRow } from "../data/types.js";
+import { LEAGUE_POINTS_PER_SHOT } from "./elo.js";
 
 /**
  * Number of PAV points in each zone's pool per team for a full season.
@@ -215,6 +217,24 @@ export function computeMidScore(stats: PlayerMatchStatsRow): number {
   );
 }
 
+/** Registered single-feature HPN variants. Missing columns retain legacy credit. */
+export function computeInvolvementScores(
+  stats: PlayerMatchStatsRow,
+  feature?: Config["pav"]["involvement_feature"],
+): PlayerInvolvementAccumulator {
+  let offScore = computeOffScore(stats);
+  let midScore = computeMidScore(stats);
+  let defScore = computeDefScore(stats);
+  if (feature === "involvement") offScore += 3 * (stats.score_involvements ?? 0);
+  if (feature === "intercepts") defScore += 12 * (stats.intercepts ?? 0);
+  if (feature === "pressure") midScore += 3 * (stats.pressure_acts ?? 0);
+  if (feature === "shots" && stats.shots_at_goal !== undefined && stats.shots_at_goal !== null) {
+    offScore +=
+      LEAGUE_POINTS_PER_SHOT * stats.shots_at_goal - (6 * n(stats.goals) + n(stats.behinds));
+  }
+  return { offScore, midScore, defScore };
+}
+
 /**
  * Compute team strength values from cumulative stats and league averages.
  *
@@ -278,6 +298,7 @@ export function updatePavState(
   match: MatchRow,
   matchStats: PlayerMatchStatsRow[],
   oppQuality?: OpponentQuality,
+  feature?: Config["pav"]["involvement_feature"],
 ): void {
   if (match.home_points === null || match.away_points === null) return;
 
@@ -318,9 +339,11 @@ export function updatePavState(
     const playerInv = getOrCreatePlayerInvolvement(state, playerStats.player_id);
     const teamInv = getOrCreateTeamInvolvement(state, playerStats.team_id);
 
-    const off = computeOffScore(playerStats);
-    const mid = computeMidScore(playerStats);
-    const def = computeDefScore(playerStats);
+    const {
+      offScore: off,
+      midScore: mid,
+      defScore: def,
+    } = computeInvolvementScores(playerStats, feature);
 
     playerInv.offScore += off;
     playerInv.midScore += mid;
@@ -353,6 +376,7 @@ export function computePlayerPav(
   playerId: number,
   teamId: number,
   oppAdjustmentAlpha = 0,
+  normalizeZonePools = false,
 ): PlayerPav {
   const playerInv = state.playerInvolvement.get(playerId);
   const teamInv = state.teamInvolvement.get(teamId);
@@ -368,6 +392,18 @@ export function computePlayerPav(
       : 1;
 
   const strength = computeTeamStrength(teamStats, leagueAvgPointsPerI50);
+  if (normalizeZonePools && state.teamStats.size > 0) {
+    const means = { offence: 0, midfield: 0, defence: 0 };
+    for (const team of state.teamStats.values()) {
+      const values = computeTeamStrength(team, leagueAvgPointsPerI50);
+      means.offence += values.offence / state.teamStats.size;
+      means.midfield += values.midfield / state.teamStats.size;
+      means.defence += values.defence / state.teamStats.size;
+    }
+    strength.offence = means.offence > 0 ? strength.offence / means.offence : 0;
+    strength.midfield = means.midfield > 0 ? strength.midfield / means.midfield : 0;
+    strength.defence = means.defence > 0 ? strength.defence / means.defence : 0;
+  }
 
   // Team pool in each zone = base_pool × team_strength × num_teams (proportional share)
   // Actually: total league pool = PAV_POOL_PER_TEAM_PER_ZONE × numTeams

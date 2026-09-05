@@ -1,0 +1,2940 @@
+{
+  "candidates": 66,
+  "historicalN": 1890,
+  "blocks": 248,
+  "holm": {
+    "legacy": [
+      {
+        "id": "t40-offset-c0",
+        "rawP": 0.0011,
+        "adjustedP": 0.0726,
+        "pass": false
+      },
+      {
+        "id": "t40-offset-v4",
+        "rawP": 0.0018,
+        "adjustedP": 0.11699999999999999,
+        "pass": false
+      },
+      {
+        "id": "t40-offset-k16",
+        "rawP": 0.004,
+        "adjustedP": 0.256,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k12-r20",
+        "rawP": 0.0053,
+        "adjustedP": 0.3339,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k12-r40",
+        "rawP": 0.0059,
+        "adjustedP": 0.3658,
+        "pass": false
+      },
+      {
+        "id": "t40-offset-tail",
+        "rawP": 0.0066,
+        "adjustedP": 0.4026,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k12-r10",
+        "rawP": 0.0123,
+        "adjustedP": 0.738,
+        "pass": false
+      },
+      {
+        "id": "t40-offset-c1",
+        "rawP": 0.0133,
+        "adjustedP": 0.7847,
+        "pass": false
+      },
+      {
+        "id": "t40-od-shot-050",
+        "rawP": 0.0172,
+        "adjustedP": 0.9976,
+        "pass": false
+      },
+      {
+        "id": "t40-od-shot-075",
+        "rawP": 0.0192,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-shot-025",
+        "rawP": 0.0204,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-offset-k08",
+        "rawP": 0.0236,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-shot-100",
+        "rawP": 0.029,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od",
+        "rawP": 0.0341,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k08-r20",
+        "rawP": 0.0341,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-points",
+        "rawP": 0.0341,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-weather",
+        "rawP": 0.0341,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-quarter",
+        "rawP": 0.036,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rushed",
+        "rawP": 0.039,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-ha-bucket",
+        "rawP": 0.0453,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k08-r10",
+        "rawP": 0.046,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-shot-100",
+        "rawP": 0.0565,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-position",
+        "rawP": 0.0572,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-venue-team",
+        "rawP": 0.0599,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-shot-050",
+        "rawP": 0.0689,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-shot-075",
+        "rawP": 0.0695,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-ha-100",
+        "rawP": 0.07,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-ha-060",
+        "rawP": 0.0914,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k08-r40",
+        "rawP": 0.0962,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-ha-neutral",
+        "rawP": 0.1055,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-shot-025",
+        "rawP": 0.1215,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-venue-static",
+        "rawP": 0.1395,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rich-pressure",
+        "rawP": 0.1746,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-ha-bucket",
+        "rawP": 0.268,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-ha-120",
+        "rawP": 0.2786,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-sigma-032",
+        "rawP": 0.2808,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rich-intercepts",
+        "rawP": 0.2809,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-finals-both",
+        "rawP": 0.3363,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-finals-k",
+        "rawP": 0.3437,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-finals-ha",
+        "rawP": 0.3503,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-pav-current",
+        "rawP": 0.3896,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-derived",
+        "rawP": 0.4145,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-minutes",
+        "rawP": 0.4361,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-tog",
+        "rawP": 0.4989,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-age-r4",
+        "rawP": 0.5438,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-ha-090",
+        "rawP": 0.6342,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-ha-070",
+        "rawP": 0.6577,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-pav-normalized",
+        "rawP": 0.6917,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-ha-100",
+        "rawP": 0.7682,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rich-involvement",
+        "rawP": 0.7737,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k04-r10",
+        "rawP": 0.7792,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-pav-corrected",
+        "rawP": 0.7841,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-venue-geo",
+        "rawP": 0.8206,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-pav-day-end",
+        "rawP": 0.8248,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k04-r20",
+        "rawP": 0.8433,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-age-zone",
+        "rawP": 0.913,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rich-shots",
+        "rawP": 0.9557,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k04-r40",
+        "rawP": 0.9598,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rating-points",
+        "rawP": 0.9655,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-prior-k30",
+        "rawP": 0.9677,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-age-k30",
+        "rawP": 0.9792,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-sigma-040",
+        "rawP": 0.9891,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-cdf",
+        "rawP": 0.9905,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-position-prior",
+        "rawP": 0.9993,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-lineup-delta",
+        "rawP": 1,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-travel-probe",
+        "rawP": 1,
+        "adjustedP": 1,
+        "pass": false
+      }
+    ],
+    "standard_normal": [
+      {
+        "id": "t40-offset-c0",
+        "rawP": 0.0001,
+        "adjustedP": 0.0066,
+        "pass": true
+      },
+      {
+        "id": "t40-offset-k08",
+        "rawP": 0.0001,
+        "adjustedP": 0.0066,
+        "pass": true
+      },
+      {
+        "id": "t40-offset-k16",
+        "rawP": 0.0001,
+        "adjustedP": 0.0066,
+        "pass": true
+      },
+      {
+        "id": "t40-offset-v4",
+        "rawP": 0.0001,
+        "adjustedP": 0.0066,
+        "pass": true
+      },
+      {
+        "id": "t40-offset-c1",
+        "rawP": 0.0002,
+        "adjustedP": 0.012400000000000001,
+        "pass": true
+      },
+      {
+        "id": "t40-od-reverse-k12-r10",
+        "rawP": 0.0005,
+        "adjustedP": 0.0305,
+        "pass": true
+      },
+      {
+        "id": "t40-od-reverse-k12-r20",
+        "rawP": 0.0005,
+        "adjustedP": 0.0305,
+        "pass": true
+      },
+      {
+        "id": "t40-offset-tail",
+        "rawP": 0.0006,
+        "adjustedP": 0.035399999999999994,
+        "pass": true
+      },
+      {
+        "id": "t40-position",
+        "rawP": 0.0007,
+        "adjustedP": 0.0406,
+        "pass": true
+      },
+      {
+        "id": "t40-venue-team",
+        "rawP": 0.001,
+        "adjustedP": 0.057,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k12-r40",
+        "rawP": 0.0036,
+        "adjustedP": 0.2016,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k08-r10",
+        "rawP": 0.0225,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-venue-static",
+        "rawP": 0.026,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-shot-050",
+        "rawP": 0.0261,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-derived",
+        "rawP": 0.0298,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-shot-075",
+        "rawP": 0.0392,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-shot-025",
+        "rawP": 0.0434,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-ha-bucket",
+        "rawP": 0.0447,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-ha-100",
+        "rawP": 0.0467,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-shot-100",
+        "rawP": 0.049,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od",
+        "rawP": 0.0497,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k08-r20",
+        "rawP": 0.0497,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-points",
+        "rawP": 0.0497,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-weather",
+        "rawP": 0.0497,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-shot-025",
+        "rawP": 0.0502,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-quarter",
+        "rawP": 0.0527,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-shot-050",
+        "rawP": 0.0547,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rushed",
+        "rawP": 0.0596,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-shot-075",
+        "rawP": 0.0817,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-ha-120",
+        "rawP": 0.1301,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-shot-100",
+        "rawP": 0.134,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-ha-neutral",
+        "rawP": 0.1442,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rich-pressure",
+        "rawP": 0.1681,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-ha-060",
+        "rawP": 0.1751,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-finals-k",
+        "rawP": 0.1845,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-ha-bucket",
+        "rawP": 0.2031,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-tog",
+        "rawP": 0.251,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rich-intercepts",
+        "rawP": 0.278,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-ha-090",
+        "rawP": 0.3013,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-finals-both",
+        "rawP": 0.3527,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k08-r40",
+        "rawP": 0.4073,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-pav-current",
+        "rawP": 0.4153,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-ha-100",
+        "rawP": 0.4232,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-finals-ha",
+        "rawP": 0.4647,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-age-r4",
+        "rawP": 0.5447,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rich-involvement",
+        "rawP": 0.7378,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-venue-geo",
+        "rawP": 0.8007,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-pav-normalized",
+        "rawP": 0.8036,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-pav-day-end",
+        "rawP": 0.8242,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-minutes",
+        "rawP": 0.8786,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-ha-070",
+        "rawP": 0.8793,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-pav-corrected",
+        "rawP": 0.8959,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rich-shots",
+        "rawP": 0.957,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-prior-k30",
+        "rawP": 0.9649,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-age-k30",
+        "rawP": 0.9812,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k04-r10",
+        "rawP": 0.9812,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-rating-points",
+        "rawP": 0.9918,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k04-r20",
+        "rawP": 0.9953,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-age-zone",
+        "rawP": 0.9961,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-cdf",
+        "rawP": 1,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-lineup-delta",
+        "rawP": 1,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-od-reverse-k04-r40",
+        "rawP": 1,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-position-prior",
+        "rawP": 1,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-sigma-032",
+        "rawP": 1,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-sigma-040",
+        "rawP": 1,
+        "adjustedP": 1,
+        "pass": false
+      },
+      {
+        "id": "t40-travel-probe",
+        "rawP": 1,
+        "adjustedP": 1,
+        "pass": false
+      }
+    ]
+  },
+  "nullSelection": {
+    "iterations": 1000,
+    "seed": 42,
+    "medianBestApparentGain": 0.005189991932891679,
+    "ci95BestApparentGain": [
+      0.0015729858026264378,
+      0.011633151721861384
+    ],
+    "meanNumberClearing005": 2.456,
+    "probabilityAnyClears005": 0.537,
+    "caveat": "Shared round signs preserve cross-candidate dependence. Centered empirical alternatives are a sensitivity null, not an estimate of historical v3 tuning optimism."
+  },
+  "old156Illustration": {
+    "odScaleStandardError": 0.0029789444287759807,
+    "probability005UnderGaussianNull": 0.04729,
+    "expected156ClearingMagnitudeOnly": 7.37724,
+    "expected156OneSided025": 3.9,
+    "caveat": "Expected counts do not require independence, but assume equal marginal null behavior. Full promotion-gate probability is not identified by these calculations."
+  },
+  "power": [
+    {
+      "id": "t40-age-k30",
+      "legacy": {
+        "ll": [
+          0.0003119678909416807,
+          0.004443210992205838
+        ],
+        "tips": [
+          -10,
+          16
+        ],
+        "llSe": 0.0010195839968956543,
+        "tipSe": 0.0035500657457205073,
+        "iid80PowerLl": 0.002856451231942912,
+        "iid80PowerTips": 18.797582680804094
+      },
+      "standardNormal": {
+        "ll": [
+          0.00026889970490041903,
+          0.003676175234881335
+        ],
+        "tips": [
+          -10,
+          16
+        ],
+        "llSe": 0.0008466310610487867,
+        "tipSe": 0.0035500657457205073,
+        "iid80PowerLl": 0.0023719088811683655,
+        "iid80PowerTips": 18.797582680804094
+      }
+    },
+    {
+      "id": "t40-age-r4",
+      "legacy": {
+        "ll": [
+          -0.0006659531345201835,
+          0.0007725359869563599
+        ],
+        "tips": [
+          -2,
+          4
+        ],
+        "llSe": 0.0003663771237612408,
+        "tipSe": 0.0009165906977001338,
+        "iid80PowerLl": 0.001026436654272636,
+        "iid80PowerTips": 4.853343757152674
+      },
+      "standardNormal": {
+        "ll": [
+          -0.0005539680302826419,
+          0.0006343860349078283
+        ],
+        "tips": [
+          -2,
+          4
+        ],
+        "llSe": 0.00030364799486950746,
+        "tipSe": 0.0009165906977001338,
+        "iid80PowerLl": 0.0008506956677064891,
+        "iid80PowerTips": 4.853343757152674
+      }
+    },
+    {
+      "id": "t40-age-zone",
+      "legacy": {
+        "ll": [
+          -0.00033269506886845856,
+          0.0021645694553843724
+        ],
+        "tips": [
+          -2,
+          16
+        ],
+        "llSe": 0.0006382459276772333,
+        "tipSe": 0.002305331660865397,
+        "iid80PowerLl": 0.0017881002172916217,
+        "iid80PowerTips": 12.206721116089554
+      },
+      "standardNormal": {
+        "ll": [
+          0.00038592783431510934,
+          0.0025015831775296294
+        ],
+        "tips": [
+          -2,
+          16
+        ],
+        "llSe": 0.0005373487980288539,
+        "tipSe": 0.002305331660865397,
+        "iid80PowerLl": 0.0015054283323256668,
+        "iid80PowerTips": 12.206721116089554
+      }
+    },
+    {
+      "id": "t40-cdf",
+      "legacy": {
+        "ll": [
+          0.0009934578982221133,
+          0.009015086861638082
+        ],
+        "tips": [
+          0,
+          0
+        ],
+        "llSe": 0.0020254881100190522,
+        "tipSe": 0,
+        "iid80PowerLl": 0.005674577106707727,
+        "iid80PowerTips": 0
+      },
+      "standardNormal": {
+        "ll": [
+          0,
+          0
+        ],
+        "tips": [
+          0,
+          0
+        ],
+        "llSe": 0,
+        "tipSe": 0,
+        "iid80PowerLl": 0,
+        "iid80PowerTips": 0
+      }
+    },
+    {
+      "id": "t40-derived",
+      "legacy": {
+        "ll": [
+          -0.010344975216456134,
+          0.008654916346612643
+        ],
+        "tips": [
+          -27,
+          26
+        ],
+        "llSe": 0.004839003744862132,
+        "tipSe": 0.006859698443174549,
+        "iid80PowerLl": 0.013556880306549576,
+        "iid80PowerTips": 36.32207341692101
+      },
+      "standardNormal": {
+        "ll": [
+          -0.016704394381525357,
+          0.00022815565975294134
+        ],
+        "tips": [
+          -27,
+          26
+        ],
+        "llSe": 0.004199599351656238,
+        "tipSe": 0.006859698443174549,
+        "iid80PowerLl": 0.011765534549609843,
+        "iid80PowerTips": 36.32207341692101
+      }
+    },
+    {
+      "id": "t40-finals-both",
+      "legacy": {
+        "ll": [
+          -0.002826538915601912,
+          0.0018560851339640984
+        ],
+        "tips": [
+          -23,
+          -3
+        ],
+        "llSe": 0.0012631644717182066,
+        "tipSe": 0.0027454571149129765,
+        "iid80PowerLl": 0.0035388626364986522,
+        "iid80PowerTips": 14.53718348072576
+      },
+      "standardNormal": {
+        "ll": [
+          -0.0022270090674490362,
+          0.0015144303071730994
+        ],
+        "tips": [
+          -23,
+          -3
+        ],
+        "llSe": 0.0010122594112237163,
+        "tipSe": 0.0027454571149129765,
+        "iid80PowerLl": 0.0028359307825931955,
+        "iid80PowerTips": 14.53718348072576
+      }
+    },
+    {
+      "id": "t40-finals-ha",
+      "legacy": {
+        "ll": [
+          -0.002513323639234972,
+          0.001640786138047049
+        ],
+        "tips": [
+          -14,
+          2
+        ],
+        "llSe": 0.0010781601740925744,
+        "tipSe": 0.002244189181253732,
+        "iid80PowerLl": 0.0030205573713351455,
+        "iid80PowerTips": 11.882971952515572
+      },
+      "standardNormal": {
+        "ll": [
+          -0.0017558999428174973,
+          0.0015753671225813002
+        ],
+        "tips": [
+          -14,
+          2
+        ],
+        "llSe": 0.0008577212812322786,
+        "tipSe": 0.002244189181253732,
+        "iid80PowerLl": 0.002402979075681133,
+        "iid80PowerTips": 11.882971952515572
+      }
+    },
+    {
+      "id": "t40-finals-k",
+      "legacy": {
+        "ll": [
+          -0.001108864139454136,
+          0.0007741431454312248
+        ],
+        "tips": [
+          -15,
+          -1
+        ],
+        "llSe": 0.0004744303168018021,
+        "tipSe": 0.0018307545181233302,
+        "iid80PowerLl": 0.0013291568590971768,
+        "iid80PowerTips": 9.693837209680881
+      },
+      "standardNormal": {
+        "ll": [
+          -0.001120394851751782,
+          0.0004653454410880503
+        ],
+        "tips": [
+          -15,
+          -1
+        ],
+        "llSe": 0.00039890498570377414,
+        "tipSe": 0.0018307545181233302,
+        "iid80PowerLl": 0.0011175662243729082,
+        "iid80PowerTips": 9.693837209680881
+      }
+    },
+    {
+      "id": "t40-ha-070",
+      "legacy": {
+        "ll": [
+          -0.000981333422367114,
+          0.001295050112673347
+        ],
+        "tips": [
+          -14,
+          7
+        ],
+        "llSe": 0.0005724089009638676,
+        "tipSe": 0.0029464603914572903,
+        "iid80PowerLl": 0.0016036521908068572,
+        "iid80PowerTips": 15.601494955663652
+      },
+      "standardNormal": {
+        "ll": [
+          -0.0004279033936896161,
+          0.0014544942510436357
+        ],
+        "tips": [
+          -14,
+          7
+        ],
+        "llSe": 0.0004755654445341126,
+        "tipSe": 0.0029464603914572903,
+        "iid80PowerLl": 0.001332337015925102,
+        "iid80PowerTips": 15.601494955663652
+      }
+    },
+    {
+      "id": "t40-ha-090",
+      "legacy": {
+        "ll": [
+          -0.0008321283392905411,
+          0.0014294522675124771
+        ],
+        "tips": [
+          -6,
+          13
+        ],
+        "llSe": 0.000571734157727242,
+        "tipSe": 0.002537885791276361,
+        "iid80PowerLl": 0.0016017618402762756,
+        "iid80PowerTips": 13.438094225005141
+      },
+      "standardNormal": {
+        "ll": [
+          -0.0011062233561092655,
+          0.0007547450311761574
+        ],
+        "tips": [
+          -6,
+          13
+        ],
+        "llSe": 0.0004758885292490833,
+        "tipSe": 0.002537885791276361,
+        "iid80PowerLl": 0.0013332421652162932,
+        "iid80PowerTips": 13.438094225005141
+      }
+    },
+    {
+      "id": "t40-ha-100",
+      "legacy": {
+        "ll": [
+          -0.0012355795376925971,
+          0.0032847410794019536
+        ],
+        "tips": [
+          -3,
+          25
+        ],
+        "llSe": 0.0011427927169443835,
+        "tipSe": 0.003922667998837156,
+        "iid80PowerLl": 0.003201630933900631,
+        "iid80PowerTips": 20.770509990236945
+      },
+      "standardNormal": {
+        "ll": [
+          -0.0018979007023744944,
+          0.0018249913004398928
+        ],
+        "tips": [
+          -3,
+          25
+        ],
+        "llSe": 0.0009521532371984579,
+        "tipSe": 0.003922667998837156,
+        "iid80PowerLl": 0.0026675382270366418,
+        "iid80PowerTips": 20.770509990236945
+      }
+    },
+    {
+      "id": "t40-ha-bucket",
+      "legacy": {
+        "ll": [
+          -0.005724962936373375,
+          0.003072186855657068
+        ],
+        "tips": [
+          -16,
+          22
+        ],
+        "llSe": 0.0023521412052379875,
+        "tipSe": 0.005185420117166379,
+        "iid80PowerLl": 0.0065897235184766674,
+        "iid80PowerTips": 27.45677696381847
+      },
+      "standardNormal": {
+        "ll": [
+          -0.005169727794661351,
+          0.0022551878747337924
+        ],
+        "tips": [
+          -16,
+          22
+        ],
+        "llSe": 0.001954224203443623,
+        "tipSe": 0.005185420117166379,
+        "iid80PowerLl": 0.005474925215004603,
+        "iid80PowerTips": 27.45677696381847
+      }
+    },
+    {
+      "id": "t40-ha-neutral",
+      "legacy": {
+        "ll": [
+          -0.0028054031121785977,
+          0.0004863874780026183
+        ],
+        "tips": [
+          -5,
+          7
+        ],
+        "llSe": 0.0008675715552168465,
+        "tipSe": 0.0015876750041361118,
+        "iid80PowerLl": 0.002430575455522189,
+        "iid80PowerTips": 8.406732240514444
+      },
+      "standardNormal": {
+        "ll": [
+          -0.00222187760925733,
+          0.0004976606291249126
+        ],
+        "tips": [
+          -5,
+          7
+        ],
+        "llSe": 0.0007138663978647293,
+        "tipSe": 0.0015876750041361118,
+        "iid80PowerLl": 0.0019999573922618577,
+        "iid80PowerTips": 8.406732240514444
+      }
+    },
+    {
+      "id": "t40-lineup-delta",
+      "legacy": {
+        "ll": [
+          0.017227246979989043,
+          0.036675753284626585
+        ],
+        "tips": [
+          -44,
+          8
+        ],
+        "llSe": 0.004970543293023619,
+        "tipSe": 0.006917623349370433,
+        "iid80PowerLl": 0.013925399531585577,
+        "iid80PowerTips": 36.62878554325487
+      },
+      "standardNormal": {
+        "ll": [
+          0.02433644740360256,
+          0.04128312855479817
+        ],
+        "tips": [
+          -44,
+          8
+        ],
+        "llSe": 0.004279387064693842,
+        "tipSe": 0.006917623349370433,
+        "iid80PowerLl": 0.0119890666096403,
+        "iid80PowerTips": 36.62878554325487
+      }
+    },
+    {
+      "id": "t40-minutes",
+      "legacy": {
+        "ll": [
+          -0.0065244426136549846,
+          0.005592874532345068
+        ],
+        "tips": [
+          -9,
+          31
+        ],
+        "llSe": 0.002998684265696609,
+        "tipSe": 0.005698795143464574,
+        "iid80PowerLl": 0.008401068858511634,
+        "iid80PowerTips": 30.175095494886047
+      },
+      "standardNormal": {
+        "ll": [
+          -0.0019988028999697823,
+          0.008384234187631356
+        ],
+        "tips": [
+          -9,
+          31
+        ],
+        "llSe": 0.0025470590309052883,
+        "tipSe": 0.005698795143464574,
+        "iid80PowerLl": 0.007135802375098792,
+        "iid80PowerTips": 30.175095494886047
+      }
+    },
+    {
+      "id": "t40-od",
+      "legacy": {
+        "ll": [
+          -0.011360184141429589,
+          0.0002851791772258012
+        ],
+        "tips": [
+          -3,
+          40
+        ],
+        "llSe": 0.0029789444287759807,
+        "tipSe": 0.005841544572027718,
+        "iid80PowerLl": 0.008345766027492357,
+        "iid80PowerTips": 30.930953098167883
+      },
+      "standardNormal": {
+        "ll": [
+          -0.009021174372980428,
+          0.0007014779034073103
+        ],
+        "tips": [
+          -3,
+          40
+        ],
+        "llSe": 0.00249949884732572,
+        "tipSe": 0.005841544572027718,
+        "iid80PowerLl": 0.007002558478185028,
+        "iid80PowerTips": 30.930953098167883
+      }
+    },
+    {
+      "id": "t40-od-ha-060",
+      "legacy": {
+        "ll": [
+          -0.010738967058452455,
+          0.0018976358096732967
+        ],
+        "tips": [
+          -22,
+          24
+        ],
+        "llSe": 0.003243698689228265,
+        "tipSe": 0.0061719524731392115,
+        "iid80PowerLl": 0.00908749759226157,
+        "iid80PowerTips": 32.68046149727887
+      },
+      "standardNormal": {
+        "ll": [
+          -0.008012173220615766,
+          0.0028498855019062266
+        ],
+        "tips": [
+          -22,
+          24
+        ],
+        "llSe": 0.0027169927721323217,
+        "tipSe": 0.0061719524731392115,
+        "iid80PowerLl": 0.007611886195514331,
+        "iid80PowerTips": 32.68046149727887
+      }
+    },
+    {
+      "id": "t40-od-ha-100",
+      "legacy": {
+        "ll": [
+          -0.010955706372292274,
+          0.001668638863811726
+        ],
+        "tips": [
+          -12,
+          32
+        ],
+        "llSe": 0.0031363985150901557,
+        "tipSe": 0.006125192757956269,
+        "iid80PowerLl": 0.008786887033898854,
+        "iid80PowerTips": 32.43286900878995
+      },
+      "standardNormal": {
+        "ll": [
+          -0.009689778311128541,
+          0.000884315585968178
+        ],
+        "tips": [
+          -12,
+          32
+        ],
+        "llSe": 0.002628778315576589,
+        "tipSe": 0.006125192757956269,
+        "iid80PowerLl": 0.0073647458972446395,
+        "iid80PowerTips": 32.43286900878995
+      }
+    },
+    {
+      "id": "t40-od-ha-120",
+      "legacy": {
+        "ll": [
+          -0.009194229136158553,
+          0.005244053751137964
+        ],
+        "tips": [
+          -11,
+          39
+        ],
+        "llSe": 0.003659885824710886,
+        "tipSe": 0.006565490889322665,
+        "iid80PowerLl": 0.010253481228222647,
+        "iid80PowerTips": 34.764245699078145
+      },
+      "standardNormal": {
+        "ll": [
+          -0.009529050576962341,
+          0.002779439256359542
+        ],
+        "tips": [
+          -11,
+          39
+        ],
+        "llSe": 0.0030626238717545657,
+        "tipSe": 0.006565490889322665,
+        "iid80PowerLl": 0.008580201099749515,
+        "iid80PowerTips": 34.764245699078145
+      }
+    },
+    {
+      "id": "t40-od-ha-bucket",
+      "legacy": {
+        "ll": [
+          -0.013999636712916293,
+          0.0006503327134984498
+        ],
+        "tips": [
+          -17,
+          32
+        ],
+        "llSe": 0.0037596079492337926,
+        "tipSe": 0.006714769155296863,
+        "iid80PowerLl": 0.010532861236454156,
+        "iid80PowerTips": 35.55467346805107
+      },
+      "standardNormal": {
+        "ll": [
+          -0.01180402169506929,
+          0.0001535212952722546
+        ],
+        "tips": [
+          -17,
+          32
+        ],
+        "llSe": 0.003149255391526222,
+        "tipSe": 0.006714769155296863,
+        "iid80PowerLl": 0.008822906666068992,
+        "iid80PowerTips": 35.55467346805107
+      }
+    },
+    {
+      "id": "t40-od-reverse-k04-r10",
+      "legacy": {
+        "ll": [
+          -0.0046780220872728205,
+          0.010519182748442114
+        ],
+        "tips": [
+          -15,
+          33
+        ],
+        "llSe": 0.0038471114967704263,
+        "tipSe": 0.006714416017055555,
+        "iid80PowerLl": 0.010778009862679575,
+        "iid80PowerTips": 35.55280360259949
+      },
+      "standardNormal": {
+        "ll": [
+          0.0006047943757459515,
+          0.013520260423034804
+        ],
+        "tips": [
+          -15,
+          33
+        ],
+        "llSe": 0.003248963647663161,
+        "tipSe": 0.006714416017055555,
+        "iid80PowerLl": 0.009102247820838398,
+        "iid80PowerTips": 35.55280360259949
+      }
+    },
+    {
+      "id": "t40-od-reverse-k04-r20",
+      "legacy": {
+        "ll": [
+          -0.0037278730018473305,
+          0.011149871612003093
+        ],
+        "tips": [
+          -11,
+          34
+        ],
+        "llSe": 0.0037558838498394083,
+        "tipSe": 0.006304936964600502,
+        "iid80PowerLl": 0.01052242785545234,
+        "iid80PowerTips": 33.384613801083866
+      },
+      "standardNormal": {
+        "ll": [
+          0.0025439649586774526,
+          0.015255265750276043
+        ],
+        "tips": [
+          -11,
+          34
+        ],
+        "llSe": 0.003195038354745295,
+        "tipSe": 0.006304936964600502,
+        "iid80PowerLl": 0.008951171529079097,
+        "iid80PowerTips": 33.384613801083866
+      }
+    },
+    {
+      "id": "t40-od-reverse-k04-r40",
+      "legacy": {
+        "ll": [
+          -0.0006777766922449655,
+          0.014645005632480099
+        ],
+        "tips": [
+          -17,
+          30
+        ],
+        "llSe": 0.003913622203169463,
+        "tipSe": 0.006261632730481249,
+        "iid80PowerLl": 0.010964345260066522,
+        "iid80PowerTips": 33.15531806979583
+      },
+      "standardNormal": {
+        "ll": [
+          0.007068054460318156,
+          0.02032872681322264
+        ],
+        "tips": [
+          -17,
+          30
+        ],
+        "llSe": 0.0033690839461881826,
+        "tipSe": 0.006261632730481249,
+        "iid80PowerLl": 0.009438775047381621,
+        "iid80PowerTips": 33.15531806979583
+      }
+    },
+    {
+      "id": "t40-od-reverse-k08-r10",
+      "legacy": {
+        "ll": [
+          -0.011696302009149487,
+          0.0008631392247711548
+        ],
+        "tips": [
+          -10,
+          33
+        ],
+        "llSe": 0.0032353601355848798,
+        "tipSe": 0.005962734705558848,
+        "iid80PowerLl": 0.009064136425452566,
+        "iid80PowerTips": 31.572654328038134
+      },
+      "standardNormal": {
+        "ll": [
+          -0.010721256667764361,
+          -0.00002623209405407924
+        ],
+        "tips": [
+          -10,
+          33
+        ],
+        "llSe": 0.0027203201983913893,
+        "tipSe": 0.005962734705558848,
+        "iid80PowerLl": 0.007621208263010341,
+        "iid80PowerTips": 31.572654328038134
+      }
+    },
+    {
+      "id": "t40-od-reverse-k08-r20",
+      "legacy": {
+        "ll": [
+          -0.011360184141429589,
+          0.0002851791772258012
+        ],
+        "tips": [
+          -3,
+          40
+        ],
+        "llSe": 0.0029789444287759807,
+        "tipSe": 0.005841544572027718,
+        "iid80PowerLl": 0.008345766027492357,
+        "iid80PowerTips": 30.930953098167883
+      },
+      "standardNormal": {
+        "ll": [
+          -0.009021174372980428,
+          0.0007014779034073103
+        ],
+        "tips": [
+          -3,
+          40
+        ],
+        "llSe": 0.00249949884732572,
+        "tipSe": 0.005841544572027718,
+        "iid80PowerLl": 0.007002558478185028,
+        "iid80PowerTips": 30.930953098167883
+      }
+    },
+    {
+      "id": "t40-od-reverse-k08-r40",
+      "legacy": {
+        "ll": [
+          -0.009534594908015306,
+          0.001834603049311638
+        ],
+        "tips": [
+          -4,
+          40
+        ],
+        "llSe": 0.002869506720908943,
+        "tipSe": 0.005793397263244639,
+        "iid80PowerLl": 0.008039166986697682,
+        "iid80PowerTips": 30.676013307602272
+      },
+      "standardNormal": {
+        "ll": [
+          -0.005342114983077219,
+          0.004222892245233823
+        ],
+        "tips": [
+          -4,
+          40
+        ],
+        "llSe": 0.002425686402452168,
+        "tipSe": 0.005793397263244639,
+        "iid80PowerLl": 0.006795766639813958,
+        "iid80PowerTips": 30.676013307602272
+      }
+    },
+    {
+      "id": "t40-od-reverse-k12-r10",
+      "legacy": {
+        "ll": [
+          -0.013946196749713417,
+          -0.0004909285875066058
+        ],
+        "tips": [
+          -5,
+          38
+        ],
+        "llSe": 0.003264631556451596,
+        "tipSe": 0.005842407080947782,
+        "iid80PowerLl": 0.009146142799081446,
+        "iid80PowerTips": 30.935520079147704
+      },
+      "standardNormal": {
+        "ll": [
+          -0.015218725071884,
+          -0.0039855870811569705
+        ],
+        "tips": [
+          -5,
+          38
+        ],
+        "llSe": 0.0027889810228131627,
+        "tipSe": 0.005842407080947782,
+        "iid80PowerLl": 0.007813567398798014,
+        "iid80PowerTips": 30.935520079147704
+      }
+    },
+    {
+      "id": "t40-od-reverse-k12-r20",
+      "legacy": {
+        "ll": [
+          -0.013747119640861732,
+          -0.0016337294915844528
+        ],
+        "tips": [
+          3,
+          44
+        ],
+        "llSe": 0.0029821099382534508,
+        "tipSe": 0.005717760436365664,
+        "iid80PowerLl": 0.008354634471361795,
+        "iid80PowerTips": 30.275516638298292
+      },
+      "standardNormal": {
+        "ll": [
+          -0.014195943893868461,
+          -0.003940684756880823
+        ],
+        "tips": [
+          3,
+          44
+        ],
+        "llSe": 0.0025334432373081434,
+        "tipSe": 0.005717760436365664,
+        "iid80PowerLl": 0.007097656571993936,
+        "iid80PowerTips": 30.275516638298292
+      }
+    },
+    {
+      "id": "t40-od-reverse-k12-r40",
+      "legacy": {
+        "ll": [
+          -0.012844683665169802,
+          -0.0018158389000152552
+        ],
+        "tips": [
+          -1,
+          40
+        ],
+        "llSe": 0.002740462058333042,
+        "tipSe": 0.005546394879891838,
+        "iid80PowerLl": 0.007677637395694976,
+        "iid80PowerTips": 29.368136762209556
+      },
+      "standardNormal": {
+        "ll": [
+          -0.01128184500648597,
+          -0.002051909008779606
+        ],
+        "tips": [
+          -1,
+          40
+        ],
+        "llSe": 0.0023197137395670293,
+        "tipSe": 0.005546394879891838,
+        "iid80PowerLl": 0.006498875217064896,
+        "iid80PowerTips": 29.368136762209556
+      }
+    },
+    {
+      "id": "t40-od-shot-025",
+      "legacy": {
+        "ll": [
+          -0.01240441561363167,
+          -0.0004307041128675754
+        ],
+        "tips": [
+          -13,
+          30
+        ],
+        "llSe": 0.0029679677194788404,
+        "tipSe": 0.005892568691982003,
+        "iid80PowerLl": 0.008315013843376127,
+        "iid80PowerTips": 31.2011255913709
+      },
+      "standardNormal": {
+        "ll": [
+          -0.009475933409327317,
+          0.000589787554916599
+        ],
+        "tips": [
+          -13,
+          30
+        ],
+        "llSe": 0.002490170292588941,
+        "tipSe": 0.005892568691982003,
+        "iid80PowerLl": 0.006976423739162788,
+        "iid80PowerTips": 31.2011255913709
+      }
+    },
+    {
+      "id": "t40-od-shot-050",
+      "legacy": {
+        "ll": [
+          -0.01300161039921232,
+          -0.0007322555522083537
+        ],
+        "tips": [
+          -10,
+          32
+        ],
+        "llSe": 0.0030405266470253023,
+        "tipSe": 0.005985891092149372,
+        "iid80PowerLl": 0.008518293846406382,
+        "iid80PowerTips": 31.695267294304678
+      },
+      "standardNormal": {
+        "ll": [
+          -0.009377318093451078,
+          0.00091046338658476
+        ],
+        "tips": [
+          -10,
+          32
+        ],
+        "llSe": 0.0025509074090177097,
+        "tipSe": 0.005985891092149372,
+        "iid80PowerLl": 0.007146583933492881,
+        "iid80PowerTips": 31.695267294304678
+      }
+    },
+    {
+      "id": "t40-od-shot-075",
+      "legacy": {
+        "ll": [
+          -0.013465847529606554,
+          -0.0005120878048828435
+        ],
+        "tips": [
+          -14,
+          30
+        ],
+        "llSe": 0.0031916645214184252,
+        "tipSe": 0.006079731107424943,
+        "iid80PowerLl": 0.00894171944823804,
+        "iid80PowerTips": 32.192149766984755
+      },
+      "standardNormal": {
+        "ll": [
+          -0.009311501044081183,
+          0.0014299318759422386
+        ],
+        "tips": [
+          -14,
+          30
+        ],
+        "llSe": 0.00267662644507746,
+        "tipSe": 0.006079731107424943,
+        "iid80PowerLl": 0.007498796499132336,
+        "iid80PowerTips": 32.192149766984755
+      }
+    },
+    {
+      "id": "t40-od-shot-100",
+      "legacy": {
+        "ll": [
+          -0.013700028080022065,
+          0.000052417090171500586
+        ],
+        "tips": [
+          -12,
+          34
+        ],
+        "llSe": 0.003411621711271438,
+        "tipSe": 0.006349719836984957,
+        "iid80PowerLl": 0.009557948211972393,
+        "iid80PowerTips": 33.62173891555406
+      },
+      "standardNormal": {
+        "ll": [
+          -0.008986738815182731,
+          0.0024385545149239528
+        ],
+        "tips": [
+          -12,
+          34
+        ],
+        "llSe": 0.002858617808293862,
+        "tipSe": 0.006349719836984957,
+        "iid80PowerLl": 0.00800866077244896,
+        "iid80PowerTips": 33.62173891555406
+      }
+    },
+    {
+      "id": "t40-offset-c0",
+      "legacy": {
+        "ll": [
+          -0.014505609968360138,
+          -0.0027148011613456805
+        ],
+        "tips": [
+          -18,
+          27
+        ],
+        "llSe": 0.003059927766136458,
+        "tipSe": 0.00612620886144582,
+        "iid80PowerLl": 0.00857264773069141,
+        "iid80PowerTips": 32.43824927234707
+      },
+      "standardNormal": {
+        "ll": [
+          -0.014721369377398612,
+          -0.004781268862574394
+        ],
+        "tips": [
+          -18,
+          27
+        ],
+        "llSe": 0.0025651383791355418,
+        "tipSe": 0.00612620886144582,
+        "iid80PowerLl": 0.007186453205910447,
+        "iid80PowerTips": 32.43824927234707
+      }
+    },
+    {
+      "id": "t40-offset-c1",
+      "legacy": {
+        "ll": [
+          -0.0142357274495226,
+          -0.0004784053483981537
+        ],
+        "tips": [
+          -18,
+          26
+        ],
+        "llSe": 0.0035121946905421406,
+        "tipSe": 0.006103390601661028,
+        "iid80PowerLl": 0.009839711962102503,
+        "iid80PowerTips": 32.317426686046026
+      },
+      "standardNormal": {
+        "ll": [
+          -0.01684775984334263,
+          -0.005082374602458933
+        ],
+        "tips": [
+          -18,
+          26
+        ],
+        "llSe": 0.003006644800292758,
+        "tipSe": 0.006103390601661028,
+        "iid80PowerLl": 0.008423370972828187,
+        "iid80PowerTips": 32.317426686046026
+      }
+    },
+    {
+      "id": "t40-offset-k08",
+      "legacy": {
+        "ll": [
+          -0.015532361717070092,
+          0.00045080212678339697
+        ],
+        "tips": [
+          -17,
+          26
+        ],
+        "llSe": 0.003995068961882171,
+        "tipSe": 0.006171760377013454,
+        "iid80PowerLl": 0.011192525277574663,
+        "iid80PowerTips": 32.6794443491286
+      },
+      "standardNormal": {
+        "ll": [
+          -0.02007079088359953,
+          -0.006191171507653794
+        ],
+        "tips": [
+          -17,
+          26
+        ],
+        "llSe": 0.003466897773710507,
+        "tipSe": 0.006171760377013454,
+        "iid80PowerLl": 0.009712808799360753,
+        "iid80PowerTips": 32.6794443491286
+      }
+    },
+    {
+      "id": "t40-offset-k16",
+      "legacy": {
+        "ll": [
+          -0.015266359504711427,
+          -0.001572197731109848
+        ],
+        "tips": [
+          -15,
+          30
+        ],
+        "llSe": 0.0034722469834956747,
+        "tipSe": 0.006102904954847473,
+        "iid80PowerLl": 0.00972779506525673,
+        "iid80PowerTips": 32.314855188280816
+      },
+      "standardNormal": {
+        "ll": [
+          -0.018242272013390133,
+          -0.006623911563283062
+        ],
+        "tips": [
+          -15,
+          30
+        ],
+        "llSe": 0.002984190347412467,
+        "tipSe": 0.006102904954847473,
+        "iid80PowerLl": 0.008360462914455557,
+        "iid80PowerTips": 32.314855188280816
+      }
+    },
+    {
+      "id": "t40-offset-tail",
+      "legacy": {
+        "ll": [
+          -0.013201111640010848,
+          -0.0014019119149976133
+        ],
+        "tips": [
+          -11,
+          33
+        ],
+        "llSe": 0.0031317143060243997,
+        "tipSe": 0.006147761358229536,
+        "iid80PowerLl": 0.008773763824043369,
+        "iid80PowerTips": 32.552369649063486
+      },
+      "standardNormal": {
+        "ll": [
+          -0.013178604350419168,
+          -0.0031349461641588037
+        ],
+        "tips": [
+          -11,
+          33
+        ],
+        "llSe": 0.0026419628141935844,
+        "tipSe": 0.006147761358229536,
+        "iid80PowerLl": 0.007401683390802534,
+        "iid80PowerTips": 32.552369649063486
+      }
+    },
+    {
+      "id": "t40-offset-v4",
+      "legacy": {
+        "ll": [
+          -0.014634567442551136,
+          -0.002442458746598887
+        ],
+        "tips": [
+          -14,
+          30
+        ],
+        "llSe": 0.0031010741062175566,
+        "tipSe": 0.005868943107734284,
+        "iid80PowerLl": 0.008687922699867514,
+        "iid80PowerTips": 31.076028225550516
+      },
+      "standardNormal": {
+        "ll": [
+          -0.016082333226940745,
+          -0.005686905484785872
+        ],
+        "tips": [
+          -14,
+          30
+        ],
+        "llSe": 0.002629864788343112,
+        "tipSe": 0.005868943107734284,
+        "iid80PowerLl": 0.007367789743050238,
+        "iid80PowerTips": 31.076028225550516
+      }
+    },
+    {
+      "id": "t40-pav-corrected",
+      "legacy": {
+        "ll": [
+          -0.000043753052319938623,
+          0.00012146766133901164
+        ],
+        "tips": [
+          -3,
+          0
+        ],
+        "llSe": 0.00004184186799101581,
+        "tipSe": 0.0005291005291005288,
+        "iid80PowerLl": 0.00011722354973561003,
+        "iid80PowerTips": 2.801584999999999
+      },
+      "standardNormal": {
+        "ll": [
+          -0.000018887511228429873,
+          0.000123324970064373
+        ],
+        "tips": [
+          -3,
+          0
+        ],
+        "llSe": 0.000035647558407119656,
+        "tipSe": 0.0005291005291005288,
+        "iid80PowerLl": 0.00009986966492001033,
+        "iid80PowerTips": 2.801584999999999
+      }
+    },
+    {
+      "id": "t40-pav-current",
+      "legacy": {
+        "ll": [
+          -0.00008372714090160932,
+          0.00007637513442367862
+        ],
+        "tips": [
+          -3,
+          0
+        ],
+        "llSe": 0.00004033183132651866,
+        "tipSe": 0.0005291005291005288,
+        "iid80PowerLl": 0.00011299305366690479,
+        "iid80PowerTips": 2.801584999999999
+      },
+      "standardNormal": {
+        "ll": [
+          -0.00006682630089002696,
+          0.0000657661673717932
+        ],
+        "tips": [
+          -3,
+          0
+        ],
+        "llSe": 0.00003428275108151099,
+        "tipSe": 0.0005291005291005288,
+        "iid80PowerLl": 0.00009604604118869499,
+        "iid80PowerTips": 2.801584999999999
+      }
+    },
+    {
+      "id": "t40-pav-normalized",
+      "legacy": {
+        "ll": [
+          -0.00005692955909901642,
+          0.00009717321168200499
+        ],
+        "tips": [
+          -3,
+          0
+        ],
+        "llSe": 0.00003838931972674918,
+        "tipSe": 0.0005291005291005288,
+        "iid80PowerLl": 0.00010755094230666461,
+        "iid80PowerTips": 2.801584999999999
+      },
+      "standardNormal": {
+        "ll": [
+          -0.00003541780220630945,
+          0.00009274272470133299
+        ],
+        "tips": [
+          -3,
+          0
+        ],
+        "llSe": 0.000031845002368912376,
+        "tipSe": 0.0005291005291005288,
+        "iid80PowerLl": 0.00008921648096170939,
+        "iid80PowerTips": 2.801584999999999
+      }
+    },
+    {
+      "id": "t40-points",
+      "legacy": {
+        "ll": [
+          -0.011360184141429551,
+          0.00028517917722581653
+        ],
+        "tips": [
+          -3,
+          40
+        ],
+        "llSe": 0.002978944428775981,
+        "tipSe": 0.005841544572027718,
+        "iid80PowerLl": 0.008345766027492358,
+        "iid80PowerTips": 30.930953098167883
+      },
+      "standardNormal": {
+        "ll": [
+          -0.00902117437298042,
+          0.0007014779034073346
+        ],
+        "tips": [
+          -3,
+          40
+        ],
+        "llSe": 0.002499498847325721,
+        "tipSe": 0.005841544572027718,
+        "iid80PowerLl": 0.0070025584781850305,
+        "iid80PowerTips": 30.930953098167883
+      }
+    },
+    {
+      "id": "t40-position",
+      "legacy": {
+        "ll": [
+          -0.005910534353478225,
+          0.0003663648887433445
+        ],
+        "tips": [
+          -18,
+          9
+        ],
+        "llSe": 0.001659106120951777,
+        "tipSe": 0.003666362790800596,
+        "iid80PowerLl": 0.004648126821866685,
+        "iid80PowerTips": 19.413375028611018
+      },
+      "standardNormal": {
+        "ll": [
+          -0.00816082599629293,
+          -0.0026191178555809293
+        ],
+        "tips": [
+          -18,
+          9
+        ],
+        "llSe": 0.001433892607118301,
+        "tipSe": 0.003666362790800596,
+        "iid80PowerLl": 0.004017172019713525,
+        "iid80PowerTips": 19.413375028611018
+      }
+    },
+    {
+      "id": "t40-position-prior",
+      "legacy": {
+        "ll": [
+          0.002148942195859374,
+          0.008915662348116485
+        ],
+        "tips": [
+          -6,
+          22
+        ],
+        "llSe": 0.0017395851880401424,
+        "tipSe": 0.0038513713194688933,
+        "iid80PowerLl": 0.004873595769035443,
+        "iid80PowerTips": 20.392994383122552
+      },
+      "standardNormal": {
+        "ll": [
+          0.00398071434950626,
+          0.009555194095169322
+        ],
+        "tips": [
+          -6,
+          22
+        ],
+        "llSe": 0.0014793571962437488,
+        "tipSe": 0.0038513713194688933,
+        "iid80PowerLl": 0.004144544930638544,
+        "iid80PowerTips": 20.392994383122552
+      }
+    },
+    {
+      "id": "t40-prior-k30",
+      "legacy": {
+        "ll": [
+          0.000009947488848931326,
+          0.0032423925482499565
+        ],
+        "tips": [
+          -13,
+          9
+        ],
+        "llSe": 0.0008230906759755916,
+        "tipSe": 0.0028986676703938144,
+        "iid80PowerLl": 0.002305958491453078,
+        "iid80PowerTips": 15.34843270553088
+      },
+      "standardNormal": {
+        "ll": [
+          0.000008713056920945787,
+          0.002634286222743579
+        ],
+        "tips": [
+          -13,
+          9
+        ],
+        "llSe": 0.0006828190368799577,
+        "tipSe": 0.0028986676703938144,
+        "iid80PowerLl": 0.0019129755714373366,
+        "iid80PowerTips": 15.34843270553088
+      }
+    },
+    {
+      "id": "t40-quarter",
+      "legacy": {
+        "ll": [
+          -0.011243727643216865,
+          0.00038655703648884785
+        ],
+        "tips": [
+          -4,
+          38
+        ],
+        "llSe": 0.002975485217046797,
+        "tipSe": 0.005696766371184685,
+        "iid80PowerLl": 0.008336074751800052,
+        "iid80PowerTips": 30.1643531544892
+      },
+      "standardNormal": {
+        "ll": [
+          -0.008973680952834554,
+          0.0007942080006755451
+        ],
+        "tips": [
+          -4,
+          38
+        ],
+        "llSe": 0.0024966090407202313,
+        "tipSe": 0.005696766371184685,
+        "iid80PowerLl": 0.0069944624393461895,
+        "iid80PowerTips": 30.1643531544892
+      }
+    },
+    {
+      "id": "t40-rating-points",
+      "legacy": {
+        "ll": [
+          -0.00029643629922185933,
+          0.011031137849905875
+        ],
+        "tips": [
+          -28,
+          13
+        ],
+        "llSe": 0.0028908867705941654,
+        "tipSe": 0.005699627251394801,
+        "iid80PowerLl": 0.008099065013195055,
+        "iid80PowerTips": 30.179501502756928
+      },
+      "standardNormal": {
+        "ll": [
+          0.00104857710866973,
+          0.010601257897307745
+        ],
+        "tips": [
+          -28,
+          13
+        ],
+        "llSe": 0.002415475778945446,
+        "tipSe": 0.005699627251394801,
+        "iid80PowerLl": 0.006767160710156878,
+        "iid80PowerTips": 30.179501502756928
+      }
+    },
+    {
+      "id": "t40-rich-intercepts",
+      "legacy": {
+        "ll": [
+          -0.00023921072112489649,
+          0.00013561146461112564
+        ],
+        "tips": [
+          -4,
+          2
+        ],
+        "llSe": 0.0000933900827353963,
+        "tipSe": 0.0009165906977001647,
+        "iid80PowerLl": 0.0002616402549402453,
+        "iid80PowerTips": 4.853343757152838
+      },
+      "standardNormal": {
+        "ll": [
+          -0.00019639059554720238,
+          0.00010821219474234646
+        ],
+        "tips": [
+          -4,
+          2
+        ],
+        "llSe": 0.00007740759186771639,
+        "tipSe": 0.0009165906977001647,
+        "iid80PowerLl": 0.00021686394826271623,
+        "iid80PowerTips": 4.853343757152838
+      }
+    },
+    {
+      "id": "t40-rich-involvement",
+      "legacy": {
+        "ll": [
+          -0.0002002642453831906,
+          0.00043464089123210827
+        ],
+        "tips": [
+          -7,
+          0
+        ],
+        "llSe": 0.00016978069003167152,
+        "tipSe": 0.0009159437304780754,
+        "iid80PowerLl": 0.0004756550344823805,
+        "iid80PowerTips": 4.849918068526182
+      },
+      "standardNormal": {
+        "ll": [
+          -0.00017929455449721454,
+          0.00034724422509066174
+        ],
+        "tips": [
+          -7,
+          0
+        ],
+        "llSe": 0.00014115639956411232,
+        "tipSe": 0.0009159437304780754,
+        "iid80PowerLl": 0.00039546165167282367,
+        "iid80PowerTips": 4.849918068526182
+      }
+    },
+    {
+      "id": "t40-rich-pressure",
+      "legacy": {
+        "ll": [
+          -0.0002921546186114698,
+          0.00009963797948937105
+        ],
+        "tips": [
+          -4,
+          4
+        ],
+        "llSe": 0.00010343793336899901,
+        "tipSe": 0.0010584811167101832,
+        "iid80PowerLl": 0.00028979016255758713,
+        "iid80PowerTips": 5.604652908587563
+      },
+      "standardNormal": {
+        "ll": [
+          -0.00024890809205570556,
+          0.00008236225054172336
+        ],
+        "tips": [
+          -4,
+          4
+        ],
+        "llSe": 0.00008602803755214656,
+        "tipSe": 0.0010584811167101832,
+        "iid80PowerLl": 0.00024101485958553053,
+        "iid80PowerTips": 5.604652908587563
+      }
+    },
+    {
+      "id": "t40-rich-shots",
+      "legacy": {
+        "ll": [
+          -0.0000380475827745261,
+          0.00029519433364294816
+        ],
+        "tips": [
+          -2,
+          5
+        ],
+        "llSe": 0.00008384562017962506,
+        "tipSe": 0.0009165906977001675,
+        "iid80PowerLl": 0.0002349006318109349,
+        "iid80PowerTips": 4.853343757152852
+      },
+      "standardNormal": {
+        "ll": [
+          -0.000032782986950323976,
+          0.00024620501141473037
+        ],
+        "tips": [
+          -2,
+          5
+        ],
+        "llSe": 0.00006984396461318448,
+        "tipSe": 0.0009165906977001675,
+        "iid80PowerLl": 0.00019567380360082845,
+        "iid80PowerTips": 4.853343757152852
+      }
+    },
+    {
+      "id": "t40-rushed",
+      "legacy": {
+        "ll": [
+          -0.011160579704198918,
+          0.0004916603185428161
+        ],
+        "tips": [
+          -3,
+          40
+        ],
+        "llSe": 0.0029783552087823484,
+        "tipSe": 0.005889298270948969,
+        "iid80PowerLl": 0.008344115277596497,
+        "iid80PowerTips": 31.18380872622732
+      },
+      "standardNormal": {
+        "ll": [
+          -0.008796489476395865,
+          0.0009117120473757721
+        ],
+        "tips": [
+          -3,
+          40
+        ],
+        "llSe": 0.0024982617037384598,
+        "tipSe": 0.005889298270948969,
+        "iid80PowerLl": 0.006999092515268113,
+        "iid80PowerTips": 31.18380872622732
+      }
+    },
+    {
+      "id": "t40-shot-025",
+      "legacy": {
+        "ll": [
+          -0.0029784046391570164,
+          0.0007800531267373339
+        ],
+        "tips": [
+          -8,
+          19
+        ],
+        "llSe": 0.000950931914424363,
+        "tipSe": 0.00377904340159917,
+        "iid80PowerLl": 0.002664116587472579,
+        "iid80PowerTips": 20.01001837262881
+      },
+      "standardNormal": {
+        "ll": [
+          -0.002808068372889253,
+          0.0003181634592724085
+        ],
+        "tips": [
+          -8,
+          19
+        ],
+        "llSe": 0.0007865313829392993,
+        "tipSe": 0.00377904340159917,
+        "iid80PowerLl": 0.002203534524471997,
+        "iid80PowerTips": 20.01001837262881
+      }
+    },
+    {
+      "id": "t40-shot-050",
+      "legacy": {
+        "ll": [
+          -0.0063606722105560435,
+          0.0007123236761881445
+        ],
+        "tips": [
+          -20,
+          16
+        ],
+        "llSe": 0.0017650365485904046,
+        "tipSe": 0.004674062639350274,
+        "iid80PowerLl": 0.0049448999189826495,
+        "iid80PowerTips": 24.74914134318722
+      },
+      "standardNormal": {
+        "ll": [
+          -0.005965545503269628,
+          -0.000001478525226131982
+        ],
+        "tips": [
+          -20,
+          16
+        ],
+        "llSe": 0.001464494088471847,
+        "tipSe": 0.004674062639350274,
+        "iid80PowerLl": 0.0041029046708514,
+        "iid80PowerTips": 24.74914134318722
+      }
+    },
+    {
+      "id": "t40-shot-075",
+      "legacy": {
+        "ll": [
+          -0.008244570453959417,
+          0.0008544670786804704
+        ],
+        "tips": [
+          -19,
+          21
+        ],
+        "llSe": 0.002381563937107591,
+        "tipSe": 0.005318787853514744,
+        "iid80PowerLl": 0.00667215380274157,
+        "iid80PowerTips": 28.16295854763341
+      },
+      "standardNormal": {
+        "ll": [
+          -0.007470074718517692,
+          0.0002394567008682291
+        ],
+        "tips": [
+          -19,
+          21
+        ],
+        "llSe": 0.0019702271208981606,
+        "tipSe": 0.005318787853514744,
+        "iid80PowerLl": 0.005519758748501474,
+        "iid80PowerTips": 28.16295854763341
+      }
+    },
+    {
+      "id": "t40-shot-100",
+      "legacy": {
+        "ll": [
+          -0.010522507301812442,
+          0.0008850543002639907
+        ],
+        "tips": [
+          -11,
+          33
+        ],
+        "llSe": 0.0029851127011555063,
+        "tipSe": 0.006147761358229536,
+        "iid80PowerLl": 0.00836304696686675,
+        "iid80PowerTips": 32.552369649063486
+      },
+      "standardNormal": {
+        "ll": [
+          -0.008889077493074984,
+          0.0005194128974098571
+        ],
+        "tips": [
+          -11,
+          33
+        ],
+        "llSe": 0.0024715094080367873,
+        "tipSe": 0.006147761358229536,
+        "iid80PowerLl": 0.006924143684914744,
+        "iid80PowerTips": 32.552369649063486
+      }
+    },
+    {
+      "id": "t40-sigma-032",
+      "legacy": {
+        "ll": [
+          -0.003535012889246961,
+          0.001974652259703226
+        ],
+        "tips": [
+          0,
+          0
+        ],
+        "llSe": 0.0013825271493854668,
+        "tipSe": 0,
+        "iid80PowerLl": 0.0038732673238110835,
+        "iid80PowerTips": 0
+      },
+      "standardNormal": {
+        "ll": [
+          0,
+          0
+        ],
+        "tips": [
+          0,
+          0
+        ],
+        "llSe": 0,
+        "tipSe": 0,
+        "iid80PowerLl": 0,
+        "iid80PowerTips": 0
+      }
+    },
+    {
+      "id": "t40-sigma-040",
+      "legacy": {
+        "ll": [
+          0.0004872114579009199,
+          0.004891765598494231
+        ],
+        "tips": [
+          0,
+          0
+        ],
+        "llSe": 0.0011069351346219406,
+        "tipSe": 0,
+        "iid80PowerLl": 0.00310117286912981,
+        "iid80PowerTips": 0
+      },
+      "standardNormal": {
+        "ll": [
+          0,
+          0
+        ],
+        "tips": [
+          0,
+          0
+        ],
+        "llSe": 0,
+        "tipSe": 0,
+        "iid80PowerLl": 0,
+        "iid80PowerTips": 0
+      }
+    },
+    {
+      "id": "t40-tog",
+      "legacy": {
+        "ll": [
+          -0.0014030982645668328,
+          0.0015435737395222658
+        ],
+        "tips": [
+          -7,
+          12
+        ],
+        "llSe": 0.0007352827557711914,
+        "tipSe": 0.0025926243175088486,
+        "iid80PowerLl": 0.002059957139327233,
+        "iid80PowerTips": 13.727934483293573
+      },
+      "standardNormal": {
+        "ll": [
+          -0.001573592696010203,
+          0.0008388558933563768
+        ],
+        "tips": [
+          -7,
+          12
+        ],
+        "llSe": 0.0006144077914559416,
+        "tipSe": 0.0025926243175088486,
+        "iid80PowerLl": 0.0017213156524260942,
+        "iid80PowerTips": 13.727934483293573
+      }
+    },
+    {
+      "id": "t40-travel-probe",
+      "legacy": {
+        "ll": [
+          0,
+          0
+        ],
+        "tips": [
+          0,
+          0
+        ],
+        "llSe": 0,
+        "tipSe": 0,
+        "iid80PowerLl": 0,
+        "iid80PowerTips": 0
+      },
+      "standardNormal": {
+        "ll": [
+          0,
+          0
+        ],
+        "tips": [
+          0,
+          0
+        ],
+        "llSe": 0,
+        "tipSe": 0,
+        "iid80PowerLl": 0,
+        "iid80PowerTips": 0
+      }
+    },
+    {
+      "id": "t40-venue-geo",
+      "legacy": {
+        "ll": [
+          -0.002499420915770842,
+          0.008042788958819283
+        ],
+        "tips": [
+          -22,
+          19
+        ],
+        "llSe": 0.0027459512504767443,
+        "tipSe": 0.00579748871823875,
+        "iid80PowerLl": 0.00769301583406689,
+        "iid80PowerTips": 30.69767754399826
+      },
+      "standardNormal": {
+        "ll": [
+          -0.002335696398330614,
+          0.006402490984714971
+        ],
+        "tips": [
+          -22,
+          19
+        ],
+        "llSe": 0.002284524759321349,
+        "tipSe": 0.00579748871823875,
+        "iid80PowerLl": 0.0064002902978433016,
+        "iid80PowerTips": 30.69767754399826
+      }
+    },
+    {
+      "id": "t40-venue-static",
+      "legacy": {
+        "ll": [
+          -0.006754966918503023,
+          0.0024464323453235555
+        ],
+        "tips": [
+          -17,
+          21
+        ],
+        "llSe": 0.0023995148819638767,
+        "tipSe": 0.004936292199665153,
+        "iid80PowerLl": 0.006722444900586768,
+        "iid80PowerTips": 26.137645724355917
+      },
+      "standardNormal": {
+        "ll": [
+          -0.00754982182400836,
+          0.00021514246593151424
+        ],
+        "tips": [
+          -17,
+          21
+        ],
+        "llSe": 0.002050073981209106,
+        "tipSe": 0.004936292199665153,
+        "iid80PowerLl": 0.005743456514645714,
+        "iid80PowerTips": 26.137645724355917
+      }
+    },
+    {
+      "id": "t40-venue-team",
+      "legacy": {
+        "ll": [
+          -0.0038652432212018433,
+          0.00041711986101891223
+        ],
+        "tips": [
+          -12,
+          11
+        ],
+        "llSe": 0.0011248362398938142,
+        "tipSe": 0.003175443350130549,
+        "iid80PowerLl": 0.0031513243371429117,
+        "iid80PowerTips": 16.813958725762685
+      },
+      "standardNormal": {
+        "ll": [
+          -0.004777498081433817,
+          -0.0011059822150714929
+        ],
+        "tips": [
+          -12,
+          11
+        ],
+        "llSe": 0.0009480626357826338,
+        "tipSe": 0.003175443350130549,
+        "iid80PowerLl": 0.0026560780594690903,
+        "iid80PowerTips": 16.813958725762685
+      }
+    },
+    {
+      "id": "t40-weather",
+      "legacy": {
+        "ll": [
+          -0.011360184141429589,
+          0.0002851791772258012
+        ],
+        "tips": [
+          -3,
+          40
+        ],
+        "llSe": 0.0029789444287759807,
+        "tipSe": 0.005841544572027718,
+        "iid80PowerLl": 0.008345766027492357,
+        "iid80PowerTips": 30.930953098167883
+      },
+      "standardNormal": {
+        "ll": [
+          -0.009021174372980428,
+          0.0007014779034073103
+        ],
+        "tips": [
+          -3,
+          40
+        ],
+        "llSe": 0.00249949884732572,
+        "tipSe": 0.005841544572027718,
+        "iid80PowerLl": 0.007002558478185028,
+        "iid80PowerTips": 30.930953098167883
+      }
+    },
+    {
+      "id": "t40-pav-day-end",
+      "legacy": {
+        "ll": [
+          -0.0000014714671342068757,
+          0.000004159443204826441
+        ],
+        "tips": [
+          0,
+          0
+        ],
+        "llSe": 0.0000014085772823653777,
+        "tipSe": 0,
+        "iid80PowerLl": 0.000003946248985615607,
+        "iid80PowerTips": 0
+      },
+      "standardNormal": {
+        "ll": [
+          -0.0000012947486110524262,
+          0.0000034998600904901386
+        ],
+        "tips": [
+          0,
+          0
+        ],
+        "llSe": 0.0000011866611017140312,
+        "tipSe": 0,
+        "iid80PowerLl": 0.0000033245319426455045,
+        "iid80PowerTips": 0
+      }
+    }
+  ],
+  "reverseSelected": "t40-od-reverse-k12-r40",
+  "reverseGrid": [
+    {
+      "id": "t40-od-reverse-k12-r40",
+      "earlyLl": -0.008292375891608028,
+      "primaryLl": -0.006708639728650323,
+      "tips2026": 3,
+      "consensus": -2
+    },
+    {
+      "id": "t40-od-reverse-k12-r20",
+      "earlyLl": -0.007827298767881907,
+      "primaryLl": -0.0077300091690009065,
+      "tips2026": 1,
+      "consensus": -4
+    },
+    {
+      "id": "t40-od-reverse-k12-r10",
+      "earlyLl": -0.006836981001110964,
+      "primaryLl": -0.0076905665467781326,
+      "tips2026": 2,
+      "consensus": -6
+    },
+    {
+      "id": "t40-od-reverse-k08-r20",
+      "earlyLl": -0.005010065074028569,
+      "primaryLl": -0.005762054629517288,
+      "tips2026": 1,
+      "consensus": 0
+    },
+    {
+      "id": "t40-od-reverse-k08-r40",
+      "earlyLl": -0.004536294867460544,
+      "primaryLl": -0.003359062763734544,
+      "tips2026": 1,
+      "consensus": 4
+    },
+    {
+      "id": "t40-od-reverse-k08-r10",
+      "earlyLl": -0.004337789074186915,
+      "primaryLl": -0.00630471554445633,
+      "tips2026": 0,
+      "consensus": -4
+    },
+    {
+      "id": "t40-od-reverse-k04-r10",
+      "earlyLl": 0.004602655910233344,
+      "primaryLl": 0.0018723526284600833,
+      "tips2026": -1,
+      "consensus": 8
+    },
+    {
+      "id": "t40-od-reverse-k04-r20",
+      "earlyLl": 0.004779977694030935,
+      "primaryLl": 0.0033467856392785933,
+      "tips2026": 1,
+      "consensus": 8
+    },
+    {
+      "id": "t40-od-reverse-k04-r40",
+      "earlyLl": 0.006903907157855271,
+      "primaryLl": 0.007669205152557534,
+      "tips2026": -2,
+      "consensus": 7
+    }
+  ],
+  "incumbentSurvivors": [
+    "t40-od-shot-075"
+  ],
+  "correctedNumericalSurvivors": []
+}

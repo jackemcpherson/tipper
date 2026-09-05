@@ -108,6 +108,7 @@ export function applyAgeCurve(
   dobByPlayer: Map<number, string | null>,
   currentR1DateIso: string,
   weight: number,
+  zoneRatios?: Config["pav"]["age_zone_ratios"],
 ): PriorPavMap {
   if (weight === 0) return priorMap;
   const adjusted: PriorPavMap = new Map();
@@ -120,6 +121,14 @@ export function applyAgeCurve(
     const age = ageAtDate(dob, currentR1DateIso);
     const ratio = getAgeTransitionRatio(age);
     const multiplier = 1 - weight + weight * ratio;
+    const zone = zoneRatios?.[age <= 22 ? 0 : age <= 27 ? 1 : age <= 31 ? 2 : 3];
+    if (zone) {
+      const offPav = pav.offPav * (1 - weight + weight * zone[0]);
+      const midPav = pav.midPav * (1 - weight + weight * zone[1]);
+      const defPav = pav.defPav * (1 - weight + weight * zone[2]);
+      adjusted.set(playerId, { offPav, midPav, defPav, totalPav: offPav + midPav + defPav });
+      continue;
+    }
     adjusted.set(playerId, {
       offPav: pav.offPav * multiplier,
       midPav: pav.midPav * multiplier,

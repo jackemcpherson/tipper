@@ -25,6 +25,10 @@ export interface TeamRow {
 export interface VenueRow {
   readonly id: number;
   readonly name: string;
+  readonly latitude?: number | null;
+  readonly canonical_venue_id?: number | null;
+  readonly longitude?: number | null;
+  readonly timezone?: string | null;
 }
 
 export interface MatchRow {
@@ -47,6 +51,28 @@ export interface MatchRow {
   readonly margin: number | null;
   readonly attendance: number | null;
   readonly external_afl_id: string | null;
+  readonly home_q1_goals?: number | null;
+  readonly home_q1_behinds?: number | null;
+  readonly home_q2_goals?: number | null;
+  readonly home_q2_behinds?: number | null;
+  readonly home_q3_goals?: number | null;
+  readonly home_q3_behinds?: number | null;
+  readonly home_q4_goals?: number | null;
+  readonly home_q4_behinds?: number | null;
+  readonly away_q1_goals?: number | null;
+  readonly away_q1_behinds?: number | null;
+  readonly away_q2_goals?: number | null;
+  readonly away_q2_behinds?: number | null;
+  readonly away_q3_goals?: number | null;
+  readonly away_q3_behinds?: number | null;
+  readonly away_q4_goals?: number | null;
+  readonly away_q4_behinds?: number | null;
+  readonly home_minutes_in_front?: number | null;
+  readonly away_minutes_in_front?: number | null;
+  readonly home_rushed_behinds?: number | null;
+  readonly away_rushed_behinds?: number | null;
+  /** Analysis-derived, only from a retained pre-kickoff forecast at an unroofed venue. */
+  readonly precip_surprise?: number;
 }
 
 export interface PlayerMatchStatsRow {
@@ -75,6 +101,11 @@ export interface PlayerMatchStatsRow {
   readonly rebounds: number | null;
   readonly clearances: number | null;
   readonly metres_gained: number | null;
+  readonly shots_at_goal?: number | null;
+  readonly score_involvements?: number | null;
+  readonly intercepts?: number | null;
+  readonly pressure_acts?: number | null;
+  readonly rating_points?: number | null;
 }
 
 export interface MatchLineupRow {

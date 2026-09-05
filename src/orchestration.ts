@@ -165,6 +165,17 @@ export async function fetchHarnessData(
     priorPavBySeason,
     teamNames: new Map(teams.map((t) => [t.id, t.name])),
     venueNames: new Map(venues.map((v) => [v.id, v.name])),
+    venueGeoById: new Map(
+      venues.map((v) => [
+        v.id,
+        {
+          latitude: v.latitude ?? null,
+          canonical_venue_id: v.canonical_venue_id ?? null,
+          longitude: v.longitude ?? null,
+          timezone: v.timezone ?? null,
+        },
+      ]),
+    ),
     seasonYearById: seasonIdToYear,
     dobByPlayerId,
   };
@@ -200,7 +211,9 @@ export async function runBacktest(
     ...gapYears,
     ...config.backtest.test_seasons,
   ];
-  const priorYears = config.backtest.test_seasons.map((y) => y - 1);
+  // Residual-learning models predict in gap years too. Their priors must
+  // match an unscoped run, even when those predictions are not scored.
+  const priorYears = [...gapYears, ...config.backtest.test_seasons].map((y) => y - 1);
 
   const { harnessData, seasonIdToYear, seasonYearToId, matches, latestDate } =
     await fetchHarnessData(db, allSeasonYears, priorYears, competition, cache);
@@ -274,7 +287,9 @@ export async function runPrediction(
       ...seasonRange(Math.max(...config.backtest.train_seasons) + 1, season),
     ]),
   ];
-  const priorYears = [season - 1];
+  const priorYears = allYears
+    .filter((year) => !config.backtest.train_seasons.includes(year))
+    .map((year) => year - 1);
 
   const { harnessData, seasonYearToId, latestDate } = await fetchHarnessData(
     db,
@@ -486,12 +501,14 @@ export async function runCompare(
       ...seasonRange(trainMax + 1, testMax),
     ]),
   ].sort((a, b) => a - b);
-  const priorYears = [
-    ...new Set([
-      ...configA.backtest.test_seasons.map((y) => y - 1),
-      ...configB.backtest.test_seasons.map((y) => y - 1),
-    ]),
-  ];
+  // Either model can learn residuals in non-training warmup seasons.
+  const priorYears = allSeasonYears
+    .filter(
+      (year) =>
+        !configA.backtest.train_seasons.includes(year) ||
+        !configB.backtest.train_seasons.includes(year),
+    )
+    .map((year) => year - 1);
 
   const { harnessData, seasonYearToId } = await fetchHarnessData(
     db,

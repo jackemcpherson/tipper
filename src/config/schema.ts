@@ -31,6 +31,8 @@ export const ConfigSchema = z.object({
     // margin = (1−w)×actual + w×(shot_diff × league pts/shot). Absent means 0
     // (actual margin only). Optional (not defaulted) to keep hashes stable.
     shot_margin_weight: z.number().min(0).max(1).optional(),
+    points_residual_k: z.number().positive().optional(),
+    finals_k_multiplier: z.number().positive().optional(),
     // Task 36 (D2): offence/defence split ratings. Parallel attack/concede
     // state in points space, mixed into the Elo slot at prediction weight
     // `weight`. Absent means off (bit-identical to v3). Optional (not
@@ -43,6 +45,8 @@ export const ConfigSchema = z.object({
         initial_score: z.number().positive(),
         regression_to_mean: z.number().min(0).max(1),
         shot_score_weight: z.number().min(0).max(1).optional(),
+        update_target: z.enum(["quarter", "minutes", "rushed"]).optional(),
+        weather_luck_weight: z.number().nonnegative().optional(),
       })
       .optional(),
   }),
@@ -52,6 +56,15 @@ export const ConfigSchema = z.object({
     prior_weight_k: z.number().nonnegative(),
     prior_source: z.enum(["previous_season_final"]),
     missing_player_default: z.number(),
+    league_average: z.literal("current_season").optional(),
+    update_timing: z.literal("previous_day").optional(),
+    normalize_zone_pools: z.boolean().optional(),
+    involvement_feature: z.enum(["involvement", "intercepts", "pressure", "shots"]).optional(),
+    signal: z.literal("lineup_delta").optional(),
+    position_weight: z.number().min(0).max(1).optional(),
+    tog_weight: z.number().min(0).max(1).optional(),
+    position_prior_k: z.number().nonnegative().optional(),
+    rating_points: z.boolean().optional(),
     // Optional (not defaulted): the hash covers the parsed config, so a
     // .default() here would change every existing config's hash and
     // invalidate their results files. Absent means 0 (off).
@@ -63,6 +76,13 @@ export const ConfigSchema = z.object({
     // Absent = off (bit-identical to v3). Optional (not defaulted) to keep existing
     // config hashes stable.
     age_curve_weight: z.number().min(0).max(1).optional(),
+    age_curve_max_round: z.number().int().nonnegative().optional(),
+    age_zone_ratios: z
+      .array(
+        z.tuple([z.number().nonnegative(), z.number().nonnegative(), z.number().nonnegative()]),
+      )
+      .length(4)
+      .optional(),
     include: z.enum([
       "named_lineup_excl_emerg",
       "named_lineup_incl_emerg",
@@ -83,11 +103,19 @@ export const ConfigSchema = z.object({
   output: z.object({
     margin_per_rating_point: z.number(),
     sigma: z.number().positive(),
+    // Absence preserves the historical non-normal head and config identity.
+    probability_model: z.enum(["legacy", "standard_normal"]).optional(),
     // Rating points added to the home side at prediction time. Distinct from
     // elo.home_advantage, which only shapes the update's expected result —
     // without this the predicted margin contains no home advantage at all.
     // Optional (not defaulted) to keep existing config hashes stable.
     prediction_home_advantage: z.number().optional(),
+    prediction_ha_mode: z.enum(["neutral", "bucket", "geographic"]).optional(),
+    prediction_ha_table: z.record(z.string(), z.number()).optional(),
+    finals_home_advantage: z.number().optional(),
+    team_venue: z
+      .object({ k: z.number().positive(), season_carry: z.number().min(0).max(1) })
+      .optional(),
     // Walk-forward per-team performance offsets (margin points) applied at
     // prediction time and learned from residuals: offset = sum/(n+k), shrunk
     // toward 0; evidence decays by season_carry at each season boundary.
@@ -96,6 +124,7 @@ export const ConfigSchema = z.object({
       .object({
         k: z.number().positive(),
         season_carry: z.number().min(0).max(1),
+        tail_threshold: z.number().nonnegative().optional(),
       })
       .optional(),
     // Task 38a: walk-forward per-venue prediction HGA (margin points). Adds

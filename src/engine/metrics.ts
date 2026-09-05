@@ -51,7 +51,7 @@ export function computeMetrics(predictions: readonly MatchPrediction[]): Overall
     sumAbsError += Math.abs(error);
     sumSqError += error * error;
 
-    // Win probability for the team that actually won (or home for draws)
+    // Legacy log loss treats draws as away wins; tips exclude them.
     const homeWon = (p.actualMargin ?? 0) > 0;
     const probCorrect = homeWon ? p.winProbability.home : p.winProbability.away;
     const clamped = Math.max(0.01, Math.min(0.99, probCorrect));
@@ -148,6 +148,9 @@ function pairByMatchId(
 ): { pairedA: MatchPrediction[]; pairedB: MatchPrediction[] } {
   const mapA = new Map(predictionsA.map((p) => [p.matchId, p]));
   const mapB = new Map(predictionsB.map((p) => [p.matchId, p]));
+  if (mapA.size !== predictionsA.length || mapB.size !== predictionsB.length) {
+    throw new Error("Duplicate match IDs in prediction arrays");
+  }
 
   if (mapA.size !== mapB.size) {
     throw new Error(
@@ -162,6 +165,14 @@ function pairByMatchId(
     const predB = mapB.get(matchId);
     if (predB === undefined) {
       throw new Error(`Match ${matchId} present in A but not in B`);
+    }
+    if (
+      predA.actualMargin !== predB.actualMargin ||
+      predA.actualWinner !== predB.actualWinner ||
+      predA.home !== predB.home ||
+      predA.away !== predB.away
+    ) {
+      throw new Error(`Inconsistent actuals or teams for match ${matchId}`);
     }
     pairedA.push(predA);
     pairedB.push(predB);
@@ -195,10 +206,15 @@ export function bootstrapCompareStratified(
   if (strata.length === 0) {
     throw new Error("At least one stratum is required");
   }
+  if (!Number.isInteger(nBootstrap) || nBootstrap < 1)
+    throw new Error("Bootstrap count must be a positive integer");
 
   const paired = strata.map((s) => pairByMatchId(s.predictionsA, s.predictionsB));
   const pooledA = paired.flatMap((p) => p.pairedA);
   const pooledB = paired.flatMap((p) => p.pairedB);
+  if (new Set(pooledA.map((p) => p.matchId)).size !== pooledA.length) {
+    throw new Error("Strata contain overlapping match IDs");
+  }
 
   const metricsA = computeMetrics(pooledA);
   const metricsB = computeMetrics(pooledB);

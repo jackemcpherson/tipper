@@ -7,7 +7,11 @@
       "!!**/.claude",
       "!!**/.rumdl_cache",
       "!!**/dist",
-      "!!**/configs/**/results-*.json"
+      "!!**/configs/**/results-*.json",
+      "!!**/analysis/task40-*-results.json",
+      "!!**/analysis/task40-score-*.json",
+      "!!**/analysis/t40-*-fit.json",
+      "!!**/docs/task-40-report.html"
     ]
   },
   "linter": {
