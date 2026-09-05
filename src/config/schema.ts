@@ -57,6 +57,7 @@ export const ConfigSchema = z.object({
     prior_source: z.enum(["previous_season_final"]),
     missing_player_default: z.number(),
     league_average: z.literal("current_season").optional(),
+    update_timing: z.literal("previous_day").optional(),
     normalize_zone_pools: z.boolean().optional(),
     involvement_feature: z.enum(["involvement", "intercepts", "pressure", "shots"]).optional(),
     signal: z.literal("lineup_delta").optional(),

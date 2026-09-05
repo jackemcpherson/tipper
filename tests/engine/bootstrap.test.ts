@@ -40,6 +40,18 @@ function makePrediction(
 }
 
 describe("bootstrapCompare", () => {
+  it("rejects duplicates, overlapping strata and inconsistent actuals", () => {
+    const row = makePrediction(1, 10, 15);
+    expect(() => bootstrapCompare([row, row], [row, row])).toThrow("Duplicate");
+    expect(() => bootstrapCompare([row], [{ ...row, actualMargin: 16 }])).toThrow("Inconsistent");
+    expect(() =>
+      bootstrapCompareStratified([
+        { predictionsA: [row], predictionsB: [row] },
+        { predictionsA: [row], predictionsB: [row] },
+      ]),
+    ).toThrow("overlapping");
+    expect(() => bootstrapCompare([row], [row], 0)).toThrow("positive integer");
+  });
   it("produces CI including zero for identical predictions", () => {
     const preds = Array.from({ length: 100 }, (_, i) =>
       makePrediction(i, 10, i % 2 === 0 ? 15 : -5),

@@ -277,6 +277,25 @@ deployment merely because it can be replayed here.
 
 ## Methodology details
 
+### F3 availability audit registration, before results
+
+The UTC reconstruction found 156 same-day pairwise kickoff-order inversions
+in 2010-2026. There are 1,702 pairs less than an assumed three-hour match
+duration apart, including those inversions. The overlap count is a risk
+screen, not evidence of actual final-siren times.
+
+Add `t40-pav-day-end` and its early/2026 variants. Set the optional
+`pav.update_timing=previous_day`. Queue PAV updates until the next calendar
+date, before a season transition. This removes every same-day completed-game
+contribution from PAV's shared league totals, conservatively excluding some
+legitimately available earlier games too. Elo teams cannot play twice on
+one day, so their own match ordering is unaffected. Use I and C without
+changing any threshold. This is an availability sensitivity test, not a
+reconstruction of Thursday lineups. Run `bun analysis/task40-campaign.ts
+--ids t40-pav-day-end`, then score with the same scorer. Absent remains
+bit-identical. No deadline archive means no causal estimate of lineup
+availability bias.
+
 ### Correctness checkpoint and frozen inputs
 
 `analysis/task40-data.ts` froze 3,475 fixtures from 2010-2026 plus their

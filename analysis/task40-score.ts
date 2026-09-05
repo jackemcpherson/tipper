@@ -36,10 +36,56 @@ export function paired(a: MatchPrediction[], b: MatchPrediction[]) {
   });
 }
 
-function loss(p: MatchPrediction, drawTarget = 0): number {
+export function loss(p: MatchPrediction, drawTarget = 0): number {
   const target = p.actualMargin === 0 ? drawTarget : (p.actualMargin ?? 0) > 0 ? 1 : 0;
   const prob = Math.max(0.01, Math.min(0.99, p.winProbability.home));
   return -target * Math.log2(prob) - (1 - target) * Math.log2(1 - prob);
+}
+
+/** Paired mean-difference resampling, avoiding repeated metric object allocation. */
+export function windowCi(a: MatchPrediction[], b: MatchPrediction[]) {
+  const differences = paired(a, b).map(({ candidate, base }) => ({
+    ll: loss(candidate) - loss(base),
+    tips: Number(candidate.correct === true) - Number(base.correct === true),
+  }));
+  assert(differences.length > 0);
+  const rand = createPrng(42);
+  const lls: number[] = [];
+  const tips: number[] = [];
+  for (let i = 0; i < 1000; i++) {
+    let l = 0;
+    let t = 0;
+    for (let j = 0; j < differences.length; j++) {
+      const d = differences[Math.floor(rand() * differences.length)];
+      assert(d);
+      l += d.ll;
+      t += d.tips;
+    }
+    lls.push(l / differences.length);
+    tips.push(t);
+  }
+  lls.sort((a, b) => a - b);
+  tips.sort((a, b) => a - b);
+  const mean = differences.reduce((s, d) => s + d.ll, 0) / differences.length;
+  const tipMean = differences.reduce((s, d) => s + d.tips, 0) / differences.length;
+  const llSe = Math.sqrt(
+    differences.reduce((s, d) => s + (d.ll - mean) ** 2, 0) /
+      (differences.length - 1) /
+      differences.length,
+  );
+  const tipSe = Math.sqrt(
+    differences.reduce((s, d) => s + (d.tips - tipMean) ** 2, 0) /
+      (differences.length - 1) /
+      differences.length,
+  );
+  return {
+    ll: [lls[25], lls[975]],
+    tips: [tips[25], tips[975]],
+    llSe,
+    tipSe,
+    iid80PowerLl: 2.801585 * llSe,
+    iid80PowerTips: 2.801585 * tipSe * differences.length,
+  };
 }
 
 export function summary(a: MatchPrediction[], b: MatchPrediction[]) {
@@ -130,6 +176,24 @@ function blockCi(a: MatchPrediction[], b: MatchPrediction[]) {
   };
 }
 
+/** One-sided round-sign randomisation; assumes null symmetry of block differences. */
+export function roundNullP(a: MatchPrediction[], b: MatchPrediction[]) {
+  const blocks = new Map<string, number>();
+  for (const { candidate, base } of paired(a, b)) {
+    const key = `${base.date.slice(0, 4)}:${base.roundNumber}`;
+    blocks.set(key, (blocks.get(key) ?? 0) + loss(candidate) - loss(base));
+  }
+  const values = [...blocks.values()];
+  const observed = values.reduce((s, v) => s + v, 0);
+  const rand = createPrng(42);
+  let atLeast = 0;
+  for (let i = 0; i < 9999; i++) {
+    const simulated = values.reduce((s, v) => s + (rand() < 0.5 ? -v : v), 0);
+    if (simulated <= observed) atLeast++;
+  }
+  return (1 + atLeast) / 10000;
+}
+
 interface FieldTip {
   date: string;
   hteam: string;
@@ -174,15 +238,18 @@ if (import.meta.main) {
   const bPrimary = await loadResult("t40-baseline");
   const bEarly = await loadResult("t40-baseline-early");
   const b2026 = await loadResult("t40-baseline-2026");
+  const odWindows = await Promise.all(["t40-od", "t40-od-early", "t40-od-2026"].map(loadResult));
   assert.equal(computeMetrics(bPrimary).tips, 716);
   assert.equal(computeMetrics(bPrimary).logLossBits, 0.8484598529648077);
   const shares = fieldShares();
+  const idsIndex = process.argv.indexOf("--ids");
+  const requestedIds = idsIndex < 0 ? undefined : process.argv[idsIndex + 1]?.split(",");
   const ids = readdirSync("configs").filter(
     (id) =>
       id.startsWith("t40-") &&
       !id.endsWith("-early") &&
       !id.endsWith("-2026") &&
-      id !== "t40-baseline",
+      id !== "t40-baseline" && (!requestedIds || requestedIds.includes(id)),
   );
   const reports = [];
   for (const id of ids.sort()) {
@@ -262,6 +329,9 @@ if (import.meta.main) {
         pooled,
         extended,
         block,
+        windowCi: windows.map((w) => windowCi(w.predictionsA, w.predictionsB)),
+        power: windowCi(convert(historicalA), convert(historicalB)),
+        roundNullP: roundNullP(convert(historicalA), convert(historicalB)),
         gates,
         incumbentPass: Object.values(gates).every(Boolean),
         correctedNumericalPass:
@@ -292,6 +362,22 @@ if (import.meta.main) {
           ),
         ]),
       ),
+      incrementVsOd:
+        id.startsWith("t40-od-") ||
+        [
+          "t40-quarter",
+          "t40-minutes",
+          "t40-rushed",
+          "t40-weather",
+          "t40-points",
+          "t40-derived",
+        ].includes(id)
+          ? [aPrimary, aEarly, a2026].map((a, i) => {
+              const b = odWindows[i];
+              assert(b);
+              return { ...summary(a, b), ci: windowCi(a, b) };
+            })
+          : undefined,
     };
     reports.push(report);
     console.log(`${id}: recent tips ${recent.tips}, consensus tips ${cw.tips}/${cw.n}`);

@@ -109,6 +109,9 @@ export function candidates(): Candidate[] {
   add("t40-cdf", "F", baseline, (c) => {
     c.output.probability_model = "standard_normal";
   });
+  add("t40-pav-day-end", "F", baseline, (c) => {
+    c.pav.update_timing = "previous_day";
+  });
   for (const sigma of [32, 40])
     add(`t40-sigma-${String(sigma).padStart(3, "0")}`, "F", baseline, (c) => {
       c.output.sigma = sigma;

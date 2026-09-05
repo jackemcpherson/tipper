@@ -87,6 +87,38 @@ const TEST_SEASON = new Set([2]);
 const TRAIN_SEASON = new Set([1]);
 
 describe("campaign boundary repairs", () => {
+  it("defers PAV evidence until the next date in both entry points", () => {
+    const cfg = eloOnlyConfig();
+    cfg.blend.weight_elo = 0;
+    cfg.pav.missing_player_default = 10;
+    const data = harnessData([
+      matchRow({ id: 1, round_number: 1 }),
+      matchRow({ id: 2, round_number: 2 }),
+      matchRow({ id: 3, round_number: 3, date: "2025-03-16" }),
+    ]);
+    for (const m of data.matches)
+      data.lineupsByMatch.set(m.id, [
+        {
+          id: m.id,
+          match_id: m.id,
+          team_id: 1,
+          player_id: 11,
+          guernsey_number: 11,
+          position: "C",
+          is_emergency: 0,
+          is_substitute: 0,
+        },
+      ]);
+    const legacy = runHarness(data, cfg, TRAIN_SEASON, TEST_SEASON).predictions;
+    cfg.pav.update_timing = "previous_day";
+    const delayed = runHarness(data, cfg, TRAIN_SEASON, TEST_SEASON).predictions;
+    expect(delayed[0]).toEqual(legacy[0]);
+    expect(delayed[1]?.homePavTotal).toBe(10);
+    expect(delayed[1]?.homePavTotal).not.toBe(legacy[1]?.homePavTotal);
+    expect(delayed[2]).toEqual(legacy[2]);
+    expect(runPredict(data, cfg, 2, 2).predictions).toEqual([delayed[1]]);
+    expect(runPredict(data, cfg, 3, 2).predictions).toEqual([delayed[2]]);
+  });
   it("restores the unadjusted age prior after R4 in both entry points", () => {
     const cfg = eloOnlyConfig();
     cfg.blend.weight_elo = 0;

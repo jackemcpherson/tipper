@@ -221,8 +221,15 @@ export function runHarness(
   const venueHaState: VenueHaPredState = createVenueHaPredState();
   const teamVenueConfig = config.output.team_venue;
   const teamVenueState: TeamVenueState = new Map();
+  let previousDate: string | undefined;
+  const pendingPav: (() => void)[] = [];
 
   for (const match of data.matches) {
+    if (match.date !== previousDate) {
+      for (const update of pendingPav) update();
+      pendingPav.length = 0;
+      previousDate = match.date;
+    }
     // Season boundary detection
     if (match.season_id !== currentSeasonId) {
       const isFirstSeason = currentSeasonId === null;
@@ -387,16 +394,19 @@ export function runHarness(
       // PAV only updates in test seasons (train is Elo-only)
       if (!isTrain) {
         const matchStats = data.statsByMatch.get(match.id) ?? [];
-        updatePavState(
-          pavState,
-          match,
-          matchStats,
-          {
-            home: (awayEloPre - config.elo.initial_rating) / 400,
-            away: (homeEloPre - config.elo.initial_rating) / 400,
-          },
-          config.pav.involvement_feature,
-        );
+        const update = () =>
+          updatePavState(
+            pavState,
+            match,
+            matchStats,
+            {
+              home: (awayEloPre - config.elo.initial_rating) / 400,
+              away: (homeEloPre - config.elo.initial_rating) / 400,
+            },
+            config.pav.involvement_feature,
+          );
+        if (config.pav.update_timing === "previous_day") pendingPav.push(update);
+        else update();
       }
     }
   }
@@ -440,8 +450,15 @@ export function runPredict(
   const venueHaState: VenueHaPredState = createVenueHaPredState();
   const teamVenueConfig = config.output.team_venue;
   const teamVenueState: TeamVenueState = new Map();
+  let previousDate: string | undefined;
+  const pendingPav: (() => void)[] = [];
 
   for (const match of data.matches) {
+    if (match.date !== previousDate) {
+      for (const update of pendingPav) update();
+      pendingPav.length = 0;
+      previousDate = match.date;
+    }
     // Season boundary detection
     if (match.season_id !== currentSeasonId) {
       const isFirstSeason = currentSeasonId === null;
@@ -600,16 +617,19 @@ export function runPredict(
       }
       if (!isTrain) {
         const matchStats = data.statsByMatch.get(match.id) ?? [];
-        updatePavState(
-          pavState,
-          match,
-          matchStats,
-          {
-            home: (awayEloPre - config.elo.initial_rating) / 400,
-            away: (homeEloPre - config.elo.initial_rating) / 400,
-          },
-          config.pav.involvement_feature,
-        );
+        const update = () =>
+          updatePavState(
+            pavState,
+            match,
+            matchStats,
+            {
+              home: (awayEloPre - config.elo.initial_rating) / 400,
+              away: (homeEloPre - config.elo.initial_rating) / 400,
+            },
+            config.pav.involvement_feature,
+          );
+        if (config.pav.update_timing === "previous_day") pendingPav.push(update);
+        else update();
       }
     }
   }
