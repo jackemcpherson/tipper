@@ -235,7 +235,7 @@ bake produces identical bytes.
 Each shadow calls the read-only prediction function directly. It never calls
 the primary publisher. The tick appends shadow captures with `is_primary = 0`.
 A failed primary archive write cannot stop a shadow run. A failed shadow
-cannot change the primary outcome. The round's field fetch is shared.
+cannot change the primary outcome. Both models use the round's single field fetch.
 
 Worker tests use the real SQL builders against a stubbed database. They assert
 one primary upsert, separate archive inserts, opposite prediction orientations,
