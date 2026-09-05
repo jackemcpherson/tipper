@@ -1,22 +1,10 @@
 {
   "name": "@jackemcpherson/tipper",
   "version": "3.5.0",
-  "description": "AFL match prediction CLI combining MOV-Elo with player-level PAV ratings",
+  "description": "Production AFL match predictions and publication evidence on Cloudflare Workers",
   "license": "MIT",
   "author": "Jack McPherson <jackemcpherson@gmail.com>",
   "type": "module",
-  "bin": {
-    "tipper": "./dist/cli/index.js"
-  },
-  "files": [
-    "dist/",
-    "configs/**/config.json",
-    "configs/_current.json",
-    "configs/_shadows.json",
-    "README.md",
-    "CHANGELOG.md",
-    "LICENSE"
-  ],
   "engines": {
     "node": ">=20"
   },
@@ -26,20 +14,15 @@
   },
   "homepage": "https://github.com/jackemcpherson/tipper#readme",
   "bugs": "https://github.com/jackemcpherson/tipper/issues",
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
-    "bake-config": "bun scripts/bake-config.ts",
-    "build": "tsc",
-    "test": "vitest",
+    "build": "node scripts/build.mjs",
+    "test": "vitest run",
     "check": "biome check .",
     "format": "biome format --write .",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "bun run typecheck && bun run build"
+    "types": "wrangler types src/env.d.ts --env-interface Env --include-runtime false"
   },
   "dependencies": {
-    "commander": "15.0.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -48,6 +31,8 @@
     "@types/node": "^26.0.0",
     "typescript": "7.0.2",
     "vitest": "4.1.11",
-    "wrangler": "^4.14.0"
-  }
+    "wrangler": "^4.14.0",
+    "miniflare": "5.20260730.0-alpha"
+  },
+  "private": true
 }
