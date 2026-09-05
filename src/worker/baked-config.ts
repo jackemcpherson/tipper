@@ -16,3 +16,50 @@ const RAW_CONFIG =
 
 /** The promoted model config, validated at Worker cold start. */
 export const BAKED_CONFIG: Config = ConfigSchema.parse(JSON.parse(RAW_CONFIG));
+
+/** Frozen challengers. These models may write only prediction_archive. */
+export const BAKED_SHADOWS: readonly { id: string; hash: string; config: Config }[] = [
+  {
+    id: "t40-od",
+    hash: "c8c7b6b734cbe086992c7b3403bab7660f69199136a2f0da47da306df847d387",
+    config: {
+      id: "t40-od",
+      schema_version: 1,
+      notes: "Task 40 registered experiment; not promoted.",
+      elo: {
+        k: 25,
+        initial_rating: 1500,
+        home_advantage: 160,
+        regression_to_mean: 0.1,
+        mov_multiplier: "538_log",
+        k_context_sensitivity: 0,
+        k_context_window: 8,
+        home_advantage_source: "static",
+        od: {
+          weight: 1,
+          k: 0.08,
+          home_advantage_points: 10,
+          initial_score: 85,
+          regression_to_mean: 0.2,
+        },
+      },
+      pav: {
+        computation: "round_by_round_cumulative",
+        prior_weight_k: 15,
+        prior_source: "previous_season_final",
+        missing_player_default: 5,
+        include: "named_lineup_excl_emerg",
+      },
+      blend: { weight_elo: 0.6, pav_calibration_slope: 6.986, where: "team_rating" },
+      output: { margin_per_rating_point: 0.07, sigma: 36, prediction_home_advantage: 80 },
+      backtest: {
+        train_seasons: [2020],
+        test_seasons: [2021, 2022, 2023, 2024, 2025],
+        walk_forward: true,
+      },
+    },
+  },
+].map((shadow) => ({
+  ...shadow,
+  config: ConfigSchema.parse(shadow.config),
+}));

@@ -223,3 +223,22 @@ failure. The frozen replay still gives hash `2641f46f`, 716 tips, and log loss
 0.848459853. Every stored prediction remains identical. The published R27 row
 also matches exactly. Validation uses stubbed Worker ticks and read-only D1
 replays. No production publishing command ran.
+
+## Shadow Implementation, 2026-09-05
+
+`configs/_shadows.json` freezes `t40-od`, the campaign's plain OD challenger.
+Its content hash matches `od-w100-k008`. The baker validates the list and
+rejects duplicate ids. It omits the promoted id from shadow runs, so the
+existing promotion and baking commands remain sufficient. Its output includes
+both model configs. The primary block remains byte-identical, and a second
+bake produces identical bytes.
+
+Each shadow calls the read-only prediction function directly. It never calls
+the primary publisher. The tick appends shadow captures with `is_primary = 0`.
+A failed primary archive write cannot stop a shadow run. A failed shadow
+cannot change the primary outcome. Both models use the round's single field fetch.
+
+Worker tests use the real SQL builders against a stubbed database. They assert
+one primary upsert, separate archive inserts, opposite prediction orientations,
+and continued primary success when the shadow fails. The full suite passes
+270 tests in 27 files, with typecheck, Biome, and build.

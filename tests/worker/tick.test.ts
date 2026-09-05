@@ -3,7 +3,12 @@ import { shortHash } from "../../src/config/hash.js";
 import { formatModelVersion } from "../../src/data/publish.js";
 import type { PublishRoundStateRow } from "../../src/data/queries.js";
 import type { MatchPrediction } from "../../src/types.js";
-import { BAKED_CONFIG, BAKED_CONFIG_HASH, BAKED_CONFIG_ID } from "../../src/worker/baked-config.js";
+import {
+  BAKED_CONFIG,
+  BAKED_CONFIG_HASH,
+  BAKED_CONFIG_ID,
+  BAKED_SHADOWS,
+} from "../../src/worker/baked-config.js";
 import { fetchRoundStates, type PredictFn, runPublishTick } from "../../src/worker/tick.js";
 
 // Thursday 2026-07-16 15:00 Melbourne (AEST): outside the announcement
@@ -91,6 +96,47 @@ function makePredict(impl?: PredictFn): PredictFn {
     }))) as PredictFn;
 }
 
+const capturedPredict: PredictFn = async (...args) => ({
+  ...(await makePredict()(...args)),
+  capture_inputs: {
+    matches: [
+      {
+        id: 9001,
+        season_id: 2026,
+        round: "19",
+        round_number: 19,
+        round_type: "Regular",
+        date: "2026-07-16",
+        local_time: "19:30:00",
+        venue_id: 1,
+        home_team_id: 1,
+        away_team_id: 2,
+        home_goals: null,
+        home_behinds: null,
+        home_points: null,
+        away_goals: null,
+        away_behinds: null,
+        away_points: null,
+        margin: null,
+        attendance: null,
+        external_afl_id: null,
+      },
+    ],
+    lineups: [
+      {
+        id: 4,
+        match_id: 9001,
+        team_id: 2,
+        player_id: 17,
+        position: "SUB",
+        guernsey_number: 17,
+        is_emergency: 0,
+        is_substitute: 1,
+      },
+    ],
+  },
+});
+
 afterEach(() => vi.restoreAllMocks());
 
 describe("fetchRoundStates", () => {
@@ -128,7 +174,7 @@ describe("runPublishTick", () => {
     ]);
     const predict = vi.fn(makePredict());
 
-    const result = await runPublishTick(db, NOW, predict as PredictFn);
+    const result = await runPublishTick(db, NOW, predict as PredictFn, { shadows: [] });
 
     expect(result.planned).toBe(2);
     expect(result.failed).toEqual([]);
@@ -176,7 +222,7 @@ describe("runPublishTick", () => {
       return { data_through: "2026-07-15", predictions: [makePrediction()], skipped_matches: 0 };
     }) as PredictFn);
 
-    const result = await runPublishTick(db, NOW, predict);
+    const result = await runPublishTick(db, NOW, predict, { shadows: [] });
 
     expect(result.failed).toEqual([{ competition: "AFLM", season: 2026, roundNumber: 19 }]);
     expect(result.published).toEqual([
@@ -203,7 +249,7 @@ describe("runPublishTick", () => {
     ]);
     const predict = vi.fn(makePredict());
 
-    const result = await runPublishTick(db, NOW, predict as PredictFn);
+    const result = await runPublishTick(db, NOW, predict as PredictFn, { shadows: [] });
 
     expect(result).toEqual({ planned: 0, published: [], failed: [] });
     expect(predict).not.toHaveBeenCalled();
@@ -216,46 +262,7 @@ describe("runPublishTick", () => {
       vi.spyOn(console, "warn").mockImplementation(() => {});
       const { db, calls } = makeFakeDb([makeRow()]);
       const capturedAt = new Date("2026-07-16T05:02:00.000Z");
-      const predict: PredictFn = async (...args) => ({
-        ...(await makePredict()(...args)),
-        capture_inputs: {
-          matches: [
-            {
-              id: 9001,
-              season_id: 2026,
-              round: "19",
-              round_number: 19,
-              round_type: "Regular",
-              date: "2026-07-16",
-              local_time: "19:30:00",
-              venue_id: 1,
-              home_team_id: 1,
-              away_team_id: 2,
-              home_goals: null,
-              home_behinds: null,
-              home_points: null,
-              away_goals: null,
-              away_behinds: null,
-              away_points: null,
-              margin: null,
-              attendance: null,
-              external_afl_id: null,
-            },
-          ],
-          lineups: [
-            {
-              id: 4,
-              match_id: 9001,
-              team_id: 2,
-              player_id: 17,
-              position: "SUB",
-              guernsey_number: 17,
-              is_emergency: 0,
-              is_substitute: 1,
-            },
-          ],
-        },
-      });
+      const predict = capturedPredict;
       const field = vi.fn(async () => {
         expect(upsertCalls(calls)).toHaveLength(1);
         return null;
@@ -264,6 +271,7 @@ describe("runPublishTick", () => {
         if (failArchive) throw new Error("storage offline");
       });
       const result = await runPublishTick(db, NOW, predict, {
+        shadows: [],
         field,
         append,
         clock: () => capturedAt,
@@ -289,6 +297,54 @@ describe("runPublishTick", () => {
     },
   );
 
+  it.each([false, true])("shadows only append; shadow failure=%s", async (shadowFails) => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { db, calls } = makeFakeDb([makeRow()]);
+    const predict = vi.fn<PredictFn>(async (...args) => {
+      const primary = args[1].id === BAKED_CONFIG_ID;
+      if (!primary && shadowFails) throw new Error("shadow failed");
+      const capture = await capturedPredict(...args);
+      return {
+        ...capture,
+        predictions: [
+          makePrediction(
+            primary
+              ? {}
+              : {
+                  predictedMargin: 12.34,
+                  winProbability: { home: 0.7, away: 0.3 },
+                  predictedWinner: "home",
+                },
+          ),
+        ],
+      };
+    });
+    const field = vi.fn(async () => null);
+    const result = await runPublishTick(db, NOW, predict, { field, clock: () => NOW });
+    expect(result.failed).toEqual([]);
+    expect(result.published).toHaveLength(1);
+    expect(predict).toHaveBeenCalledTimes(2);
+    expect(field).toHaveBeenCalledTimes(1);
+    expect(upsertCalls(calls)).toHaveLength(1);
+    expect(upsertCalls(calls)[0]?.params).toEqual([
+      9001,
+      0.31,
+      -28.3,
+      EXPECTED_MODEL_VERSION,
+      NOW.toISOString(),
+    ]);
+    const inserts = calls.filter((call) => call.sql.includes("INSERT INTO prediction_archive"));
+    expect(inserts).toHaveLength(shadowFails ? 1 : 2);
+    expect(inserts[0]?.params[1]).toBe(EXPECTED_MODEL_VERSION);
+    expect(inserts[0]?.params[8]).toBe(1);
+    if (!shadowFails) {
+      expect(inserts[1]?.params.slice(8, 11)).toEqual([0, 0.7, 12.3]);
+      expect(inserts[1]?.params[1]).toBe(
+        formatModelVersion("t40-od", shortHash(BAKED_SHADOWS[0]?.hash ?? "")),
+      );
+    }
+  });
+
   it("counts an empty prediction set as a failure and writes nothing", async () => {
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const { db, calls } = makeFakeDb([makeRow()]);
@@ -298,7 +354,7 @@ describe("runPublishTick", () => {
       skipped_matches: 0,
     })) as PredictFn);
 
-    const result = await runPublishTick(db, NOW, predict);
+    const result = await runPublishTick(db, NOW, predict, { shadows: [] });
 
     expect(result.published).toEqual([]);
     expect(result.failed).toEqual([{ competition: "AFLM", season: 2026, roundNumber: 19 }]);

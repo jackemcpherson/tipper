@@ -1,7 +1,13 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { computeConfigHash } from "../../src/config/hash.js";
 import { loadConfig, loadCurrentPointer } from "../../src/config/store.js";
-import { BAKED_CONFIG, BAKED_CONFIG_HASH, BAKED_CONFIG_ID } from "../../src/worker/baked-config.js";
+import {
+  BAKED_CONFIG,
+  BAKED_CONFIG_HASH,
+  BAKED_CONFIG_ID,
+  BAKED_SHADOWS,
+} from "../../src/worker/baked-config.js";
 
 /**
  * Guards a stale generated module: src/worker/baked-config.ts is committed
@@ -22,5 +28,19 @@ describe("baked-config", () => {
     expect(pointer?.config_id).toBe(BAKED_CONFIG_ID);
     const promoted = loadConfig(BAKED_CONFIG_ID);
     expect(await computeConfigHash(promoted)).toBe(BAKED_CONFIG_HASH);
+  });
+  it("bakes the frozen OD challenger without changing the primary", async () => {
+    const ids = JSON.parse(
+      readFileSync(new URL("../../configs/_shadows.json", import.meta.url), "utf8"),
+    );
+    expect(BAKED_SHADOWS.map((shadow) => shadow.id)).toEqual(
+      (ids as string[]).filter((id) => id !== BAKED_CONFIG_ID),
+    );
+    for (const shadow of BAKED_SHADOWS) {
+      expect(shadow.hash).toBe(await computeConfigHash(loadConfig(shadow.id)));
+      expect(await computeConfigHash(shadow.config)).toBe(shadow.hash);
+      if (shadow.id === "t40-od")
+        expect(shadow.hash).toBe(await computeConfigHash(loadConfig("od-w100-k008")));
+    }
   });
 });

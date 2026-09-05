@@ -8,11 +8,13 @@
  * nothing is due the tick performs no engine runs at all.
  */
 
+import { shortHash } from "../config/hash.js";
 import { appendPredictionArchive, buildArchiveRows } from "../data/archive.js";
+import { formatModelVersion } from "../data/publish.js";
 import { fetchPublishRoundStates } from "../data/queries.js";
 import { fetchRoundField } from "../data/squiggle-field.js";
 import { publishRound, runPrediction } from "../orchestration.js";
-import { BAKED_CONFIG, BAKED_CONFIG_HASH, BAKED_CONFIG_ID } from "./baked-config.js";
+import { BAKED_CONFIG, BAKED_CONFIG_HASH, BAKED_CONFIG_ID, BAKED_SHADOWS } from "./baked-config.js";
 import {
   melbourneClock,
   publishPlan,
@@ -58,6 +60,7 @@ export interface ArchiveDependencies {
   readonly append?: typeof appendPredictionArchive;
   readonly field?: typeof fetchRoundField;
   readonly clock?: () => Date;
+  readonly shadows?: typeof BAKED_SHADOWS;
 }
 
 /**
@@ -103,36 +106,64 @@ export async function runPublishTick(
         failed.push(roundKey(round));
         continue;
       }
-      // Publication already succeeded. Archive failures must not change its outcome.
+      // Publication already succeeded. Each archive/model failure stays independent.
+      const clock = archive.clock ?? (() => new Date());
+      let field = null;
       try {
-        if (result.capture_inputs) {
-          const clock = archive.clock ?? (() => new Date());
-          const field =
-            round.competition === "AFLM"
-              ? await (archive.field ?? fetchRoundField)(round.season, round.roundNumber, clock)
-              : null;
+        if (round.competition === "AFLM" && result.capture_inputs) {
+          field = await (archive.field ?? fetchRoundField)(round.season, round.roundNumber, clock);
+        }
+      } catch (error) {
+        console.warn(`[archive] ${label}: field capture failed`, error);
+      }
+      const models = [
+        { id: BAKED_CONFIG_ID, hash: BAKED_CONFIG_HASH, config: BAKED_CONFIG, primary: true },
+        ...(archive.shadows ?? BAKED_SHADOWS).map((shadow) => ({ ...shadow, primary: false })),
+      ];
+      for (const model of models) {
+        try {
+          // Shadows call the read-only predictor, never publishRound or upsertPredictions.
+          const capture = model.primary
+            ? result
+            : await predict(
+                db,
+                {
+                  ...model.config,
+                  backtest: { ...model.config.backtest, test_seasons: [round.season] },
+                },
+                round.season,
+                round.roundNumber,
+                round.competition,
+              );
+          if (!capture.capture_inputs) {
+            console.warn(
+              `[archive] ${label} ${model.id}: prediction runner supplied no captured inputs`,
+            );
+            continue;
+          }
           const rows = buildArchiveRows(
-            result.predictions,
-            result.capture_inputs,
+            capture.predictions,
+            capture.capture_inputs,
             {
-              modelVersion: result.model_version,
-              configHash: BAKED_CONFIG_HASH,
-              config: BAKED_CONFIG,
+              modelVersion: formatModelVersion(model.id, shortHash(model.hash)),
+              configHash: model.hash,
+              config: model.config,
               capturedAt: clock().toISOString(),
               competition: round.competition,
               season: round.season,
               roundNumber: round.roundNumber,
               firstKickoff: round.firstKickoff,
-              isPrimary: true,
+              isPrimary: model.primary,
             },
             field,
           );
           await (archive.append ?? appendPredictionArchive)(db, rows);
-        } else {
-          console.warn(`[archive] ${label}: prediction runner supplied no captured inputs`);
+        } catch (error) {
+          console.warn(
+            `[archive] ${label} ${model.id}: capture failed after primary publication`,
+            error,
+          );
         }
-      } catch (error) {
-        console.warn(`[archive] ${label}: capture failed after primary publication`, error);
       }
       published.push({ ...roundKey(round), rows: result.written });
       console.log(
