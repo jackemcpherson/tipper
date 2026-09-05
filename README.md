@@ -58,6 +58,9 @@ tipper export-tips --season 2026 --round 24
 # Compare the primary and shadows with the competition field
 tipper monitor --season 2026
 
+# Score the frozen prospective trial from at-lock archives
+tipper trial --season 2027
+
 # Manage configs
 tipper config list
 tipper config show predha-080

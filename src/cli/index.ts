@@ -10,6 +10,7 @@ import { exportTipsCommand } from "./commands/export-tips.js";
 import { monitorCommand } from "./commands/monitor.js";
 import { predictCommand } from "./commands/predict.js";
 import { publishCommand } from "./commands/publish.js";
+import { trialCommand } from "./commands/trial.js";
 
 // Single source of truth for the version: package.json sits two levels
 // above this file both in src/cli/ and in the compiled dist/cli/.
@@ -28,6 +29,7 @@ program.addCommand(monitorCommand);
 program.addCommand(predictCommand);
 program.addCommand(publishCommand);
 program.addCommand(exportTipsCommand);
+program.addCommand(trialCommand);
 
 try {
   await program.parseAsync(process.argv);
