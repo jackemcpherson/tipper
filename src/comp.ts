@@ -3,12 +3,12 @@
  *
  * Produces a JSON payload mirroring the fields Squiggle ingests per tip
  * (inferred from the read API at api.squiggle.com.au/?q=tips). The gameid
- * field is omitted because our matchId is an internal DB ID, not the
- * Squiggle canonical ID — that linkage belongs in the live-feed follow-up.
+ * field comes only from resolved Squiggle fixtures, never our internal ids.
  *
  * See docs/task-39-squiggle-submission.md for the channel spike findings.
  */
 
+import type { SquiggleGameIdentity } from "./squiggle.js";
 import type { MatchPrediction } from "./types.js";
 
 /** Maps our DB team names to Squiggle's canonical spelling where they differ. */
@@ -23,6 +23,8 @@ export function toSquiggleName(name: string): string {
 
 /** One game's entry in the comp payload. */
 export interface CompTip {
+  readonly gameid?: number;
+  readonly tipteamid?: number;
   /** Home team name (Squiggle spelling). */
   readonly hteam: string;
   /** Away team name (Squiggle spelling). */
@@ -50,7 +52,22 @@ export interface CompTip {
  * confidence / hconfidence are the win probabilities expressed as integer
  * percentages (0–100), matching Squiggle's convention.
  */
-export function toCompTip(prediction: MatchPrediction, year: number): CompTip {
+export type CompPrediction = Pick<
+  MatchPrediction,
+  | "matchId"
+  | "home"
+  | "away"
+  | "predictedWinner"
+  | "predictedMargin"
+  | "winProbability"
+  | "roundNumber"
+>;
+
+export function toCompTip(
+  prediction: CompPrediction,
+  year: number,
+  game?: SquiggleGameIdentity,
+): CompTip {
   const hteam = toSquiggleName(prediction.home);
   const ateam = toSquiggleName(prediction.away);
   const tip =
@@ -69,6 +86,12 @@ export function toCompTip(prediction: MatchPrediction, year: number): CompTip {
       : Math.round(prediction.winProbability.away * 100);
 
   return {
+    ...(game
+      ? {
+          gameid: game.id,
+          tipteamid: prediction.predictedWinner === "home" ? game.hteamid : game.ateamid,
+        }
+      : {}),
     hteam,
     ateam,
     tip,
@@ -86,7 +109,11 @@ export function toCompTip(prediction: MatchPrediction, year: number): CompTip {
  *
  * Returns a JSON string with a `tips` array, one entry per game.
  */
-export function formatTipsForComp(predictions: readonly MatchPrediction[], year: number): string {
-  const tips = predictions.map((p) => toCompTip(p, year));
+export function formatTipsForComp(
+  predictions: readonly CompPrediction[],
+  year: number,
+  games: ReadonlyMap<number, SquiggleGameIdentity> = new Map(),
+): string {
+  const tips = predictions.map((p) => toCompTip(p, year, games.get(p.matchId)));
   return JSON.stringify({ tips }, null, 2);
 }
