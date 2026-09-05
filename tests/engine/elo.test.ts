@@ -463,6 +463,15 @@ describe("updateElo with history", () => {
 });
 
 describe("applyRegression", () => {
+  it("uses the configured initial rating for teams without an explicit target", () => {
+    const state: EloState = new Map([
+      [1, 2100],
+      [2, 1900],
+    ]);
+    applyRegression(state, 0.5, new Map([[1, 1800]]), 2000);
+    expect(state.get(1)).toBe(1950);
+    expect(state.get(2)).toBe(1950);
+  });
   it("regresses all teams toward 1500", () => {
     const state: EloState = new Map([
       [1, 1600],

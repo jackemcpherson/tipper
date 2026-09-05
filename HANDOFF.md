@@ -221,3 +221,40 @@ targets). This session adds:
 - Wrangler token: if D1 returns 401, run any `wrangler` command to refresh, then retry.
 - League points-per-shot constant (3.64) is hard-coded in `elo.ts`
   (`LEAGUE_POINTS_PER_SHOT`); measured stable 3.60–3.67 across 2015–2025.
+
+## Addendum (2026-09): Task 40 campaign
+
+The adversarial campaign ran 66 variants and diagnostics across primary,
+early and 2026 windows. Keep v3. No candidate clears the corrected
+promotion standard. Plain OD remains the preferred single challenger for
+a frozen prospective 2027 trial, not an approved promotion.
+
+OD adds 18 historical tips and one full-2026 tip, but its historical
+pooled LL CI remains [-0.011012, +0.000785]. OD-shot0.75 alone clears the
+incumbent numerical gates. Its corrected-normal pooled CI includes zero,
+and it loses ten historical tips against plain OD. V4 loses six 2026 tips.
+
+Read [the Task 40 report](docs/task-40-adversarial-review-and-campaign.md)
+or [the standalone HTML](docs/task-40-report.html) for every variant,
+frozen bar, full result link, residual table and figure. Scripts are
+`analysis/task40-*.ts` and `analysis/task40_wheelo.py`. Exact input hashes
+are in `analysis/task40-integrity-results.json`; snapshots remain under
+`/tmp/tipper-task40-*`. Re-fetching data later is not an exact snapshot replay.
+
+The legacy probability function is not a normal CDF. Optional
+`output.probability_model=standard_normal` supplies the correct head.
+Live PAV training semantics, stale prior maps, warm-up prior fetching,
+unseen-venue division and malformed bootstrap pairing are repaired.
+New HA, PAV, residual-update and availability modes are optional.
+All four required historical config hashes and prediction arrays remain
+unchanged. `_current.json` and Worker files were not modified.
+
+The 2026 R14+ evidence has already been exposed, including rounds 14-17
+in earlier advisor work. Do not call it untouched confirmation for a
+September design. Archive 2027 inputs and predictions at competition lock.
+Historical post-change lineups have no deadline archive. The unused
+Task 23 first-lineup regression target is not safe evidence of a
+pre-deadline model. The entry points now exclude later first lineups from
+the season-start target, with no change to any campaign configuration.
+Weather's limited run completed, but promotion-quality
+testing is blocked by absent historical forecasts.

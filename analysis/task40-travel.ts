@@ -56,7 +56,7 @@ for (const [window, id] of [
   ["primary", "t40-baseline"],
   ["early", "t40-baseline-early"],
   ["2026", "t40-baseline-2026"],
-]) {
+] as const) {
   const predictions = await loadResult(id);
   const rows = predictions.map((p) => {
     const match = matches.get(p.matchId);
@@ -152,7 +152,7 @@ const tests = {
 const pooledBuckets = Object.fromEntries(
   Object.keys(primary.buckets).map((bucket) => [
     bucket,
-    primary.buckets[bucket].n + early.buckets[bucket].n,
+    (primary.buckets[bucket]?.n ?? 0) + (early.buckets[bucket]?.n ?? 0),
   ]),
 );
 // T26 continuity is an observed check, not permission to redefine travel flags.

@@ -146,10 +146,10 @@ outputs.pavUnits = [2015, 2019, 2020, 2025].map((year) => {
   for (const row of rows) {
     const p = computePlayerPav(state, row.player_id, row.team_id);
     [row.off_pav ?? 0, row.mid_pav ?? 0, row.def_pav ?? 0].forEach((v, i) => {
-      totals.upstream[i] += v;
+      totals.upstream[i] = (totals.upstream[i] ?? 0) + v;
     });
     [p.offPav, p.midPav, p.defPav].forEach((v, i) => {
-      totals.engine[i] += v;
+      totals.engine[i] = (totals.engine[i] ?? 0) + v;
     });
     totals.absoluteError += Math.abs(p.totalPav - (row.total_pav ?? 0));
   }

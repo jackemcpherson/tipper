@@ -2,6 +2,11 @@
 
 This changelog records material model, engine, CLI, and deployment changes.
 
+## Unreleased
+
+- Add inert research modes and audit repairs. Task 40 tests 66 variants with
+  no validated promotion candidate and keeps v3 unchanged.
+
 ## [3.4.0] - 2026-06-13
 
 This release adds research results, monitoring, and optional engine machinery.

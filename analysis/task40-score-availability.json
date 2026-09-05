@@ -1,0 +1,1415 @@
+[
+  {
+    "id": "t40-pav-day-end",
+    "modes": {
+      "legacy": {
+        "primary": {
+          "n": 1062,
+          "candidate": {
+            "matches": 1062,
+            "tips": 716,
+            "tipPct": 0.6806083650190115,
+            "maeMargin": 26.308563104911983,
+            "rmseMargin": 33.77789389193291,
+            "logLossBits": 0.8484590469474314,
+            "brier": 0.20204482046240646
+          },
+          "baseline": {
+            "matches": 1062,
+            "tips": 716,
+            "tipPct": 0.6806083650190115,
+            "maeMargin": 26.30862183673654,
+            "rmseMargin": 33.77793442844425,
+            "logLossBits": 0.8484598529648077,
+            "brier": 0.2020450497603693
+          },
+          "ll": -8.060173763979606e-7,
+          "tips": 0,
+          "closeN": 533,
+          "closeTips": 0,
+          "halfDrawLl": -8.026517739876774e-7,
+          "noDrawLl": -8.101120265724404e-7
+        },
+        "early": {
+          "n": 828,
+          "candidate": {
+            "matches": 828,
+            "tips": 554,
+            "tipPct": 0.6723300970873787,
+            "maeMargin": 28.7873424282898,
+            "rmseMargin": 35.92331410090431,
+            "logLossBits": 0.8554563402326266,
+            "brier": 0.20441265936755845
+          },
+          "baseline": {
+            "matches": 828,
+            "tips": 554,
+            "tipPct": 0.6723300970873787,
+            "maeMargin": 28.787260750276552,
+            "rmseMargin": 35.923184740361,
+            "logLossBits": 0.855452487022246,
+            "brier": 0.20441152343559474
+          },
+          "ll": 0.000003853210380655447,
+          "tips": 0,
+          "closeN": 410,
+          "closeTips": 0,
+          "halfDrawLl": 0.0000039106659596767806,
+          "noDrawLl": 0.000003890290806829455
+        },
+        "oos": {
+          "n": 97,
+          "candidate": {
+            "matches": 97,
+            "tips": 68,
+            "tipPct": 0.7157894736842105,
+            "maeMargin": 24.564858065573848,
+            "rmseMargin": 31.087000269324705,
+            "logLossBits": 0.7640174147673849,
+            "brier": 0.1795326185645092
+          },
+          "baseline": {
+            "matches": 97,
+            "tips": 68,
+            "tipPct": 0.7157894736842105,
+            "maeMargin": 24.564890422567395,
+            "rmseMargin": 31.087005083436523,
+            "logLossBits": 0.7640182843420473,
+            "brier": 0.17953277730018985
+          },
+          "ll": -8.695746623876843e-7,
+          "tips": 0,
+          "closeN": 35,
+          "closeTips": 0,
+          "halfDrawLl": -8.103625771126638e-7,
+          "noDrawLl": -8.002141882457181e-7
+        },
+        "pooled": {
+          "configA": {
+            "matches": 1890,
+            "tips": 1270,
+            "tipPct": 0.6769722814498934,
+            "maeMargin": 27.394504522772735,
+            "rmseMargin": 34.734106697315006,
+            "logLossBits": 0.8515245278152312,
+            "brier": 0.20308215941133026
+          },
+          "configB": {
+            "matches": 1890,
+            "tips": 1270,
+            "tipPct": 0.6769722814498934,
+            "maeMargin": 27.394501741716,
+            "rmseMargin": 34.73407023546453,
+            "logLossBits": 0.8515232926471141,
+            "brier": 0.20308179060856307
+          },
+          "deltas": {
+            "logLossBits": {
+              "point": 0.000001235168117119656,
+              "ci95": [
+                -0.0000014215273074213997,
+                0.000004161935205360123
+              ],
+              "excludesZero": false
+            },
+            "brier": {
+              "point": 3.6880276718664895e-7,
+              "ci95": [
+                -4.558693497691557e-7,
+                0.0000012676838645198085
+              ],
+              "excludesZero": false
+            },
+            "tipPct": {
+              "point": 0,
+              "ci95": [
+                0,
+                0
+              ],
+              "excludesZero": false
+            }
+          },
+          "nBootstrap": 1000,
+          "seed": 42
+        },
+        "extended": {
+          "configA": {
+            "matches": 1987,
+            "tips": 1338,
+            "tipPct": 0.6788432267884322,
+            "maeMargin": 27.25636878731813,
+            "rmseMargin": 34.56500037402481,
+            "logLossBits": 0.8472526657288497,
+            "brier": 0.20193253411583872
+          },
+          "configB": {
+            "matches": 1987,
+            "tips": 1338,
+            "tipPct": 0.6788432267884322,
+            "maeMargin": 27.25636772160658,
+            "rmseMargin": 34.56496573383132,
+            "logLossBits": 0.8472515333086186,
+            "brier": 0.2019321910660808
+          },
+          "deltas": {
+            "logLossBits": {
+              "point": 0.0000011324202311424614,
+              "ci95": [
+                -0.0000014506818700743551,
+                0.000003740264508333979
+              ],
+              "excludesZero": false
+            },
+            "brier": {
+              "point": 3.4304975793375547e-7,
+              "ci95": [
+                -4.780764639167323e-7,
+                0.0000011520264456554852
+              ],
+              "excludesZero": false
+            },
+            "tipPct": {
+              "point": 0,
+              "ci95": [
+                0,
+                0
+              ],
+              "excludesZero": false
+            }
+          },
+          "nBootstrap": 1000,
+          "seed": 42
+        },
+        "block": {
+          "ci95": [
+            -0.0000012164044649131807,
+            0.000003825920496710237
+          ],
+          "nonnegativeFraction": 0.837
+        },
+        "windowCi": [
+          {
+            "ll": [
+              -0.0000034449744459025064,
+              0.0000016992887110613118
+            ],
+            "tips": [
+              0,
+              0
+            ],
+            "llSe": 0.0000013231763106996843,
+            "tipSe": 0,
+            "iid80PowerLl": 0.0000037069909044115753,
+            "iid80PowerTips": 0
+          },
+          {
+            "ll": [
+              -0.000001011898526937154,
+              0.000009453645880779984
+            ],
+            "tips": [
+              0,
+              0
+            ],
+            "llSe": 0.0000027292870851312756,
+            "tipSe": 0,
+            "iid80PowerLl": 0.000007646329758397505,
+            "iid80PowerTips": 0
+          },
+          {
+            "ll": [
+              -0.0000023155040943365896,
+              6.136284951148816e-7
+            ],
+            "tips": [
+              0,
+              0
+            ],
+            "llSe": 7.466571041316426e-7,
+            "tipSe": 0,
+            "iid80PowerLl": 0.000002091823343078648,
+            "iid80PowerTips": 0
+          }
+        ],
+        "power": {
+          "ll": [
+            -0.0000014714671342068757,
+            0.000004159443204826441
+          ],
+          "tips": [
+            0,
+            0
+          ],
+          "llSe": 0.0000014085772823653777,
+          "tipSe": 0,
+          "iid80PowerLl": 0.000003946248985615607,
+          "iid80PowerTips": 0
+        },
+        "roundNullP": 0.8248,
+        "gates": {
+          "primary": false,
+          "early": false,
+          "pooledCI": false,
+          "pooledTips": true,
+          "recentTips": true,
+          "oos": true,
+          "consensus": true,
+          "bias": true
+        },
+        "incumbentPass": false,
+        "correctedNumericalPass": false
+      },
+      "standard_normal": {
+        "primary": {
+          "n": 1062,
+          "candidate": {
+            "matches": 1062,
+            "tips": 716,
+            "tipPct": 0.6806083650190115,
+            "maeMargin": 26.308563104911983,
+            "rmseMargin": 33.77789389193291,
+            "logLossBits": 0.8532885938306046,
+            "brier": 0.20317220363886498
+          },
+          "baseline": {
+            "matches": 1062,
+            "tips": 716,
+            "tipPct": 0.6806083650190115,
+            "maeMargin": 26.30862183673654,
+            "rmseMargin": 33.77793442844425,
+            "logLossBits": 0.8532893571675149,
+            "brier": 0.20317244925575395
+          },
+          "ll": -7.633369102366672e-7,
+          "tips": 0,
+          "closeN": 533,
+          "closeTips": 0,
+          "halfDrawLl": -7.61018830807275e-7,
+          "noDrawLl": -7.681111592328094e-7
+        },
+        "early": {
+          "n": 828,
+          "candidate": {
+            "matches": 828,
+            "tips": 554,
+            "tipPct": 0.6723300970873787,
+            "maeMargin": 28.7873424282898,
+            "rmseMargin": 35.92331410090431,
+            "logLossBits": 0.8609110962228275,
+            "brier": 0.20552753089441433
+          },
+          "baseline": {
+            "matches": 828,
+            "tips": 554,
+            "tipPct": 0.6723300970873787,
+            "maeMargin": 28.787260750276552,
+            "rmseMargin": 35.923184740361,
+            "logLossBits": 0.8609077101920484,
+            "brier": 0.20552650298081526
+          },
+          "ll": 0.0000033860307790956057,
+          "tips": 0,
+          "closeN": 410,
+          "closeTips": 0,
+          "halfDrawLl": 0.0000034355637551363423,
+          "noDrawLl": 0.000003424355774384047
+        },
+        "oos": {
+          "n": 97,
+          "candidate": {
+            "matches": 97,
+            "tips": 68,
+            "tipPct": 0.7157894736842105,
+            "maeMargin": 24.564858065573848,
+            "rmseMargin": 31.087000269324705,
+            "logLossBits": 0.7723361886882865,
+            "brier": 0.18056291251764423
+          },
+          "baseline": {
+            "matches": 97,
+            "tips": 68,
+            "tipPct": 0.7157894736842105,
+            "maeMargin": 24.564890422567395,
+            "rmseMargin": 31.087005083436523,
+            "logLossBits": 0.7723372161859909,
+            "brier": 0.18056310779194273
+          },
+          "ll": -0.0000010274977044755218,
+          "tips": 0,
+          "closeN": 35,
+          "closeTips": 0,
+          "halfDrawLl": -9.742008305121066e-7,
+          "noDrawLl": -9.747220549582991e-7
+        },
+        "pooled": {
+          "configA": {
+            "matches": 1890,
+            "tips": 1270,
+            "tipPct": 0.6769722814498934,
+            "maeMargin": 27.394504522772735,
+            "rmseMargin": 34.734106697315006,
+            "logLossBits": 0.8566279758310084,
+            "brier": 0.20420406129367696
+          },
+          "configB": {
+            "matches": 1890,
+            "tips": 1270,
+            "tipPct": 0.6769722814498934,
+            "maeMargin": 27.394501741716,
+            "rmseMargin": 34.73407023546453,
+            "logLossBits": 0.856626921349693,
+            "brier": 0.20420374898292348
+          },
+          "deltas": {
+            "logLossBits": {
+              "point": 0.0000010544813153767763,
+              "ci95": [
+                -0.0000012007094066790458,
+                0.0000035636342772260576
+              ],
+              "excludesZero": false
+            },
+            "brier": {
+              "point": 3.123107534808156e-7,
+              "ci95": [
+                -4.107790341212336e-7,
+                0.0000010912885652913928
+              ],
+              "excludesZero": false
+            },
+            "tipPct": {
+              "point": 0,
+              "ci95": [
+                0,
+                0
+              ],
+              "excludesZero": false
+            }
+          },
+          "nBootstrap": 1000,
+          "seed": 42
+        },
+        "extended": {
+          "configA": {
+            "matches": 1987,
+            "tips": 1338,
+            "tipPct": 0.6788432267884322,
+            "maeMargin": 27.25636878731813,
+            "rmseMargin": 34.56500037402481,
+            "logLossBits": 0.8525130773142277,
+            "brier": 0.20304996394527472
+          },
+          "configB": {
+            "matches": 1987,
+            "tips": 1338,
+            "tipPct": 0.6788432267884322,
+            "maeMargin": 27.25636772160658,
+            "rmseMargin": 34.56496573383132,
+            "logLossBits": 0.8525121244695325,
+            "brier": 0.20304967641345942
+          },
+          "deltas": {
+            "logLossBits": {
+              "point": 9.528446951456715e-7,
+              "ci95": [
+                -0.0000012457184696001988,
+                0.000003187763719991743
+              ],
+              "excludesZero": false
+            },
+            "brier": {
+              "point": 2.8753181530172256e-7,
+              "ci95": [
+                -4.08043800914637e-7,
+                9.963286308756203e-7
+              ],
+              "excludesZero": false
+            },
+            "tipPct": {
+              "point": 0,
+              "ci95": [
+                0,
+                0
+              ],
+              "excludesZero": false
+            }
+          },
+          "nBootstrap": 1000,
+          "seed": 42
+        },
+        "block": {
+          "ci95": [
+            -0.0000011288712113627679,
+            0.0000032674744048247415
+          ],
+          "nonnegativeFraction": 0.829
+        },
+        "windowCi": [
+          {
+            "ll": [
+              -0.000003020668904188604,
+              0.000001482872487059136
+            ],
+            "tips": [
+              0,
+              0
+            ],
+            "llSe": 0.000001136782766127825,
+            "tipSe": 0,
+            "iid80PowerLl": 0.0000031847935458422224,
+            "iid80PowerTips": 0
+          },
+          {
+            "ll": [
+              -7.346546200383664e-7,
+              0.0000080742196969231
+            ],
+            "tips": [
+              0,
+              0
+            ],
+            "llSe": 0.000002281179817040715,
+            "tipSe": 0,
+            "iid80PowerLl": 0.000006390919157724012,
+            "iid80PowerTips": 0
+          },
+          {
+            "ll": [
+              -0.000002430988527207686,
+              3.989516545732652e-7
+            ],
+            "tips": [
+              0,
+              0
+            ],
+            "llSe": 7.28881797818864e-7,
+            "tipSe": 0,
+            "iid80PowerLl": 0.0000020420243115423623,
+            "iid80PowerTips": 0
+          }
+        ],
+        "power": {
+          "ll": [
+            -0.0000012947486110524262,
+            0.0000034998600904901386
+          ],
+          "tips": [
+            0,
+            0
+          ],
+          "llSe": 0.0000011866611017140312,
+          "tipSe": 0,
+          "iid80PowerLl": 0.0000033245319426455045,
+          "iid80PowerTips": 0
+        },
+        "roundNullP": 0.8242,
+        "gates": {
+          "primary": false,
+          "early": false,
+          "pooledCI": false,
+          "pooledTips": true,
+          "recentTips": true,
+          "oos": true,
+          "consensus": true,
+          "bias": true
+        },
+        "incumbentPass": false,
+        "correctedNumericalPass": false
+      }
+    },
+    "recent": {
+      "n": 643,
+      "candidate": {
+        "matches": 643,
+        "tips": 447,
+        "tipPct": 0.7028301886792453,
+        "maeMargin": 26.047575793129194,
+        "rmseMargin": 33.46220907824709,
+        "logLossBits": 0.7949124550512159,
+        "brier": 0.18770073021996378
+      },
+      "baseline": {
+        "matches": 643,
+        "tips": 447,
+        "tipPct": 0.7028301886792453,
+        "maeMargin": 26.047582789782084,
+        "rmseMargin": 33.46221472212049,
+        "logLossBits": 0.79491296556518,
+        "brier": 0.18770082578838768
+      },
+      "ll": -5.105139641026213e-7,
+      "tips": 0,
+      "closeN": 302,
+      "closeTips": 0,
+      "halfDrawLl": -4.959710447608889e-7,
+      "noDrawLl": -4.97043060931901e-7
+    },
+    "current": {
+      "n": 211,
+      "candidate": {
+        "matches": 211,
+        "tips": 152,
+        "tipPct": 0.7307692307692307,
+        "maeMargin": 25.381830999574756,
+        "rmseMargin": 32.58445767375578,
+        "logLossBits": 0.7773659960049953,
+        "brier": 0.18251393402168278
+      },
+      "baseline": {
+        "matches": 211,
+        "tips": 152,
+        "tipPct": 0.7307692307692307,
+        "maeMargin": 25.381837164116728,
+        "rmseMargin": 32.584451209866,
+        "logLossBits": 0.7773664018874353,
+        "brier": 0.18251399831882906
+      },
+      "ll": -4.0588243999106766e-7,
+      "tips": 0,
+      "closeN": 83,
+      "closeTips": 0,
+      "halfDrawLl": -3.786617180980981e-7,
+      "noDrawLl": -3.7169615607623996e-7
+    },
+    "burned": {
+      "n": 114,
+      "candidate": {
+        "matches": 114,
+        "tips": 84,
+        "tipPct": 0.7433628318584071,
+        "maeMargin": 26.07697463640007,
+        "rmseMargin": 33.806419802207564,
+        "logLossBits": 0.788723999338752,
+        "brier": 0.18505066734927797
+      },
+      "baseline": {
+        "matches": 114,
+        "tips": 84,
+        "tipPct": 0.7433628318584071,
+        "maeMargin": 26.076958514382365,
+        "rmseMargin": 33.80640450406861,
+        "logLossBits": 0.7887240106760548,
+        "brier": 0.18505065129082912
+      },
+      "ll": -1.133730276325906e-8,
+      "tips": 0,
+      "closeN": 48,
+      "closeTips": 0,
+      "halfDrawLl": -1.1337302971669348e-8,
+      "noDrawLl": -1.1437633062882924e-8
+    },
+    "consensus": {
+      "n": 342,
+      "candidate": {
+        "matches": 342,
+        "tips": 40,
+        "tipPct": 0.11695906432748537,
+        "maeMargin": 31.517386868001395,
+        "rmseMargin": 36.72914357227261,
+        "logLossBits": 1.519911656239373,
+        "brier": 0.41304173670305216
+      },
+      "baseline": {
+        "matches": 342,
+        "tips": 40,
+        "tipPct": 0.11695906432748537,
+        "maeMargin": 31.517417260162137,
+        "rmseMargin": 36.72916106792105,
+        "logLossBits": 1.519913299417272,
+        "brier": 0.41304219107865114
+      },
+      "ll": -0.0000016431778988579282,
+      "tips": 0,
+      "closeN": 216,
+      "closeTips": 0,
+      "halfDrawLl": -0.0000016431778988371522,
+      "noDrawLl": -0.0000016431778988579282
+    },
+    "consensusPrimary": {
+      "n": 291,
+      "candidate": {
+        "matches": 291,
+        "tips": 34,
+        "tipPct": 0.11683848797250859,
+        "maeMargin": 31.312311873892003,
+        "rmseMargin": 36.50585767558271,
+        "logLossBits": 1.5153991763122112,
+        "brier": 0.41109566663327096
+      },
+      "baseline": {
+        "matches": 291,
+        "tips": 34,
+        "tipPct": 0.11683848797250859,
+        "maeMargin": 31.312350157172474,
+        "rmseMargin": 36.505883268843185,
+        "logLossBits": 1.5154012725199582,
+        "brier": 0.4110962331802046
+      },
+      "ll": -0.0000020962077469377505,
+      "tips": 0,
+      "closeN": 190,
+      "closeTips": 0,
+      "halfDrawLl": -0.0000020962077475474194,
+      "noDrawLl": -0.0000020962077469377505
+    },
+    "consensus2026": {
+      "n": 51,
+      "candidate": {
+        "matches": 51,
+        "tips": 6,
+        "tipPct": 0.11764705882352941,
+        "maeMargin": 32.68752065791966,
+        "rmseMargin": 37.978079631078906,
+        "logLossBits": 1.5456593358237731,
+        "brier": 0.424145783571804
+      },
+      "baseline": {
+        "matches": 51,
+        "tips": 6,
+        "tipPct": 0.11764705882352941,
+        "maeMargin": 32.68750602427966,
+        "rmseMargin": 37.978052725341094,
+        "logLossBits": 1.5456583940666524,
+        "brier": 0.42414559791096396
+      },
+      "ll": 9.417571207315234e-7,
+      "tips": 0,
+      "closeN": 26,
+      "closeTips": 0,
+      "halfDrawLl": 9.417571202613113e-7,
+      "noDrawLl": 9.417571207315234e-7
+    },
+    "consensusOos": {
+      "n": 23,
+      "candidate": {
+        "matches": 23,
+        "tips": 2,
+        "tipPct": 0.08695652173913043,
+        "maeMargin": 33.773114103573405,
+        "rmseMargin": 39.14178719502198,
+        "logLossBits": 1.5134649189909815,
+        "brier": 0.415458636035745
+      },
+      "baseline": {
+        "matches": 23,
+        "tips": 2,
+        "tipPct": 0.08695652173913043,
+        "maeMargin": 33.77309205781267,
+        "rmseMargin": 39.141739699008916,
+        "logLossBits": 1.5134635042940114,
+        "brier": 0.4154583523421436
+      },
+      "ll": 0.0000014146969700146172,
+      "tips": 0,
+      "closeN": 13,
+      "closeTips": 0,
+      "halfDrawLl": 0.0000014146969700242713,
+      "noDrawLl": 0.0000014146969700146172
+    },
+    "teams": [
+      {
+        "name": "Adelaide",
+        "n": 208,
+        "candidateBias": 6.362777879063557,
+        "baselineBias": 6.362818998572329,
+        "worsening": -0.00004111950877162284
+      },
+      {
+        "name": "Brisbane Lions",
+        "n": 219,
+        "candidateBias": -1.7690496100883881,
+        "baselineBias": -1.7689841316491646,
+        "worsening": 0.00006547843922344867
+      },
+      {
+        "name": "Carlton",
+        "n": 205,
+        "candidateBias": -0.8247275906783412,
+        "baselineBias": -0.8245532881096344,
+        "worsening": 0.00017430256870694591
+      },
+      {
+        "name": "Collingwood",
+        "n": 215,
+        "candidateBias": 1.8780758502382786,
+        "baselineBias": 1.877956849416285,
+        "worsening": 0.00011900082199354286
+      },
+      {
+        "name": "Essendon",
+        "n": 204,
+        "candidateBias": -5.1112711465245,
+        "baselineBias": -5.111393870274721,
+        "worsening": -0.00012272375022014196
+      },
+      {
+        "name": "Fremantle",
+        "n": 204,
+        "candidateBias": -3.8341909834411183,
+        "baselineBias": -3.8342898923092132,
+        "worsening": -0.00009890886809504242
+      },
+      {
+        "name": "Geelong",
+        "n": 221,
+        "candidateBias": 8.678471185700161,
+        "baselineBias": 8.67844175984212,
+        "worsening": 0.000029425858042178
+      },
+      {
+        "name": "Gold Coast",
+        "n": 203,
+        "candidateBias": -5.9392634019268655,
+        "baselineBias": -5.939184213338584,
+        "worsening": 0.00007918858828108273
+      },
+      {
+        "name": "GWS Giants",
+        "n": 220,
+        "candidateBias": 6.445378057574077,
+        "baselineBias": 6.445352731765958,
+        "worsening": 0.000025325808119511998
+      },
+      {
+        "name": "Hawthorn",
+        "n": 210,
+        "candidateBias": 2.662559557338197,
+        "baselineBias": 2.662364279427301,
+        "worsening": 0.0001952779108954755
+      },
+      {
+        "name": "Melbourne",
+        "n": 211,
+        "candidateBias": 0.9008467554336482,
+        "baselineBias": 0.900833946019769,
+        "worsening": 0.000012809413879341949
+      },
+      {
+        "name": "North Melbourne",
+        "n": 202,
+        "candidateBias": -6.037750989943465,
+        "baselineBias": -6.03757336241157,
+        "worsening": 0.0001776275318947552
+      },
+      {
+        "name": "Port Adelaide",
+        "n": 209,
+        "candidateBias": 0.33143913586702917,
+        "baselineBias": 0.3313977458420734,
+        "worsening": 0.00004139002495580271
+      },
+      {
+        "name": "Richmond",
+        "n": 210,
+        "candidateBias": -2.4043830508119037,
+        "baselineBias": -2.40423773931347,
+        "worsening": 0.00014531149843367616
+      },
+      {
+        "name": "St Kilda",
+        "n": 202,
+        "candidateBias": -3.9559288311403304,
+        "baselineBias": -3.9558778458877315,
+        "worsening": 0.00005098525259924854
+      },
+      {
+        "name": "Sydney",
+        "n": 216,
+        "candidateBias": 3.566933840605761,
+        "baselineBias": 3.567014359558786,
+        "worsening": -0.00008051895302527455
+      },
+      {
+        "name": "West Coast",
+        "n": 209,
+        "candidateBias": -7.764929776421434,
+        "baselineBias": -7.765044456785758,
+        "worsening": -0.0001146803643236448
+      },
+      {
+        "name": "Western Bulldogs",
+        "n": 212,
+        "candidateBias": 5.101112173806626,
+        "baselineBias": 5.1010669645860744,
+        "worsening": 0.00004520922055166492
+      }
+    ],
+    "extendedTeams": [
+      {
+        "name": "Adelaide",
+        "n": 231,
+        "candidateBias": 6.348032269994818,
+        "baselineBias": 6.348086214265714,
+        "worsening": -0.000053944270895709995
+      },
+      {
+        "name": "Brisbane Lions",
+        "n": 242,
+        "candidateBias": -1.2109770493444176,
+        "baselineBias": -1.2109144297063599,
+        "worsening": 0.00006261963805786387
+      },
+      {
+        "name": "Carlton",
+        "n": 230,
+        "candidateBias": 0.314514181744614,
+        "baselineBias": 0.31467472061448265,
+        "worsening": -0.0001605388698686862
+      },
+      {
+        "name": "Collingwood",
+        "n": 239,
+        "candidateBias": 1.112853803774381,
+        "baselineBias": 1.1127525534216542,
+        "worsening": 0.00010125035272665886
+      },
+      {
+        "name": "Essendon",
+        "n": 227,
+        "candidateBias": -5.7846214285301,
+        "baselineBias": -5.784744423589866,
+        "worsening": -0.00012299505976647805
+      },
+      {
+        "name": "Fremantle",
+        "n": 228,
+        "candidateBias": -2.837711924691722,
+        "baselineBias": -2.8377886872468157,
+        "worsening": -0.00007676255509387262
+      },
+      {
+        "name": "Geelong",
+        "n": 245,
+        "candidateBias": 8.269052699598957,
+        "baselineBias": 8.269032243833335,
+        "worsening": 0.000020455765620774437
+      },
+      {
+        "name": "Gold Coast",
+        "n": 226,
+        "candidateBias": -6.215821232205578,
+        "baselineBias": -6.215746294515296,
+        "worsening": 0.00007493769028234514
+      },
+      {
+        "name": "GWS Giants",
+        "n": 243,
+        "candidateBias": 5.563133108104544,
+        "baselineBias": 5.5630975040008535,
+        "worsening": 0.00003560410369038002
+      },
+      {
+        "name": "Hawthorn",
+        "n": 234,
+        "candidateBias": 2.7471328332721168,
+        "baselineBias": 2.7469628716906107,
+        "worsening": 0.00016996158150598206
+      },
+      {
+        "name": "Melbourne",
+        "n": 235,
+        "candidateBias": 1.4981145419326336,
+        "baselineBias": 1.4981043136701502,
+        "worsening": 0.000010228262483403168
+      },
+      {
+        "name": "North Melbourne",
+        "n": 225,
+        "candidateBias": -5.961830179862005,
+        "baselineBias": -5.961669275274177,
+        "worsening": 0.00016090458782855421
+      },
+      {
+        "name": "Port Adelaide",
+        "n": 232,
+        "candidateBias": 0.058736464029389764,
+        "baselineBias": 0.05870440280511599,
+        "worsening": 0.00003206122427377473
+      },
+      {
+        "name": "Richmond",
+        "n": 233,
+        "candidateBias": -3.5189351134826024,
+        "baselineBias": -3.5188365691149737,
+        "worsening": 0.0000985443676286644
+      },
+      {
+        "name": "St Kilda",
+        "n": 225,
+        "candidateBias": -3.303483004553805,
+        "baselineBias": -3.3034419340757157,
+        "worsening": 0.00004107047808904301
+      },
+      {
+        "name": "Sydney",
+        "n": 239,
+        "candidateBias": 4.914593297562465,
+        "baselineBias": 4.914671975035307,
+        "worsening": -0.00007867747284150355
+      },
+      {
+        "name": "West Coast",
+        "n": 232,
+        "candidateBias": -7.358089614786028,
+        "baselineBias": -7.3582070461002065,
+        "worsening": -0.00011743131417833395
+      },
+      {
+        "name": "Western Bulldogs",
+        "n": 236,
+        "candidateBias": 3.830753712016245,
+        "baselineBias": 3.8307175123354176,
+        "worsening": 0.00003619968082741746
+      }
+    ],
+    "venues": [
+      {
+        "name": "Accor Stadium",
+        "n": 2,
+        "candidateBias": -31.221288917502417,
+        "baselineBias": -31.221288917502417,
+        "worsening": 0
+      },
+      {
+        "name": "Adelaide Oval",
+        "n": 251,
+        "candidateBias": 5.727614982151568,
+        "baselineBias": 5.727740319677382,
+        "worsening": -0.00012533752581464838
+      },
+      {
+        "name": "Barossa Park",
+        "n": 7,
+        "candidateBias": -2.214084245516052,
+        "baselineBias": -2.2140838094009143,
+        "worsening": 4.361151379076286e-7
+      },
+      {
+        "name": "Blundstone Arena",
+        "n": 10,
+        "candidateBias": 19.38757960410082,
+        "baselineBias": 19.387571439181833,
+        "worsening": 0.000008164918986608427
+      },
+      {
+        "name": "Carrara",
+        "n": 96,
+        "candidateBias": -1.646085404079395,
+        "baselineBias": -1.6459278102623658,
+        "worsening": 0.000157593817029363
+      },
+      {
+        "name": "Cazalys Stadium",
+        "n": 5,
+        "candidateBias": 8.743156418412163,
+        "baselineBias": 8.743113580569126,
+        "worsening": 0.00004283784303567017
+      },
+      {
+        "name": "Domain Stadium",
+        "n": 23,
+        "candidateBias": 3.3874573310221603,
+        "baselineBias": 3.386633392020306,
+        "worsening": 0.0008239390018542034
+      },
+      {
+        "name": "Gabba",
+        "n": 118,
+        "candidateBias": -1.4880923112489621,
+        "baselineBias": -1.4877988147415246,
+        "worsening": 0.0002934965074373722
+      },
+      {
+        "name": "Hands Oval",
+        "n": 2,
+        "candidateBias": -53.312662336660495,
+        "baselineBias": -53.312662336660495,
+        "worsening": 0
+      },
+      {
+        "name": "Jiangwan Stadium",
+        "n": 3,
+        "candidateBias": -57.46702646525872,
+        "baselineBias": -57.46702646525872,
+        "worsening": 0
+      },
+      {
+        "name": "Kardinia Park",
+        "n": 91,
+        "candidateBias": 15.330528745271812,
+        "baselineBias": 15.330660303224494,
+        "worsening": -0.0001315579526822598
+      },
+      {
+        "name": "Manuka Oval",
+        "n": 30,
+        "candidateBias": 3.068411460717681,
+        "baselineBias": 3.068297394311938,
+        "worsening": 0.00011406640574307403
+      },
+      {
+        "name": "Mars Stadium",
+        "n": 15,
+        "candidateBias": 9.40155276164827,
+        "baselineBias": 9.401679634680642,
+        "worsening": -0.0001268730323715772
+      },
+      {
+        "name": "Marvel Stadium",
+        "n": 443,
+        "candidateBias": -3.9503549355538126,
+        "baselineBias": -3.9502704954383723,
+        "worsening": 0.00008444011544005482
+      },
+      {
+        "name": "MCG",
+        "n": 498,
+        "candidateBias": -2.8213548598308567,
+        "baselineBias": -2.82131594711024,
+        "worsening": 0.00003891272061686922
+      },
+      {
+        "name": "Ninja Stadium",
+        "n": 24,
+        "candidateBias": -4.270703805707758,
+        "baselineBias": -4.270423882479373,
+        "worsening": 0.000279923228385807
+      },
+      {
+        "name": "Norwood Oval",
+        "n": 8,
+        "candidateBias": 0.7634390851125259,
+        "baselineBias": 0.7634928488877346,
+        "worsening": -0.000053763775208715
+      },
+      {
+        "name": "Perth Stadium",
+        "n": 188,
+        "candidateBias": -2.7254663623047053,
+        "baselineBias": -2.7254863972780083,
+        "worsening": -0.000020034973303193102
+      },
+      {
+        "name": "Riverway Stadium",
+        "n": 1,
+        "candidateBias": -0.8136625418423837,
+        "baselineBias": -0.8136625418423837,
+        "worsening": 0
+      },
+      {
+        "name": "SCG",
+        "n": 116,
+        "candidateBias": 4.062177793939997,
+        "baselineBias": 4.062367634749875,
+        "worsening": -0.00018984080987859766
+      },
+      {
+        "name": "Subiaco",
+        "n": 22,
+        "candidateBias": -0.7891954684857477,
+        "baselineBias": -0.7891017004341863,
+        "worsening": 0.00009376805156142092
+      },
+      {
+        "name": "Sydney Showground",
+        "n": 81,
+        "candidateBias": 11.665685837769885,
+        "baselineBias": 11.665532335874863,
+        "worsening": 0.00015350189502397023
+      },
+      {
+        "name": "TIO Stadium",
+        "n": 14,
+        "candidateBias": 22.28651814663525,
+        "baselineBias": 22.28671000690574,
+        "worsening": -0.0001918602704904515
+      },
+      {
+        "name": "Traeger Park",
+        "n": 9,
+        "candidateBias": -18.904903669470816,
+        "baselineBias": -18.90474711392676,
+        "worsening": 0.0001565555440568763
+      },
+      {
+        "name": "UTAS Stadium",
+        "n": 44,
+        "candidateBias": 4.987683163087487,
+        "baselineBias": 4.987376931028532,
+        "worsening": 0.00030623205895546397
+      }
+    ],
+    "seasons": {
+      "2016": {
+        "n": 207,
+        "candidate": {
+          "matches": 207,
+          "tips": 144,
+          "tipPct": 0.6956521739130435,
+          "maeMargin": 31.49479649101135,
+          "rmseMargin": 38.42697260304024,
+          "logLossBits": 0.7901826636299804,
+          "brier": 0.1844977371619064
+        },
+        "baseline": {
+          "matches": 207,
+          "tips": 144,
+          "tipPct": 0.6956521739130435,
+          "maeMargin": 31.494490403940368,
+          "rmseMargin": 38.42646290878964,
+          "logLossBits": 0.7901671580657257,
+          "brier": 0.18449312477474342
+        },
+        "ll": 0.000015505564254669757,
+        "tips": 0,
+        "closeN": 102,
+        "closeTips": 0,
+        "halfDrawLl": 0.00001550556425488161,
+        "noDrawLl": 0.000015505564254669757
+      },
+      "2017": {
+        "n": 207,
+        "candidate": {
+          "matches": 207,
+          "tips": 132,
+          "tipPct": 0.6470588235294118,
+          "maeMargin": 28.564526437376433,
+          "rmseMargin": 35.43471492435063,
+          "logLossBits": 0.8798624314912062,
+          "brier": 0.2120910738892701
+        },
+        "baseline": {
+          "matches": 207,
+          "tips": 132,
+          "tipPct": 0.6470588235294118,
+          "maeMargin": 28.564527321745036,
+          "rmseMargin": 35.4347658617433,
+          "logLossBits": 0.8798642810245303,
+          "brier": 0.2120915917496096
+        },
+        "ll": -0.0000018495333240498013,
+        "tips": 0,
+        "closeN": 98,
+        "closeTips": 0,
+        "halfDrawLl": -0.0000016197110071859707,
+        "noDrawLl": -0.0000018025096483187397
+      },
+      "2018": {
+        "n": 207,
+        "candidate": {
+          "matches": 207,
+          "tips": 143,
+          "tipPct": 0.6941747572815534,
+          "maeMargin": 27.729706997229027,
+          "rmseMargin": 34.839213343099374,
+          "logLossBits": 0.8349134676305665,
+          "brier": 0.19757715540630305
+        },
+        "baseline": {
+          "matches": 207,
+          "tips": 143,
+          "tipPct": 0.6941747572815534,
+          "maeMargin": 27.72966807784866,
+          "rmseMargin": 34.839177127581046,
+          "logLossBits": 0.8349117427294613,
+          "brier": 0.19757673544069537
+        },
+        "ll": 0.000001724901105171206,
+        "tips": 0,
+        "closeN": 99,
+        "closeTips": 0,
+        "halfDrawLl": 0.0000017249011045216988,
+        "noDrawLl": 0.0000017332744115527987
+      },
+      "2019": {
+        "n": 207,
+        "candidate": {
+          "matches": 207,
+          "tips": 135,
+          "tipPct": 0.6521739130434783,
+          "maeMargin": 27.360339787542497,
+          "rmseMargin": 34.86998641235939,
+          "logLossBits": 0.9168667981787505,
+          "brier": 0.22348467101275413
+        },
+        "baseline": {
+          "matches": 207,
+          "tips": 135,
+          "tipPct": 0.6521739130434783,
+          "maeMargin": 27.360357197572245,
+          "rmseMargin": 34.869999444741865,
+          "logLossBits": 0.916866766269265,
+          "brier": 0.22348464177732882
+        },
+        "ll": 3.190948549836037e-8,
+        "tips": 0,
+        "closeN": 111,
+        "closeTips": 0,
+        "halfDrawLl": 3.190948649058867e-8,
+        "noDrawLl": 3.190948549836037e-8
+      },
+      "2021": {
+        "n": 207,
+        "candidate": {
+          "matches": 207,
+          "tips": 131,
+          "tipPct": 0.6421568627450981,
+          "maeMargin": 26.875141990851702,
+          "rmseMargin": 34.537602707877525,
+          "logLossBits": 0.9427537856608046,
+          "brier": 0.22879476977877655
+        },
+        "baseline": {
+          "matches": 207,
+          "tips": 131,
+          "tipPct": 0.6421568627450981,
+          "maeMargin": 26.87541063799535,
+          "rmseMargin": 34.53776217800215,
+          "logLossBits": 0.9427575306181994,
+          "brier": 0.22879588043010018
+        },
+        "ll": -0.0000037449573948578063,
+        "tips": 0,
+        "closeN": 101,
+        "closeTips": 0,
+        "halfDrawLl": -0.0000037451180467403707,
+        "noDrawLl": -0.000003800324887781592
+      },
+      "2022": {
+        "n": 207,
+        "candidate": {
+          "matches": 207,
+          "tips": 146,
+          "tipPct": 0.7087378640776699,
+          "maeMargin": 25.597609365389573,
+          "rmseMargin": 32.19368893593153,
+          "logLossBits": 0.8227660644141246,
+          "brier": 0.1934059413158754
+        },
+        "baseline": {
+          "matches": 207,
+          "tips": 146,
+          "tipPct": 0.7087378640776699,
+          "maeMargin": 25.59755079118132,
+          "rmseMargin": 32.193653037992405,
+          "logLossBits": 0.8227644976717382,
+          "brier": 0.1934055812676621
+        },
+        "ll": 0.000001566742386382991,
+        "tips": 0,
+        "closeN": 102,
+        "closeTips": 0,
+        "halfDrawLl": 0.0000015667423865530106,
+        "noDrawLl": 0.000001574347931909692
+      },
+      "2023": {
+        "n": 216,
+        "candidate": {
+          "matches": 216,
+          "tips": 144,
+          "tipPct": 0.6728971962616822,
+          "maeMargin": 26.318562928716464,
+          "rmseMargin": 34.31019248129319,
+          "logLossBits": 0.8726685900545507,
+          "brier": 0.20830982722972585
+        },
+        "baseline": {
+          "matches": 216,
+          "tips": 144,
+          "tipPct": 0.6728971962616822,
+          "maeMargin": 26.318635567469453,
+          "rmseMargin": 34.310244752577205,
+          "logLossBits": 0.8726693422798427,
+          "brier": 0.2083100135991433
+        },
+        "ll": -7.522252920555417e-7,
+        "tips": 0,
+        "closeN": 111,
+        "closeTips": 0,
+        "halfDrawLl": -7.522252919116239e-7,
+        "noDrawLl": -7.592554350788205e-7
+      },
+      "2024": {
+        "n": 216,
+        "candidate": {
+          "matches": 216,
+          "tips": 140,
+          "tipPct": 0.6572769953051644,
+          "maeMargin": 26.193424954248947,
+          "rmseMargin": 33.74068408431496,
+          "logLossBits": 0.8394099848362283,
+          "brier": 0.20128539063033132
+        },
+        "baseline": {
+          "matches": 216,
+          "tips": 140,
+          "tipPct": 0.6572769953051644,
+          "maeMargin": 26.19345011894063,
+          "rmseMargin": 33.74069653758807,
+          "logLossBits": 0.8394109218248117,
+          "brier": 0.20128566893334396
+        },
+        "ll": -9.369885833887537e-7,
+        "tips": 0,
+        "closeN": 111,
+        "closeTips": 0,
+        "halfDrawLl": -9.190701525282794e-7,
+        "noDrawLl": -9.319352619607812e-7
+      },
+      "2025": {
+        "n": 216,
+        "candidate": {
+          "matches": 216,
+          "tips": 155,
+          "tipPct": 0.7209302325581395,
+          "maeMargin": 26.55206066645384,
+          "rmseMargin": 34.02404601952073,
+          "logLossBits": 0.7675552162789477,
+          "brier": 0.17918280128106492
+        },
+        "baseline": {
+          "matches": 216,
+          "tips": 155,
+          "tipPct": 0.7209302325581395,
+          "maeMargin": 26.55205030791693,
+          "rmseMargin": 34.02405624060109,
+          "logLossBits": 0.7675554025277906,
+          "brier": 0.17918274466230563
+        },
+        "ll": -1.862488429038578e-7,
+        "tips": 0,
+        "closeN": 108,
+        "closeTips": 0,
+        "halfDrawLl": -1.8746576998353972e-7,
+        "noDrawLl": -1.8746221108756345e-7
+      },
+      "2026": {
+        "n": 211,
+        "candidate": {
+          "matches": 211,
+          "tips": 152,
+          "tipPct": 0.7307692307692307,
+          "maeMargin": 25.381830999574756,
+          "rmseMargin": 32.58445767375578,
+          "logLossBits": 0.7773659960049953,
+          "brier": 0.18251393402168278
+        },
+        "baseline": {
+          "matches": 211,
+          "tips": 152,
+          "tipPct": 0.7307692307692307,
+          "maeMargin": 25.381837164116728,
+          "rmseMargin": 32.584451209866,
+          "logLossBits": 0.7773664018874353,
+          "brier": 0.18251399831882906
+        },
+        "ll": -4.0588243999106766e-7,
+        "tips": 0,
+        "closeN": 83,
+        "closeTips": 0,
+        "halfDrawLl": -3.786617180980981e-7,
+        "noDrawLl": -3.7169615607623996e-7
+      }
+    }
+  }
+]

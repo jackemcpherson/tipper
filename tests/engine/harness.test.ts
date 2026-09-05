@@ -87,6 +87,32 @@ const TEST_SEASON = new Set([2]);
 const TRAIN_SEASON = new Set([1]);
 
 describe("campaign boundary repairs", () => {
+  it("does not use later first lineups in season-start regression targets", () => {
+    const cfg = eloOnlyConfig();
+    cfg.elo.regression_pav_target_weight = 1;
+    cfg.pav.missing_player_default = 30;
+    const data = harnessData([
+      matchRow({ id: 1, season_id: 1, date: "2024-03-15" }),
+      matchRow({ id: 2 }),
+      matchRow({ id: 3, home_team_id: 3, away_team_id: 4, date: "2025-03-22" }),
+    ]);
+    const named = (matchId: number, teamId: number, playerId: number): MatchLineupRow => ({
+      id: playerId,
+      match_id: matchId,
+      team_id: teamId,
+      player_id: playerId,
+      guernsey_number: playerId,
+      position: "C",
+      is_emergency: 0,
+      is_substitute: 0,
+    });
+    data.lineupsByMatch.set(2, [named(2, 1, 11)]);
+    data.lineupsByMatch.set(3, [named(3, 3, 33)]);
+    const first = runHarness(data, cfg, TRAIN_SEASON, TEST_SEASON).predictions[0];
+    data.lineupsByMatch.set(3, [named(3, 3, 33), named(3, 3, 34)]);
+    expect(runHarness(data, cfg, TRAIN_SEASON, TEST_SEASON).predictions[0]).toEqual(first);
+    expect(runPredict(data, cfg, 1, 2).predictions[0]).toEqual(first);
+  });
   it("defers PAV evidence until the next date in both entry points", () => {
     const cfg = eloOnlyConfig();
     cfg.blend.weight_elo = 0;

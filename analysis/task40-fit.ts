@@ -84,8 +84,8 @@ export function fitAgeZones(data: HarnessData) {
       const n = next.get(row.player_id);
       if (!n) b.exited++;
       for (const [i, key] of ["off_pav", "mid_pav", "def_pav"].entries()) {
-        b.before[i] += row[key as "off_pav"] ?? 0;
-        b.after[i] += n?.[key as "off_pav"] ?? 0;
+        b.before[i] = (b.before[i] ?? 0) + (row[key as "off_pav"] ?? 0);
+        b.after[i] = (b.after[i] ?? 0) + (n?.[key as "off_pav"] ?? 0);
       }
     }
   }

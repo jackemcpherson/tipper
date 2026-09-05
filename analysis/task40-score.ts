@@ -249,7 +249,8 @@ if (import.meta.main) {
       id.startsWith("t40-") &&
       !id.endsWith("-early") &&
       !id.endsWith("-2026") &&
-      id !== "t40-baseline" && (!requestedIds || requestedIds.includes(id)),
+      id !== "t40-baseline" &&
+      (!requestedIds || requestedIds.includes(id)),
   );
   const reports = [];
   for (const id of ids.sort()) {
@@ -301,6 +302,7 @@ if (import.meta.main) {
         predictionsA: convert(a),
         predictionsB: convert(b),
       }));
+      assert(windows[0] && windows[1] && windows[2]);
       const p = summary(windows[0].predictionsA, windows[0].predictionsB);
       const e = summary(windows[1].predictionsA, windows[1].predictionsB);
       const oos = summary(windows[2].predictionsA, windows[2].predictionsB);

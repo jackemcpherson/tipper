@@ -180,7 +180,7 @@ export function buildRegressionTargets(
 
   const targets = new Map<number, number>();
   for (const [teamId, rating] of pavRatings) {
-    targets.set(teamId, 1500 + weight * (rating - mean));
+    targets.set(teamId, config.elo.initial_rating + weight * (rating - mean));
   }
   return targets;
 }
@@ -284,11 +284,18 @@ export function runHarness(
         const targets = buildRegressionTargets(
           match.season_id,
           firstMatchByTeam,
-          data.lineupsByMatch,
+          // Only this fixture's lineup is known at the first kickoff.
+          // Later first lineups must not enter the season-start target mean.
+          new Map([[match.id, data.lineupsByMatch.get(match.id) ?? []]]),
           priorPavMap,
           config,
         );
-        applyRegression(eloState, config.elo.regression_to_mean, targets);
+        applyRegression(
+          eloState,
+          config.elo.regression_to_mean,
+          targets,
+          config.elo.initial_rating,
+        );
       }
 
       // Reset PAV state for new season
@@ -505,11 +512,16 @@ export function runPredict(
         const targets = buildRegressionTargets(
           match.season_id,
           firstMatchByTeam,
-          data.lineupsByMatch,
+          new Map([[match.id, data.lineupsByMatch.get(match.id) ?? []]]),
           priorPavMap,
           config,
         );
-        applyRegression(eloState, config.elo.regression_to_mean, targets);
+        applyRegression(
+          eloState,
+          config.elo.regression_to_mean,
+          targets,
+          config.elo.initial_rating,
+        );
       }
 
       if (config.backtest.train_seasons.includes(currentYear ?? -1)) {
