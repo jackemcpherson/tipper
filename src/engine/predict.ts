@@ -7,9 +7,8 @@
 
 import type { Config } from "../config/schema.js";
 
-/** A&S erf approximation; legacy mode preserves the historical scaling error. */
-function normalCdf(x: number, standardNormal: boolean): number {
-  if (standardNormal && x === 0) return 0.5;
+/** Historical approximation, retained bit-for-bit for replay. */
+function legacyCdf(x: number): number {
   const a1 = 0.254829592;
   const a2 = -0.284496736;
   const a3 = 1.421413741;
@@ -19,10 +18,27 @@ function normalCdf(x: number, standardNormal: boolean): number {
 
   const sign = x < 0 ? -1 : 1;
   const absX = Math.abs(x);
-  const t = 1.0 / (1.0 + p * (standardNormal ? absX / Math.SQRT2 : absX));
+  const t = 1.0 / (1.0 + p * absX);
   const y = 1.0 - ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t * Math.exp((-absX * absX) / 2);
 
   return 0.5 * (1.0 + sign * y);
+}
+
+/** Normal integral using its convergent positive-term series. */
+function standardNormalCdf(x: number): number {
+  if (x <= -8) return 0;
+  if (x >= 8) return 1;
+  let term = x;
+  let sum = x;
+  // Integral = exp(-x²/2) × (x + x³/3 + x⁵/15 + ...).
+  // Positive terms avoid cancellation within the sum on either side of zero.
+  for (let denominator = 3; denominator < 1000; denominator += 2) {
+    term *= (x * x) / denominator;
+    const next = sum + term;
+    if (next === sum) break;
+    sum = next;
+  }
+  return 0.5 + (sum * Math.exp((-x * x) / 2)) / Math.sqrt(2 * Math.PI);
 }
 
 /**
@@ -59,7 +75,8 @@ export function computeWinProbability(
   sigma: number,
   model?: Config["output"]["probability_model"],
 ): { home: number; away: number } {
-  const rawHome = normalCdf(predictedMargin / sigma, model === "standard_normal");
+  const z = predictedMargin / sigma;
+  const rawHome = model === "standard_normal" ? standardNormalCdf(z) : legacyCdf(z);
   const home = Math.max(WIN_PROB_MIN, Math.min(WIN_PROB_MAX, rawHome));
   return { home, away: 1 - home };
 }

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { computeWinProbability } from "../../src/engine/predict.js";
+import normalGrid from "../fixtures/standard-normal.json";
 
 describe("probability head correctness and historical compatibility", () => {
   it("reproduces legacy values when the optional model is absent", () => {
@@ -17,6 +18,16 @@ describe("probability head correctness and historical compatibility", () => {
       [-1, 0.158655253931],
     ]) {
       expect(computeWinProbability(z, 1, "standard_normal").home).toBeCloseTo(expected, 6);
+    }
+  });
+
+  it("matches Python math.erf on a dense grid within 1e-9", () => {
+    for (const [z, phi] of normalGrid) {
+      expect(
+        Math.abs(
+          computeWinProbability(z, 1, "standard_normal").home - Math.max(0.01, Math.min(0.99, phi)),
+        ),
+      ).toBeLessThan(1e-9);
     }
   });
 
