@@ -41,6 +41,7 @@ The build embeds the complete source revision. CI refuses to publish a dirty tre
 - [Submission](docs/submission.md) contains the feed contract and draft message.
 - [Production deployment](docs/rollout-2026-09-06.md) records live evidence and observation gates.
 - [Research reproduction](docs/research.md) identifies the preserved revision.
+- [2026 reconstruction](docs/reconstruction-2026.md) documents the historical replay and its limits.
 
 Merging publishes an immutable artefact to R2. The cloudflare-infra GitOps process
 applies the pinned artefact. AFL-MCP owns all shared-schema migrations.
