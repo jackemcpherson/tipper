@@ -1,0 +1,4 @@
+*.json.gz
+manifest.json
+output.json
+import.sql
