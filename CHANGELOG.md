@@ -4,9 +4,9 @@ User-visible production changes.
 
 ## Benchmark Tooling
 
-Add research tooling that scores Tipper against a fixed 2026 Squiggle baseline,
-reads challenger captures issued before each 2027 match and reports round and
-season results. Production predictions do not change.
+Add research tooling that scores Tipper against a fixed 2026 Squiggle
+baseline. The tooling reads challenger captures issued before each 2027 match
+and reports round and season results. Production predictions do not change.
 
 ## Production Redesign
 
