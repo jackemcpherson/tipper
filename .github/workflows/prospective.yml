@@ -42,6 +42,14 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      # Completed seasons never change, so one cached snapshot serves every run.
+      # The current season refetches on each capture regardless of the cache.
+      - name: Restore the research season cache
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: .cache/research
+          key: research-seasons-${{ hashFiles('src/research/data.ts') }}
+
       - name: Resolve season
         id: season
         env:
