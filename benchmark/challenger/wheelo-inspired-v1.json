@@ -1,7 +1,7 @@
 {
   "identity": "wheelo-inspired-v1",
-  "frozenAt": "2026-09-12T04:19:32.681Z",
-  "sourceRevision": "7df82ab99ed11decea16a67ac2624be6eca1eb49",
+  "frozenAt": "2026-09-12T04:34:08.027Z",
+  "sourceRevision": "5ec7858fcfb570b2fd7855fda44779ed85e9f7a1",
   "params": {
     "team": {
       "k": 0.07,
