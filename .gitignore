@@ -7,3 +7,6 @@ dist-worker/
 .env
 
 .dev.vars
+
+# Research season cache (rebuilt from the shared database)
+.cache/
