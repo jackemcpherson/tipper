@@ -1,0 +1,95 @@
+name: Prospective challenger capture
+
+on:
+  schedule:
+    # Hourly captures during the season. Off-season runs find no upcoming matches.
+    - cron: "15 * * * *"
+    # Weekly report after the Monday production scoring run.
+    - cron: "45 23 * * 1"
+  workflow_dispatch:
+    inputs:
+      season:
+        description: "Season year; blank uses the current UTC year"
+        required: false
+        type: string
+      report:
+        description: "Generate the round and season report"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prospective-capture
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: "1.4"
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Resolve season
+        id: season
+        env:
+          INPUT_SEASON: ${{ inputs.season }}
+        run: |
+          season="${INPUT_SEASON:-$(date -u +%Y)}"
+          [[ "$season" =~ ^(19|20)[0-9]{2}$ ]] || exit 1
+          echo "season=$season" >> "$GITHUB_OUTPUT"
+
+      - name: Capture challenger predictions
+        env:
+          SEASON: ${{ steps.season.outputs.season }}
+        run: bun run research capture --season "$SEASON" | tee capture.log
+
+      - name: Commit new captures
+        env:
+          SEASON: ${{ steps.season.outputs.season }}
+        run: |
+          git add benchmark/prospective
+          if git diff --cached --quiet; then
+            echo "No new captures"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --message "capture: challenger predictions for ${SEASON} (${GITHUB_SHA::8})"
+          git push
+
+      - name: Refresh stored Squiggle field and report
+        if: github.event.schedule == '45 23 * * 1' || inputs.report == true
+        env:
+          SEASON: ${{ steps.season.outputs.season }}
+        run: |
+          bun run research field --year "$SEASON"
+          bun run research report --season "$SEASON" --refresh | tee report.txt
+          {
+            echo '```text'
+            cat report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Retain report
+        if: github.event.schedule == '45 23 * * 1' || inputs.report == true
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: prospective-report
+          path: |
+            report.txt
+            benchmark/squiggle/*.json.gz
+          if-no-files-found: error
+          retention-days: 90

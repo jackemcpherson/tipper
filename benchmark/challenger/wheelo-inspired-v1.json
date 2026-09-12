@@ -1,0 +1,83 @@
+{
+  "identity": "wheelo-inspired-v1",
+  "frozenAt": "2026-09-12T04:19:32.681Z",
+  "sourceRevision": "7df82ab99ed11decea16a67ac2624be6eca1eb49",
+  "params": {
+    "team": {
+      "k": 0.07,
+      "regression": 0.5,
+      "meanHalfLifeMatches": 100
+    },
+    "accuracy": {
+      "actualWeight": 0,
+      "teamShrinkShots": 100,
+      "leagueHalfLifeMatches": 200
+    },
+    "player": {
+      "decay": 0.99,
+      "window": 40,
+      "priorWeight": 3,
+      "prior": 4
+    },
+    "venue": {
+      "homeAdvantage": 4,
+      "travelK": 0.1,
+      "travelExponent": 0.5,
+      "experienceK": 0.5,
+      "experienceExponent": 0.5,
+      "experienceOffset": 1,
+      "homeStateKm": 300
+    },
+    "weights": {
+      "team": 1.2472888268642501,
+      "player": 0.4277793493352521
+    },
+    "playerMode": "relative",
+    "sigma": 33.76106598450376,
+    "typicalHalfLifeMatches": 8
+  },
+  "tuning": {
+    "window": {
+      "from": 2016,
+      "to": 2022
+    },
+    "warmFrom": 2012,
+    "objective": "mean natural log loss, ties by margin MAE",
+    "stages": [
+      {
+        "stage": "team",
+        "selected": "k=0.07 regression=0.5 actualWeight=0",
+        "logLoss": 0.5835071641135142,
+        "mae": 26.52987766128686,
+        "tips": 960,
+        "candidates": 100
+      },
+      {
+        "stage": "player",
+        "selected": "decay=0.99 priorWeight=3 prior=4 mode=relative",
+        "logLoss": 0.5790304887941149,
+        "mae": 26.4158401999584,
+        "tips": 970,
+        "candidates": 90
+      },
+      {
+        "stage": "venue",
+        "selected": "homeAdvantage=4 travelK=0.1 experienceK=0.5",
+        "logLoss": 0.5765134030185931,
+        "mae": 26.302494353457693,
+        "tips": 972,
+        "candidates": 96
+      }
+    ]
+  },
+  "prospectiveFit": {
+    "from": 2016,
+    "to": 2026,
+    "n": 2104,
+    "weights": {
+      "team": 1.2403261032899446,
+      "player": 0.43609631356882045
+    },
+    "sigma": 33.59517643733161
+  }
+}
