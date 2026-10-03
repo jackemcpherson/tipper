@@ -25,3 +25,16 @@ Later observations cannot fill this gap.
 
 **Weekly report**: A retained scoring observation of issued tips, outcomes and
 competitor evidence on explicitly stated match sets.
+
+**Fixed baseline**: The stored 2026 Squiggle field and results, scored on one
+stated set of completed games, against which production and candidates rank.
+_Avoid_: Live standings.
+
+**Challenger**: A separate model evaluated beside production and captured
+prospectively under its own identity. It never publishes tips.
+_Avoid_: Shadow config, candidate promotion.
+
+**Prospective capture**: An append-only challenger prediction recorded before a
+match with its inputs and source revision. The last capture before the recorded
+kickoff is the issued prediction.
+_Avoid_: Replayed prediction.

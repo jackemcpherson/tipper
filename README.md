@@ -33,6 +33,10 @@ vale --no-global .
 Tests use Miniflare's native local D1. Build before running HTTP integration tests.
 The build embeds the complete source revision. CI refuses to publish a dirty tree.
 
+Research tooling under `src/research` runs with `bun run research <command>`. It
+reads the shared database through the public AFL-MCP endpoint, never through the
+Worker, and it changes no production behaviour. See [Benchmark](docs/benchmark.md).
+
 - [Model](docs/model.md) describes rating reconstruction and provisional lineups.
 - [Operations](docs/operations.md) covers deployment, refresh, monitoring and recovery.
 - [Domain terms](CONTEXT.md) define publication evidence.
@@ -42,6 +46,8 @@ The build embeds the complete source revision. CI refuses to publish a dirty tre
 - [Production deployment](docs/rollout-2026-09-06.md) records live evidence and observation gates.
 - [Research reproduction](docs/research.md) identifies the preserved revision.
 - [2026 backfill](docs/backfill-2026.md) documents historical predictions and consumer queries.
+- [Benchmark](docs/benchmark.md) describes the fixed 2026 Squiggle baseline
+  and 2027 prospective capture.
 
 Merging publishes an immutable artefact to R2. The cloudflare-infra GitOps process
 applies the pinned artefact. AFL-MCP owns all shared-schema migrations.

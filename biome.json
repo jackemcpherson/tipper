@@ -5,6 +5,7 @@
       "**",
       "!!**/.wrangler",
       "!!**/.claude",
+      "!!**/.cache",
       "!!**/.rumdl_cache",
       "!!**/dist",
       "!!**/dist-worker",

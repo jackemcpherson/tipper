@@ -19,8 +19,9 @@
     "test": "vitest run",
     "check": "biome check .",
     "format": "biome format --write .",
-    "typecheck": "tsc --noEmit",
-    "types": "wrangler types src/env.d.ts --env-interface Env --include-runtime false"
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.research.json",
+    "types": "wrangler types src/env.d.ts --env-interface Env --include-runtime false",
+    "research": "bun run src/research/cli.ts"
   },
   "dependencies": {
     "zod": "^4.3.6"

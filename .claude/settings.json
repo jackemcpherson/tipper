@@ -20,7 +20,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd /Users/jackmcpherson/Projects/tipper && bun run typecheck 2>&1 && bun run check 2>&1 || { echo '{\"decision\":\"block\",\"reason\":\"Typecheck or lint errors. Fix before committing.\"}'; exit 0; }",
+            "command": "cd \"$(git rev-parse --show-toplevel)\" && bun run typecheck 2>&1 && bun run check 2>&1 || { echo '{\"decision\":\"block\",\"reason\":\"Typecheck or lint errors. Fix before committing.\"}'; exit 0; }",
             "timeout": 60,
             "statusMessage": "Running pre-commit checks (typecheck + biome)..."
           }
@@ -32,7 +32,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd /Users/jackmcpherson/Projects/tipper && bun run typecheck 2>&1 && bun run check 2>&1 || echo '{\"systemMessage\":\"Warning: typecheck or lint errors remain.\"}'",
+            "command": "cd \"$(git rev-parse --show-toplevel)\" && bun run typecheck 2>&1 && bun run check 2>&1 || echo '{\"systemMessage\":\"Warning: typecheck or lint errors remain.\"}'",
             "timeout": 60,
             "statusMessage": "Running final quality check..."
           }
