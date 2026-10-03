@@ -2,11 +2,14 @@
 
 User-visible production changes.
 
-## Benchmark Tooling
+## Benchmark Tooling and Wheelo-Inspired Challenger
 
-Add research tooling that scores Tipper against a fixed 2026 Squiggle
-baseline. The tooling reads challenger captures issued before each 2027 match
-and reports round and season results. Production predictions do not change.
+Add research tooling that scores Tipper against a fixed 2026 Squiggle baseline,
+captures challenger predictions before each 2027 match and reports round and
+season results. Add the separate `wheelo-inspired-v1` challenger with
+attacking and defensive team ratings, accuracy-adjusted scores, named-lineup
+Player Ratings and an explicit venue effect. Production predictions do not
+change.
 
 ## Production Redesign
 

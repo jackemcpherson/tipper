@@ -1,0 +1,2063 @@
+{
+  "window": {
+    "from": 2016,
+    "to": 2022
+  },
+  "warmFrom": 2012,
+  "stages": [
+    {
+      "stage": "team",
+      "selected": "k=0.07 regression=0.5 actualWeight=0",
+      "candidates": [
+        {
+          "label": "k=0.05 regression=0.2 actualWeight=0",
+          "logLoss": 0.5875616417550441,
+          "mae": 26.708138509161554,
+          "tips": 952,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.2 actualWeight=0.25",
+          "logLoss": 0.5883970553546206,
+          "mae": 26.717264037087247,
+          "tips": 954,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.2 actualWeight=0.5",
+          "logLoss": 0.58952331671249,
+          "mae": 26.741396463891686,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.2 actualWeight=0.75",
+          "logLoss": 0.5908606811431706,
+          "mae": 26.783989794803123,
+          "tips": 958,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.2 actualWeight=1",
+          "logLoss": 0.592330543462714,
+          "mae": 26.83531207915506,
+          "tips": 954,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.35 actualWeight=0",
+          "logLoss": 0.5852248629424792,
+          "mae": 26.60870552041389,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.35 actualWeight=0.25",
+          "logLoss": 0.5860904179032516,
+          "mae": 26.60951463049859,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.35 actualWeight=0.5",
+          "logLoss": 0.5873255931087694,
+          "mae": 26.63162835271338,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.35 actualWeight=0.75",
+          "logLoss": 0.5888341592978351,
+          "mae": 26.671361769355993,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.35 actualWeight=1",
+          "logLoss": 0.5905170535625265,
+          "mae": 26.723503752394667,
+          "tips": 955,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.5 actualWeight=0",
+          "logLoss": 0.583653770186834,
+          "mae": 26.53206667009409,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.5 actualWeight=0.25",
+          "logLoss": 0.5845214428693347,
+          "mae": 26.5271462925088,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.5 actualWeight=0.5",
+          "logLoss": 0.5858393253914007,
+          "mae": 26.54887504268426,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.5 actualWeight=0.75",
+          "logLoss": 0.5874961680994788,
+          "mae": 26.593317117611893,
+          "tips": 956,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.5 actualWeight=1",
+          "logLoss": 0.5893716629913338,
+          "mae": 26.651355828782993,
+          "tips": 952,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.65 actualWeight=0",
+          "logLoss": 0.5835093601357494,
+          "mae": 26.520618655235992,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.65 actualWeight=0.25",
+          "logLoss": 0.5843591173522075,
+          "mae": 26.507546056224417,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.65 actualWeight=0.5",
+          "logLoss": 0.5857192258974364,
+          "mae": 26.535982649703787,
+          "tips": 951,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.65 actualWeight=0.75",
+          "logLoss": 0.5874688259616125,
+          "mae": 26.579829446547432,
+          "tips": 949,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.05 regression=0.65 actualWeight=1",
+          "logLoss": 0.5894707932897248,
+          "mae": 26.63548610244398,
+          "tips": 950,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.2 actualWeight=0",
+          "logLoss": 0.5858353352183877,
+          "mae": 26.654606652534397,
+          "tips": 954,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.2 actualWeight=0.25",
+          "logLoss": 0.5866490107153227,
+          "mae": 26.65851434006577,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.2 actualWeight=0.5",
+          "logLoss": 0.5878794196593107,
+          "mae": 26.680601991533095,
+          "tips": 969,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.2 actualWeight=0.75",
+          "logLoss": 0.5894195804332025,
+          "mae": 26.71776492470974,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.2 actualWeight=1",
+          "logLoss": 0.5911562941426992,
+          "mae": 26.773699318460597,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.35 actualWeight=0",
+          "logLoss": 0.5842866215134791,
+          "mae": 26.575712257167062,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.35 actualWeight=0.25",
+          "logLoss": 0.585112261316497,
+          "mae": 26.575209881260676,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.35 actualWeight=0.5",
+          "logLoss": 0.5864276173229376,
+          "mae": 26.59674168868263,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.35 actualWeight=0.75",
+          "logLoss": 0.5881117663673469,
+          "mae": 26.642818004729317,
+          "tips": 954,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.35 actualWeight=1",
+          "logLoss": 0.5900309534211995,
+          "mae": 26.700697380589002,
+          "tips": 954,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.5 actualWeight=0",
+          "logLoss": 0.5835071641135142,
+          "mae": 26.52987766128686,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.5 actualWeight=0.25",
+          "logLoss": 0.5843308183472706,
+          "mae": 26.52139375243349,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.5 actualWeight=0.5",
+          "logLoss": 0.5857088855502847,
+          "mae": 26.545432517933293,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.5 actualWeight=0.75",
+          "logLoss": 0.5875085139976373,
+          "mae": 26.596914260331122,
+          "tips": 949,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.5 actualWeight=1",
+          "logLoss": 0.5895774304575874,
+          "mae": 26.659111018474608,
+          "tips": 948,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.65 actualWeight=0",
+          "logLoss": 0.5839482299949573,
+          "mae": 26.537350090051582,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.65 actualWeight=0.25",
+          "logLoss": 0.5847660956521543,
+          "mae": 26.52552450881166,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.65 actualWeight=0.5",
+          "logLoss": 0.5861747315781556,
+          "mae": 26.55436686422789,
+          "tips": 953,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.65 actualWeight=0.75",
+          "logLoss": 0.5880354052677655,
+          "mae": 26.601912082303663,
+          "tips": 952,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.07 regression=0.65 actualWeight=1",
+          "logLoss": 0.5901835786427306,
+          "mae": 26.66266155170289,
+          "tips": 945,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.2 actualWeight=0",
+          "logLoss": 0.5854981034495035,
+          "mae": 26.64414303463213,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.2 actualWeight=0.25",
+          "logLoss": 0.5862696031348101,
+          "mae": 26.64607041606366,
+          "tips": 955,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.2 actualWeight=0.5",
+          "logLoss": 0.5875647642744343,
+          "mae": 26.667121516755376,
+          "tips": 951,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.2 actualWeight=0.75",
+          "logLoss": 0.5892537026179057,
+          "mae": 26.710204246523897,
+          "tips": 945,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.2 actualWeight=1",
+          "logLoss": 0.5911904394426571,
+          "mae": 26.770919492302937,
+          "tips": 949,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.35 actualWeight=0",
+          "logLoss": 0.5844399033560854,
+          "mae": 26.58441903771054,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.35 actualWeight=0.25",
+          "logLoss": 0.5852171528684882,
+          "mae": 26.58386538537189,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.35 actualWeight=0.5",
+          "logLoss": 0.5865826509281249,
+          "mae": 26.610292873546932,
+          "tips": 954,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.35 actualWeight=0.75",
+          "logLoss": 0.588394808987756,
+          "mae": 26.6649392001746,
+          "tips": 952,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.35 actualWeight=1",
+          "logLoss": 0.5904881209074624,
+          "mae": 26.727553116400966,
+          "tips": 945,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.5 actualWeight=0",
+          "logLoss": 0.584105493765502,
+          "mae": 26.550699536855756,
+          "tips": 958,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.5 actualWeight=0.25",
+          "logLoss": 0.5848838920750281,
+          "mae": 26.542534872183595,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.5 actualWeight=0.5",
+          "logLoss": 0.5863004780271381,
+          "mae": 26.577286622901884,
+          "tips": 954,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.5 actualWeight=0.75",
+          "logLoss": 0.5882040595279548,
+          "mae": 26.636494739709164,
+          "tips": 950,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.5 actualWeight=1",
+          "logLoss": 0.5904131859433424,
+          "mae": 26.70074942201594,
+          "tips": 943,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.65 actualWeight=0",
+          "logLoss": 0.5848032937863638,
+          "mae": 26.56597703035741,
+          "tips": 956,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.65 actualWeight=0.25",
+          "logLoss": 0.5855877820737522,
+          "mae": 26.561474246207645,
+          "tips": 958,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.65 actualWeight=0.5",
+          "logLoss": 0.5870284730236858,
+          "mae": 26.59681757223584,
+          "tips": 953,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.65 actualWeight=0.75",
+          "logLoss": 0.5889707865460315,
+          "mae": 26.650315495947705,
+          "tips": 948,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.09 regression=0.65 actualWeight=1",
+          "logLoss": 0.5912246539725846,
+          "mae": 26.71606736723782,
+          "tips": 943,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.2 actualWeight=0",
+          "logLoss": 0.5863745246134363,
+          "mae": 26.67468161869777,
+          "tips": 969,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.2 actualWeight=0.25",
+          "logLoss": 0.5870872024784954,
+          "mae": 26.688990506999712,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.2 actualWeight=0.5",
+          "logLoss": 0.5884431383259212,
+          "mae": 26.725329527129034,
+          "tips": 953,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.2 actualWeight=0.75",
+          "logLoss": 0.590284461005619,
+          "mae": 26.77636210589389,
+          "tips": 942,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.2 actualWeight=1",
+          "logLoss": 0.5924216710538137,
+          "mae": 26.837650822201322,
+          "tips": 944,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.35 actualWeight=0",
+          "logLoss": 0.5857347865238411,
+          "mae": 26.629958594651423,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.35 actualWeight=0.25",
+          "logLoss": 0.5864501925707131,
+          "mae": 26.643803493254673,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.35 actualWeight=0.5",
+          "logLoss": 0.587860772912837,
+          "mae": 26.68282329166772,
+          "tips": 952,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.35 actualWeight=0.75",
+          "logLoss": 0.5898000880997436,
+          "mae": 26.742099019838058,
+          "tips": 948,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.35 actualWeight=1",
+          "logLoss": 0.5920604735543971,
+          "mae": 26.80938976710387,
+          "tips": 939,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.5 actualWeight=0",
+          "logLoss": 0.585718215675946,
+          "mae": 26.604331202475016,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.5 actualWeight=0.25",
+          "logLoss": 0.5864397045024635,
+          "mae": 26.610970959577013,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.5 actualWeight=0.5",
+          "logLoss": 0.5878887538700723,
+          "mae": 26.658686192916395,
+          "tips": 954,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.5 actualWeight=0.75",
+          "logLoss": 0.5898915993495393,
+          "mae": 26.72355744676833,
+          "tips": 952,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.5 actualWeight=1",
+          "logLoss": 0.5922298532109953,
+          "mae": 26.79438499868003,
+          "tips": 950,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.65 actualWeight=0",
+          "logLoss": 0.5865026084034219,
+          "mae": 26.63549250578223,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.65 actualWeight=0.25",
+          "logLoss": 0.5872410347931392,
+          "mae": 26.63622314348041,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.65 actualWeight=0.5",
+          "logLoss": 0.58870693200428,
+          "mae": 26.67977630548257,
+          "tips": 949,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.65 actualWeight=0.75",
+          "logLoss": 0.5907254449271999,
+          "mae": 26.742738276564143,
+          "tips": 952,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.12 regression=0.65 actualWeight=1",
+          "logLoss": 0.5930736383625321,
+          "mae": 26.81506661240924,
+          "tips": 947,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.2 actualWeight=0",
+          "logLoss": 0.5880190456064441,
+          "mae": 26.73211155853356,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.2 actualWeight=0.25",
+          "logLoss": 0.5886944342121604,
+          "mae": 26.759122675278917,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.2 actualWeight=0.5",
+          "logLoss": 0.5900869357553072,
+          "mae": 26.805270642050562,
+          "tips": 946,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.2 actualWeight=0.75",
+          "logLoss": 0.5920170960518708,
+          "mae": 26.859507440992044,
+          "tips": 945,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.2 actualWeight=1",
+          "logLoss": 0.5942602343835504,
+          "mae": 26.927160024826268,
+          "tips": 940,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.35 actualWeight=0",
+          "logLoss": 0.5876005653803763,
+          "mae": 26.696483397975367,
+          "tips": 968,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.35 actualWeight=0.25",
+          "logLoss": 0.5882755091202513,
+          "mae": 26.717955943527265,
+          "tips": 958,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.35 actualWeight=0.5",
+          "logLoss": 0.5897097008202576,
+          "mae": 26.77051643073792,
+          "tips": 952,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.35 actualWeight=0.75",
+          "logLoss": 0.591716704701489,
+          "mae": 26.83289817356255,
+          "tips": 950,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.35 actualWeight=1",
+          "logLoss": 0.5940553722851956,
+          "mae": 26.905890598528,
+          "tips": 943,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.5 actualWeight=0",
+          "logLoss": 0.5877023362921154,
+          "mae": 26.687335383815576,
+          "tips": 968,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.5 actualWeight=0.25",
+          "logLoss": 0.5883839474697085,
+          "mae": 26.69924511543688,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.5 actualWeight=0.5",
+          "logLoss": 0.5898449926444826,
+          "mae": 26.752526896564245,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.5 actualWeight=0.75",
+          "logLoss": 0.5918950870080782,
+          "mae": 26.82132640176584,
+          "tips": 953,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.5 actualWeight=1",
+          "logLoss": 0.5942840815415421,
+          "mae": 26.896238865278992,
+          "tips": 947,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.65 actualWeight=0",
+          "logLoss": 0.58843141919187,
+          "mae": 26.713981316426082,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.65 actualWeight=0.25",
+          "logLoss": 0.5891320783035113,
+          "mae": 26.720252998791526,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.65 actualWeight=0.5",
+          "logLoss": 0.5906023962757692,
+          "mae": 26.769967603532365,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.65 actualWeight=0.75",
+          "logLoss": 0.5926517294402156,
+          "mae": 26.840355019436593,
+          "tips": 951,
+          "matches": 1404
+        },
+        {
+          "label": "k=0.15 regression=0.65 actualWeight=1",
+          "logLoss": 0.5950305794614329,
+          "mae": 26.91790580907776,
+          "tips": 951,
+          "matches": 1404
+        }
+      ]
+    },
+    {
+      "stage": "player",
+      "selected": "decay=0.99 priorWeight=3 prior=4 mode=relative",
+      "candidates": [
+        {
+          "label": "decay=0.8 priorWeight=1 prior=debut mode=sum",
+          "logLoss": 0.5850133751622322,
+          "mae": 26.654125108595935,
+          "tips": 958,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=1 prior=debut mode=relative",
+          "logLoss": 0.5844403234426488,
+          "mae": 26.70001770848599,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=1 prior=4 mode=sum",
+          "logLoss": 0.5844395459549248,
+          "mae": 26.638660164266536,
+          "tips": 954,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=1 prior=4 mode=relative",
+          "logLoss": 0.583979322955026,
+          "mae": 26.68352362292749,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=1 prior=7 mode=sum",
+          "logLoss": 0.5852403809137491,
+          "mae": 26.666078180960994,
+          "tips": 956,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=1 prior=7 mode=relative",
+          "logLoss": 0.5846221641797867,
+          "mae": 26.710157799703012,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=3 prior=debut mode=sum",
+          "logLoss": 0.5851817118498476,
+          "mae": 26.65742473116581,
+          "tips": 956,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=3 prior=debut mode=relative",
+          "logLoss": 0.5845689324124289,
+          "mae": 26.703972346341065,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=3 prior=4 mode=sum",
+          "logLoss": 0.5845032677190388,
+          "mae": 26.633134543521937,
+          "tips": 953,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=3 prior=4 mode=relative",
+          "logLoss": 0.5840066269816944,
+          "mae": 26.679559832449055,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=3 prior=7 mode=sum",
+          "logLoss": 0.5854439364034172,
+          "mae": 26.673931340436422,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=3 prior=7 mode=relative",
+          "logLoss": 0.5847990165619267,
+          "mae": 26.717187321769323,
+          "tips": 956,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=6 prior=debut mode=sum",
+          "logLoss": 0.585342275514634,
+          "mae": 26.667292594961975,
+          "tips": 956,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=6 prior=debut mode=relative",
+          "logLoss": 0.5847413252192198,
+          "mae": 26.712197065698415,
+          "tips": 956,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=6 prior=4 mode=sum",
+          "logLoss": 0.5846045368796076,
+          "mae": 26.63442982829602,
+          "tips": 953,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=6 prior=4 mode=relative",
+          "logLoss": 0.5841105361192743,
+          "mae": 26.682404118724456,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=6 prior=7 mode=sum",
+          "logLoss": 0.5856164910825922,
+          "mae": 26.68793502190601,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.8 priorWeight=6 prior=7 mode=relative",
+          "logLoss": 0.5850105143416046,
+          "mae": 26.728575642045282,
+          "tips": 958,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=1 prior=debut mode=sum",
+          "logLoss": 0.5832445606710679,
+          "mae": 26.535720094394737,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=1 prior=debut mode=relative",
+          "logLoss": 0.5825793038250671,
+          "mae": 26.57972676542069,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=1 prior=4 mode=sum",
+          "logLoss": 0.5824702674773192,
+          "mae": 26.507236014137114,
+          "tips": 963,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=1 prior=4 mode=relative",
+          "logLoss": 0.5819441439630402,
+          "mae": 26.55829563513591,
+          "tips": 972,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=1 prior=7 mode=sum",
+          "logLoss": 0.5835923308648625,
+          "mae": 26.554655591608135,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=1 prior=7 mode=relative",
+          "logLoss": 0.5828513334081027,
+          "mae": 26.593241396018747,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=3 prior=debut mode=sum",
+          "logLoss": 0.5835071641135142,
+          "mae": 26.52987766128686,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=3 prior=debut mode=relative",
+          "logLoss": 0.5827325328094953,
+          "mae": 26.57552422579008,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=3 prior=4 mode=sum",
+          "logLoss": 0.5825227577330429,
+          "mae": 26.490357992026976,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=3 prior=4 mode=relative",
+          "logLoss": 0.5819004854801278,
+          "mae": 26.541817268506474,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=3 prior=7 mode=sum",
+          "logLoss": 0.5839550305126796,
+          "mae": 26.556802516413725,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=3 prior=7 mode=relative",
+          "logLoss": 0.5831047141505853,
+          "mae": 26.594212701506375,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=6 prior=debut mode=sum",
+          "logLoss": 0.5837670015019127,
+          "mae": 26.535241236600342,
+          "tips": 958,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=6 prior=debut mode=relative",
+          "logLoss": 0.5829644523848617,
+          "mae": 26.579366292585668,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=6 prior=4 mode=sum",
+          "logLoss": 0.5826335940508099,
+          "mae": 26.48360354513438,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=6 prior=4 mode=relative",
+          "logLoss": 0.5819789538275979,
+          "mae": 26.536775476263628,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=6 prior=7 mode=sum",
+          "logLoss": 0.5842887302902935,
+          "mae": 26.566835248967802,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.9 priorWeight=6 prior=7 mode=relative",
+          "logLoss": 0.5834337234288618,
+          "mae": 26.604992791568584,
+          "tips": 963,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=1 prior=debut mode=sum",
+          "logLoss": 0.5818457225331592,
+          "mae": 26.491782786473856,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=1 prior=debut mode=relative",
+          "logLoss": 0.5809365246717758,
+          "mae": 26.49616850691942,
+          "tips": 963,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=1 prior=4 mode=sum",
+          "logLoss": 0.5810528475241038,
+          "mae": 26.465601580798133,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=1 prior=4 mode=relative",
+          "logLoss": 0.5802969613835962,
+          "mae": 26.477977961363482,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=1 prior=7 mode=sum",
+          "logLoss": 0.5822338791447039,
+          "mae": 26.512123323010183,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=1 prior=7 mode=relative",
+          "logLoss": 0.5812286619248158,
+          "mae": 26.511187519357684,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=3 prior=debut mode=sum",
+          "logLoss": 0.5821333171775604,
+          "mae": 26.484716311601662,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=3 prior=debut mode=relative",
+          "logLoss": 0.5810556681910805,
+          "mae": 26.48660107895519,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=3 prior=4 mode=sum",
+          "logLoss": 0.5810983366043883,
+          "mae": 26.442239878194588,
+          "tips": 968,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=3 prior=4 mode=relative",
+          "logLoss": 0.5801916587597303,
+          "mae": 26.456579723523586,
+          "tips": 967,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=3 prior=7 mode=sum",
+          "logLoss": 0.5826586319843955,
+          "mae": 26.50966887115797,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=3 prior=7 mode=relative",
+          "logLoss": 0.5814707454262734,
+          "mae": 26.505267476223974,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=6 prior=debut mode=sum",
+          "logLoss": 0.5824165913757723,
+          "mae": 26.487478834979477,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=6 prior=debut mode=relative",
+          "logLoss": 0.581277166708451,
+          "mae": 26.487249968167255,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=6 prior=4 mode=sum",
+          "logLoss": 0.5812071422788155,
+          "mae": 26.432283985174724,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=6 prior=4 mode=relative",
+          "logLoss": 0.580232167713873,
+          "mae": 26.445901120971083,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=6 prior=7 mode=sum",
+          "logLoss": 0.5830544543124163,
+          "mae": 26.51764985513991,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.95 priorWeight=6 prior=7 mode=relative",
+          "logLoss": 0.5818205136236905,
+          "mae": 26.511307088891986,
+          "tips": 970,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=1 prior=debut mode=sum",
+          "logLoss": 0.5812182872469812,
+          "mae": 26.50450841333557,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=1 prior=debut mode=relative",
+          "logLoss": 0.5799927754735116,
+          "mae": 26.466449874330632,
+          "tips": 974,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=1 prior=4 mode=sum",
+          "logLoss": 0.580462471872496,
+          "mae": 26.48068773201909,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=1 prior=4 mode=relative",
+          "logLoss": 0.5793971169731581,
+          "mae": 26.4464188903474,
+          "tips": 971,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=1 prior=7 mode=sum",
+          "logLoss": 0.5815996454399511,
+          "mae": 26.522165976509545,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=1 prior=7 mode=relative",
+          "logLoss": 0.5802736570232826,
+          "mae": 26.478899094241008,
+          "tips": 976,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=3 prior=debut mode=sum",
+          "logLoss": 0.5815052365779018,
+          "mae": 26.498650954651033,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=3 prior=debut mode=relative",
+          "logLoss": 0.5800784726588627,
+          "mae": 26.451805612818177,
+          "tips": 973,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=3 prior=4 mode=sum",
+          "logLoss": 0.5805136143642383,
+          "mae": 26.45726411385857,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=3 prior=4 mode=relative",
+          "logLoss": 0.5792645739546272,
+          "mae": 26.420449138240734,
+          "tips": 970,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=3 prior=7 mode=sum",
+          "logLoss": 0.5820290006885322,
+          "mae": 26.5202971546777,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=3 prior=7 mode=relative",
+          "logLoss": 0.5804812193030755,
+          "mae": 26.469990666677695,
+          "tips": 973,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=6 prior=debut mode=sum",
+          "logLoss": 0.5817844338079211,
+          "mae": 26.49990957230287,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=6 prior=debut mode=relative",
+          "logLoss": 0.5802758240866666,
+          "mae": 26.44838148144862,
+          "tips": 976,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=6 prior=4 mode=sum",
+          "logLoss": 0.5806277197360872,
+          "mae": 26.447295636818346,
+          "tips": 956,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=6 prior=4 mode=relative",
+          "logLoss": 0.5792876911936923,
+          "mae": 26.406516274959458,
+          "tips": 972,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=6 prior=7 mode=sum",
+          "logLoss": 0.5824285090930248,
+          "mae": 26.528102164685933,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.98 priorWeight=6 prior=7 mode=relative",
+          "logLoss": 0.5808095994558612,
+          "mae": 26.4720670014137,
+          "tips": 974,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=1 prior=debut mode=sum",
+          "logLoss": 0.581102654731129,
+          "mae": 26.514222928610785,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=1 prior=debut mode=relative",
+          "logLoss": 0.5797475361795641,
+          "mae": 26.463671518809544,
+          "tips": 977,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=1 prior=4 mode=sum",
+          "logLoss": 0.5803633126851403,
+          "mae": 26.49136867493323,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=1 prior=4 mode=relative",
+          "logLoss": 0.5791688534248479,
+          "mae": 26.44344168443264,
+          "tips": 975,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=1 prior=7 mode=sum",
+          "logLoss": 0.5814764930931219,
+          "mae": 26.531424921703948,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=1 prior=7 mode=relative",
+          "logLoss": 0.5800221203987489,
+          "mae": 26.475942167777145,
+          "tips": 974,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=3 prior=debut mode=sum",
+          "logLoss": 0.5813869903726008,
+          "mae": 26.508747327604674,
+          "tips": 958,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=3 prior=debut mode=relative",
+          "logLoss": 0.579823416044216,
+          "mae": 26.44831279382059,
+          "tips": 978,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=3 prior=4 mode=sum",
+          "logLoss": 0.5804167657807797,
+          "mae": 26.468953171393846,
+          "tips": 958,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=3 prior=4 mode=relative",
+          "logLoss": 0.5790304887941149,
+          "mae": 26.4158401999584,
+          "tips": 970,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=3 prior=7 mode=sum",
+          "logLoss": 0.581901154836671,
+          "mae": 26.52970731754816,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=3 prior=7 mode=relative",
+          "logLoss": 0.5802171491607581,
+          "mae": 26.46628238669999,
+          "tips": 973,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=6 prior=debut mode=sum",
+          "logLoss": 0.5816622260228681,
+          "mae": 26.510566672322085,
+          "tips": 963,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=6 prior=debut mode=relative",
+          "logLoss": 0.580012349628016,
+          "mae": 26.444224941972823,
+          "tips": 979,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=6 prior=4 mode=sum",
+          "logLoss": 0.5805324364641553,
+          "mae": 26.459271020173677,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=6 prior=4 mode=relative",
+          "logLoss": 0.5790498496922187,
+          "mae": 26.40157429980735,
+          "tips": 972,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=6 prior=7 mode=sum",
+          "logLoss": 0.5822955378701664,
+          "mae": 26.537997753860076,
+          "tips": 968,
+          "matches": 1404
+        },
+        {
+          "label": "decay=0.99 priorWeight=6 prior=7 mode=relative",
+          "logLoss": 0.5805347711907058,
+          "mae": 26.4661347191821,
+          "tips": 974,
+          "matches": 1404
+        }
+      ]
+    },
+    {
+      "stage": "venue",
+      "selected": "homeAdvantage=4 travelK=0.1 experienceK=0.5",
+      "candidates": [
+        {
+          "label": "homeAdvantage=0 travelK=0 experienceK=0",
+          "logLoss": 0.5915490153631231,
+          "mae": 26.979341522685676,
+          "tips": 953,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0 experienceK=0.5",
+          "logLoss": 0.585865756873448,
+          "mae": 26.721913529150587,
+          "tips": 963,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0 experienceK=1",
+          "logLoss": 0.5818424034598508,
+          "mae": 26.54455224019176,
+          "tips": 974,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0 experienceK=2",
+          "logLoss": 0.5789546256068974,
+          "mae": 26.43035500642357,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.1 experienceK=0",
+          "logLoss": 0.5825708841966977,
+          "mae": 26.555497541319394,
+          "tips": 967,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.1 experienceK=0.5",
+          "logLoss": 0.5792445869527862,
+          "mae": 26.42673829720721,
+          "tips": 977,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.1 experienceK=1",
+          "logLoss": 0.5776536310898979,
+          "mae": 26.37446056602652,
+          "tips": 973,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.1 experienceK=2",
+          "logLoss": 0.5795755329766334,
+          "mae": 26.5096266007661,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.2 experienceK=0",
+          "logLoss": 0.5784573683905914,
+          "mae": 26.389152991874518,
+          "tips": 971,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.2 experienceK=0.5",
+          "logLoss": 0.5775738179133595,
+          "mae": 26.38655733453746,
+          "tips": 970,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.2 experienceK=1",
+          "logLoss": 0.5783845225013535,
+          "mae": 26.458645290874248,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.2 experienceK=2",
+          "logLoss": 0.5847100173604104,
+          "mae": 26.839795136117548,
+          "tips": 971,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.3 experienceK=0",
+          "logLoss": 0.579241502673959,
+          "mae": 26.48965568699091,
+          "tips": 963,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.3 experienceK=0.5",
+          "logLoss": 0.5806754053140245,
+          "mae": 26.613343148071174,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.3 experienceK=1",
+          "logLoss": 0.5836545151084144,
+          "mae": 26.804023491283605,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=0 travelK=0.3 experienceK=2",
+          "logLoss": 0.5936699229025064,
+          "mae": 27.398184402632992,
+          "tips": 963,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0 experienceK=0",
+          "logLoss": 0.5850377521390977,
+          "mae": 26.65523547060195,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0 experienceK=0.5",
+          "logLoss": 0.5808881100790152,
+          "mae": 26.47273423661082,
+          "tips": 968,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0 experienceK=1",
+          "logLoss": 0.5784598647533344,
+          "mae": 26.37185213200105,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0 experienceK=2",
+          "logLoss": 0.5787618718959423,
+          "mae": 26.420745356641884,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.1 experienceK=0",
+          "logLoss": 0.578437760019714,
+          "mae": 26.35231826208773,
+          "tips": 976,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.1 experienceK=0.5",
+          "logLoss": 0.5767265620944891,
+          "mae": 26.298741805809257,
+          "tips": 974,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.1 experienceK=1",
+          "logLoss": 0.5767456714843087,
+          "mae": 26.328333128403834,
+          "tips": 967,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.1 experienceK=2",
+          "logLoss": 0.581680327393214,
+          "mae": 26.60962355272612,
+          "tips": 967,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.2 experienceK=0",
+          "logLoss": 0.5767994088727906,
+          "mae": 26.317943495366606,
+          "tips": 969,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.2 experienceK=0.5",
+          "logLoss": 0.5774983084575512,
+          "mae": 26.389271890052637,
+          "tips": 967,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.2 experienceK=1",
+          "logLoss": 0.579817743177283,
+          "mae": 26.538819412686102,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.2 experienceK=2",
+          "logLoss": 0.5887898848688343,
+          "mae": 27.06551090937936,
+          "tips": 969,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.3 experienceK=0",
+          "logLoss": 0.579941489426793,
+          "mae": 26.547341956369568,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.3 experienceK=0.5",
+          "logLoss": 0.5828192010322653,
+          "mae": 26.736121230702715,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.3 experienceK=1",
+          "logLoss": 0.587116020249766,
+          "mae": 26.99099830202711,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=2 travelK=0.3 experienceK=2",
+          "logLoss": 0.5992957821768123,
+          "mae": 27.73213751193681,
+          "tips": 961,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0 experienceK=0",
+          "logLoss": 0.5807456807710293,
+          "mae": 26.45497290413312,
+          "tips": 974,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0 experienceK=0.5",
+          "logLoss": 0.5781973699478065,
+          "mae": 26.344883661419175,
+          "tips": 969,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0 experienceK=1",
+          "logLoss": 0.577381973660491,
+          "mae": 26.323156561497264,
+          "tips": 973,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0 experienceK=2",
+          "logLoss": 0.5807561072476423,
+          "mae": 26.529057437121814,
+          "tips": 968,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.1 experienceK=0",
+          "logLoss": 0.5766163476161091,
+          "mae": 26.276969763615956,
+          "tips": 980,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.1 experienceK=0.5",
+          "logLoss": 0.5765134030185931,
+          "mae": 26.302494353457693,
+          "tips": 972,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.1 experienceK=1",
+          "logLoss": 0.5780828112950983,
+          "mae": 26.40718275515964,
+          "tips": 970,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.1 experienceK=2",
+          "logLoss": 0.5857764730226922,
+          "mae": 26.841878812920342,
+          "tips": 975,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.2 experienceK=0",
+          "logLoss": 0.5774114127769151,
+          "mae": 26.36598486325723,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.2 experienceK=0.5",
+          "logLoss": 0.5796104876383884,
+          "mae": 26.506948991675223,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.2 experienceK=1",
+          "logLoss": 0.5833119887594462,
+          "mae": 26.724731600647335,
+          "tips": 968,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.2 experienceK=2",
+          "logLoss": 0.5945865183106654,
+          "mae": 27.410729649849692,
+          "tips": 970,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.3 experienceK=0",
+          "logLoss": 0.5827460938302828,
+          "mae": 26.70564255121779,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.3 experienceK=0.5",
+          "logLoss": 0.5869263476423119,
+          "mae": 26.96038899002797,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.3 experienceK=1",
+          "logLoss": 0.5923709500470941,
+          "mae": 27.28219825223233,
+          "tips": 967,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=4 travelK=0.3 experienceK=2",
+          "logLoss": 0.6063315551060758,
+          "mae": 28.178833262876022,
+          "tips": 950,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0 experienceK=0",
+          "logLoss": 0.5787471244525108,
+          "mae": 26.370002615811366,
+          "tips": 970,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0 experienceK=0.5",
+          "logLoss": 0.5778075378977445,
+          "mae": 26.34408878337447,
+          "tips": 970,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0 experienceK=1",
+          "logLoss": 0.5785602403413944,
+          "mae": 26.404899080390866,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0 experienceK=2",
+          "logLoss": 0.5847768099419431,
+          "mae": 26.765191917428552,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.1 experienceK=0",
+          "logLoss": 0.5770870628729406,
+          "mae": 26.32759743619107,
+          "tips": 969,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.1 experienceK=0.5",
+          "logLoss": 0.5785228102203613,
+          "mae": 26.431795730027492,
+          "tips": 956,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.1 experienceK=1",
+          "logLoss": 0.5815249579059868,
+          "mae": 26.597987211424176,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.1 experienceK=2",
+          "logLoss": 0.5916421166151018,
+          "mae": 27.21771766844642,
+          "tips": 967,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.2 experienceK=0",
+          "logLoss": 0.5801812861024014,
+          "mae": 26.538875229884045,
+          "tips": 963,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.2 experienceK=0.5",
+          "logLoss": 0.5837450397513454,
+          "mae": 26.750737491683182,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.2 experienceK=1",
+          "logLoss": 0.5886617983142018,
+          "mae": 27.046881718834115,
+          "tips": 969,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.2 experienceK=2",
+          "logLoss": 0.6018476244415688,
+          "mae": 27.88728129667934,
+          "tips": 950,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.3 experienceK=0",
+          "logLoss": 0.5874698185188647,
+          "mae": 26.988421666998306,
+          "tips": 963,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.3 experienceK=0.5",
+          "logLoss": 0.5927766412995534,
+          "mae": 27.30370331238476,
+          "tips": 967,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.3 experienceK=1",
+          "logLoss": 0.5991761220912407,
+          "mae": 27.69891779843519,
+          "tips": 958,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=6 travelK=0.3 experienceK=2",
+          "logLoss": 0.6145227603846558,
+          "mae": 28.750869225594936,
+          "tips": 943,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0 experienceK=0",
+          "logLoss": 0.5790304887941149,
+          "mae": 26.4158401999584,
+          "tips": 970,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0 experienceK=0.5",
+          "logLoss": 0.5796450419156233,
+          "mae": 26.468516818754953,
+          "tips": 968,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0 experienceK=1",
+          "logLoss": 0.5818639807140025,
+          "mae": 26.60796820815525,
+          "tips": 963,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0 experienceK=2",
+          "logLoss": 0.5906038282203155,
+          "mae": 27.128178646641103,
+          "tips": 973,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.1 experienceK=0",
+          "logLoss": 0.5797430333998566,
+          "mae": 26.506166433998196,
+          "tips": 960,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.1 experienceK=0.5",
+          "logLoss": 0.5825924456133525,
+          "mae": 26.666525813293166,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.1 experienceK=1",
+          "logLoss": 0.5868660777285755,
+          "mae": 26.918356401393446,
+          "tips": 970,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.1 experienceK=2",
+          "logLoss": 0.5990181322216255,
+          "mae": 27.71490304888462,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.2 experienceK=0",
+          "logLoss": 0.5849222730707352,
+          "mae": 26.82627561728357,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.2 experienceK=0.5",
+          "logLoss": 0.5896776031001992,
+          "mae": 27.11704993256719,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.2 experienceK=1",
+          "logLoss": 0.595615485991266,
+          "mae": 27.49201153733986,
+          "tips": 966,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.2 experienceK=2",
+          "logLoss": 0.6103056792846493,
+          "mae": 28.47514398053122,
+          "tips": 946,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.3 experienceK=0",
+          "logLoss": 0.5938759994879643,
+          "mae": 27.38278792782416,
+          "tips": 969,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.3 experienceK=0.5",
+          "logLoss": 0.6001133129466295,
+          "mae": 27.772139452667222,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.3 experienceK=1",
+          "logLoss": 0.6072670443468674,
+          "mae": 28.259159177041703,
+          "tips": 947,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=8 travelK=0.3 experienceK=2",
+          "logLoss": 0.6236173296575938,
+          "mae": 29.456842091483228,
+          "tips": 942,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0 experienceK=0",
+          "logLoss": 0.581498262311109,
+          "mae": 26.575532895249374,
+          "tips": 968,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0 experienceK=0.5",
+          "logLoss": 0.5835562392047461,
+          "mae": 26.704714163984605,
+          "tips": 963,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0 experienceK=1",
+          "logLoss": 0.5870912038276318,
+          "mae": 26.910900592638345,
+          "tips": 969,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0 experienceK=2",
+          "logLoss": 0.5979756671242403,
+          "mae": 27.61567379051966,
+          "tips": 957,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.1 experienceK=0",
+          "logLoss": 0.5844021863838698,
+          "mae": 26.780195842980092,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.1 experienceK=0.5",
+          "logLoss": 0.5884979139913364,
+          "mae": 27.0191943762186,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.1 experienceK=1",
+          "logLoss": 0.593852507199163,
+          "mae": 27.368749834277395,
+          "tips": 962,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.1 experienceK=2",
+          "logLoss": 0.6076282511503179,
+          "mae": 28.308835469347397,
+          "tips": 938,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.2 experienceK=0",
+          "logLoss": 0.5913939763584932,
+          "mae": 27.229564505659873,
+          "tips": 964,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.2 experienceK=0.5",
+          "logLoss": 0.5971443346406408,
+          "mae": 27.596696406402984,
+          "tips": 965,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.2 experienceK=1",
+          "logLoss": 0.6038978963076451,
+          "mae": 28.04215457684062,
+          "tips": 952,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.2 experienceK=2",
+          "logLoss": 0.6196953473289327,
+          "mae": 29.176139488305385,
+          "tips": 926,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.3 experienceK=0",
+          "logLoss": 0.6016974674501121,
+          "mae": 27.8898750534039,
+          "tips": 959,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.3 experienceK=0.5",
+          "logLoss": 0.6086640084904704,
+          "mae": 28.372474057312953,
+          "tips": 945,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.3 experienceK=1",
+          "logLoss": 0.6163760084956547,
+          "mae": 28.925051917759024,
+          "tips": 941,
+          "matches": 1404
+        },
+        {
+          "label": "homeAdvantage=10 travelK=0.3 experienceK=2",
+          "logLoss": 0.6333782439123343,
+          "mae": 30.273418793083266,
+          "tips": 929,
+          "matches": 1404
+        }
+      ]
+    }
+  ],
+  "params": {
+    "team": {
+      "k": 0.07,
+      "regression": 0.5,
+      "meanHalfLifeMatches": 100
+    },
+    "accuracy": {
+      "actualWeight": 0,
+      "teamShrinkShots": 100,
+      "leagueHalfLifeMatches": 200
+    },
+    "player": {
+      "decay": 0.99,
+      "window": 40,
+      "priorWeight": 3,
+      "prior": 4
+    },
+    "venue": {
+      "homeAdvantage": 4,
+      "travelK": 0.1,
+      "travelExponent": 0.5,
+      "experienceK": 0.5,
+      "experienceExponent": 0.5,
+      "experienceOffset": 1,
+      "homeStateKm": 300
+    },
+    "weights": {
+      "team": 1.2472888268642501,
+      "player": 0.4277793493352521
+    },
+    "playerMode": "relative",
+    "sigma": 33.76106598450376,
+    "typicalHalfLifeMatches": 8
+  }
+}

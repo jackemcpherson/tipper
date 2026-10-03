@@ -48,6 +48,7 @@ Worker, and it changes no production behaviour. See [Benchmark](docs/benchmark.m
 - [2026 backfill](docs/backfill-2026.md) documents historical predictions and consumer queries.
 - [Benchmark](docs/benchmark.md) describes the fixed 2026 Squiggle baseline
   and 2027 prospective capture.
+- [Wheelo-inspired challenger](docs/challenger-wheelo.md) describes the separate challenger model.
 
 Merging publishes an immutable artefact to R2. The cloudflare-infra GitOps process
 applies the pinned artefact. AFL-MCP owns all shared-schema migrations.

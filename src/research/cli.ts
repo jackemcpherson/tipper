@@ -1,4 +1,5 @@
 import { parseArgs } from "node:util";
+import { challengerCandidate, challengerCommands } from "./challenger/commands.js";
 import {
   baselineCommand,
   type CandidateProvider,
@@ -12,13 +13,14 @@ import {
  * Research command line. Candidate models register here; the harness itself
  * never depends on one model.
  */
-const CANDIDATES: readonly CandidateProvider[] = [];
+const CANDIDATES: readonly CandidateProvider[] = [challengerCandidate];
 
 const COMMANDS: Record<string, Command> = {
   fetch: commandFetch,
   field: commandField,
   baseline: baselineCommand(CANDIDATES),
   report: reportCommand(CANDIDATES),
+  ...challengerCommands,
 };
 
 async function main() {

@@ -1,0 +1,284 @@
+{
+  "generatedAt": "2026-09-12T04:19:41.177Z",
+  "sourceRevision": "7df82ab99ed11decea16a67ac2624be6eca1eb49",
+  "frozenAt": "2026-09-12T04:19:32.681Z",
+  "seasons": [
+    {
+      "year": 2023,
+      "fit": {
+        "from": 2016,
+        "to": 2022,
+        "n": 1242
+      },
+      "weights": {
+        "team": 1.2472888268642501,
+        "player": 0.4277793493352521
+      },
+      "sigma": 33.76106598450376,
+      "summary": {
+        "matches": 216,
+        "draws": 2,
+        "tips": 147,
+        "bits": 29.651825867454225,
+        "mae": 25.927938398738803,
+        "decisive": 214,
+        "decisiveCorrect": 145,
+        "accuracy": 0.677570093457944,
+        "rmse": 33.36439888925242,
+        "brier": 0.2002138508887322,
+        "logLoss": 0.5979940347336473
+      },
+      "lineupSources": {
+        "named": 216
+      }
+    },
+    {
+      "year": 2024,
+      "fit": {
+        "from": 2016,
+        "to": 2023,
+        "n": 1458
+      },
+      "weights": {
+        "team": 1.2234786344278532,
+        "player": 0.47616565118081083
+      },
+      "sigma": 33.69671687685728,
+      "summary": {
+        "matches": 216,
+        "draws": 3,
+        "tips": 140,
+        "bits": 30.358512778749247,
+        "mae": 26.91936983802979,
+        "decisive": 213,
+        "decisiveCorrect": 137,
+        "accuracy": 0.6431924882629108,
+        "rmse": 34.15120403798301,
+        "brier": 0.20546245866688773,
+        "logLoss": 0.5957262660294683
+      },
+      "lineupSources": {
+        "named": 216
+      }
+    },
+    {
+      "year": 2025,
+      "fit": {
+        "from": 2016,
+        "to": 2024,
+        "n": 1674
+      },
+      "weights": {
+        "team": 1.2282700224939846,
+        "player": 0.47330739812287465
+      },
+      "sigma": 33.755599125720046,
+      "summary": {
+        "matches": 216,
+        "draws": 1,
+        "tips": 158,
+        "bits": 46.00577692030509,
+        "mae": 26.3093279103571,
+        "decisive": 215,
+        "decisiveCorrect": 157,
+        "accuracy": 0.7302325581395349,
+        "rmse": 33.274241869464795,
+        "brier": 0.1844795550102624,
+        "logLoss": 0.5455139649961523
+      },
+      "lineupSources": {
+        "named": 216
+      }
+    },
+    {
+      "year": 2026,
+      "fit": {
+        "from": 2016,
+        "to": 2025,
+        "n": 1890
+      },
+      "weights": {
+        "team": 1.235475936659752,
+        "player": 0.4623466591981545
+      },
+      "sigma": 33.70054531040609,
+      "summary": {
+        "matches": 214,
+        "draws": 3,
+        "tips": 155,
+        "bits": 49.02819475773246,
+        "mae": 25.304795261088085,
+        "decisive": 211,
+        "decisiveCorrect": 152,
+        "accuracy": 0.7203791469194313,
+        "rmse": 32.662906839931544,
+        "brier": 0.1789941113284231,
+        "logLoss": 0.5343445872689823
+      },
+      "lineupSources": {
+        "named": 197,
+        "played": 18,
+        "none": 1
+      }
+    }
+  ],
+  "pooled": {
+    "matches": 862,
+    "draws": 9,
+    "tips": 600,
+    "bits": 155.0443103242412,
+    "mae": 26.117238507716944,
+    "decisive": 853,
+    "decisiveCorrect": 591,
+    "accuracy": 0.6928487690504103,
+    "rmse": 33.36899839181699,
+    "brier": 0.1923183370887626,
+    "logLoss": 0.5684737158695639
+  },
+  "production": [
+    {
+      "year": 2023,
+      "summary": {
+        "matches": 216,
+        "draws": 2,
+        "tips": 146,
+        "bits": 27.506810261740505,
+        "mae": 26.317129629629616,
+        "decisive": 214,
+        "decisiveCorrect": 144,
+        "accuracy": 0.6728971962616822,
+        "rmse": 34.309875346557234,
+        "brier": 0.20618892531896935,
+        "logLoss": 0.60487742139734
+      }
+    },
+    {
+      "year": 2024,
+      "summary": {
+        "matches": 216,
+        "draws": 3,
+        "tips": 143,
+        "bits": 33.4318578480479,
+        "mae": 26.191203703703714,
+        "decisive": 213,
+        "decisiveCorrect": 140,
+        "accuracy": 0.6572769953051644,
+        "rmse": 33.736987203298916,
+        "brier": 0.1985745941078222,
+        "logLoss": 0.5858638564476523
+      }
+    },
+    {
+      "year": 2025,
+      "summary": {
+        "matches": 216,
+        "draws": 1,
+        "tips": 156,
+        "bits": 46.18106791427984,
+        "mae": 26.55185185185185,
+        "decisive": 215,
+        "decisiveCorrect": 155,
+        "accuracy": 0.7209302325581395,
+        "rmse": 34.02499761885315,
+        "brier": 0.18229846386598048,
+        "logLoss": 0.5449514536153601
+      }
+    },
+    {
+      "year": 2026,
+      "summary": {
+        "matches": 214,
+        "draws": 3,
+        "tips": 157,
+        "bits": 45.321906735766404,
+        "mae": 25.374299065420566,
+        "decisive": 211,
+        "decisiveCorrect": 154,
+        "accuracy": 0.7298578199052133,
+        "rmse": 32.61592051480439,
+        "brier": 0.18119940076045035,
+        "logLoss": 0.5463492746183689
+      }
+    }
+  ],
+  "wheelo": [
+    {
+      "year": 2023,
+      "summary": {
+        "matches": 216,
+        "draws": 2,
+        "tips": 145,
+        "bits": 31.64390529026857,
+        "mae": 25.157407407407398,
+        "decisive": 214,
+        "decisiveCorrect": 143,
+        "accuracy": 0.6682242990654206,
+        "rmse": 32.656407119062045,
+        "brier": 0.19933544444444434,
+        "logLoss": 0.5916014225328357
+      }
+    },
+    {
+      "year": 2024,
+      "summary": {
+        "matches": 216,
+        "draws": 3,
+        "tips": 143,
+        "bits": 33.50422686620926,
+        "mae": 26.51990740740739,
+        "decisive": 213,
+        "decisiveCorrect": 140,
+        "accuracy": 0.6572769953051644,
+        "rmse": 33.580426535353844,
+        "brier": 0.20103491666666654,
+        "logLoss": 0.5856316232027521
+      }
+    },
+    {
+      "year": 2025,
+      "summary": {
+        "matches": 216,
+        "draws": 1,
+        "tips": 153,
+        "bits": 50.109114290964214,
+        "mae": 25.84490740740742,
+        "decisive": 215,
+        "decisiveCorrect": 152,
+        "accuracy": 0.7069767441860465,
+        "rmse": 32.73036660577068,
+        "brier": 0.1800889961111112,
+        "logLoss": 0.5323462949528254
+      }
+    },
+    {
+      "year": 2026,
+      "summary": {
+        "matches": 214,
+        "draws": 3,
+        "tips": 157,
+        "bits": 50.9490052180018,
+        "mae": 24.799299065420556,
+        "decisive": 211,
+        "decisiveCorrect": 154,
+        "accuracy": 0.7298578199052133,
+        "rmse": 31.662666974001763,
+        "brier": 0.17607653738317755,
+        "logLoss": 0.5281230715917589
+      }
+    }
+  ],
+  "disagreement": {
+    "a": "Challenger (wheelo-inspired-v1)",
+    "b": "Tipper production (replay)",
+    "games": 862,
+    "aRightBWrong": 49,
+    "bRightAWrong": 51,
+    "bothWrong": 211,
+    "bothRight": 551,
+    "sameSelection": 761,
+    "errorCorrelation": 0.9600529446443747,
+    "marginCorrelation": 0.9213595163355056,
+    "meanAbsoluteMarginDifference": 7.4615056825030175,
+    "maeDifference": 0.006913681730864596
+  }
+}
