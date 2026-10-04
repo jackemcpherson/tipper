@@ -10,7 +10,9 @@ hourly inside 24 hours, and every five minutes inside 90 minutes. A refresh cove
 the complete currently eligible set for its competition, season and round.
 
 A run receives an ordered ID before reading inputs. Seven native D1 statements
-read the bounded snapshot in one batch. A final revision query rejects changes
+read the bounded snapshot in one batch.
+
+A final revision query rejects changes
 or active public repairs. Publication checks that revision again in its transaction. Captures, compatibility projections and
 checked finalisation commit in one transaction. Finalisation checks coverage,
 fixture identity, UTC kickoff, current and previous locks, projection links and
@@ -73,7 +75,9 @@ Send `Authorization: Bearer <ADMIN_TOKEN>` and a JSON object to
 {"competition":"AFLM","season":2027,"round":1}
 ```
 
-The endpoint accepts only those three fields. Use an explicit season key for
+The endpoint accepts only those three fields.
+
+Use an explicit season key for
 AFLW 2022, either `2022-S6` or `2022-S7`. Ordinary years remain valid. It uses the same publisher and
 locks as the scheduler. Configure secrets outside source control. Exporting tips
 means downloading `/tips`. It never runs another prediction implementation.
