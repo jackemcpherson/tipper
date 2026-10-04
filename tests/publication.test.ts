@@ -43,6 +43,7 @@ beforeAll(async () => {
   db = await mf.getD1Database("DB");
   await apply(readFileSync("tests/fixtures/shared-schema.sql", "utf8"));
   await apply(readFileSync("tests/fixtures/0021_tipper_publication.sql", "utf8"));
+  await db.prepare("ALTER TABLE tipper_runs ADD COLUMN season_key TEXT").run();
 });
 afterAll(async () => {
   await mf?.dispose();
@@ -57,12 +58,20 @@ beforeEach(async () => {
       "tipper_reports",
       "tipper_status",
       "match_lineups",
+      "player_season_pav",
+      "player_match_stats",
+      "players",
       "matches",
       "teams",
       "seasons",
     ].map((t) => db.prepare(`DELETE FROM ${t}`)),
   );
-  await db.prepare("INSERT INTO seasons(id,competition_id,year) VALUES(1,1,2026)").run();
+  await db
+    .prepare("UPDATE public_input_revision SET revision=0,in_progress=0,write_started_at=NULL")
+    .run();
+  await db
+    .prepare("INSERT INTO seasons(id,competition_id,year,season_key) VALUES(1,1,2026,'2026')")
+    .run();
   await db
     .prepare(
       "INSERT INTO teams(id,name,competition_id) VALUES(1,'Alpha',1),(2,'Beta',1),(3,'Gamma',1),(4,'Delta',1)",
@@ -94,7 +103,9 @@ describe("native D1 publication", () => {
         )
         .run();
       try {
-        await expect(commitRun(db, a.id, round, a.s.observedAt, a.p)).rejects.toThrow();
+        await expect(
+          commitRun(db, a.id, round, a.s.observedAt, a.p, a.s.inputRevision),
+        ).rejects.toThrow();
         expect(await counts()).toEqual({ captures: 0, projections: 0, runs: 0 });
       } finally {
         await db.prepare("DROP TRIGGER fail_write").run();
@@ -103,19 +114,27 @@ describe("native D1 publication", () => {
   it("rejects an older overlapping run after the newer one commits", async () => {
     const a = await attempt(),
       b = await attempt();
-    await commitRun(db, b.id, round, b.s.observedAt, b.p);
-    await expect(commitRun(db, a.id, round, a.s.observedAt, a.p)).rejects.toThrow();
+    await commitRun(db, b.id, round, b.s.observedAt, b.p, b.s.inputRevision);
+    await expect(
+      commitRun(db, a.id, round, a.s.observedAt, a.p, a.s.inputRevision),
+    ).rejects.toThrow();
     expect(await counts()).toEqual({ captures: 2, projections: 2, runs: 1 });
   });
   it("rejects partial output, extra fixtures, changed identity and crossed kickoff", async () => {
     let a = await attempt();
-    await expect(commitRun(db, a.id, round, a.s.observedAt, a.p.slice(0, 1))).rejects.toThrow();
+    await expect(
+      commitRun(db, a.id, round, a.s.observedAt, a.p.slice(0, 1), a.s.inputRevision),
+    ).rejects.toThrow();
     a = await attempt();
     await db.prepare("UPDATE matches SET venue_id=NULL,external_afl_id='changed' WHERE id=1").run();
-    await expect(commitRun(db, a.id, round, a.s.observedAt, a.p)).rejects.toThrow();
+    await expect(
+      commitRun(db, a.id, round, a.s.observedAt, a.p, a.s.inputRevision),
+    ).rejects.toThrow();
     a = await attempt();
     await db.prepare("UPDATE matches SET kickoff_at=? WHERE id=1").bind(instant(-1000)).run();
-    await expect(commitRun(db, a.id, round, a.s.observedAt, a.p)).rejects.toThrow();
+    await expect(
+      commitRun(db, a.id, round, a.s.observedAt, a.p, a.s.inputRevision),
+    ).rejects.toThrow();
     expect(await counts()).toEqual({ captures: 0, projections: 0, runs: 0 });
   });
   it("keeps locked captures after late reschedules and refreshes later matches", async () => {
@@ -196,14 +215,18 @@ describe("publication evidence and scheduler edges", () => {
       )
       .bind(instant(3600_000).slice(0, 10), instant(3600_000))
       .run();
-    await expect(commitRun(db, a.id, round, a.s.observedAt, a.p)).rejects.toThrow();
+    await expect(
+      commitRun(db, a.id, round, a.s.observedAt, a.p, a.s.inputRevision),
+    ).rejects.toThrow();
     expect(await counts()).toEqual({ captures: 2, projections: 2, runs: 1 });
   });
   it("rejects kickoff crossed during computation without any fixture mutation", async () => {
     await db.prepare("UPDATE matches SET kickoff_at=? WHERE id=1").bind(instant(750)).run();
     const a = await attempt();
     await new Promise((resolve) => setTimeout(resolve, 850));
-    await expect(commitRun(db, a.id, round, a.s.observedAt, a.p)).rejects.toThrow();
+    await expect(
+      commitRun(db, a.id, round, a.s.observedAt, a.p, a.s.inputRevision),
+    ).rejects.toThrow();
     expect(await counts()).toEqual({ captures: 0, projections: 0, runs: 0 });
   });
   it("resolves an ambiguous successful commit through its original run", async () => {
@@ -219,7 +242,7 @@ describe("publication evidence and scheduler edges", () => {
         return typeof value === "function" ? value.bind(target) : value;
       },
     });
-    expect(await commitRun(transport, a.id, round, a.s.observedAt, a.p)).toBe(2);
+    expect(await commitRun(transport, a.id, round, a.s.observedAt, a.p, a.s.inputRevision)).toBe(2);
     expect(await counts()).toEqual({ captures: 2, projections: 2, runs: 1 });
   });
   it("retains an empty first prospective report without inventing coverage or retrying it", async () => {
@@ -346,7 +369,9 @@ it("flags per-match gaps and corrupted capture links without treating AFLW as un
     .prepare("INSERT INTO tipper_status(id,activated_at,scheduler_at) VALUES(1,?,?)")
     .bind(instant(-60000), instant(0))
     .run();
-  await db.prepare("INSERT INTO seasons(id,competition_id,year) VALUES(2,2,2026)").run();
+  await db
+    .prepare("INSERT INTO seasons(id,competition_id,year,season_key) VALUES(2,2,2026,'2026')")
+    .run();
   await db
     .prepare(
       "INSERT INTO teams(id,name,competition_id) VALUES(5,'Alpha Women',2),(6,'Beta Women',2)",
@@ -370,4 +395,50 @@ it("flags per-match gaps and corrupted capture links without treating AFLW as un
     .run();
   const corrupted = await (await mf.dispatchFetch("https://tipper.test/health")).json();
   expect(corrupted.publication.missing).toContain(1);
+});
+
+it("rejects active and stale repair markers and rolls back publication after input changes", async () => {
+  for (const started of [instant(0), "2020-01-01T00:00:00Z"]) {
+    await db
+      .prepare("UPDATE public_input_revision SET in_progress=1,write_started_at=?")
+      .bind(started)
+      .run();
+    await expect(readSnapshot(db, round)).rejects.toThrow("being repaired");
+  }
+  await db.prepare("UPDATE public_input_revision SET in_progress=0,write_started_at=NULL").run();
+  const a = await attempt();
+  await db.prepare("UPDATE public_input_revision SET revision=revision+1").run();
+  await expect(
+    commitRun(db, a.id, round, a.s.observedAt, a.p, a.s.inputRevision),
+  ).rejects.toThrow();
+  expect(await counts()).toEqual({ captures: 0, projections: 0, runs: 0 });
+});
+
+it("loads only AFLW season seven PAV as the prior for 2023", async () => {
+  await db
+    .prepare(
+      "INSERT INTO seasons(id,competition_id,year,season_key) VALUES(2,2,2022,'2022-S6'),(3,2,2022,'2022-S7'),(4,2,2023,'2023')",
+    )
+    .run();
+  await db
+    .prepare(
+      "INSERT INTO teams(id,name,competition_id) VALUES(5,'Alpha Women',2),(6,'Beta Women',2)",
+    )
+    .run();
+  await db.prepare("INSERT INTO players(id,surname) VALUES(1,'Example')").run();
+  await db
+    .prepare(
+      "INSERT INTO player_season_pav(player_id,season_id,team_id,off_pav,mid_pav,def_pav) VALUES(1,2,5,99,99,99),(1,3,5,7,7,7)",
+    )
+    .run();
+  await db
+    .prepare(
+      "INSERT INTO matches(id,season_id,round,round_number,date,home_team_id,away_team_id,status,kickoff_at) VALUES(3,4,'R2',2,?,5,6,'Upcoming',?)",
+    )
+    .bind(instant(3600000).slice(0, 10), instant(3600000))
+    .run();
+  const snapshot = await readSnapshot(db, { competition: "AFLW", season: 2023, round: 2 });
+  expect(snapshot.priors).toEqual([
+    { player_id: 1, team_id: 5, off_pav: 7, mid_pav: 7, def_pav: 7 },
+  ]);
 });

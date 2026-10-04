@@ -14,8 +14,9 @@ CREATE TABLE seasons (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   competition_id INTEGER NOT NULL REFERENCES competitions(id),
   year INTEGER NOT NULL,
+  season_key TEXT,
   is_complete INTEGER NOT NULL DEFAULT 0,
-  UNIQUE (competition_id, year)
+  UNIQUE (competition_id, season_key)
 );
 
 CREATE TABLE teams (
@@ -262,3 +263,9 @@ CREATE TABLE sync_lease (
   holder TEXT,
   acquired_at TEXT
 );
+
+CREATE TABLE public_input_revision (
+  id INTEGER PRIMARY KEY CHECK(id=1), revision INTEGER NOT NULL DEFAULT 0,
+  in_progress INTEGER NOT NULL DEFAULT 0 CHECK(in_progress IN(0,1)), write_started_at TEXT, write_holder TEXT
+);
+INSERT INTO public_input_revision(id) VALUES(1);

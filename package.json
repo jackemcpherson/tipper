@@ -1,6 +1,6 @@
 {
   "name": "@jackemcpherson/tipper",
-  "version": "3.5.0",
+  "version": "4.0.0",
   "description": "Production AFL match predictions and publication evidence on Cloudflare Workers",
   "license": "MIT",
   "author": "Jack McPherson <jackemcpherson@gmail.com>",
