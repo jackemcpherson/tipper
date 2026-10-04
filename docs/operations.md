@@ -1,19 +1,22 @@
 # Operations
 
-Use the pinned GitOps artefact and the retained evidence for operational changes.
+Use the pinned GitOps artefact and the retained evidence for operational
+changes.
 
 ## Publication and Locks
 
 The scheduler runs every five minutes. First publication starts when a fixture
 enters the seven-day window. Refresh daily more than 24 hours before kickoff,
-hourly inside 24 hours, and every five minutes inside 90 minutes. A refresh covers
+hourly inside 24 hours, and every five minutes inside 90 minutes. A refresh
+covers
 the complete currently eligible set for its competition, season and round.
 
 A run receives an ordered ID before reading inputs. Seven native D1 statements
 read the bounded snapshot in one batch.
 
 A final revision query rejects changes
-or active public repairs. Publication checks that revision again in its transaction. Captures, compatibility projections and
+or active public repairs. Publication checks that revision again in its
+transaction. Captures, compatibility projections and
 checked finalisation commit in one transaction. Finalisation checks coverage,
 fixture identity, UTC kickoff, current and previous locks, projection links and
 newer committed runs. Failure rolls back the whole batch. After an ambiguous
@@ -78,7 +81,8 @@ Send `Authorization: Bearer <ADMIN_TOKEN>` and a JSON object to
 The endpoint accepts only those three fields.
 
 Use an explicit season key for
-AFLW 2022, either `2022-S6` or `2022-S7`. Ordinary years remain valid. It uses the same publisher and
+AFLW 2022, either `2022-S6` or `2022-S7`. Ordinary years remain valid. It uses
+the same publisher and
 locks as the scheduler. Configure secrets outside source control. Exporting tips
 means downloading `/tips`. It never runs another prediction implementation.
 
@@ -88,7 +92,8 @@ Health checks individual expected fixtures, capture/projection consistency,
 freshness, known deadlines and scheduler heartbeat. AFLM feed identities are a
 separate input diagnostic. Reporting staleness does not fail deployment health.
 
-After Monday 22:00 UTC, score issued captures at their recorded locks. Retain the
+After Monday 22:00 UTC, score issued captures at their recorded locks. Retain
+the
 actual outcomes and observed Squiggle field with every report. Failed collection
 attempts remain available. Retry hourly and keep the previous successful report.
 
