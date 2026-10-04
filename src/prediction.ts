@@ -17,11 +17,27 @@ export const MODEL = Object.freeze({
   sigma: 36,
   lineupSize: Object.freeze({ AFLM: 23, AFLW: 21 }),
 });
-export const RoundSchema = z.strictObject({
-  competition: z.enum(["AFLM", "AFLW"]),
-  season: z.number().int().min(2021).max(2100),
-  round: z.number().int().min(0).max(50),
-});
+export const RoundSchema = z
+  .strictObject({
+    competition: z.enum(["AFLM", "AFLW"]),
+    season: z.union([z.number().int().min(2021).max(2100), z.string().regex(/^\d{4}(?:-S[67])?$/)]),
+    round: z.number().int().min(0).max(50),
+  })
+  .superRefine((round, ctx) => {
+    const key = String(round.season);
+    const year = Number(key.slice(0, 4));
+    if (year < 2021 || year > 2100)
+      ctx.addIssue({ code: "custom", message: "Season must be between 2021 and 2100" });
+    if (
+      (round.competition === "AFLW" && key === "2022") ||
+      (key.includes("-S") &&
+        !(round.competition === "AFLW" && ["2022-S6", "2022-S7"].includes(key)))
+    )
+      ctx.addIssue({
+        code: "custom",
+        message: "Ambiguous or invalid season; choose AFLW 2022-S6 or 2022-S7",
+      });
+  });
 export type Round = z.infer<typeof RoundSchema>;
 const id = z.number().int().positive();
 const utc = z.iso.datetime();
@@ -29,6 +45,7 @@ export const FixtureSchema = z.object({
   id,
   season_id: id,
   year: z.number().int(),
+  season_key: z.string().optional(),
   round_number: z.number().int(),
   home_team_id: id,
   away_team_id: id,
@@ -78,6 +95,7 @@ const PriorSchema = z.object({
 export const SnapshotSchema = z.object({
   round: RoundSchema,
   observedAt: utc,
+  inputRevision: z.number().int().nonnegative().default(0),
   matches: z.array(FixtureSchema).max(10000),
   candidates: z.array(FixtureSchema).max(20),
   stats: z.array(StatsSchema).max(30000),
@@ -152,7 +170,7 @@ export function predict(snapshot: Snapshot): Prediction[] {
         m.away_points !== null &&
         !candidates.has(m.id) &&
         m.year >= 2020 &&
-        m.year <= snapshot.round.season &&
+        (m.season_key ?? String(m.year)) <= String(snapshot.round.season) &&
         (m.kickoff_at ?? `${m.date}T00:00:00.000Z`) < snapshot.observedAt,
     )
     .sort(
@@ -172,7 +190,7 @@ export function predict(snapshot: Snapshot): Prediction[] {
     stats.set(row.match_id, rows);
   }
   const league = { ...snapshot.league };
-  let season: number | undefined;
+  let season: string | undefined;
   const regress = () => {
     for (const [team, rating] of elo)
       elo.set(team, rating * (1 - MODEL.regression) + MODEL.initial * MODEL.regression);
@@ -188,8 +206,8 @@ export function predict(snapshot: Snapshot): Prediction[] {
   };
   for (const match of completed) {
     if (match.home_team_id === match.away_team_id) throw new Error("Identical teams");
-    if (season !== undefined && match.year !== season) regress();
-    season = match.year;
+    if (season !== undefined && (match.season_key ?? String(match.year)) !== season) regress();
+    season = match.season_key ?? String(match.year);
     const home = rating(match.home_team_id),
       away = rating(match.away_team_id);
     const margin = (match.home_points ?? 0) - (match.away_points ?? 0);
@@ -201,7 +219,7 @@ export function predict(snapshot: Snapshot): Prediction[] {
     const change = MODEL.k * mov * ((margin > 0 ? 1 : margin < 0 ? 0 : 0.5) - expected);
     elo.set(match.home_team_id, home + change);
     elo.set(match.away_team_id, away - change);
-    if (match.year !== snapshot.round.season) continue;
+    if ((match.season_key ?? String(match.year)) !== String(snapshot.round.season)) continue;
     const rows = stats.get(match.id) ?? [];
     const h = teamState(match.home_team_id),
       a = teamState(match.away_team_id);
@@ -255,10 +273,10 @@ export function predict(snapshot: Snapshot): Prediction[] {
     league.points += (match.home_points ?? 0) + (match.away_points ?? 0);
     league.inside50 += hi + ai;
   }
-  if (season !== undefined && season !== snapshot.round.season) regress();
+  if (season !== undefined && season !== String(snapshot.round.season)) regress();
   return snapshot.candidates.map((fixture) => {
     if (
-      fixture.year !== snapshot.round.season ||
+      (fixture.season_key ?? String(fixture.year)) !== String(snapshot.round.season) ||
       fixture.round_number !== snapshot.round.round ||
       fixture.status !== "Upcoming" ||
       !fixture.kickoff_at ||

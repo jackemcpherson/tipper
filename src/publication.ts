@@ -17,7 +17,7 @@ export const ELIGIBLE = `m.status='Upcoming' AND julianday(m.kickoff_at)>juliand
  AND NOT EXISTS (SELECT 1 FROM tipper_predictions p WHERE p.match_id=m.id
    AND p.run_id=(SELECT MAX(q.run_id) FROM tipper_predictions q WHERE q.match_id=m.id)
    AND julianday(p.kickoff_at)<=julianday('now'))`;
-const ROUND = "c.code=? AND s.year=? AND m.round_number=?";
+const ROUND = "c.code=? AND s.season_key=? AND m.round_number=?";
 const JOINS =
   "FROM matches m JOIN seasons s ON s.id=m.season_id JOIN competitions c ON c.id=s.competition_id";
 
@@ -25,9 +25,16 @@ const JOINS =
 export async function beginRun(db: D1Database, input: Round): Promise<number> {
   const round = RoundSchema.parse(input);
   const run = await db
-    .prepare(`INSERT INTO tipper_runs(competition,season,round,started_at,source_revision,model_version)
-    VALUES(?,?,?,${NOW},?,?) RETURNING id`)
-    .bind(round.competition, round.season, round.round, REVISION, MODEL_VERSION)
+    .prepare(`INSERT INTO tipper_runs(competition,season,round,started_at,source_revision,model_version,season_key)
+    VALUES(?,?,?,${NOW},?,?,?) RETURNING id`)
+    .bind(
+      round.competition,
+      Number(String(round.season).slice(0, 4)),
+      round.round,
+      REVISION,
+      MODEL_VERSION,
+      String(round.season),
+    )
     .first<{ id: number }>();
   if (!run) throw new Error("Run allocation failed");
   return run.id;
@@ -35,32 +42,35 @@ export async function beginRun(db: D1Database, input: Round): Promise<number> {
 
 /** One native batch supplies the complete bounded input snapshot. */
 export async function readSnapshot(db: D1Database, round: Round) {
-  const args = [round.competition, round.season, round.round];
+  const args = [round.competition, String(round.season), round.round];
   const complete =
     "m.status='Complete' AND m.home_points>=0 AND m.away_points>=0 AND m.date<date('now','+1 day')";
   const results = await db.batch([
     db
-      .prepare(`SELECT ${NOW} AS observed_at, COUNT(*) AS count ${JOINS} WHERE ${ROUND}`)
+      .prepare(`SELECT ${NOW} AS observed_at, COUNT(*) AS count,
+        (SELECT revision FROM public_input_revision WHERE id=1) AS revision,
+        (SELECT in_progress FROM public_input_revision WHERE id=1) AS in_progress ${JOINS} WHERE ${ROUND}`)
       .bind(...args),
     db
       .prepare(
-        `SELECT m.id,m.season_id,m.round_number,m.home_team_id,m.away_team_id,m.venue_id,m.external_afl_id,m.kickoff_at,m.date,m.status,m.home_points,m.away_points,s.year ${JOINS} WHERE c.code=? AND s.year BETWEEN 2020 AND ? AND ${complete} LIMIT 10001`,
+        `SELECT m.id,m.season_id,m.round_number,m.home_team_id,m.away_team_id,m.venue_id,m.external_afl_id,m.kickoff_at,m.date,m.status,m.home_points,m.away_points,s.year,s.season_key ${JOINS} WHERE c.code=? AND s.year>=2020 AND s.season_key<=? AND ${complete} LIMIT 10001`,
       )
-      .bind(round.competition, round.season),
+      .bind(round.competition, String(round.season)),
     db
       .prepare(
-        `SELECT m.id,m.season_id,m.round_number,m.home_team_id,m.away_team_id,m.venue_id,m.external_afl_id,m.kickoff_at,m.date,m.status,m.home_points,m.away_points,s.year ${JOINS} WHERE ${ROUND} AND ${ELIGIBLE} ORDER BY m.kickoff_at,m.id LIMIT 21`,
+        `SELECT m.id,m.season_id,m.round_number,m.home_team_id,m.away_team_id,m.venue_id,m.external_afl_id,m.kickoff_at,m.date,m.status,m.home_points,m.away_points,s.year,s.season_key ${JOINS} WHERE ${ROUND} AND ${ELIGIBLE} ORDER BY m.kickoff_at,m.id LIMIT 21`,
       )
       .bind(...args),
     db
       .prepare(`SELECT ps.match_id,ps.player_id,ps.team_id,ps.goals,ps.behinds,ps.hitouts,ps.goal_assists,ps.inside_fifties,ps.marks_inside_fifty,ps.free_kicks_for,ps.free_kicks_against,ps.rebounds,ps.one_percenters,ps.marks,ps.clearances,ps.tackles FROM player_match_stats ps JOIN matches m ON m.id=ps.match_id
       JOIN seasons s ON s.id=m.season_id JOIN competitions c ON c.id=s.competition_id
-      WHERE c.code=? AND s.year=? AND ${complete} LIMIT 30001`)
-      .bind(round.competition, round.season),
+      WHERE c.code=? AND s.season_key=? AND ${complete} LIMIT 30001`)
+      .bind(round.competition, String(round.season)),
     db
       .prepare(`SELECT p.player_id,p.team_id,p.off_pav,p.mid_pav,p.def_pav FROM player_season_pav p JOIN seasons s ON s.id=p.season_id
-      JOIN competitions c ON c.id=s.competition_id WHERE c.code=? AND s.year=? LIMIT 2001`)
-      .bind(round.competition, round.season - 1),
+      JOIN competitions c ON c.id=s.competition_id WHERE c.code=? AND s.season_key=(
+        SELECT MAX(previous.season_key) FROM seasons previous WHERE previous.competition_id=s.competition_id AND previous.season_key<?) LIMIT 2001`)
+      .bind(round.competition, String(round.season)),
     db
       .prepare(`SELECT ml.match_id,ml.player_id,ml.team_id,ml.is_emergency,m.lineups_observed_at AS observed_at FROM match_lineups ml
       JOIN matches m ON m.id=ml.match_id JOIN seasons s ON s.id=m.season_id
@@ -69,17 +79,27 @@ export async function readSnapshot(db: D1Database, round: Round) {
       .bind(...args),
     db
       .prepare(`SELECT
-      (SELECT COALESCE(SUM(m.home_points+m.away_points),0) ${JOINS} WHERE c.code=? AND s.year>=2021 AND s.year<? AND ${complete}) AS points,
+      (SELECT COALESCE(SUM(m.home_points+m.away_points),0) ${JOINS} WHERE c.code=? AND s.year>=2021 AND s.season_key<? AND ${complete}) AS points,
       (SELECT COALESCE(SUM(ps.inside_fifties),0) FROM player_match_stats ps JOIN matches m ON m.id=ps.match_id
        JOIN seasons s ON s.id=m.season_id JOIN competitions c ON c.id=s.competition_id
-       WHERE c.code=? AND s.year>=2021 AND s.year<? AND ${complete}) AS inside50`)
-      .bind(round.competition, round.season, round.competition, round.season),
+       WHERE c.code=? AND s.year>=2021 AND s.season_key<? AND ${complete}) AS inside50`)
+      .bind(round.competition, String(round.season), round.competition, String(round.season)),
   ]);
-  const header = results[0]?.results[0] as { observed_at: string; count: number } | undefined;
+  const header = results[0]?.results[0] as
+    | { observed_at: string; count: number; revision: number; in_progress: number }
+    | undefined;
   if (!header?.count) throw new Error("Unknown round");
+  if (header.in_progress !== 0 || !Number.isInteger(header.revision))
+    throw new Error("Inputs are being repaired; snapshot unavailable");
+  const after = await db
+    .prepare("SELECT revision, in_progress FROM public_input_revision WHERE id=1")
+    .first<{ revision: number; in_progress: number }>();
+  if (after?.in_progress !== 0 || after.revision !== header.revision)
+    throw new Error("Inputs changed during snapshot");
   return SnapshotSchema.parse({
     round,
     observedAt: header.observed_at,
+    inputRevision: header.revision,
     matches: results[1]?.results,
     candidates: results[2]?.results,
     stats: results[3]?.results,
@@ -96,6 +116,7 @@ export async function commitRun(
   round: Round,
   observedAt: string,
   predictions: readonly Prediction[],
+  inputRevision: number,
 ): Promise<number> {
   if (!predictions.length) return 0;
   if (new Set(predictions.map((p) => p.fixture.id)).size !== predictions.length)
@@ -149,9 +170,10 @@ export async function commitRun(
   statements.push(
     db
       .prepare(`UPDATE tipper_runs SET published_at=${NOW}, published_count=?, finalized=CASE WHEN
-    competition=? AND season=? AND round=? AND published_at IS NULL
+    competition=? AND season_key=? AND round=? AND published_at IS NULL
+    AND EXISTS(SELECT 1 FROM public_input_revision WHERE id=1 AND in_progress=0 AND revision=?)
     AND NOT EXISTS(SELECT 1 FROM tipper_runs newer WHERE newer.competition=tipper_runs.competition
-      AND newer.season=tipper_runs.season AND newer.round=tipper_runs.round AND newer.id>tipper_runs.id AND newer.published_at IS NOT NULL)
+      AND newer.season_key=tipper_runs.season_key AND newer.round=tipper_runs.round AND newer.id>tipper_runs.id AND newer.published_at IS NOT NULL)
     AND (SELECT COUNT(*) FROM match_predictions WHERE tipper_run_id=tipper_runs.id)= (SELECT COUNT(*) FROM tipper_predictions WHERE run_id=tipper_runs.id)
     AND (SELECT COUNT(*) FROM tipper_predictions WHERE run_id=?)=?
     AND (SELECT COUNT(*) ${JOINS} WHERE ${ROUND} AND ${ELIGIBLE})=?
@@ -173,17 +195,18 @@ export async function commitRun(
       .bind(
         predictions.length,
         round.competition,
-        round.season,
+        String(round.season),
         round.round,
+        inputRevision,
         runId,
         predictions.length,
         round.competition,
-        round.season,
+        String(round.season),
         round.round,
         predictions.length,
         runId,
         round.competition,
-        round.season,
+        String(round.season),
         round.round,
         MODEL_VERSION,
         runId,
@@ -207,7 +230,7 @@ export async function commitRun(
 export async function publishRound(db: D1Database, round: Round): Promise<number> {
   const run = await beginRun(db, round);
   const snapshot = await readSnapshot(db, round);
-  return commitRun(db, run, round, snapshot.observedAt, predict(snapshot));
+  return commitRun(db, run, round, snapshot.observedAt, predict(snapshot), snapshot.inputRevision);
 }
 
 export function refreshInterval(kickoff: string, now: Date): number {
@@ -221,7 +244,7 @@ export function refreshInterval(kickoff: string, now: Date): number {
 /** Select rounds by individual unlocked match freshness, including underway rounds. */
 export async function dueRounds(db: D1Database, now = new Date()): Promise<Round[]> {
   const rows = await db
-    .prepare(`SELECT c.code AS competition,s.year AS season,m.round_number AS round,
+    .prepare(`SELECT c.code AS competition,s.season_key AS season,m.round_number AS round,
     m.kickoff_at,p.generated_at ${JOINS} LEFT JOIN match_predictions p ON p.match_id=m.id
     WHERE c.code IN ('AFLM','AFLW') AND ${ELIGIBLE}`)
     .all<Round & { kickoff_at: string; generated_at: string | null }>();

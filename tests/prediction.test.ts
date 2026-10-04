@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { homeProbability, predict, SnapshotSchema } from "../src/prediction.js";
+import { homeProbability, predict, RoundSchema, SnapshotSchema } from "../src/prediction.js";
 import incumbent from "./fixtures/incumbent.json";
 import normal from "./fixtures/standard-normal.json";
 
@@ -116,4 +116,11 @@ it("uses full precision for winners and selects home at exact zero", () => {
   const negative = predict(s)[0];
   expect(negative?.winner).toBe("away");
   expect(negative?.issuedMargin).toBe(-0);
+});
+
+it("requires explicit AFLW 2022 selectors and preserves year bounds for strings", () => {
+  for (const season of [2022, "2022", "2020", "2101"])
+    expect(RoundSchema.safeParse({ competition: "AFLW", season, round: 1 }).success).toBe(false);
+  for (const season of ["2022-S6", "2022-S7", 2026, "2026"])
+    expect(RoundSchema.safeParse({ competition: "AFLW", season, round: 1 }).success).toBe(true);
 });

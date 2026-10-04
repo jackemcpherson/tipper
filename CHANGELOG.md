@@ -2,6 +2,17 @@
 
 User-visible production changes.
 
+## 4.0.0 - 2026-10-04
+
+Use explicit competition-season keys. AFLW 2022 requests require `2022-S6` or
+`2022-S7`. The prior comes from the immediately previous competition season,
+including season six before season seven. Ordinary years remain valid.
+
+Reject active public repair markers and input revisions that change before
+publication. Preserve issued captures and their recorded kickoff locks.
+AFL-MCP expansion migrations must deploy before this reader. Apply the separate
+season-key contract only after compatible readers deploy.
+
 ## Production Redesign
 
 Replace the research CLI with one production Worker predictor, atomic captures,
