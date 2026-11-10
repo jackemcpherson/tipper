@@ -12,7 +12,6 @@
         "@effect/vitest": "4.1.2",
         "@oxlint/plugins": "1.91.0",
         "@types/bun": "1.4.4",
-        "@types/node": "26.5.0",
         "miniflare": "5.20260730.0-alpha",
         "typescript": "7.0.2",
         "vite-plus": "1.5.1",

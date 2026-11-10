@@ -65,9 +65,10 @@ const SnapshotHeaderSchema = Schema.Struct({
   in_progress: Schema.NullOr(Schema.Int),
 });
 
-const InputRevisionSchema = Schema.Struct({ revision: Schema.Int, in_progress: Schema.Int });
-
-/** One native batch supplies the complete bounded input snapshot. */
+/**
+ * One native batch, which D1 runs as a transaction, supplies the complete bounded input
+ * snapshot at one revision. Finalisation rejects the run if inputs are revised before commit.
+ */
 async function readSnapshot(
   db: D1Database,
   round: Round,
@@ -132,15 +133,6 @@ async function readSnapshot(
 
   if (header.in_progress !== 0 || header.revision === null)
     throw new Error("Inputs are being repaired; snapshot unavailable");
-
-  // The batch is one transaction, but a repair may have started and finished around it.
-  const after = await row(
-    InputRevisionSchema,
-    db.prepare("SELECT revision, in_progress FROM public_input_revision WHERE id=1"),
-  );
-
-  if (after?.in_progress !== 0 || after.revision !== header.revision)
-    throw new Error("Inputs changed during snapshot");
 
   return {
     inputRevision: header.revision,
@@ -253,6 +245,11 @@ export async function commit(db: D1Database, attempt: Attempt): Promise<number> 
   });
 
   // CHECK(finalized=1) forces rollback, unlike an UPDATE whose WHERE quietly matches no rows.
+  // In order, the conditions admit the run only when: it has not published; inputs are at the
+  // revision it read; no newer run published; it covers exactly the eligible set; and every
+  // capture is of an eligible, unchanged fixture whose previous lock has not passed and whose
+  // projection carries it. A capture's own kickoff is in the future because it equals an
+  // eligible match's kickoff.
   const finalise = db
     .prepare(
       `UPDATE tipper_runs SET published_at=${NOW}, published_count=?, finalized=CASE WHEN
@@ -260,8 +257,6 @@ export async function commit(db: D1Database, attempt: Attempt): Promise<number> 
     AND EXISTS(SELECT 1 FROM public_input_revision WHERE id=1 AND in_progress=0 AND revision=?)
     AND NOT EXISTS(SELECT 1 FROM tipper_runs newer WHERE newer.competition=tipper_runs.competition
       AND newer.season_key=tipper_runs.season_key AND newer.round=tipper_runs.round AND newer.id>tipper_runs.id AND newer.published_at IS NOT NULL)
-    AND (SELECT COUNT(*) FROM match_predictions WHERE tipper_run_id=tipper_runs.id)= (SELECT COUNT(*) FROM tipper_predictions WHERE run_id=tipper_runs.id)
-    AND (SELECT COUNT(*) FROM tipper_predictions WHERE run_id=tipper_runs.id)=?
     AND (SELECT COUNT(*) ${MATCHES} WHERE ${IN_ROUND} AND ${ELIGIBLE})=?
     AND NOT EXISTS(SELECT 1 FROM tipper_predictions p JOIN matches m ON m.id=p.match_id
       JOIN seasons s ON s.id=m.season_id JOIN competitions c ON c.id=s.competition_id
@@ -269,7 +264,6 @@ export async function commit(db: D1Database, attempt: Attempt): Promise<number> 
       WHERE p.run_id=tipper_runs.id AND (
         NOT (${IN_ROUND} AND ${ELIGIBLE})
         OR NOT (${SAME_FIXTURE} AND ${SAME_KICKOFF})
-        OR julianday(p.kickoff_at)<=julianday('now')
         OR EXISTS(SELECT 1 FROM tipper_predictions old WHERE old.match_id=p.match_id AND old.run_id<>p.run_id
           AND old.run_id=(SELECT MAX(q.run_id) FROM tipper_predictions q WHERE q.match_id=p.match_id AND q.run_id<>p.run_id)
           AND julianday(old.kickoff_at)<=julianday('now'))
@@ -279,7 +273,6 @@ export async function commit(db: D1Database, attempt: Attempt): Promise<number> 
     .bind(
       predictions.length,
       inputRevision,
-      predictions.length,
       ...inRound,
       predictions.length,
       ...inRound,

@@ -330,14 +330,12 @@ describe("HTTP and scheduler", () => {
     });
     expect((await get("/tips")).body).toEqual(feed.body);
     expect((await get("/tips?year=2026&round=44")).status).toBe(404);
-    expect(await get("/tips?year=2026")).toMatchObject({
-      status: 400,
-      body: { error: "Provide valid year and round" },
-    });
-    expect(await get("/tips?year=2026&round=99")).toMatchObject({
-      status: 400,
-      body: { error: "Invalid year or round" },
-    });
+
+    for (const query of ["year=2026", "year=2026&round=99", "year=2026&round=1e1"])
+      expect(await get(`/tips?${query}`)).toMatchObject({
+        status: 400,
+        body: { error: "Provide valid year and round" },
+      });
   });
 
   it("rejects bad authentication and parameter attempts to bypass locks", async () => {

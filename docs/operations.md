@@ -12,15 +12,14 @@ covers
 the complete currently eligible set for its competition, season and round.
 
 A run receives an ordered ID before reading inputs. Seven native D1 statements
-read the bounded snapshot in one batch.
+read the bounded snapshot in one transaction, at one input revision. The read
+rejects an active public repair.
 
-A final revision query rejects changes
-or active public repairs. Publication checks that revision again in its
-transaction. Captures, compatibility projections and
-checked finalisation commit in one transaction. Finalisation checks coverage,
-fixture identity, UTC kickoff, current and previous locks, projection links and
-newer committed runs. Failure rolls back the whole batch. After an ambiguous
-response, read the original run record before retrying.
+Captures, compatibility projections and
+checked finalisation commit in one transaction. Finalisation checks the input
+revision, coverage, fixture identity, UTC kickoff, current and previous locks,
+projection links and newer committed runs. Failure rolls back the whole batch.
+After an ambiguous response, read the original run record before retrying.
 
 The latest committed capture owns a match's recorded deadline. A reschedule can
 move that deadline while it remains in the future. Once it passes, automatic and

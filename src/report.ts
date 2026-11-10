@@ -402,9 +402,4 @@ export async function collectReport(db: D1Database, api: Squiggle, now: Date): P
       )
       .run();
   }
-
-  await db
-    .prepare("UPDATE tipper_status SET reporting_at=? WHERE id=1")
-    .bind(now.toISOString())
-    .run();
 }

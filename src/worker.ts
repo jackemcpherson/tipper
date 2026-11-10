@@ -25,16 +25,16 @@ const MAX_REFRESH_BYTES = 1024;
 const json = (body: Schema.Json, status = 200): Response =>
   Response.json(body, { status, headers: HEADERS });
 
-const DIGITS = /^\d+$/;
+/** A query parameter written as plain digits within an inclusive range. */
+const digitsBetween = (minimum: number, maximum: number) =>
+  Schema.decodeUnknownOption(
+    Schema.String.check(Schema.isPattern(/^\d+$/)).pipe(
+      Schema.decodeTo(Schema.FiniteFromString.check(Schema.isBetween({ minimum, maximum }))),
+    ),
+  );
 
-const decodeYear = Schema.decodeUnknownOption(
-  Schema.Int.check(Schema.isBetween({ minimum: 1900, maximum: 2100 })),
-);
-
-const decodeRoundNumber = Schema.decodeUnknownOption(
-  Schema.Int.check(Schema.isBetween({ minimum: 0, maximum: 50 })),
-);
-
+const decodeYear = digitsBetween(1900, 2100);
+const decodeRoundNumber = digitsBetween(0, 50);
 const decodeJson = Schema.decodeUnknownOption(Schema.fromJsonString(Schema.Json));
 const decodeRound = Schema.decodeUnknownOption(RoundRequestSchema, { onExcessProperty: "error" });
 
@@ -44,26 +44,18 @@ async function tips(url: URL, db: D1Database): Promise<Response> {
   const roundText = url.searchParams.get("round");
   let selected: { readonly year: number; readonly round: number } | undefined;
 
-  if (yearText !== null || roundText !== null) {
-    if (
-      yearText === null ||
-      roundText === null ||
-      !DIGITS.test(yearText) ||
-      !DIGITS.test(roundText)
-    )
-      return json({ error: "Provide valid year and round" }, 400);
-
-    const year = Option.getOrUndefined(decodeYear(Number(yearText)));
-    const round = Option.getOrUndefined(decodeRoundNumber(Number(roundText)));
-
-    if (year === undefined || round === undefined)
-      return json({ error: "Invalid year or round" }, 400);
-
-    selected = { year, round };
-  } else {
+  if (yearText === null && roundText === null) {
     selected = await currentRound(db);
 
     if (!selected) return json({ error: "No published round" }, 404);
+  } else {
+    const year = decodeYear(yearText);
+    const round = decodeRoundNumber(roundText);
+
+    if (Option.isNone(year) || Option.isNone(round))
+      return json({ error: "Provide valid year and round" }, 400);
+
+    selected = { year: year.value, round: round.value };
   }
 
   const { year, round } = selected;
@@ -226,15 +218,11 @@ async function route(request: Request, env: Env): Promise<Response> {
   if (request.method === "GET" && url.pathname === "/health") return health(env.DB, now);
 
   if (request.method === "GET" && url.pathname === "/performance") {
-    const yearText = url.searchParams.get("year") ?? String(now.getUTCFullYear());
+    const year = decodeYear(url.searchParams.get("year") ?? String(now.getUTCFullYear()));
 
-    const year = DIGITS.test(yearText)
-      ? Option.getOrUndefined(decodeYear(Number(yearText)))
-      : undefined;
+    if (Option.isNone(year)) return json({ error: "Invalid year" }, 400);
 
-    if (year === undefined) return json({ error: "Invalid year" }, 400);
-
-    return json({ ...(await latestReport(env.DB, year, now)) });
+    return json({ ...(await latestReport(env.DB, year.value, now)) });
   }
 
   if (request.method === "POST" && url.pathname === "/admin/refresh") return refresh(request, env);
