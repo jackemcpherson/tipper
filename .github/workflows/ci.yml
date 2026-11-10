@@ -1,16 +1,15 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
-  # Reused as the gate in publish-artifact.yml.
+  # Pushes to main run this once, as the gate in publish-artifact.yml.
   workflow_call:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Never cancel a main run: every main revision needs its published artefact.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
@@ -29,11 +28,11 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Format, lint and type-aware checks
+        run: bun run check
+
       - name: Typecheck
         run: bun run typecheck
-
-      - name: Lint and format
-        run: bun run check
 
       - name: Build
         run: bun run build

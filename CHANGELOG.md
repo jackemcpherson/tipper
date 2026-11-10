@@ -2,6 +2,15 @@
 
 User-visible production changes.
 
+## Unreleased
+
+Restructure the Worker for 2027 without changing endpoints, stored tips, model
+output or cadence. Validation moves from Zod to `effect/Schema`, so a failed
+weekly-report attempt records a differently worded validation error.
+
+Invalid `/tips` parameters return one 400 message. The scheduler no longer
+writes the unread `tipper_status.reporting_at` column.
+
 ## 4.0.0 - 2026-10-04
 
 Use explicit competition-season keys. AFLW 2022 requests require `2022-S6` or

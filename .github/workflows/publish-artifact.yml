@@ -49,10 +49,10 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          ARTIFACT_DIGEST="$(sha256sum dist-worker/index.js | cut -d' ' -f1)"
+          ARTIFACT_DIGEST="$(sha256sum dist-worker/worker.js | cut -d' ' -f1)"
           echo "Publishing tipper/${GITHUB_SHA}.js"
           bunx wrangler r2 object put "worker-artifacts/tipper/${GITHUB_SHA}.js" \
-            --file dist-worker/index.js --remote
+            --file dist-worker/worker.js --remote
           {
             echo "### Published Worker artifact"
             echo "- Commit: \`${GITHUB_SHA}\`"

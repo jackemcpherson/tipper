@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Tests drive the Worker through Miniflare, so they need D1 types beside the Bun runtime.
+    "types": ["bun", "@cloudflare/workers-types"],
+    "allowImportingTsExtensions": true
+  },
+  "include": ["vite.config.ts", "tools/**/*", "test/**/*"],
+  // Vendored lint rules keep their upstream compiler settings.
+  "exclude": ["tools/oxlint/**"]
+}

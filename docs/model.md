@@ -2,7 +2,7 @@
 
 `elo-pav-normal-v1@<full source revision>` identifies issued behaviour. The corrected
 standard-normal probability calculation has a new identity. There is one typed
-model definition in `src/prediction.ts`. Changes arrive through reviewed branches.
+model definition in `src/model.ts`. Changes arrive through reviewed branches.
 
 | Component                    | Value                               |
 | ---------------------------- | ----------------------------------- |

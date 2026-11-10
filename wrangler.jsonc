@@ -6,22 +6,24 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "tipper",
-  "main": "src/worker/index.ts",
+  "main": "src/worker.ts",
+  // `bun run build` replaces this with the Git revision it publishes.
+  "define": { "SOURCE_REVISION": "\"development\"" },
   "compatibility_date": "2026-07-01",
   "workers_dev": true,
   "preview_urls": false,
   "secrets": { "required": ["ADMIN_TOKEN"] },
   "observability": {
-    "enabled": true
+    "enabled": true,
   },
   "triggers": {
-    "crons": ["*/5 * * * *"]
+    "crons": ["*/5 * * * *"],
   },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "afl-stats",
-      "database_id": "fe1c1a89-805f-481d-9ba0-b9f8dee04a36"
-    }
-  ]
+      "database_id": "fe1c1a89-805f-481d-9ba0-b9f8dee04a36",
+    },
+  ],
 }
