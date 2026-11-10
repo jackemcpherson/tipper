@@ -6,9 +6,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; [[ \"$f\" == *.ts ]] && bunx @biomejs/biome check --write \"$f\" || true; } 2>/dev/null || true",
+            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; [[ \"$f\" == *.ts ]] && bunx vp check --fix \"$f\" || true; } 2>/dev/null || true",
             "timeout": 30,
-            "statusMessage": "Running Biome check..."
+            "statusMessage": "Running vp check..."
           }
         ]
       }
@@ -20,9 +20,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd \"$CLAUDE_PROJECT_DIR\" &&bun run typecheck 2>&1 && bun run check 2>&1 || { echo '{\"decision\":\"block\",\"reason\":\"Typecheck or lint errors. Fix before committing.\"}'; exit 0; }",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && bun run typecheck 2>&1 && bun run check 2>&1 || { echo '{\"decision\":\"block\",\"reason\":\"Typecheck or lint errors. Fix before committing.\"}'; exit 0; }",
             "timeout": 60,
-            "statusMessage": "Running pre-commit checks (typecheck + biome)..."
+            "statusMessage": "Running pre-commit checks (typecheck + vp check)..."
           }
         ]
       }
@@ -32,7 +32,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd \"$CLAUDE_PROJECT_DIR\" &&bun run typecheck 2>&1 && bun run check 2>&1 || echo '{\"systemMessage\":\"Warning: typecheck or lint errors remain.\"}'",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && bun run typecheck 2>&1 && bun run check 2>&1 || echo '{\"systemMessage\":\"Warning: typecheck or lint errors remain.\"}'",
             "timeout": 60,
             "statusMessage": "Running final quality check..."
           }

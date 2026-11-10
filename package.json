@@ -1,38 +1,45 @@
 {
   "name": "@jackemcpherson/tipper",
   "version": "4.0.0",
+  "private": true,
   "description": "Production AFL match predictions and publication evidence on Cloudflare Workers",
+  "homepage": "https://github.com/jackemcpherson/tipper#readme",
+  "bugs": "https://github.com/jackemcpherson/tipper/issues",
   "license": "MIT",
   "author": "Jack McPherson <jackemcpherson@gmail.com>",
-  "type": "module",
-  "engines": {
-    "node": ">=20"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jackemcpherson/tipper.git"
   },
-  "homepage": "https://github.com/jackemcpherson/tipper#readme",
-  "bugs": "https://github.com/jackemcpherson/tipper/issues",
+  "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "test": "vitest run",
-    "check": "biome check .",
-    "format": "biome format --write .",
-    "typecheck": "tsc --noEmit",
+    "dev": "wrangler dev",
+    "check": "vp check",
+    "typecheck": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json",
+    "test": "vp test",
+    "build": "bun tools/build.ts",
     "types": "wrangler types src/env.d.ts --env-interface Env --include-runtime false"
   },
   "dependencies": {
-    "zod": "^4.3.6"
+    "effect": "4.1.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.9",
-    "@cloudflare/workers-types": "^5.0.0",
-    "@types/node": "^26.0.0",
+    "@cloudflare/workers-types": "5.20260907.1",
+    "@effect/vitest": "4.1.2",
+    "@oxlint/plugins": "1.91.0",
+    "@types/bun": "1.4.4",
+    "@types/node": "26.5.0",
+    "miniflare": "5.20260730.0-alpha",
     "typescript": "7.0.2",
+    "vite-plus": "1.5.1",
     "vitest": "5.1.0",
-    "wrangler": "^4.14.0",
-    "miniflare": "5.20260730.0-alpha"
+    "wrangler": "4.129.1"
   },
-  "private": true
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.5.1",
+    "vitest": "5.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
 }

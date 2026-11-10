@@ -1,21 +1,23 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "ES2022",
-    "module": "ES2022",
+    "target": "ES2024",
+    // No DOM: Worker and tooling globals come from each project's `types`.
+    "lib": ["ES2024"],
+    "module": "ESNext",
     "moduleResolution": "bundler",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "declaration": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
     "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "types": ["@cloudflare/workers-types"],
-    "lib": ["ES2022"]
+    "noEmit": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
+  "files": []
 }

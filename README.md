@@ -22,16 +22,26 @@ FootyBot and AFL-MCP continue reading the existing `match_predictions` fields.
 ```sh
 bun install --frozen-lockfile
 bun run types
-bun run typecheck
 bun run check
-bun run build
+bun run typecheck
 bun run test
+bun run build
 rumdl check --deny-config-warnings .
 vale --no-global .
 ```
 
-Tests use Miniflare's native local D1. Build before running HTTP integration tests.
+Tests use Miniflare's native local D1 and build the bundle before they start.
 The build embeds the complete source revision. CI refuses to publish a dirty tree.
+
+| Module               | Responsibility                                                      |
+| -------------------- | ------------------------------------------------------------------- |
+| `src/types.ts`       | Schemas for every external input and the types derived from them.   |
+| `src/d1.ts`          | Decodes database rows once, at the boundary.                        |
+| `src/model.ts`       | The pure predictor: rebuilds ratings and predicts eligible matches. |
+| `src/publication.ts` | Snapshots, atomic captures, locks and stored-tip reads.             |
+| `src/report.ts`      | Scores issued tips and retains the weekly report.                   |
+| `src/squiggle.ts`    | The Squiggle client and game identities.                            |
+| `src/worker.ts`      | Routes, authentication and the scheduled run.                       |
 
 - [Model](docs/model.md) describes rating reconstruction and provisional lineups.
 - [Operations](docs/operations.md) covers deployment, refresh, monitoring and recovery.

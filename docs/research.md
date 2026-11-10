@@ -17,7 +17,7 @@ configs and results remain in Git. Repeating commands against mutable upstream
 D1 data does not guarantee identical historical data. use retained results and
 record source observations when reproducing an experiment.
 
-`tests/fixtures/incumbent.json` records small deterministic inputs and the old
+`test/fixtures/incumbent.json` records small deterministic inputs and the old
 rebuild Elo, PAV and margin outputs at that revision. The standard-normal grid
 checks the corrected probability calculation independently.
 
