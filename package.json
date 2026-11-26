@@ -24,7 +24,7 @@
     "effect": "4.1.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "5.20261118.1",
+    "@cloudflare/workers-types": "5.20261119.1",
     "@effect/vitest": "4.1.4",
     "@oxlint/plugins": "1.94.0",
     "@types/bun": "1.4.4",
@@ -32,7 +32,7 @@
     "typescript": "7.0.2",
     "vite-plus": "1.7.0",
     "vitest": "5.1.1",
-    "wrangler": "4.164.0"
+    "wrangler": "4.165.0"
   },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core@1.6.0",
